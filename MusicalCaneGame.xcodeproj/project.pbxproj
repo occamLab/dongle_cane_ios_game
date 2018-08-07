@@ -1,0 +1,383 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B12111EFF1006193E6 /* MediaPlayer.framework */; };
+		98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B32111F811006193E6 /* MobileCoreServices.framework */; };
+		98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */; };
+		AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C6EEF210267B700E9D840 /* AppDelegate.swift */; };
+		AD6C6EF2210267B700E9D840 /* MusicModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */; };
+		AD6C6EF5210267B700E9D840 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF3210267B700E9D840 /* Main.storyboard */; };
+		AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF6210267B800E9D840 /* Assets.xcassets */; };
+		AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */; };
+		AD6C6F03210267C600E9D840 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */; };
+		AD6C6F05210267CB00E9D840 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6C6F04210267CB00E9D840 /* AVFoundation.framework */; };
+		AD9A962C210F690300372425 /* SoundModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9A962B210F690300372425 /* SoundModeViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4959A5B12111EFF1006193E6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		4959A5B32111F811006193E6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
+		AD6C6EEC210267B700E9D840 /* MusicalCaneGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicalCaneGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6C6EEF210267B700E9D840 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicModeViewController.swift; sourceTree = "<group>"; };
+		AD6C6EF4210267B700E9D840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AD6C6EF6210267B800E9D840 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AD6C6EF9210267B800E9D840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AD6C6EFB210267B800E9D840 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		AD6C6F04210267CB00E9D840 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		AD9A962B210F690300372425 /* SoundModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundModeViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AD6C6EE9210267B700E9D840 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */,
+				98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */,
+				4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */,
+				AD6C6F05210267CB00E9D840 /* AVFoundation.framework in Frameworks */,
+				AD6C6F03210267C600E9D840 /* CoreBluetooth.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AD6C6EE3210267B700E9D840 = {
+			isa = PBXGroup;
+			children = (
+				AD6C6EEE210267B700E9D840 /* MusicalCaneGame */,
+				AD6C6EED210267B700E9D840 /* Products */,
+				AD6C6F01210267C500E9D840 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		AD6C6EED210267B700E9D840 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AD6C6EEC210267B700E9D840 /* MusicalCaneGame.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AD6C6EEE210267B700E9D840 /* MusicalCaneGame */ = {
+			isa = PBXGroup;
+			children = (
+				AD6C6EEF210267B700E9D840 /* AppDelegate.swift */,
+				AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */,
+				AD9A962B210F690300372425 /* SoundModeViewController.swift */,
+				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
+				AD6C6EF6210267B800E9D840 /* Assets.xcassets */,
+				AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */,
+				AD6C6EFB210267B800E9D840 /* Info.plist */,
+			);
+			path = MusicalCaneGame;
+			sourceTree = "<group>";
+		};
+		AD6C6F01210267C500E9D840 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */,
+				4959A5B32111F811006193E6 /* MobileCoreServices.framework */,
+				4959A5B12111EFF1006193E6 /* MediaPlayer.framework */,
+				AD6C6F04210267CB00E9D840 /* AVFoundation.framework */,
+				AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AD6C6EEB210267B700E9D840 /* MusicalCaneGame */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD6C6EFE210267B800E9D840 /* Build configuration list for PBXNativeTarget "MusicalCaneGame" */;
+			buildPhases = (
+				AD6C6EE8210267B700E9D840 /* Sources */,
+				AD6C6EE9210267B700E9D840 /* Frameworks */,
+				AD6C6EEA210267B700E9D840 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MusicalCaneGame;
+			productName = MusicalCaneGame;
+			productReference = AD6C6EEC210267B700E9D840 /* MusicalCaneGame.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AD6C6EE4210267B700E9D840 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = occamlab;
+				TargetAttributes = {
+					AD6C6EEB210267B700E9D840 = {
+						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InterAppAudio = {
+								enabled = 0;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = AD6C6EE7210267B700E9D840 /* Build configuration list for PBXProject "MusicalCaneGame" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AD6C6EE3210267B700E9D840;
+			productRefGroup = AD6C6EED210267B700E9D840 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AD6C6EEB210267B700E9D840 /* MusicalCaneGame */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AD6C6EEA210267B700E9D840 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */,
+				AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */,
+				AD6C6EF5210267B700E9D840 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AD6C6EE8210267B700E9D840 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD9A962C210F690300372425 /* SoundModeViewController.swift in Sources */,
+				AD6C6EF2210267B700E9D840 /* MusicModeViewController.swift in Sources */,
+				AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AD6C6EF3210267B700E9D840 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AD6C6EF4210267B700E9D840 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AD6C6EF9210267B800E9D840 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AD6C6EFC210267B800E9D840 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_ACITIVY_MODE = "";
+				"DEBUG_ACITIVY_MODE[sdk=iphonesimulator*]" = defalut;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AD6C6EFD210267B800E9D840 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AD6C6EFF210267B800E9D840 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 787TUDMR8Q;
+				INFOPLIST_FILE = MusicalCaneGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.occamlab.MusicalCaneGame;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AD6C6F00210267B800E9D840 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 787TUDMR8Q;
+				INFOPLIST_FILE = MusicalCaneGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.occamlab.MusicalCaneGame;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AD6C6EE7210267B700E9D840 /* Build configuration list for PBXProject "MusicalCaneGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6C6EFC210267B800E9D840 /* Debug */,
+				AD6C6EFD210267B800E9D840 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD6C6EFE210267B800E9D840 /* Build configuration list for PBXNativeTarget "MusicalCaneGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD6C6EFF210267B800E9D840 /* Debug */,
+				AD6C6F00210267B800E9D840 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AD6C6EE4210267B700E9D840 /* Project object */;
+}
