@@ -28,6 +28,8 @@
 	<string>LaunchScreen</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Access to music library? </string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location needed to detect beacons</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

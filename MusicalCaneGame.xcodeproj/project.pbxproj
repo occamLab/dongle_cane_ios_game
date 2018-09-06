@@ -8,8 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B12111EFF1006193E6 /* MediaPlayer.framework */; };
+		9815A7B1211B3E3F00A2223F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9815A7B0211B3E3F00A2223F /* CoreLocation.framework */; };
+		98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */; };
+		981823A2211A3894006A28F7 /* Pink.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239C211A3894006A28F7 /* Pink.jpg */; };
+		981823A3211A3894006A28F7 /* White.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239D211A3894006A28F7 /* White.jpg */; };
+		981823A4211A3894006A28F7 /* Rose.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239E211A3894006A28F7 /* Rose.jpg */; };
+		981823A5211A3894006A28F7 /* Purple.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239F211A3894006A28F7 /* Purple.jpg */; };
+		981823A6211A3894006A28F7 /* Yellow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 981823A0211A3894006A28F7 /* Yellow.jpg */; };
+		981823A7211A3894006A28F7 /* Blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 981823A1211A3894006A28F7 /* Blue.jpg */; };
 		98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B32111F811006193E6 /* MobileCoreServices.framework */; };
 		98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */; };
+		98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D44AE4211A2D8300E11840 /* BeaconViewController.swift */; };
+		98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EBC690211C843500340583 /* LocationPopUpViewController.swift */; };
 		AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C6EEF210267B700E9D840 /* AppDelegate.swift */; };
 		AD6C6EF2210267B700E9D840 /* MusicModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */; };
 		AD6C6EF5210267B700E9D840 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF3210267B700E9D840 /* Main.storyboard */; };
@@ -23,7 +33,17 @@
 /* Begin PBXFileReference section */
 		4959A5B12111EFF1006193E6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		4959A5B32111F811006193E6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		9815A7B0211B3E3F00A2223F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconTableViewCell.swift; sourceTree = "<group>"; };
+		9818239C211A3894006A28F7 /* Pink.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Pink.jpg; sourceTree = "<group>"; };
+		9818239D211A3894006A28F7 /* White.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = White.jpg; sourceTree = "<group>"; };
+		9818239E211A3894006A28F7 /* Rose.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Rose.jpg; sourceTree = "<group>"; };
+		9818239F211A3894006A28F7 /* Purple.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Purple.jpg; sourceTree = "<group>"; };
+		981823A0211A3894006A28F7 /* Yellow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Yellow.jpg; sourceTree = "<group>"; };
+		981823A1211A3894006A28F7 /* Blue.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Blue.jpg; sourceTree = "<group>"; };
 		98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
+		98D44AE4211A2D8300E11840 /* BeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
+		98EBC690211C843500340583 /* LocationPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPopUpViewController.swift; sourceTree = "<group>"; };
 		AD6C6EEC210267B700E9D840 /* MusicalCaneGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicalCaneGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6C6EEF210267B700E9D840 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicModeViewController.swift; sourceTree = "<group>"; };
@@ -41,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9815A7B1211B3E3F00A2223F /* CoreLocation.framework in Frameworks */,
 				98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */,
 				98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */,
 				4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */,
@@ -72,10 +93,19 @@
 		AD6C6EEE210267B700E9D840 /* MusicalCaneGame */ = {
 			isa = PBXGroup;
 			children = (
+				981823A1211A3894006A28F7 /* Blue.jpg */,
+				9818239E211A3894006A28F7 /* Rose.jpg */,
+				9818239C211A3894006A28F7 /* Pink.jpg */,
+				9818239F211A3894006A28F7 /* Purple.jpg */,
+				981823A0211A3894006A28F7 /* Yellow.jpg */,
+				9818239D211A3894006A28F7 /* White.jpg */,
 				AD6C6EEF210267B700E9D840 /* AppDelegate.swift */,
 				AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */,
 				AD9A962B210F690300372425 /* SoundModeViewController.swift */,
+				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
+				98D44AE4211A2D8300E11840 /* BeaconViewController.swift */,
+				98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */,
 				AD6C6EF6210267B800E9D840 /* Assets.xcassets */,
 				AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */,
 				AD6C6EFB210267B800E9D840 /* Info.plist */,
@@ -86,6 +116,7 @@
 		AD6C6F01210267C500E9D840 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9815A7B0211B3E3F00A2223F /* CoreLocation.framework */,
 				98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */,
 				4959A5B32111F811006193E6 /* MobileCoreServices.framework */,
 				4959A5B12111EFF1006193E6 /* MediaPlayer.framework */,
@@ -162,8 +193,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */,
+				981823A2211A3894006A28F7 /* Pink.jpg in Resources */,
+				981823A7211A3894006A28F7 /* Blue.jpg in Resources */,
+				981823A4211A3894006A28F7 /* Rose.jpg in Resources */,
+				981823A3211A3894006A28F7 /* White.jpg in Resources */,
 				AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */,
+				981823A6211A3894006A28F7 /* Yellow.jpg in Resources */,
 				AD6C6EF5210267B700E9D840 /* Main.storyboard in Resources */,
+				981823A5211A3894006A28F7 /* Purple.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,8 +211,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */,
+				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
 				AD9A962C210F690300372425 /* SoundModeViewController.swift in Sources */,
 				AD6C6EF2210267B700E9D840 /* MusicModeViewController.swift in Sources */,
+				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
 				AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
