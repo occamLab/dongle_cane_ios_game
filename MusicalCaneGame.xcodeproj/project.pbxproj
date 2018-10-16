@@ -8,6 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B12111EFF1006193E6 /* MediaPlayer.framework */; };
+		9582BE552167CC1E00F4209E /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9582BE542167CC1E00F4209E /* SWRevealViewController.m */; };
+		9582BE572167CF0300F4209E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582BE562167CF0300F4209E /* MainViewController.swift */; };
+		959EFD7B216459B70058906E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959EFD7A216459B70058906E /* TestViewController.swift */; };
+		959EFD7D216463E90058906E /* coffee.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 959EFD7C216463E90058906E /* coffee.jpg */; };
+		95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F12168232A00DDA9DB /* MusicViewController.swift */; };
+		95BBF1F42168233A00DDA9DB /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F32168233A00DDA9DB /* SoundViewController.swift */; };
+		95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */; };
+		95BBF1F82168295D00DDA9DB /* BeaconsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */; };
+		95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F92168297600DDA9DB /* AudioViewController.swift */; };
+		95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1FC216F8A4F00DDA9DB /* MusicSegmentViewController.swift */; };
+		95BBF1FF216F8A4F00DDA9DB /* MusicSegmentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BBF1FD216F8A4F00DDA9DB /* MusicSegmentViewController.xib */; };
+		95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF200216F8A6800DDA9DB /* BeepSegmentViewController.swift */; };
+		95BBF203216F8A6800DDA9DB /* BeepSegmentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BBF201216F8A6800DDA9DB /* BeepSegmentViewController.xib */; };
 		9815A7B1211B3E3F00A2223F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9815A7B0211B3E3F00A2223F /* CoreLocation.framework */; };
 		98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */; };
 		981823A2211A3894006A28F7 /* Pink.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239C211A3894006A28F7 /* Pink.jpg */; };
@@ -33,6 +46,21 @@
 /* Begin PBXFileReference section */
 		4959A5B12111EFF1006193E6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		4959A5B32111F811006193E6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		9582BE522167CC1D00F4209E /* MusicalCaneGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicalCaneGame-Bridging-Header.h"; sourceTree = "<group>"; };
+		9582BE532167CC1E00F4209E /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = "../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.h"; sourceTree = "<group>"; };
+		9582BE542167CC1E00F4209E /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = "../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.m"; sourceTree = "<group>"; };
+		9582BE562167CF0300F4209E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		959EFD7A216459B70058906E /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		959EFD7C216463E90058906E /* coffee.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = coffee.jpg; path = ../../coffee.jpg; sourceTree = "<group>"; };
+		95BBF1F12168232A00DDA9DB /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
+		95BBF1F32168233A00DDA9DB /* SoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
+		95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsViewController.swift; sourceTree = "<group>"; };
+		95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconsViewController.swift; sourceTree = "<group>"; };
+		95BBF1F92168297600DDA9DB /* AudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
+		95BBF1FC216F8A4F00DDA9DB /* MusicSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicSegmentViewController.swift; sourceTree = "<group>"; };
+		95BBF1FD216F8A4F00DDA9DB /* MusicSegmentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MusicSegmentViewController.xib; sourceTree = "<group>"; };
+		95BBF200216F8A6800DDA9DB /* BeepSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepSegmentViewController.swift; sourceTree = "<group>"; };
+		95BBF201216F8A6800DDA9DB /* BeepSegmentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BeepSegmentViewController.xib; sourceTree = "<group>"; };
 		9815A7B0211B3E3F00A2223F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconTableViewCell.swift; sourceTree = "<group>"; };
 		9818239C211A3894006A28F7 /* Pink.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Pink.jpg; sourceTree = "<group>"; };
@@ -73,6 +101,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		95BBF1FB216F8A0200DDA9DB /* ViewContrllers */ = {
+			isa = PBXGroup;
+			children = (
+				95BBF1FC216F8A4F00DDA9DB /* MusicSegmentViewController.swift */,
+				95BBF1FD216F8A4F00DDA9DB /* MusicSegmentViewController.xib */,
+				95BBF200216F8A6800DDA9DB /* BeepSegmentViewController.swift */,
+				95BBF201216F8A6800DDA9DB /* BeepSegmentViewController.xib */,
+			);
+			path = ViewContrllers;
+			sourceTree = "<group>";
+		};
 		AD6C6EE3210267B700E9D840 = {
 			isa = PBXGroup;
 			children = (
@@ -93,22 +132,34 @@
 		AD6C6EEE210267B700E9D840 /* MusicalCaneGame */ = {
 			isa = PBXGroup;
 			children = (
+				95BBF1FB216F8A0200DDA9DB /* ViewContrllers */,
 				981823A1211A3894006A28F7 /* Blue.jpg */,
 				9818239E211A3894006A28F7 /* Rose.jpg */,
 				9818239C211A3894006A28F7 /* Pink.jpg */,
 				9818239F211A3894006A28F7 /* Purple.jpg */,
+				959EFD7C216463E90058906E /* coffee.jpg */,
 				981823A0211A3894006A28F7 /* Yellow.jpg */,
 				9818239D211A3894006A28F7 /* White.jpg */,
 				AD6C6EEF210267B700E9D840 /* AppDelegate.swift */,
 				AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */,
+				95BBF1F12168232A00DDA9DB /* MusicViewController.swift */,
+				95BBF1F32168233A00DDA9DB /* SoundViewController.swift */,
 				AD9A962B210F690300372425 /* SoundModeViewController.swift */,
 				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
+				95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */,
+				95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */,
+				95BBF1F92168297600DDA9DB /* AudioViewController.swift */,
+				9582BE562167CF0300F4209E /* MainViewController.swift */,
+				959EFD7A216459B70058906E /* TestViewController.swift */,
 				98D44AE4211A2D8300E11840 /* BeaconViewController.swift */,
 				98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */,
 				AD6C6EF6210267B800E9D840 /* Assets.xcassets */,
 				AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */,
 				AD6C6EFB210267B800E9D840 /* Info.plist */,
+				9582BE532167CC1E00F4209E /* SWRevealViewController.h */,
+				9582BE542167CC1E00F4209E /* SWRevealViewController.m */,
+				9582BE522167CC1D00F4209E /* MusicalCaneGame-Bridging-Header.h */,
 			);
 			path = MusicalCaneGame;
 			sourceTree = "<group>";
@@ -158,6 +209,7 @@
 				TargetAttributes = {
 					AD6C6EEB210267B700E9D840 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -192,6 +244,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95BBF1FF216F8A4F00DDA9DB /* MusicSegmentViewController.xib in Resources */,
 				AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */,
 				981823A2211A3894006A28F7 /* Pink.jpg in Resources */,
 				981823A7211A3894006A28F7 /* Blue.jpg in Resources */,
@@ -199,6 +252,8 @@
 				981823A3211A3894006A28F7 /* White.jpg in Resources */,
 				AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */,
 				981823A6211A3894006A28F7 /* Yellow.jpg in Resources */,
+				95BBF203216F8A6800DDA9DB /* BeepSegmentViewController.xib in Resources */,
+				959EFD7D216463E90058906E /* coffee.jpg in Resources */,
 				AD6C6EF5210267B700E9D840 /* Main.storyboard in Resources */,
 				981823A5211A3894006A28F7 /* Purple.jpg in Resources */,
 			);
@@ -211,10 +266,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				959EFD7B216459B70058906E /* TestViewController.swift in Sources */,
+				95BBF1F82168295D00DDA9DB /* BeaconsViewController.swift in Sources */,
 				98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */,
+				95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */,
+				95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */,
 				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
+				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
+				95BBF1F42168233A00DDA9DB /* SoundViewController.swift in Sources */,
+				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,
+				9582BE552167CC1E00F4209E /* SWRevealViewController.m in Sources */,
 				AD9A962C210F690300372425 /* SoundModeViewController.swift in Sources */,
 				AD6C6EF2210267B700E9D840 /* MusicModeViewController.swift in Sources */,
+				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
+				9582BE572167CF0300F4209E /* MainViewController.swift in Sources */,
 				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
 				AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */,
 			);
@@ -362,6 +427,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 787TUDMR8Q;
 				INFOPLIST_FILE = MusicalCaneGame/Info.plist;
@@ -372,6 +438,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.occamlab.MusicalCaneGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MusicalCaneGame/MusicalCaneGame-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -381,6 +449,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 787TUDMR8Q;
 				INFOPLIST_FILE = MusicalCaneGame/Info.plist;
@@ -391,6 +460,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.occamlab.MusicalCaneGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MusicalCaneGame/MusicalCaneGame-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

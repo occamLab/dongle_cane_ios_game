@@ -1,8 +1,8 @@
 //
-//  MusicModeViewController.swift
+//  SoundViewController.swift
 //  MusicalCaneGame
 //
-//  Created by scope on 7/20/18.
+//  Created by Anna Griffin on 10/5/18.
 //  Copyright © 2018 occamlab. All rights reserved.
 //
 
@@ -11,89 +11,72 @@ import CoreBluetooth
 import AVFoundation
 import MediaPlayer
 
-//let dongleSensorCBUUID = CBUUID(string: "2ea7")
-//let sensorFusionCharacteristicCBUUID = CBUUID(string: "2ea78970-7d44-44bb-b097-26183f402407")
-//let sweepNotificationKey = "cane.sweep.notification"
+class SoundViewController: UIViewController {
 
-class MusicModeViewController: UIViewController {
-
-    @IBOutlet weak var musicTrackPicker: UIButton!
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     
-    @IBOutlet weak var testImage: UIImageView!
+    @IBOutlet weak var controlButton: UIBarButtonItem!
     
-    @IBAction func chooseMusicTrack(_ sender: Any) {
-        let myMediaPickerVC = MPMediaPickerController.self(mediaTypes: MPMediaType.music)
-        myMediaPickerVC.allowsPickingMultipleItems = false
-        //        myMediaPickerVC.popoverPresentationController?.sourceView = sender as! UIView
-        myMediaPickerVC.delegate = self
-        self.present(myMediaPickerVC, animated: true, completion: nil)
-    }
+    var selectedSong:NSURL?
+    var selectedBeepNoise: String?
+    var selectedBeepNoiseCode: Int?
     
-    var selectedSong: MPMediaItemCollection?
-    
-    // sweep range slider
     var sweepRange: Float = 1.0
-    @IBOutlet weak var sweepRangeLabel: UILabel!
-    @IBAction func sweepRangeSlider(_ sender: UISlider) {
-        sweepRangeLabel.text = String(sender.value)
-        sweepRange = sender.value
-    }
     
-    // connect button
     var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
-
-    @IBOutlet weak var startButton: UIButton!
-    @IBOutlet weak var stopButton: UIButton!
     
     var temp:Bool?
-    @IBAction func startButton(_ sender: UIButton) {
-        if selectedSong != nil {
+    var mode:Bool = true
+    
+    @IBAction func controlButton(_ sender: Any) {
+        if controlButton.title == "Start" {
+            if selectedSong != nil {
+                
+                
+                activityIndicator.center = self.view.center
+                activityIndicator.hidesWhenStopped = true
+                activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+                view.addSubview(activityIndicator)
+                
+                activityIndicator.startAnimating()
+                UIApplication.shared.beginIgnoringInteractionEvents()
+                
+                let synth = AVSpeechSynthesizer()
+                let utterance = AVSpeechUtterance(string: "Connecting")
+                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+                utterance.rate = 0.6
+                synth.speak(utterance)
+                
+                centralManager = CBCentralManager(delegate: self, queue: nil)
+                
+                // temp true for sound mode
+                temp = true
+                
+                
+            } else {
+                createAlert(title: "Error", message: "Not all required fields are complete")
+                
+            }
+        } else if controlButton.title == "Stop" {
+            centralManager.cancelPeripheralConnection(dongleSensorPeripheral)
+            //  forget when i reest temp? here, maybe i should make it nil instead? also, i should rename because I already have temp in this file
+            temp = nil
+            audioPlayer?.stop()
             
-            
-            
-           // print(type(of: selectedSong?.items[0].value(forProperty:MPMediaItemArtwork)))
-            activityIndicator.center = self.view.center
-            activityIndicator.hidesWhenStopped = true
-            activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-            view.addSubview(activityIndicator)
-            
-            activityIndicator.startAnimating()
-            UIApplication.shared.beginIgnoringInteractionEvents()
-            
+            // text to speech
             let synth = AVSpeechSynthesizer()
-            let utterance = AVSpeechUtterance(string: "Connecting")
+            let utterance = AVSpeechUtterance(string: "Disconnected")
             utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
             utterance.rate = 0.6
             synth.speak(utterance)
+            controlButton.title = "Start"
             
-            centralManager = CBCentralManager(delegate: self, queue: nil)
-            temp = false
-            startButton.isEnabled = false
-            stopButton.isEnabled = true
-            musicTrackPicker.isEnabled = false
-        } else {
-            createAlert(title: "Error", message: "Not all required fields are complete")
-
         }
+  
+        
     }
-        
-
-    @IBAction func stopButton(_ sender: UIButton) {
-        centralManager.cancelPeripheralConnection(dongleSensorPeripheral)
-        //  forget when i reest temp? here, maybe i should make it nil instead? also, i should rename because I already have temp in this file
-        temp = nil
-        audioPlayer?.stop()
-        
-        // text to speech
-        let synth = AVSpeechSynthesizer()
-        let utterance = AVSpeechUtterance(string: "Disconnected")
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        utterance.rate = 0.6
-        synth.speak(utterance)
-        
-        startButton.isEnabled = true
-        stopButton.isEnabled = false
-    }
+    
+    
     
     func createAlert (title:String, message:String) {
         let alert = UIAlertController(title:title, message:message, preferredStyle: UIAlertControllerStyle.alert)
@@ -102,90 +85,152 @@ class MusicModeViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-
-    // Visulizing Sweep
-    // @IBOutlet weak var sweepProgress: UIProgressView!
-    
     var centralManager: CBCentralManager!
     var dongleSensorPeripheral: CBPeripheral!
     
     var audioPlayer: AVAudioPlayer?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-
-
+    
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
- 
+    var beginningMusic = true
+    
+    
     var startSweep = true
     var startDir:[Float] = []
     var anglePrev:Float = 0.0
     let caneLength:Float = 1.1684
     
-    var beginningMusic = true
-    var sweepTolerance:Float = 2.0
+    var numSweeps:Int = 0
     
-    var playing = -1
-    var shouldPlay = -1
-
-    var stopMusicTimer:Timer?
-    var lastSweep = Date()
-  
+    func populateRewards() -> ([Int: Bool]) {
+        
+        var reward: [Int: Bool] = [:]
+        
+        for num in [10, 25, 50, 100, 250, 500, 1000]{
+            reward[num] = true
+        }
+        return reward
+    }
+    
+    lazy var rewardAt = populateRewards()
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
+    
+    
+    @IBAction func segmentedControl(_ sender: UISegmentedControl) {
+        self.viewContainer.bringSubview(toFront: views[sender.selectedSegmentIndex])
+        if sender.selectedSegmentIndex == 1 {
+            mode = false
+        } else {
+            mode = true
+        }
+    }
+    
+    @IBOutlet weak var viewContainer: UIView!
+    var views: [UIView]!
+
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        sideMenu()
+        selectedSong = GameSettingsViewController.GlobalVariable.mySelectedSong
+        selectedBeepNoise = GameSettingsViewController.GlobalVariable.mySelectedBeepNoise
+        selectedBeepNoiseCode = GameSettingsViewController.GlobalVariable.mySelectedBeepNoiseCode
         createObservers()
-        // testImage.image = #imageLiteral(resourceName: "coffee.jpg")
+
+        
+        views = [UIView]()
+        views.append(MusicSegmentViewController().view)
+        views.append(BeepSegmentViewController().view)
+        
+        for v in views {
+            viewContainer.addSubview(v)
+        }
+        viewContainer.bringSubview(toFront: views[0])
+        
+//        print(viewContainer.subviews)
+        print(viewContainer.superview)
     }
-   
+    
     func createObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(MusicModeViewController.processSweeps (notification:)), name: sweep, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SoundModeViewController.processSweeps (notification:)), name: sweep, object: nil)
+    }
+
+
+    
+    func sideMenu() {
+        
+        if revealViewController() != nil {
+            
+            menuButton.target = revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 250
+            
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            
+        }
     }
     
     @objc func processSweeps(notification: NSNotification) {
-
         let sweepDistance = notification.object as! Float
-        if sweepDistance > sweepRange && temp == false {
-            shouldPlay = 1
-            print("SweepRange: ", sweepRange)
 
-            stopMusicTimer?.invalidate()
-            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(runCode), userInfo: nil, repeats: true)
-            let now = Date()
-            lastSweep = now
-            if playing != shouldPlay && shouldPlay >= -1 {
+        if sweepDistance > sweepRange && temp == true {
+            
+            numSweeps += 1
+            print("SweepRange: ", sweepRange)
+            
+            if mode == true {
+                print("im speaking")
+                let string = String(numSweeps)
+                let synth = AVSpeechSynthesizer()
+                let utterance = AVSpeechUtterance(string: string)
+                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+                utterance.rate = 0.8
+                synth.speak(utterance)
+            } else {
+                // beep mode
+                AudioServicesPlaySystemSound(SystemSoundID(Float(selectedBeepNoiseCode!)))
+            }
+            
+            let temp = rewardAt[numSweeps]
+            if temp != nil && rewardAt[numSweeps] == true {
                 if beginningMusic == true {
-                    if selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) != nil {
+                    if selectedSong != nil {
+                        
                         do {
-                            audioPlayer = try AVAudioPlayer(contentsOf: selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) as! URL)
+                            audioPlayer = try AVAudioPlayer(contentsOf: selectedSong! as URL)
+                            
                         } catch {
                             print("oh no")
                         }
                     } else {
                         createAlert(title: "Error", message: "Could not find song address on device. Make sure it is on your device, not in you iClound library")
                     }
+                    
                     beginningMusic = false
+                    
                 }
-                
                 audioPlayer?.play()
-                audioPlayer?.numberOfLoops = -1
-                playing = shouldPlay
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { // change 2 to desired number of seconds
+                    // Your code with delay
+                    self.audioPlayer?.pause()
+                }
             }
         }
     }
+    
 
-    @objc func runCode() {
-        shouldPlay = -1
-        if playing >= 0 {
-            audioPlayer?.pause()
-            playing = -1
-        }
-    }
+
 }
 
-extension MusicModeViewController: CBCentralManagerDelegate {
+extension SoundViewController: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
             
@@ -200,12 +245,12 @@ extension MusicModeViewController: CBCentralManagerDelegate {
         case .poweredOff:
             1==2
         case .poweredOn:
-            1==2
             centralManager.scanForPeripherals(withServices: [dongleSensorCBUUID])
         }
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        print(peripheral)
         dongleSensorPeripheral = peripheral
         dongleSensorPeripheral.delegate = self
         centralManager.stopScan()
@@ -213,39 +258,13 @@ extension MusicModeViewController: CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        print("Connected!")
         dongleSensorPeripheral.discoverServices(nil)
     }
 }
 
-extension MusicModeViewController: MPMediaPickerControllerDelegate {
-    
-    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        myMediaPlayer.setQueue(with: mediaItemCollection)
-        selectedSong = mediaItemCollection
-        beginningMusic = true
-        musicTrackPicker.setTitle(selectedSong?.items[0].title, for: .normal)
-        mediaPicker.dismiss(animated: true, completion: nil)
-        // print("here here")
-        
-        
-        if let artwork: MPMediaItemArtwork = selectedSong?.items[0].value(forProperty: MPMediaItemPropertyArtwork) as? MPMediaItemArtwork {
-        
-            // print("got here")
-            testImage.image = artwork.image(at: CGSize(width: 240.0, height: 128.0))
-            
-        }
-        
-        
-        
-    }
-    
-    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-        mediaPicker.dismiss(animated: true, completion: nil)
-    }
-}
 
-
-extension MusicModeViewController: CBPeripheralDelegate {
+extension SoundViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
         
@@ -269,14 +288,17 @@ extension MusicModeViewController: CBPeripheralDelegate {
             if characteristic.properties.contains(.notify) {
                 peripheral.setNotifyValue(true, for: characteristic)
             }
+            
         }
         activityIndicator.stopAnimating()
+        controlButton.title = "Stop"
         UIApplication.shared.endIgnoringInteractionEvents()
         let synth = AVSpeechSynthesizer()
         let utterance = AVSpeechUtterance(string: "Start Sweeping")
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         utterance.rate = 0.6
         synth.speak(utterance)
+        
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -284,9 +306,10 @@ extension MusicModeViewController: CBPeripheralDelegate {
         case sensorFusionCharacteristicCBUUID:
             
             sensorFusionReading(from: characteristic)
-        
+            
         default:
             1==2
+            
         }
     }
     
@@ -349,12 +372,14 @@ extension MusicModeViewController: CBPeripheralDelegate {
             // change in angle from raidans to degrees
             let deltaAngleDeg = deltaAngle * 57.2958
             let sweepDistance = caneLength * sin(angleFromStarting / 2) * 2
-//            sweepProgress.setProgress(sweepDistance/sweepRange, animated: false)
+            //            sweepProgress.setProgress(sweepDistance/sweepRange, animated: false)
             
             if deltaAngleDeg > 1.0 || deltaAngleDeg < -1.0 {
+                
                 if deltaAngle < 0 {
                     
-                 // changed
+                    // changed
+                    
                     let name = Notification.Name(rawValue: sweepNotificationKey)
                     NotificationCenter.default.post(name: name, object: sweepDistance)
                     
