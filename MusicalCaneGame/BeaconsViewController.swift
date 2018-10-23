@@ -24,6 +24,14 @@ class BeaconsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if let x = UserDefaults.standard.url(forKey: "mySongURL") {
+            print(x)
+            
+        }
+    }
+    
+    
     func sideMenu() {
         
         if revealViewController() != nil {

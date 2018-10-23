@@ -1,5 +1,5 @@
- //
-//  BeepSegmentViewController.swift
+//
+//  MusicSegmentViewController.swift
 //  MusicalCaneGame
 //
 //  Created by Anna Griffin on 10/11/18.
@@ -8,14 +8,18 @@
 
 import UIKit
 
-class BeepSegmentViewController: UIViewController {
+class MusicSegmentViewController: UIViewController {
 
-    @IBOutlet weak var beepNoiseLabel: UILabel!
+
+    
+    @IBOutlet weak var songTitleLabel: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
 
+        
 
         // Do any additional setup after loading the view.
     }

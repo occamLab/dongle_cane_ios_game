@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B12111EFF1006193E6 /* MediaPlayer.framework */; };
+		951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05C92178BE5500CD2998 /* SoundViewController.swift */; };
+		951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05CD2178C1DF00CD2998 /* Configuration.swift */; };
 		9582BE552167CC1E00F4209E /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9582BE542167CC1E00F4209E /* SWRevealViewController.m */; };
 		9582BE572167CF0300F4209E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582BE562167CF0300F4209E /* MainViewController.swift */; };
-		959EFD7B216459B70058906E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959EFD7A216459B70058906E /* TestViewController.swift */; };
 		959EFD7D216463E90058906E /* coffee.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 959EFD7C216463E90058906E /* coffee.jpg */; };
 		95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F12168232A00DDA9DB /* MusicViewController.swift */; };
-		95BBF1F42168233A00DDA9DB /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F32168233A00DDA9DB /* SoundViewController.swift */; };
 		95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */; };
 		95BBF1F82168295D00DDA9DB /* BeaconsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */; };
 		95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F92168297600DDA9DB /* AudioViewController.swift */; };
@@ -34,26 +34,24 @@
 		98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D44AE4211A2D8300E11840 /* BeaconViewController.swift */; };
 		98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EBC690211C843500340583 /* LocationPopUpViewController.swift */; };
 		AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C6EEF210267B700E9D840 /* AppDelegate.swift */; };
-		AD6C6EF2210267B700E9D840 /* MusicModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */; };
 		AD6C6EF5210267B700E9D840 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF3210267B700E9D840 /* Main.storyboard */; };
 		AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF6210267B800E9D840 /* Assets.xcassets */; };
 		AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */; };
 		AD6C6F03210267C600E9D840 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */; };
 		AD6C6F05210267CB00E9D840 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6C6F04210267CB00E9D840 /* AVFoundation.framework */; };
-		AD9A962C210F690300372425 /* SoundModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9A962B210F690300372425 /* SoundModeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4959A5B12111EFF1006193E6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		4959A5B32111F811006193E6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		951C05C92178BE5500CD2998 /* SoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoundViewController.swift; path = ../../../.Trash/SoundViewController.swift; sourceTree = "<group>"; };
+		951C05CD2178C1DF00CD2998 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		9582BE522167CC1D00F4209E /* MusicalCaneGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicalCaneGame-Bridging-Header.h"; sourceTree = "<group>"; };
 		9582BE532167CC1E00F4209E /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = "../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.h"; sourceTree = "<group>"; };
 		9582BE542167CC1E00F4209E /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = "../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.m"; sourceTree = "<group>"; };
 		9582BE562167CF0300F4209E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		959EFD7A216459B70058906E /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		959EFD7C216463E90058906E /* coffee.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = coffee.jpg; path = ../../coffee.jpg; sourceTree = "<group>"; };
 		95BBF1F12168232A00DDA9DB /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
-		95BBF1F32168233A00DDA9DB /* SoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
 		95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsViewController.swift; sourceTree = "<group>"; };
 		95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconsViewController.swift; sourceTree = "<group>"; };
 		95BBF1F92168297600DDA9DB /* AudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
@@ -74,14 +72,12 @@
 		98EBC690211C843500340583 /* LocationPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPopUpViewController.swift; sourceTree = "<group>"; };
 		AD6C6EEC210267B700E9D840 /* MusicalCaneGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicalCaneGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6C6EEF210267B700E9D840 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicModeViewController.swift; sourceTree = "<group>"; };
 		AD6C6EF4210267B700E9D840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AD6C6EF6210267B800E9D840 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD6C6EF9210267B800E9D840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AD6C6EFB210267B800E9D840 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		AD6C6F04210267CB00E9D840 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		AD9A962B210F690300372425 /* SoundModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundModeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +97,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		95BBF1FB216F8A0200DDA9DB /* ViewContrllers */ = {
+		95BBF1FB216F8A0200DDA9DB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				95BBF1FC216F8A4F00DDA9DB /* MusicSegmentViewController.swift */,
@@ -109,7 +105,7 @@
 				95BBF200216F8A6800DDA9DB /* BeepSegmentViewController.swift */,
 				95BBF201216F8A6800DDA9DB /* BeepSegmentViewController.xib */,
 			);
-			path = ViewContrllers;
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		AD6C6EE3210267B700E9D840 = {
@@ -132,26 +128,24 @@
 		AD6C6EEE210267B700E9D840 /* MusicalCaneGame */ = {
 			isa = PBXGroup;
 			children = (
-				95BBF1FB216F8A0200DDA9DB /* ViewContrllers */,
+				95BBF1FB216F8A0200DDA9DB /* ViewControllers */,
 				981823A1211A3894006A28F7 /* Blue.jpg */,
 				9818239E211A3894006A28F7 /* Rose.jpg */,
 				9818239C211A3894006A28F7 /* Pink.jpg */,
 				9818239F211A3894006A28F7 /* Purple.jpg */,
+				951C05CD2178C1DF00CD2998 /* Configuration.swift */,
 				959EFD7C216463E90058906E /* coffee.jpg */,
 				981823A0211A3894006A28F7 /* Yellow.jpg */,
 				9818239D211A3894006A28F7 /* White.jpg */,
 				AD6C6EEF210267B700E9D840 /* AppDelegate.swift */,
-				AD6C6EF1210267B700E9D840 /* MusicModeViewController.swift */,
 				95BBF1F12168232A00DDA9DB /* MusicViewController.swift */,
-				95BBF1F32168233A00DDA9DB /* SoundViewController.swift */,
-				AD9A962B210F690300372425 /* SoundModeViewController.swift */,
+				951C05C92178BE5500CD2998 /* SoundViewController.swift */,
 				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
 				95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */,
 				95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */,
 				95BBF1F92168297600DDA9DB /* AudioViewController.swift */,
 				9582BE562167CF0300F4209E /* MainViewController.swift */,
-				959EFD7A216459B70058906E /* TestViewController.swift */,
 				98D44AE4211A2D8300E11840 /* BeaconViewController.swift */,
 				98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */,
 				AD6C6EF6210267B800E9D840 /* Assets.xcassets */,
@@ -266,19 +260,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				959EFD7B216459B70058906E /* TestViewController.swift in Sources */,
 				95BBF1F82168295D00DDA9DB /* BeaconsViewController.swift in Sources */,
 				98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */,
 				95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */,
 				95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */,
 				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
 				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
-				95BBF1F42168233A00DDA9DB /* SoundViewController.swift in Sources */,
 				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,
 				9582BE552167CC1E00F4209E /* SWRevealViewController.m in Sources */,
-				AD9A962C210F690300372425 /* SoundModeViewController.swift in Sources */,
-				AD6C6EF2210267B700E9D840 /* MusicModeViewController.swift in Sources */,
+				951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */,
 				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
+				951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */,
 				9582BE572167CF0300F4209E /* MainViewController.swift in Sources */,
 				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
 				AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */,

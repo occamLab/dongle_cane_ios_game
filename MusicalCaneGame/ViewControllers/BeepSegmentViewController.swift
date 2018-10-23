@@ -1,17 +1,22 @@
-//
-//  TestViewController.swift
+ //
+//  BeepSegmentViewController.swift
 //  MusicalCaneGame
 //
-//  Created by Anna Griffin on 10/2/18.
+//  Created by Anna Griffin on 10/11/18.
 //  Copyright © 2018 occamlab. All rights reserved.
 //
 
 import UIKit
 
-class TestViewController: UIViewController {
+class BeepSegmentViewController: UIViewController {
 
+
+    @IBOutlet weak var beepNameLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        beepNameLabel.text = UserDefaults.standard.string(forKey: "myBeepNoise")
 
         // Do any additional setup after loading the view.
     }

@@ -21,17 +21,18 @@ class MusicViewController: UIViewController {
     @IBOutlet weak var menuButton: UIBarButtonItem!
 
     
-    @IBOutlet weak var albumArtwork: UIImageView!
+
     @IBOutlet weak var songTitleLabel: UILabel!
-    @IBOutlet weak var artistLabel: UILabel!
+
    
-    var selectedSong:NSURL?
+    var selectedSong:URL?
     
     var sweepRange: Float = 1.0
     
     @IBOutlet weak var sweepRangeLabel: UILabel!
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
-        sweepRangeLabel.text = String(sender.value)
+        let x = Double(sender.value).roundTo(places: 2)
+        sweepRangeLabel.text = String(x)
         sweepRange = sender.value
     }
     
@@ -126,7 +127,8 @@ class MusicViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         sideMenu()
-        selectedSong = GameSettingsViewController.GlobalVariable.mySelectedSong
+        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
+        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
         createObservers()
 
         
@@ -144,7 +146,7 @@ class MusicViewController: UIViewController {
     }
     
     func createObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(MusicModeViewController.processSweeps (notification:)), name: sweep, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)
     }
     
     @objc func processSweeps(notification: NSNotification) {
@@ -189,6 +191,13 @@ class MusicViewController: UIViewController {
     }
 
 }
+
+//extension Double {
+//    func roundTo(places:Int) -> Double {
+//        let divisor = pow(10.0, Double(places))
+//        return (self*divisor).rounded() / divisor
+//    }
+//}
 
 extension MusicViewController: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {

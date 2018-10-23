@@ -15,6 +15,8 @@ class GameSettingsViewController: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
+    
+    
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
     
@@ -24,6 +26,7 @@ class GameSettingsViewController: UIViewController {
         myMediaPickerVC.allowsPickingMultipleItems = false
         myMediaPickerVC.delegate = self
         self.present(myMediaPickerVC, animated: true, completion: nil)
+        
         
     }
     
@@ -38,8 +41,9 @@ class GameSettingsViewController: UIViewController {
     var selectedBeepNoise: String?
     var selectedBeepNoiseCode: Int?
     
-//    var temp: NSURL?
-    
+    var temp: URL?
+    var mySong: URL?
+
 
     
     
@@ -51,6 +55,11 @@ class GameSettingsViewController: UIViewController {
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
         createToolbar()
         
+
+    
+//        let defaults = UserDefaults.standard
+//        let mySong = defaults.object(forKey: UserDefaultsKeys.NSRUL.rawValue) as! Data
+//        print(mySong ?? "hi")
         
 
         // Do any additional setup after loading the view.
@@ -65,7 +74,7 @@ class GameSettingsViewController: UIViewController {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(SoundModeViewController.dismissKeyboard))
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(SoundViewController.dismissKeyboard))
         
         toolbar.setItems([doneButton], animated: false)
         toolbar.isUserInteractionEnabled = true
@@ -82,6 +91,21 @@ class GameSettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+
+            // set selected song button
+        if let y = UserDefaults.standard.string(forKey: "mySongTitle") {
+            musicTrackPicker.setTitle(y, for: .normal)
+        }
+            // set beep noise text field
+        if let n = UserDefaults.standard.string(forKey: "myBeepNoise") {
+            beepNoiseTextField.text = n
+        }
+ 
+    }
+    
+
+    
     func sideMenu() {
         
         if revealViewController() != nil {
@@ -94,26 +118,25 @@ class GameSettingsViewController: UIViewController {
             
         }
     }
-    
-    struct GlobalVariable {
-        static var mySelectedSong = NSURL();
-        static var mySelectedBeepNoise = String();
-        static var mySelectedBeepNoiseCode = Int();
-    }
-
 }
+    
 
 extension GameSettingsViewController: MPMediaPickerControllerDelegate {
     
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         myMediaPlayer.setQueue(with: mediaItemCollection)
         selectedSong = mediaItemCollection
-//        print(type(of:selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL)))
-//        temp = selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL
-//        print(temp)
-        GlobalVariable.mySelectedSong = selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) as! NSURL
-        print(type(of:selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL)))
-//        print(type(of:selectedSong?.items[0]))
+        temp = selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) as? URL
+        
+        //Configuration.setUserProperty(forUser: <#T##String#>, key: <#T##String#>, value: <#T##String#>)
+        
+        // artist
+        UserDefaults.standard.set(selectedSong?.items[0].albumArtist, forKey: "myArtist")
+        // URL
+        UserDefaults.standard.set(temp, forKey: "mySongURL")
+        //Song title
+        UserDefaults.standard.set(selectedSong?.items[0].title, forKey: "mySongTitle")
+        
         musicTrackPicker.setTitle(selectedSong?.items[0].title, for: .normal)
         mediaPicker.dismiss(animated: true, completion: nil)
         
@@ -147,9 +170,11 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == countBeepPicker {
             selectedBeepNoiseCode = beepNoiseCodes[row]
-            GlobalVariable.mySelectedBeepNoiseCode = selectedBeepNoiseCode!
+            // saving code
+            UserDefaults.standard.set(selectedBeepNoiseCode, forKey: "myBeepNoiseCode")
             selectedBeepNoise = beepNoises[row]
-            GlobalVariable.mySelectedBeepNoise = selectedBeepNoise!
+            // saving beep noise name
+            UserDefaults.standard.set(selectedBeepNoise, forKey: "myBeepNoise")
             beepNoiseTextField.text = selectedBeepNoise
         }
     }
