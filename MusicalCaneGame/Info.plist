@@ -17,23 +17,26 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Access to music library? </string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>This device uses a bluetooth peripheral to track the motion of your mobility cane</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location needed to detect beacons</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Access to music library? </string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location needed to detect beacons</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
+		<string>bluetooth-le</string>
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>

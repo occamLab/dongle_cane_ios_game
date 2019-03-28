@@ -10,6 +10,7 @@
 		4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B12111EFF1006193E6 /* MediaPlayer.framework */; };
 		951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05C92178BE5500CD2998 /* SoundViewController.swift */; };
 		951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05CD2178C1DF00CD2998 /* Configuration.swift */; };
+		95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */; };
 		9582BE552167CC1E00F4209E /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9582BE542167CC1E00F4209E /* SWRevealViewController.m */; };
 		9582BE572167CF0300F4209E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582BE562167CF0300F4209E /* MainViewController.swift */; };
 		959EFD7D216463E90058906E /* coffee.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 959EFD7C216463E90058906E /* coffee.jpg */; };
@@ -46,6 +47,7 @@
 		4959A5B32111F811006193E6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		951C05C92178BE5500CD2998 /* SoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
 		951C05CD2178C1DF00CD2998 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconStackElementViewController.swift; sourceTree = "<group>"; };
 		9582BE522167CC1D00F4209E /* MusicalCaneGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicalCaneGame-Bridging-Header.h"; sourceTree = "<group>"; };
 		9582BE532167CC1E00F4209E /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = "../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.h"; sourceTree = "<group>"; };
 		9582BE542167CC1E00F4209E /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = "../../../Downloads/SWRevealViewController-master/SWRevealViewController/SWRevealViewController.m"; sourceTree = "<group>"; };
@@ -142,11 +144,12 @@
 				951C05C92178BE5500CD2998 /* SoundViewController.swift */,
 				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
+				95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */,
 				95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */,
 				95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */,
+				98D44AE4211A2D8300E11840 /* BeaconViewController.swift */,
 				95BBF1F92168297600DDA9DB /* AudioViewController.swift */,
 				9582BE562167CF0300F4209E /* MainViewController.swift */,
-				98D44AE4211A2D8300E11840 /* BeaconViewController.swift */,
 				98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */,
 				AD6C6EF6210267B800E9D840 /* Assets.xcassets */,
 				AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */,
@@ -272,6 +275,7 @@
 				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
 				951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */,
 				9582BE572167CF0300F4209E /* MainViewController.swift in Sources */,
+				95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */,
 				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
 				AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */,
 			);

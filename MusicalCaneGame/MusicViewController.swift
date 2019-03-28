@@ -10,20 +10,37 @@ import UIKit
 import CoreBluetooth
 import AVFoundation
 import MediaPlayer
+import CoreLocation
 
 let dongleSensorCBUUID = CBUUID(string: "2ea7")
 let sensorFusionCharacteristicCBUUID = CBUUID(string: "2ea78970-7d44-44bb-b097-26183f402407")
 let sweepNotificationKey = "cane.sweep.notification"
 
-class MusicViewController: UIViewController {
+class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
 
-    
-
     @IBOutlet weak var songTitleLabel: UILabel!
-
+    
+    let locationManager = CLLocationManager()
+    let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
+    // 8492E75F-4FD6-469D-B132-043FE94921D8
+    // B9407F30-F5F8-466E-AFF9-25556B57FE6D
+    
+    let beacons = ["Blue", "Pink", "Purple", "Rose", "White", "Yellow"]
+    
+    var viewsBeacons = [UIView]()
+    var animator:UIDynamicAnimator!
+    var gravity:UIGravityBehavior!
+    var snap:UISnapBehavior!
+    var previousTouchPoint:CGPoint!
+    var viewDragging = false
+    var viewPinned = false
+    
+    var offset:CGFloat = 100
+    var knownBeaconMinorsStrings:[String] = []
+    
    
     var selectedSong:URL?
     
@@ -130,10 +147,165 @@ class MusicViewController: UIViewController {
         selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
         songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
         createObservers()
+        
+        locationManager.delegate = self
+        if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        locationManager.startRangingBeacons(in: region)
 
+        animator = UIDynamicAnimator(referenceView: self.view)
+        gravity = UIGravityBehavior()
+        
+        animator.addBehavior(gravity)
+        gravity.magnitude = 4
+        
+        
+
+        
+        
+    }
+    
+    func addViewController (atOffset offset:CGFloat, dataForVC data:AnyObject?) -> UIView? {
+        
+        let frameForView = self.view.bounds.offsetBy(dx: 0, dy: self.view.bounds.size.height - offset)
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let stackElementVC = sb.instantiateViewController(withIdentifier: "StackElement") as! BeaconStackElementViewController
+        
+        if let view = stackElementVC.view {
+            view.frame = frameForView
+            view.layer.cornerRadius = 5
+            view.layer.shadowOffset = CGSize(width: 2, height: 2)
+            view.layer.shadowColor = UIColor.black.cgColor
+            view.layer.shadowRadius = 3
+            view.layer.shadowOpacity = 0.5
+            
+            if let headingString = data as? String {
+                stackElementVC.beaconNameString = headingString
+            }
+            
+            self.addChildViewController(stackElementVC)
+            self.view.addSubview(view)
+            stackElementVC.didMove(toParentViewController: self)
+            
+            let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(MusicViewController.handlePan(gestureRecognizer: )))
+            view.addGestureRecognizer(panGestureRecognizer)
+            
+            let collision = UICollisionBehavior(items: [view])
+            collision.collisionDelegate = self
+            animator.addBehavior(collision)
+            
+            let boundry = view.frame.origin.y + view.frame.size.height
+            var boundryStart = CGPoint(x: 0, y: boundry)
+            var boundryEnd = CGPoint(x: self.view.bounds.size.width, y: boundry)
+            collision.addBoundary(withIdentifier: 1 as NSCopying, from:boundryStart, to: boundryEnd)
+            
+            boundryStart = CGPoint(x: 0, y: 0)
+            boundryEnd = CGPoint(x: self.view.bounds.size.width, y: 0)
+            collision.addBoundary(withIdentifier: 2 as NSCopying, from:boundryStart, to: boundryEnd)
+            
+            gravity.addItem(view)
+            let itemBehavior = UIDynamicItemBehavior(items: [view])
+            animator.addBehavior(itemBehavior)
+            
+            return view
+        }
+        return nil
         
     }
 
+    @objc func handlePan (gestureRecognizer:UIPanGestureRecognizer) {
+        
+        let touchPoint = gestureRecognizer.location(in: self.view)
+        let draggedView = gestureRecognizer.view!
+        
+        if gestureRecognizer.state == .began {
+            let dragStartPoint = gestureRecognizer.location(in: draggedView)
+            if dragStartPoint.y < 200 {
+                viewDragging = true
+                previousTouchPoint = touchPoint
+            }
+        } else if gestureRecognizer.state == .changed && viewDragging {
+            let yOffset = previousTouchPoint.y - touchPoint.y
+            
+            draggedView.center = CGPoint(x: draggedView.center.x, y: draggedView.center.y - yOffset)
+            previousTouchPoint = touchPoint
+        } else if gestureRecognizer.state == .ended && viewDragging {
+            
+            pin(view: draggedView)
+            //velocity
+            
+            animator.updateItem(usingCurrentState: draggedView)
+            viewDragging = false
+        }
+        
+    }
+    
+    func pin (view:UIView) {
+        
+        // how far user has to drag upwards for it to pin
+        let viewHadReachedPinLocation = view.frame.origin.y < 400
+        if viewHadReachedPinLocation {
+            if !viewPinned {
+                var snapPosition = self.view.center
+                // how far down it snaps
+                snapPosition.y += 400
+                
+                snap = UISnapBehavior(item: view, snapTo: snapPosition)
+                animator.addBehavior(snap)
+                setVisibility(view: view, alpha: 0)
+                
+                
+                viewPinned = true
+            }
+        } else {
+            if viewPinned {
+                animator.removeBehavior(snap)
+                setVisibility(view: view, alpha: 1)
+                
+                viewPinned = false
+            }
+        }
+    }
+    
+    func setVisibility (view:UIView, alpha:CGFloat) {
+        
+        for aView in viewsBeacons {
+            if aView != view {
+                aView.alpha = alpha
+            }
+        }
+    }
+    
+    func addVelocity (toView view:UIView, fromGestureRecognizer panGesture:UIPanGestureRecognizer) {
+        var velocity = panGesture.velocity(in: self.view)
+        velocity.x = 0
+        
+        if let behavior = itemBehavior(forView: view) {
+            behavior.addLinearVelocity(velocity, for:view)
+        }
+        
+    }
+    
+    func itemBehavior (forView view:UIView) -> UIDynamicItemBehavior? {
+        
+        for behavior in animator.behaviors {
+            if let itemBehavior = behavior as? UIDynamicItemBehavior {
+                if let possibleView = itemBehavior.items.first as? UIView, possibleView == view {
+                    return itemBehavior
+                }
+            }
+        }
+        return nil
+    }
+    
+    func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
+        if NSNumber(integerLiteral: 2).isEqual(identifier){
+            let view = item as! UIView
+            pin(view: view)
+            
+        }
+    }
     
     func sideMenu() {
         
@@ -353,5 +525,46 @@ extension MusicViewController: CBPeripheralDelegate {
             anglePrev = angleFromStarting
         }
         return
+    }
+}
+
+extension MusicViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        let knownBeacons = beacons.filter{ $0.proximity != CLProximity.unknown }
+        print("known beacons", knownBeacons)
+        
+        var newBeacons:[String] = []
+        
+        
+        for each in knownBeacons {
+            let tempstr = String(each.minor as! Int)
+            if knownBeaconMinorsStrings.contains(tempstr) {
+                break
+            } else {
+                newBeacons.append(tempstr)
+                
+            }
+        }
+        print(knownBeaconMinorsStrings)
+        
+        
+        if newBeacons.count > 0 {
+            
+            for each in newBeacons {
+                if let view = addViewController(atOffset: offset, dataForVC: each as AnyObject) {
+                    viewsBeacons.append(view)
+                    offset -= 25
+                }
+            }
+            
+        }
+        
+        for each in newBeacons {
+            knownBeaconMinorsStrings.append(each)
+            
+        }
+        
+        
     }
 }

@@ -7,14 +7,25 @@
 //
 
 import UIKit
+import CoreLocation
 
 class BeaconsViewController: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
+    let locationManager = CLLocationManager()
+    let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")! as UUID, identifier: "Estimotes")
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         sideMenu()
+        locationManager.delegate = self
+        if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        locationManager.startRangingBeacons(in: region)
+
 
         // Do any additional setup after loading the view.
     }
@@ -24,12 +35,6 @@ class BeaconsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if let x = UserDefaults.standard.url(forKey: "mySongURL") {
-            print(x)
-            
-        }
-    }
     
     
     func sideMenu() {
@@ -44,15 +49,16 @@ class BeaconsViewController: UIViewController {
             
         }
     }
+}
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+extension BeaconsViewController: CLLocationManagerDelegate {
+ 
+    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
+        let knownBeacons = beacons.filter{ $0.proximity != CLProximity.unknown }
+        print("known beacons", knownBeacons)
+        
+        
+ 
     }
-    */
-
 }

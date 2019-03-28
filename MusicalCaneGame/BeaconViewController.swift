@@ -44,11 +44,11 @@ class BeaconViewController: UIViewController {
     
     
     var threshold: Float = 2.5
-    @IBOutlet weak var thresholdLabel: UILabel!
-    @IBAction func thresholdSlider(_ sender: UISlider) {
-        thresholdLabel.text = String(sender.value)
-        threshold = sender.value
-    }
+//    @IBOutlet weak var thresholdLabel: UILabel!
+//    @IBAction func thresholdSlider(_ sender: UISlider) {
+//        thresholdLabel.text = String(sender.value)
+//        threshold = sender.value
+//    }
     
     var newLocation:(Beacon: String?,Location: String?)
     
