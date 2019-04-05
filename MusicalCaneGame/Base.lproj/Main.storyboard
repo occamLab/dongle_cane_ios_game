@@ -45,11 +45,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="top" fixedFrame="YES" axis="vertical" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="xUq-Jc-fm6">
-                                <rect key="frame" x="2" y="72" width="458" height="560.66666666666663"/>
+                                <rect key="frame" x="2" y="72" width="462" height="560.66666666666663"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDe-BF-2A4">
-                                        <rect key="frame" x="0.0" y="0.0" width="458" height="216"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="462" height="216"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5t-7H-xZr">
                                                 <rect key="frame" x="0.0" y="0.0" width="53.333333333333336" height="216"/>
@@ -58,12 +58,12 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zsP-kb-HYn">
-                                                <rect key="frame" x="53" y="0.0" width="409" height="216"/>
+                                                <rect key="frame" x="53.333333333333343" y="0.0" width="408.66666666666663" height="216"/>
                                             </pickerView>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2DP-Sz-jh7">
-                                        <rect key="frame" x="0.0" y="238" width="458" height="30"/>
+                                        <rect key="frame" x="0.0" y="238" width="462" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Music:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PiF-oK-rqD">
                                                 <rect key="frame" x="0.0" y="0.0" width="122" height="30"/>
@@ -72,7 +72,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6a-mp-4dG">
-                                                <rect key="frame" x="122" y="0.0" width="336" height="30"/>
+                                                <rect key="frame" x="122" y="0.0" width="340" height="30"/>
                                                 <state key="normal" title="Select"/>
                                                 <connections>
                                                     <action selector="chooseMusictrack:" destination="Mf7-nQ-0RB" eventType="touchUpInside" id="RDJ-eR-cjr"/>
@@ -81,7 +81,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fcx-TL-2yb">
-                                        <rect key="frame" x="0.0" y="290" width="458" height="30"/>
+                                        <rect key="frame" x="0.0" y="290" width="462" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Beep Noise:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rXO-HF-m2S">
                                                 <rect key="frame" x="0.0" y="0.0" width="164" height="30"/>
@@ -90,7 +90,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="beep" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JE6-8P-RWA">
-                                                <rect key="frame" x="164" y="0.0" width="294" height="30"/>
+                                                <rect key="frame" x="164" y="0.0" width="298" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -98,7 +98,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3A-XG-re2">
-                                        <rect key="frame" x="0.0" y="342" width="458" height="30"/>
+                                        <rect key="frame" x="0.0" y="342" width="462" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number Beeps:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOv-a8-QVo">
                                                 <rect key="frame" x="0.0" y="0.0" width="118.66666666666667" height="30"/>
@@ -107,7 +107,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lWv-xQ-pfX">
-                                                <rect key="frame" x="118.66666666666666" y="0.0" width="339.33333333333337" height="30"/>
+                                                <rect key="frame" x="118.66666666666666" y="0.0" width="343.33333333333337" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -115,16 +115,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Qki-Kp-aEn">
-                                        <rect key="frame" x="0.0" y="394" width="458" height="20.333333333333314"/>
+                                        <rect key="frame" x="0.0" y="394" width="462" height="20.333333333333314"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Cane Length (Meters)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Doq-pg-vPS">
-                                                <rect key="frame" x="0.0" y="0.0" width="428.33333333333331" height="20.333333333333332"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="432.33333333333331" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iov-kb-uBe">
-                                                <rect key="frame" x="436.33333333333331" y="0.0" width="21.666666666666686" height="20.333333333333332"/>
+                                                <rect key="frame" x="440.33333333333331" y="0.0" width="21.666666666666686" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -132,19 +132,19 @@
                                         </subviews>
                                     </stackView>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="r89-lT-ufO">
-                                        <rect key="frame" x="-2" y="436.33333333333331" width="462" height="31"/>
+                                        <rect key="frame" x="-2" y="436.33333333333331" width="466" height="31"/>
                                     </slider>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Zf9-VO-wgI">
-                                        <rect key="frame" x="0.0" y="488.33333333333331" width="458" height="20.333333333333314"/>
+                                        <rect key="frame" x="0.0" y="488.33333333333331" width="462" height="20.333333333333314"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Sweep Range (Meters)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2As-VB-xpG">
-                                                <rect key="frame" x="0.0" y="0.0" width="428.33333333333331" height="20.333333333333332"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="432.33333333333331" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pkv-QQ-LZC">
-                                                <rect key="frame" x="436.33333333333331" y="0.0" width="21.666666666666686" height="20.333333333333332"/>
+                                                <rect key="frame" x="440.33333333333331" y="0.0" width="21.666666666666686" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -152,7 +152,7 @@
                                         </subviews>
                                     </stackView>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="m0I-vv-5IC">
-                                        <rect key="frame" x="-2" y="530.66666666666663" width="462" height="31"/>
+                                        <rect key="frame" x="-2" y="530.66666666666663" width="466" height="31"/>
                                     </slider>
                                 </subviews>
                             </stackView>
