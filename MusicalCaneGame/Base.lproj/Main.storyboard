@@ -44,34 +44,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="TopLeft" axis="vertical" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xUq-Jc-fm6">
-                                <rect key="frame" x="30" y="72" width="354" height="487"/>
+                            <stackView opaque="NO" contentMode="TopLeft" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="xUq-Jc-fm6">
+                                <rect key="frame" x="30" y="71.999999999999972" width="354" height="457.33333333333326"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BDe-BF-2A4">
-                                        <rect key="frame" x="0.0" y="0.0" width="354" height="166"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDe-BF-2A4">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="216"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Profile:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5t-7H-xZr">
-                                                <rect key="frame" x="0.0" y="0.0" width="53.333333333333336" height="166"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="53.333333333333336" height="216"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <pickerView contentMode="scaleAspectFit" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zsP-kb-HYn">
-                                                <rect key="frame" x="53.333333333333343" y="0.0" width="300.66666666666663" height="166"/>
+                                                <rect key="frame" x="53.333333333333343" y="0.0" width="300.66666666666663" height="216"/>
                                             </pickerView>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2DP-Sz-jh7">
-                                        <rect key="frame" x="0.0" y="186" width="254" height="30"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2DP-Sz-jh7">
+                                        <rect key="frame" x="0.0" y="221" width="344" height="30"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Selected Music:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PiF-oK-rqD">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Music:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PiF-oK-rqD">
                                                 <rect key="frame" x="0.0" y="0.0" width="122" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6a-mp-4dG">
-                                                <rect key="frame" x="122" y="0.0" width="132" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p6a-mp-4dG">
+                                                <rect key="frame" x="122" y="0.0" width="222" height="30"/>
                                                 <state key="normal" title="Select"/>
                                                 <connections>
                                                     <action selector="chooseMusictrack:" destination="Mf7-nQ-0RB" eventType="touchUpInside" id="RDJ-eR-cjr"/>
@@ -79,8 +79,8 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fcx-TL-2yb">
-                                        <rect key="frame" x="0.0" y="236" width="214" height="20.333333333333314"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fcx-TL-2yb">
+                                        <rect key="frame" x="0.0" y="256" width="344" height="20.333333333333314"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Beep Noise:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rXO-HF-m2S">
                                                 <rect key="frame" x="0.0" y="0.0" width="164" height="20.333333333333332"/>
@@ -89,32 +89,39 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="infinite" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="beep" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JE6-8P-RWA">
-                                                <rect key="frame" x="164" y="0.0" width="50" height="20.333333333333332"/>
+                                                <rect key="frame" x="164" y="0.0" width="180" height="20.333333333333332"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S3A-XG-re2">
-                                        <rect key="frame" x="0.0" y="276.33333333333331" width="143.66666666666666" height="30"/>
+                                    <stackView opaque="NO" contentMode="left" translatesAutoresizingMaskIntoConstraints="NO" id="S3A-XG-re2">
+                                        <rect key="frame" x="0.0" y="281.33333333333331" width="344" height="20.333333333333314"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Number Beeps:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOv-a8-QVo">
-                                                <rect key="frame" x="0.0" y="0.0" width="118.66666666666667" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="326" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lWv-xQ-pfX">
-                                                <rect key="frame" x="118.66666666666666" y="0.0" width="25" height="30"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="07U-Ns-2Q0">
+                                                <rect key="frame" x="326" y="0.0" width="18" height="20.333333333333332"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                     </stackView>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="5" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="TMp-Wp-MLE">
+                                        <rect key="frame" x="-2" y="306.66666666666669" width="358" height="31"/>
+                                        <connections>
+                                            <action selector="beepCountChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="wWR-np-deq"/>
+                                            <action selector="sweepRangeSlider:" destination="5gR-6F-LX3" eventType="valueChanged" id="tHS-Z0-vGX"/>
+                                        </connections>
+                                    </slider>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Qki-Kp-aEn">
-                                        <rect key="frame" x="0.0" y="326.33333333333331" width="196.66666666666666" height="20.333333333333314"/>
+                                        <rect key="frame" x="0.0" y="341.66666666666669" width="196.66666666666666" height="20.333333333333314"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cane Length (Meters)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Doq-pg-vPS">
                                                 <rect key="frame" x="0.0" y="0.0" width="167" height="20.333333333333332"/>
@@ -131,16 +138,13 @@
                                         </subviews>
                                     </stackView>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.5" maxValue="1.5" translatesAutoresizingMaskIntoConstraints="NO" id="WRZ-hh-Wiw">
-                                        <rect key="frame" x="-2" y="366.66666666666669" width="358" height="31"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="rtI-BV-3PZ"/>
-                                        </constraints>
+                                        <rect key="frame" x="-2" y="367" width="358" height="31"/>
                                         <connections>
                                             <action selector="sweepRangeSlider:" destination="5gR-6F-LX3" eventType="valueChanged" id="Sab-wX-SeV"/>
                                         </connections>
                                     </slider>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Zf9-VO-wgI">
-                                        <rect key="frame" x="0.0" y="416.66666666666669" width="204" height="20.333333333333314"/>
+                                        <rect key="frame" x="0.0" y="402" width="204" height="20.333333333333314"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sweep Range (Meters)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2As-VB-xpG">
                                                 <rect key="frame" x="0.0" y="0.0" width="174.33333333333334" height="20.333333333333332"/>
@@ -157,23 +161,23 @@
                                         </subviews>
                                     </stackView>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.5" maxValue="1.5" translatesAutoresizingMaskIntoConstraints="NO" id="0wi-f2-uqe">
-                                        <rect key="frame" x="-2" y="457" width="358" height="31"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="hwQ-wV-0u7"/>
-                                        </constraints>
+                                        <rect key="frame" x="-2" y="427.33333333333331" width="358" height="31"/>
                                         <connections>
                                             <action selector="sweepRangeSlider:" destination="5gR-6F-LX3" eventType="valueChanged" id="mSm-Xj-IvH"/>
                                         </connections>
                                     </slider>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailingMargin" secondItem="2DP-Sz-jh7" secondAttribute="trailing" constant="100" id="Mlg-Ok-sVc"/>
+                                    <constraint firstItem="0wi-f2-uqe" firstAttribute="trailing" secondItem="WRZ-hh-Wiw" secondAttribute="trailing" id="5Qs-L7-G7G"/>
+                                    <constraint firstAttribute="trailing" secondItem="fcx-TL-2yb" secondAttribute="trailing" constant="10" id="Hfr-mX-lfi"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="2DP-Sz-jh7" secondAttribute="trailing" constant="10" id="Mlg-Ok-sVc"/>
+                                    <constraint firstItem="TMp-Wp-MLE" firstAttribute="trailing" secondItem="WRZ-hh-Wiw" secondAttribute="trailing" id="Uuy-Qd-Xm3"/>
+                                    <constraint firstAttribute="trailing" secondItem="S3A-XG-re2" secondAttribute="trailing" constant="10" id="vIM-fm-eyW"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="TVE-CH-Q1p" firstAttribute="top" secondItem="xUq-Jc-fm6" secondAttribute="bottom" constant="177" id="3Ug-aP-RyZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xUq-Jc-fm6" secondAttribute="trailing" constant="10" id="4ef-h2-rJn"/>
                             <constraint firstItem="xUq-Jc-fm6" firstAttribute="leading" secondItem="Bxm-rT-fHh" secondAttribute="leadingMargin" constant="-18" id="7Tj-Xe-Lf4"/>
                             <constraint firstItem="xUq-Jc-fm6" firstAttribute="leading" secondItem="Bxm-rT-fHh" secondAttribute="leadingMargin" constant="10" id="MUW-ye-Zoy"/>
@@ -189,8 +193,16 @@
                         <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger" id="98b-zX-zfK"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="beepCountLabel" destination="07U-Ns-2Q0" id="fOu-NL-f0c"/>
+                        <outlet property="beepCountSlider" destination="TMp-Wp-MLE" id="ysB-yg-hY9"/>
+                        <outlet property="beepNoiseBox" destination="JE6-8P-RWA" id="a0B-xb-gsn"/>
                         <outlet property="beepNoiseTextField" destination="JE6-8P-RWA" id="qTu-VM-1A2"/>
+                        <outlet property="caneLengthLabel" destination="iov-kb-uBe" id="TwY-q2-WCn"/>
+                        <outlet property="caneLengthSlider" destination="WRZ-hh-Wiw" id="fNl-6L-E0T"/>
                         <outlet property="menuButton" destination="98b-zX-zfK" id="wB6-41-VDx"/>
+                        <outlet property="musicTrackPicker" destination="p6a-mp-4dG" id="sTV-WO-HHR"/>
+                        <outlet property="sweepRangeLabel" destination="Pkv-QQ-LZC" id="RER-ku-ODE"/>
+                        <outlet property="sweepRangeSlider" destination="0wi-f2-uqe" id="8Bu-U5-fxk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vlO-Ea-EIe" userLabel="First Responder" sceneMemberID="firstResponder"/>

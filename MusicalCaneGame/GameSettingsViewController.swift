@@ -15,10 +15,15 @@ class GameSettingsViewController: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
-    
-    
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
+    @IBOutlet weak var beepNoiseBox: UITextField!
+    @IBOutlet weak var beepCountSlider: UISlider!
+    @IBOutlet weak var beepCountLabel: UILabel!
+    @IBOutlet weak var caneLengthSlider: UISlider!
+    @IBOutlet weak var caneLengthLabel: UILabel!
+    @IBOutlet weak var sweepRangeSlider: UISlider!
+    @IBOutlet weak var sweepRangeLabel: UILabel!
     
     var selectedMusicTrack: String?
     @IBAction func chooseMusictrack(_ sender: Any) {
@@ -28,6 +33,11 @@ class GameSettingsViewController: UIViewController {
         self.present(myMediaPickerVC, animated: true, completion: nil)
         
         
+    }
+    
+    
+    @IBAction func beepCountChanged(_ sender: UISlider) {
+        beepCountLabel.text = String(Int(sender.value))
     }
     
     var selectedSong: MPMediaItemCollection?
