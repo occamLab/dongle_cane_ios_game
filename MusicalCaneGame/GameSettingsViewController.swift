@@ -40,6 +40,14 @@ class GameSettingsViewController: UIViewController {
         beepCountLabel.text = String(Int(sender.value))
     }
     
+    @IBAction func sweepRangeChanged(_ sender: UISlider) {
+        caneLengthLabel.text = String(Int(sender.value))
+    }
+    
+    @IBAction func caneLengthChanged(_ sender: UISlider) {
+        sweepRangeLabel.text = String(Int(sender.value))
+    }
+    
     var selectedSong: MPMediaItemCollection?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
     
