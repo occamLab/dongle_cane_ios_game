@@ -45,7 +45,6 @@ class DBInterface {
             print(error)
         }
         
-        getRow(u_name: "Alice")
     }
     
     func insertRow(u_name: String, u_sweep_width: Double, u_music: String) {
@@ -60,17 +59,42 @@ class DBInterface {
         }
     }
     
-    func getRow(u_name: String) {
+    func getRow(u_name: String) -> Row?{
         if (db != nil) {
             do {
                 let rows = try self.db!.prepare(self.users.select(name, sweep_width, music)
                                                 .filter(name == u_name))
                 for row in rows {
-                    print("\(row[music])")
+                    return row
                 }
             } catch {
                 print("select failed: \(error)")
             }
+        }
+        return nil
+    }
+    
+    func getMusic(u_name: String) -> URL?{
+        return URL(string: getRow(u_name: u_name)![music])
+    }
+    
+    func getSweepWidth(u_name: String) -> Double? {
+        return getRow(u_name: u_name)![sweep_width]
+    }
+    
+    func changeMusic(u_name: String, u_music: String) {
+        do {
+            try self.db!.run(self.users.filter(name == u_name).update(music <- u_music))
+        } catch {
+            print("update failed: \(error)")
+        }
+    }
+    
+    func changeSweepWidth(u_name: String, u_sweep_width: Double) {
+        do {
+            try self.db!.run(self.users.filter(name == u_name).update(sweep_width <- u_sweep_width))
+        } catch {
+            print("update failed: \(error)")
         }
     }
 }
