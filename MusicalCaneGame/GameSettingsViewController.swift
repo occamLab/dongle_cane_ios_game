@@ -14,6 +14,9 @@ import MediaPlayer
 class GameSettingsViewController: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    //Create a profile button
+    
+    @IBOutlet weak var newProfileButton: UIButton!
     
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
@@ -24,6 +27,31 @@ class GameSettingsViewController: UIViewController {
     @IBOutlet weak var caneLengthLabel: UILabel!
     @IBOutlet weak var sweepRangeSlider: UISlider!
     @IBOutlet weak var sweepRangeLabel: UILabel!
+    @IBOutlet weak var editSaveButton: UIButton!
+    //Text that has to be grayed out
+    @IBOutlet weak var caneLengthText: UILabel!
+    @IBOutlet weak var sweepRangeText: UILabel!
+    @IBOutlet weak var beepCountText: UILabel!
+    @IBOutlet weak var slectBeepNoiseText: UILabel!
+    @IBOutlet weak var selectMusicText: UILabel!
+    
+    var isEdit:Bool = true
+    
+    
+    @IBAction func newProfilePressed(_ sender: UIButton) {
+        let alert = UIAlertController(title:"New Profile",message:"Enter a Profile Name",preferredStyle: .alert)
+        alert.addTextField{(textField) in textField.text = "Johnny"}
+        
+        alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
+            
+            print("text field: \(textField?.text)")
+            
+            
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
+        
+    }
     
     var selectedMusicTrack: String?
     @IBAction func chooseMusictrack(_ sender: Any) {
@@ -34,7 +62,6 @@ class GameSettingsViewController: UIViewController {
         
         
     }
-    
     
     @IBAction func beepCountChanged(_ sender: UISlider) {
         beepCountLabel.text = String(Int(sender.value))
@@ -48,6 +75,33 @@ class GameSettingsViewController: UIViewController {
         sweepRangeLabel.text = String(Int(sender.value))
     }
     
+    func changeOptions(b:Bool){
+        musicTrackPicker.isEnabled = b
+        beepNoiseBox.isEnabled = b
+        beepCountSlider.isEnabled = b
+        beepCountLabel.isEnabled = b
+        caneLengthSlider.isEnabled = b
+        caneLengthLabel.isEnabled = b
+        sweepRangeSlider.isEnabled = b
+        sweepRangeLabel.isEnabled = b
+        
+        caneLengthText.isEnabled = b
+        sweepRangeText.isEnabled = b
+        beepCountText.isEnabled = b
+        slectBeepNoiseText.isEnabled = b
+        selectMusicText.isEnabled = b
+    }
+    
+    @IBAction func touchEditSave(_ sender: UIButton) {
+        if(isEdit){
+            sender.setTitle("Save", for: .normal)
+            isEdit = false
+        }else{
+            sender.setTitle("Edit", for: .normal)
+            isEdit = true
+        }
+        changeOptions(b:!isEdit)
+    }
     var selectedSong: MPMediaItemCollection?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
     
@@ -70,6 +124,7 @@ class GameSettingsViewController: UIViewController {
         sideMenu()
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
         createToolbar()
+        changeOptions(b:!isEdit)
         
 
     
