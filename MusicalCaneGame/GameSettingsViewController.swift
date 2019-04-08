@@ -51,8 +51,6 @@ class GameSettingsViewController: UIViewController {
     var selectedSong: MPMediaItemCollection?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
     
-    // Beep noise picker
-    @IBOutlet weak var beepNoiseTextField: UITextField!
     let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
                       "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
     let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
@@ -86,7 +84,7 @@ class GameSettingsViewController: UIViewController {
     let countBeepPicker = UIPickerView()
     func createBeepNoisePicker(countNoisePicker: UIPickerView) {
         countNoisePicker.delegate = self
-        beepNoiseTextField.inputView = countNoisePicker
+        beepNoiseBox.inputView = countNoisePicker
     }
     func createToolbar() {
         let toolbar = UIToolbar()
@@ -97,7 +95,7 @@ class GameSettingsViewController: UIViewController {
         toolbar.setItems([doneButton], animated: false)
         toolbar.isUserInteractionEnabled = true
         
-        beepNoiseTextField.inputAccessoryView = toolbar
+        beepNoiseBox.inputAccessoryView = toolbar
     }
     
     @objc func dismissKeyboard() {
@@ -117,7 +115,7 @@ class GameSettingsViewController: UIViewController {
         }
             // set beep noise text field
         if let n = UserDefaults.standard.string(forKey: "myBeepNoise") {
-            beepNoiseTextField.text = n
+            beepNoiseBox.text = n
         }
  
     }
@@ -193,7 +191,7 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             selectedBeepNoise = beepNoises[row]
             // saving beep noise name
             UserDefaults.standard.set(selectedBeepNoise, forKey: "myBeepNoise")
-            beepNoiseTextField.text = selectedBeepNoise
+            beepNoiseBox.text = selectedBeepNoise
         }
     }
 }
