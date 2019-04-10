@@ -40,6 +40,11 @@ class DBInterface {
                     t.column(self.sweep_width)
                     t.column(self.music)
             })
+                // if there are no rows, add a default user
+                let count = try self.db!.scalar(self.users.count)
+                if (count == 0) {
+                    insertRow(u_name: "Default User", u_sweep_width: 1.0, u_music: "")
+                }
             }
         } catch {
             print(error)
