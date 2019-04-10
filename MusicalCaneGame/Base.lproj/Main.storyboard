@@ -62,8 +62,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7c-ki-mOh">
-                                <rect key="frame" x="201.5" y="251.5" width="22" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=".75" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7c-ki-mOh">
+                                <rect key="frame" x="201.5" y="251.5" width="24" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -233,7 +233,7 @@
                         <outlet property="beepCountSlider" destination="lw0-qi-ark" id="tac-dv-fHx"/>
                         <outlet property="beepCountText" destination="TMU-I0-0By" id="jjP-SK-yxr"/>
                         <outlet property="beepNoiseBox" destination="212-Pp-M3T" id="rjg-8R-SAa"/>
-                        <outlet property="caneLengthLabel" destination="I7c-ki-mOh" id="zWO-Dk-ZLU"/>
+                        <outlet property="caneLengthLabel" destination="cPk-Sp-7jg" id="VPa-UB-5LK"/>
                         <outlet property="caneLengthSlider" destination="eVo-Gd-MmC" id="LzQ-3O-4KI"/>
                         <outlet property="caneLengthText" destination="H1K-ZL-5Vo" id="uX7-Xu-c5d"/>
                         <outlet property="editSaveButton" destination="KUc-lO-uvc" id="Lfm-l0-94y"/>
@@ -242,7 +242,7 @@
                         <outlet property="newProfileButton" destination="DVI-zi-BFz" id="mE5-zH-ALx"/>
                         <outlet property="selectMusicText" destination="2a9-Gg-Mzh" id="rij-dJ-45b"/>
                         <outlet property="slectBeepNoiseText" destination="bcH-Km-hSE" id="ZsN-JH-6bK"/>
-                        <outlet property="sweepRangeLabel" destination="cPk-Sp-7jg" id="ZC9-co-hXK"/>
+                        <outlet property="sweepRangeLabel" destination="I7c-ki-mOh" id="tf7-ao-FBV"/>
                         <outlet property="sweepRangeSlider" destination="7fj-6Y-tuW" id="kJ0-ha-Y1t"/>
                         <outlet property="sweepRangeText" destination="5Db-41-Ihh" id="3EO-33-tVA"/>
                     </connections>

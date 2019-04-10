@@ -17,6 +17,8 @@ class DBInterface {
     // column names
     let name: Expression<String> = Expression<String>("name")
     let sweep_width: Expression<Double> = Expression<Double>("sweep_width")
+    let cane_length: Expression<Double> = Expression<Double>("cane_length")
+    let beep_count: Expression<Int> = Expression<Int>("beep_count")
     let music: Expression<String> = Expression<String>("music")
     
     
@@ -25,8 +27,9 @@ class DBInterface {
             .documentDirectory, .userDomainMask, true
             ).first!
         
+        
         do {
-            self.db = try Connection("\(path)/cane_game_db.sqlite3")
+            self.db = try Connection("\(path)/cane_game_db_v2.sqlite3")
         } catch {
             print(error)
             return
@@ -38,12 +41,14 @@ class DBInterface {
                 try self.db!.run(self.users.create(ifNotExists: true) { t in
                     t.column(self.name, primaryKey: true)
                     t.column(self.sweep_width)
+                    t.column(self.cane_length)
+                    t.column(self.beep_count)
                     t.column(self.music)
             })
                 // if there are no rows, add a default user
                 let count = try self.db!.scalar(self.users.count)
                 if (count == 0) {
-                    insertRow(u_name: "Default User", u_sweep_width: 1.0, u_music: "")
+                    insertRow(u_name: "Default User", u_sweep_width: 0.5, u_cane_length: 1.0, u_beep_count: 20,u_music: "")
                 }
             }
         } catch {
@@ -52,10 +57,10 @@ class DBInterface {
         
     }
     
-    func insertRow(u_name: String, u_sweep_width: Double, u_music: String) {
+    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double , u_beep_count: Int,u_music: String) {
         if (db != nil) {
             do {
-                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, music <- u_music))
+                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, beep_count <- u_beep_count,music <- u_music))
                 print("insertion success! \(rowId)")
                 
             } catch {
@@ -67,7 +72,7 @@ class DBInterface {
     func getRow(u_name: String) -> Row?{
         if (db != nil) {
             do {
-                let rows = try self.db!.prepare(self.users.select(name, sweep_width, music)
+                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, beep_count, music)
                                                 .filter(name == u_name))
                 for row in rows {
                     return row
@@ -85,6 +90,14 @@ class DBInterface {
     
     func getSweepWidth(u_name: String) -> Double? {
         return getRow(u_name: u_name)![sweep_width]
+    }
+    
+    func getCaneLength(u_name: String) -> Double? {
+        return getRow(u_name: u_name)![cane_length]
+    }
+    
+    func getBeepCount(u_name: String) -> Int? {
+        return getRow(u_name: u_name)![beep_count]
     }
     
     func changeMusic(u_name: String, u_music: String) {

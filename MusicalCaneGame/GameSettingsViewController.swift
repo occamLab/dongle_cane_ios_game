@@ -11,6 +11,7 @@ import CoreBluetooth
 import AVFoundation
 import MediaPlayer
 
+
 class GameSettingsViewController: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
@@ -20,21 +21,38 @@ class GameSettingsViewController: UIViewController {
     
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
+    @IBOutlet weak var selectMusicText: UILabel!
+    var selectedMusicTrack: String?
+    var selectedSong: MPMediaItemCollection?
+    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
+    var temp: URL?
+    var mySong: URL?
+    //Beep Noise Declaration
     @IBOutlet weak var beepNoiseBox: UITextField!
+    @IBOutlet weak var slectBeepNoiseText: UILabel!
+    let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
+                      "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
+    let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
+    var selectedBeepNoise: String?
+    var selectedBeepNoiseCode: Int?
+    //Sliders Declaration
+    //Beep Count
     @IBOutlet weak var beepCountSlider: UISlider!
     @IBOutlet weak var beepCountLabel: UILabel!
+    @IBOutlet weak var beepCountText: UILabel!
+    var beepCountValue: Int?
+    //Cane Legnth
     @IBOutlet weak var caneLengthSlider: UISlider!
     @IBOutlet weak var caneLengthLabel: UILabel!
+    @IBOutlet weak var caneLengthText: UILabel!
+    var caneLengthValue: Float?
+    //Sweep Range
     @IBOutlet weak var sweepRangeSlider: UISlider!
     @IBOutlet weak var sweepRangeLabel: UILabel!
-    @IBOutlet weak var editSaveButton: UIButton!
-    //Text that has to be grayed out
-    @IBOutlet weak var caneLengthText: UILabel!
     @IBOutlet weak var sweepRangeText: UILabel!
-    @IBOutlet weak var beepCountText: UILabel!
-    @IBOutlet weak var slectBeepNoiseText: UILabel!
-    @IBOutlet weak var selectMusicText: UILabel!
-    
+    var sweepRangeValue: Float?
+    //Save button
+    @IBOutlet weak var editSaveButton: UIButton!
     var isEdit:Bool = true
     
     
@@ -53,7 +71,7 @@ class GameSettingsViewController: UIViewController {
         
     }
     
-    var selectedMusicTrack: String?
+    
     @IBAction func chooseMusictrack(_ sender: Any) {
         let myMediaPickerVC = MPMediaPickerController.self(mediaTypes: MPMediaType.music)
         myMediaPickerVC.allowsPickingMultipleItems = false
@@ -64,15 +82,18 @@ class GameSettingsViewController: UIViewController {
     }
     
     @IBAction func beepCountChanged(_ sender: UISlider) {
-        beepCountLabel.text = String(Int(sender.value))
+        beepCountValue = Int(sender.value)
+        beepCountLabel.text = String(beepCountValue!)
     }
     
     @IBAction func sweepRangeChanged(_ sender: UISlider) {
-        caneLengthLabel.text = String(Int(sender.value))
+        caneLengthValue = Float(sender.value)
+        caneLengthLabel.text = String(caneLengthValue!)
     }
     
     @IBAction func caneLengthChanged(_ sender: UISlider) {
-        sweepRangeLabel.text = String(Int(sender.value))
+        sweepRangeValue = Float(sender.value)
+        sweepRangeLabel.text = String(sweepRangeValue!)
     }
     
     func changeOptions(b:Bool){
@@ -94,34 +115,32 @@ class GameSettingsViewController: UIViewController {
     
     @IBAction func touchEditSave(_ sender: UIButton) {
         if(isEdit){
+            //We enable the user to change values
             sender.setTitle("Save", for: .normal)
             isEdit = false
         }else{
+            //We save the values the user changed
             sender.setTitle("Edit", for: .normal)
             isEdit = true
         }
         changeOptions(b:!isEdit)
     }
-    var selectedSong: MPMediaItemCollection?
-    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-    
-    let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
-                      "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
-    let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
-    var selectedBeepNoise: String?
-    var selectedBeepNoiseCode: Int?
-    
-    var temp: URL?
-    var mySong: URL?
 
-
-    
-    
-    
-    
     override func viewDidLoad() {
+        let db = DBInterface()
         super.viewDidLoad()
         sideMenu()
+        //Declare Sweep Range
+        let default_username = "Default User"
+        sweepRangeValue = Float(db.getSweepWidth(u_name: default_username)!)
+        sweepRangeLabel.text = String(sweepRangeValue!)
+        caneLengthValue = Float(db.getCaneLength(u_name: default_username)!)
+        caneLengthLabel.text = String(caneLengthValue!)
+        beepCountValue = Int(db.getBeepCount(u_name: default_username)!)
+        beepCountLabel.text = String(beepCountValue!)
+        
+        
+        //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
         createToolbar()
         changeOptions(b:!isEdit)
