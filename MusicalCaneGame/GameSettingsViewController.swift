@@ -69,7 +69,7 @@ class GameSettingsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
             
             print("text field: \(textField?.text)")
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "")
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "", u_beep_noise: "Begin")
             
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             

@@ -24,6 +24,7 @@ class DBInterface {
     let cane_length: Expression<Double> = Expression<Double>("cane_length")
     let beep_count: Expression<Int> = Expression<Int>("beep_count")
     let music: Expression<String> = Expression<String>("music")
+    let beep_noise: Expression<String> = Expression<String>("beep_noise")
     
     
     init() {
@@ -48,11 +49,12 @@ class DBInterface {
                     t.column(self.cane_length)
                     t.column(self.beep_count)
                     t.column(self.music)
+                    t.column(self.beep_noise)
             })
                 // if there are no rows, add a default user
                 let count = try self.db!.scalar(self.users.count)
                 if (count == 0) {
-                    insertRow(u_name: "Default User", u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "")
+                    insertRow(u_name: "Default User", u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "", u_beep_noise: "Begin")
                 }
             }
         } catch {
@@ -61,10 +63,10 @@ class DBInterface {
         
     }
     
-    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double , u_beep_count: Int,u_music: String) {
+    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double , u_beep_count: Int,u_music: String, u_beep_noise: String) {
         if (db != nil) {
             do {
-                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, beep_count <- u_beep_count,music <- u_music))
+                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, beep_count <- u_beep_count,music <- u_music, beep_noise <- u_beep_noise))
                 print("insertion success! \(rowId)")
                 
             } catch {
@@ -76,7 +78,7 @@ class DBInterface {
     func getRow(u_name: String) -> Row?{
         if (db != nil) {
             do {
-                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, beep_count, music)
+                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, beep_count, music, beep_noise)
                                                 .filter(name == u_name))
                 for row in rows {
                     return row
