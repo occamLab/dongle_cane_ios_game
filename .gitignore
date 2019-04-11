@@ -23,7 +23,7 @@ DerivedData/
 *.perspectivev3
 !default.perspectivev3
 xcuserdata/
-
+MusicalCaneGame.xcodeproj/xcuserdata/
 ## Other
 *.moved-aside
 *.xccheckout
