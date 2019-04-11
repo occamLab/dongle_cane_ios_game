@@ -43,6 +43,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
    
     var selectedSong:URL?
+    var selectedProfile:String?
     
     var sweepRange: Float = 1.0
     
