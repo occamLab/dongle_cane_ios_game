@@ -26,6 +26,7 @@ class GameSettingsViewController: UIViewController {
     @IBOutlet weak var musicTrackPicker: UIButton!
     @IBOutlet weak var selectMusicText: UILabel!
     var selectedMusicTrack: String?
+    var selectedSongTitle: String?
     var selectedSong: MPMediaItemCollection?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
     var temp: URL?
@@ -126,6 +127,16 @@ class GameSettingsViewController: UIViewController {
     
     func loadOptions(user_name: String){
         let user_row = self.dbInterface.getRow(u_name: user_name)
+//        self.selectedBeepNoiseCode =
+        //Change beep noise
+//        self.selectedBeepNoise = String(user_row![self.dbInterface.beep_noise])
+//        self.beepNoiseBox.text = selectedBeepNoise
+        
+        //Change Music Title
+        selectedSongTitle = String(user_row![self.dbInterface.music])
+        musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
+        
+        //For the sliders
         beepCountLabel.text = String(user_row![self.dbInterface.beep_count])
         sweepRangeLabel.text = String(user_row![self.dbInterface.sweep_width])
         caneLengthLabel.text = String(user_row![self.dbInterface.cane_length])
@@ -141,7 +152,8 @@ class GameSettingsViewController: UIViewController {
             //We save the values the user changed
             sender.setTitle("Edit", for: .normal)
             // TODO once we have the name picker working, put it in here
-            dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!))
+            dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
+                u_music: selectedSongTitle!)
             isEdit = true
         }
         changeOptions(b:!isEdit)
@@ -254,9 +266,10 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
         // URL
         UserDefaults.standard.set(temp, forKey: "mySongURL")
         //Song title
-        UserDefaults.standard.set(selectedSong?.items[0].title, forKey: "mySongTitle")
+        selectedSongTitle = selectedSong?.items[0].title
+        UserDefaults.standard.set(selectedSongTitle, forKey: "mySongTitle")
         
-        musicTrackPicker.setTitle(selectedSong?.items[0].title, for: .normal)
+        musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
         mediaPicker.dismiss(animated: true, completion: nil)
         
     }
