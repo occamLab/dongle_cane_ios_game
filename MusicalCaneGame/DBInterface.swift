@@ -52,7 +52,7 @@ class DBInterface {
                 // if there are no rows, add a default user
                 let count = try self.db!.scalar(self.users.count)
                 if (count == 0) {
-                    insertRow(u_name: "Default User", u_sweep_width: 0.5, u_cane_length: 1.0, u_beep_count: 20,u_music: "")
+                    insertRow(u_name: "Default User", u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "")
                 }
             }
         } catch {
