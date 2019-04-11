@@ -124,6 +124,8 @@ class GameSettingsViewController: UIViewController {
         }else{
             //We save the values the user changed
             sender.setTitle("Edit", for: .normal)
+            // TODO once we have the name picker working, put it in here
+            dbInterface.updateRow(u_name: "Default User", u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: beepCountValue!, u_music: selectedMusicTrack!)
             isEdit = true
         }
         changeOptions(b:!isEdit)
