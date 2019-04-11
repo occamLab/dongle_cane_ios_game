@@ -21,7 +21,6 @@ class GameSettingsViewController: UIViewController {
     //Profile Picker View
     @IBOutlet weak var profileBox: UITextField!
     let profilePicker = UIPickerView()
-    print(profilePicker.text)
     var pickerProfiles: [String] = [String]()
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
@@ -134,7 +133,7 @@ class GameSettingsViewController: UIViewController {
             //We save the values the user changed
             sender.setTitle("Edit", for: .normal)
             // TODO once we have the name picker working, put it in here
-            dbInterface.updateRow(u_name: "Default User", u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: beepCountValue!, u_music: selectedMusicTrack!)
+            dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!))
             isEdit = true
         }
         changeOptions(b:!isEdit)
