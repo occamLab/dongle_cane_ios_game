@@ -18,7 +18,11 @@ class GameSettingsViewController: UIViewController {
     //Create a profile button
     
     @IBOutlet weak var newProfileButton: UIButton!
-    
+    //Profile Picker View
+    @IBOutlet weak var profileBox: UITextField!
+    let profilePicker = UIPickerView()
+    print(profilePicker.text)
+    var pickerProfiles: [String] = [String]()
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
     @IBOutlet weak var selectMusicText: UILabel!
@@ -28,6 +32,7 @@ class GameSettingsViewController: UIViewController {
     var temp: URL?
     var mySong: URL?
     //Beep Noise Declaration
+    let countBeepPicker = UIPickerView()
     @IBOutlet weak var beepNoiseBox: UITextField!
     @IBOutlet weak var slectBeepNoiseText: UILabel!
     let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
@@ -67,6 +72,10 @@ class GameSettingsViewController: UIViewController {
             print("text field: \(textField?.text)")
             self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "")
             
+            self.pickerProfiles = self.dbInterface.getAllUserNames()
+            
+            self.profilePicker.reloadAllComponents()
+            
             
         }))
         self.present(alert, animated: true, completion: nil)
@@ -90,13 +99,13 @@ class GameSettingsViewController: UIViewController {
     }
     
     @IBAction func sweepRangeChanged(_ sender: UISlider) {
-        caneLengthValue = Float(sender.value)
-        caneLengthLabel.text = String(caneLengthValue!)
+        sweepRangeValue = Float(sender.value)
+        sweepRangeLabel.text = String(sweepRangeValue!)
     }
     
     @IBAction func caneLengthChanged(_ sender: UISlider) {
-        sweepRangeValue = Float(sender.value)
-        sweepRangeLabel.text = String(sweepRangeValue!)
+        caneLengthValue = Float(sender.value)
+        caneLengthLabel.text = String(caneLengthValue!)
     }
     
     func changeOptions(b:Bool){
@@ -132,18 +141,21 @@ class GameSettingsViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        let db = DBInterface()
         super.viewDidLoad()
         sideMenu()
         //Declare Sweep Range
         let default_username = "Default User"
-        sweepRangeValue = Float(db.getSweepWidth(u_name: default_username)!)
+        sweepRangeValue = Float(self.dbInterface.getSweepWidth(u_name: default_username)!)
         sweepRangeLabel.text = String(sweepRangeValue!)
-        caneLengthValue = Float(db.getCaneLength(u_name: default_username)!)
+        caneLengthValue = Float(self.dbInterface.getCaneLength(u_name: default_username)!)
         caneLengthLabel.text = String(caneLengthValue!)
-        beepCountValue = Int(db.getBeepCount(u_name: default_username)!)
+        beepCountValue = Int(self.dbInterface.getBeepCount(u_name: default_username)!)
         beepCountLabel.text = String(beepCountValue!)
         
+        //Populate Picker
+        pickerProfiles = self.dbInterface.getAllUserNames()
+        
+        createProfilePicker()
         
         //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
@@ -160,7 +172,11 @@ class GameSettingsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    let countBeepPicker = UIPickerView()
+    func createProfilePicker() {
+        profilePicker.delegate = self
+        profilePicker.dataSource = self
+        profileBox.inputView = profilePicker
+    }
     func createBeepNoisePicker(countNoisePicker: UIPickerView) {
         countNoisePicker.delegate = self
         beepNoiseBox.inputView = countNoisePicker
@@ -175,6 +191,7 @@ class GameSettingsViewController: UIViewController {
         toolbar.isUserInteractionEnabled = true
         
         beepNoiseBox.inputAccessoryView = toolbar
+        profileBox.inputAccessoryView = toolbar
     }
     
     @objc func dismissKeyboard() {
@@ -251,6 +268,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == countBeepPicker {
             return beepNoises.count
+        }else if(pickerView == profilePicker){
+            return pickerProfiles.count
         }
         return 0
     }
@@ -258,6 +277,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == countBeepPicker {
             return beepNoises[row]
+        }else if(pickerView == profilePicker){
+            return pickerProfiles[row]
         }
         return ""
     }
@@ -271,6 +292,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             // saving beep noise name
             UserDefaults.standard.set(selectedBeepNoise, forKey: "myBeepNoise")
             beepNoiseBox.text = selectedBeepNoise
+        }else if(pickerView == profilePicker){
+            profileBox.text = pickerProfiles[row]
         }
     }
 }
