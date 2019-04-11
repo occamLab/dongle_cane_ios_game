@@ -69,6 +69,10 @@ class GameSettingsViewController: UIViewController {
             print("text field: \(textField?.text)")
             self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "")
             
+            self.pickerProfiles = self.dbInterface.getAllUserNames()
+            
+            self.profilePicker.reloadAllComponents()
+            
             
         }))
         self.present(alert, animated: true, completion: nil)
@@ -132,23 +136,22 @@ class GameSettingsViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        let db = DBInterface()
         super.viewDidLoad()
         sideMenu()
         //Declare Sweep Range
         let default_username = "Default User"
-        sweepRangeValue = Float(db.getSweepWidth(u_name: default_username)!)
+        sweepRangeValue = Float(self.dbInterface.getSweepWidth(u_name: default_username)!)
         sweepRangeLabel.text = String(sweepRangeValue!)
-        caneLengthValue = Float(db.getCaneLength(u_name: default_username)!)
+        caneLengthValue = Float(self.dbInterface.getCaneLength(u_name: default_username)!)
         caneLengthLabel.text = String(caneLengthValue!)
-        beepCountValue = Int(db.getBeepCount(u_name: default_username)!)
+        beepCountValue = Int(self.dbInterface.getBeepCount(u_name: default_username)!)
         beepCountLabel.text = String(beepCountValue!)
         //Define Pickers
         profilePicker.delegate = self
         profilePicker.dataSource = self
         
         //Populate Picker
-        pickerProfiles = db.getAllUserNames()
+        pickerProfiles = self.dbInterface.getAllUserNames()
         
         //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
