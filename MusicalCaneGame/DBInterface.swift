@@ -5,6 +5,10 @@
 //  Created by Team Eric on 4/4/19.
 //  Copyright © 2019 occamlab. All rights reserved.
 //
+// Built off of the SQLite.swift library.
+// For more information, documentation is here:
+// https://github.com/stephencelis/SQLite.swift/blob/master/Documentation/Index.md
+//
 
 import Foundation
 import SQLite
@@ -114,6 +118,27 @@ class DBInterface {
         } catch {
             print("update failed: \(error)")
         }
+    }
+    
+    func dropTable() {
+        do {
+            try self.db!.run(self.users.drop())
+        } catch {
+            print("error dropping users table: \(error)")
+        }
+    }
+    
+    func getAllUserNames() -> [String] {
+        var names: [String] = []
+        do {
+            let rows = try self.db!.prepare(self.users)
+            for row in rows {
+                names.append(row[name])
+            }
+        } catch {
+            print("error in getting user names: \(error)")
+        }
+        return names
     }
 }
 
