@@ -124,6 +124,14 @@ class GameSettingsViewController: UIViewController {
         selectMusicText.isEnabled = b
     }
     
+    func loadOptions(user_name: String){
+        let user_row = self.dbInterface.getRow(u_name: user_name)
+        beepCountLabel.text = String(user_row![self.dbInterface.beep_count])
+        sweepRangeLabel.text = String(user_row![self.dbInterface.sweep_width])
+        caneLengthLabel.text = String(user_row![self.dbInterface.cane_length])
+        
+    }
+    
     @IBAction func touchEditSave(_ sender: UIButton) {
         if(isEdit){
             //We enable the user to change values
@@ -293,6 +301,7 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             beepNoiseBox.text = selectedBeepNoise
         }else if(pickerView == profilePicker){
             profileBox.text = pickerProfiles[row]
+            loadOptions(user_name: profileBox.text!)
         }
     }
 }
