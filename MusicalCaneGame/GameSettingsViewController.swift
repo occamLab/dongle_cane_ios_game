@@ -18,7 +18,9 @@ class GameSettingsViewController: UIViewController {
     //Create a profile button
     
     @IBOutlet weak var newProfileButton: UIButton!
-    
+    //Profile Picker View
+    @IBOutlet weak var profilePicker: UIPickerView!
+    var pickerProfiles: [String] = [String]()
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
     @IBOutlet weak var selectMusicText: UILabel!
@@ -91,12 +93,12 @@ class GameSettingsViewController: UIViewController {
     
     @IBAction func sweepRangeChanged(_ sender: UISlider) {
         sweepRangeValue = Float(sender.value)
-        sweepRangeLabel.text = String(caneLengthValue!)
+        sweepRangeLabel.text = String(sweepRangeValue!)
     }
     
     @IBAction func caneLengthChanged(_ sender: UISlider) {
         caneLengthValue = Float(sender.value)
-        caneLengthLabel.text = String(sweepRangeValue!)
+        caneLengthLabel.text = String(caneLengthValue!)
     }
     
     func changeOptions(b:Bool){
@@ -141,7 +143,12 @@ class GameSettingsViewController: UIViewController {
         caneLengthLabel.text = String(caneLengthValue!)
         beepCountValue = Int(db.getBeepCount(u_name: default_username)!)
         beepCountLabel.text = String(beepCountValue!)
+        //Define Pickers
+        profilePicker.delegate = self
+        profilePicker.dataSource = self
         
+        //Populate Picker
+        pickerProfiles = db.getAllUserNames()
         
         //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
@@ -249,6 +256,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == countBeepPicker {
             return beepNoises.count
+        }else if(pickerView == profilePicker){
+            return pickerProfiles.count
         }
         return 0
     }
@@ -256,6 +265,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == countBeepPicker {
             return beepNoises[row]
+        }else if(pickerView == profilePicker){
+            return pickerProfiles[row]
         }
         return ""
     }

@@ -240,6 +240,7 @@
                         <outlet property="menuButton" destination="98b-zX-zfK" id="wB6-41-VDx"/>
                         <outlet property="musicTrackPicker" destination="tmy-dX-9xS" id="BSM-WU-UBE"/>
                         <outlet property="newProfileButton" destination="DVI-zi-BFz" id="mE5-zH-ALx"/>
+                        <outlet property="profilePicker" destination="1bo-46-27L" id="wab-Mz-L7M"/>
                         <outlet property="selectMusicText" destination="2a9-Gg-Mzh" id="rij-dJ-45b"/>
                         <outlet property="slectBeepNoiseText" destination="bcH-Km-hSE" id="ZsN-JH-6bK"/>
                         <outlet property="sweepRangeLabel" destination="I7c-ki-mOh" id="tf7-ao-FBV"/>
