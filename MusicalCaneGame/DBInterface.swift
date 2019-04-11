@@ -120,12 +120,12 @@ class DBInterface {
         }
     }
     
-    func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double) {
+    func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_beep_count: Int,u_music: String) {
         // Update all values
         do {
             try self.db!.run(self.users.filter(name == u_name)
                 .update(sweep_width <- u_sweep_width,
-                        cane_length <- u_cane_length))
+                        cane_length <- u_cane_length, beep_count <- u_beep_count, music <- u_music))
         } catch {
             
         }
