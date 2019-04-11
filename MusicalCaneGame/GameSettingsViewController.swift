@@ -19,7 +19,9 @@ class GameSettingsViewController: UIViewController {
     
     @IBOutlet weak var newProfileButton: UIButton!
     //Profile Picker View
-    @IBOutlet weak var profilePicker: UIPickerView!
+    @IBOutlet weak var profileBox: UITextField!
+    let profilePicker = UIPickerView()
+    print(profilePicker.text)
     var pickerProfiles: [String] = [String]()
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
@@ -30,6 +32,7 @@ class GameSettingsViewController: UIViewController {
     var temp: URL?
     var mySong: URL?
     //Beep Noise Declaration
+    let countBeepPicker = UIPickerView()
     @IBOutlet weak var beepNoiseBox: UITextField!
     @IBOutlet weak var slectBeepNoiseText: UILabel!
     let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
@@ -146,12 +149,11 @@ class GameSettingsViewController: UIViewController {
         caneLengthLabel.text = String(caneLengthValue!)
         beepCountValue = Int(self.dbInterface.getBeepCount(u_name: default_username)!)
         beepCountLabel.text = String(beepCountValue!)
-        //Define Pickers
-        profilePicker.delegate = self
-        profilePicker.dataSource = self
         
         //Populate Picker
         pickerProfiles = self.dbInterface.getAllUserNames()
+        
+        createProfilePicker()
         
         //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
@@ -168,7 +170,11 @@ class GameSettingsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    let countBeepPicker = UIPickerView()
+    func createProfilePicker() {
+        profilePicker.delegate = self
+        profilePicker.dataSource = self
+        profileBox.inputView = profilePicker
+    }
     func createBeepNoisePicker(countNoisePicker: UIPickerView) {
         countNoisePicker.delegate = self
         beepNoiseBox.inputView = countNoisePicker
@@ -183,6 +189,7 @@ class GameSettingsViewController: UIViewController {
         toolbar.isUserInteractionEnabled = true
         
         beepNoiseBox.inputAccessoryView = toolbar
+        profileBox.inputAccessoryView = toolbar
     }
     
     @objc func dismissKeyboard() {
@@ -283,6 +290,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             // saving beep noise name
             UserDefaults.standard.set(selectedBeepNoise, forKey: "myBeepNoise")
             beepNoiseBox.text = selectedBeepNoise
+        }else if(pickerView == profilePicker){
+            profileBox.text = pickerProfiles[row]
         }
     }
 }
