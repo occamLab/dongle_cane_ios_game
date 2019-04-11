@@ -21,7 +21,6 @@ class GameSettingsViewController: UIViewController {
     //Profile Picker View
     @IBOutlet weak var profileBox: UITextField!
     let profilePicker = UIPickerView()
-    print(profilePicker.text)
     var pickerProfiles: [String] = [String]()
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
@@ -123,6 +122,14 @@ class GameSettingsViewController: UIViewController {
         beepCountText.isEnabled = b
         slectBeepNoiseText.isEnabled = b
         selectMusicText.isEnabled = b
+    }
+    
+    func loadOptions(user_name: String){
+        let user_row = self.dbInterface.getRow(u_name: user_name)
+        beepCountLabel.text = String(user_row![self.dbInterface.beep_count])
+        sweepRangeLabel.text = String(user_row![self.dbInterface.sweep_width])
+        caneLengthLabel.text = String(user_row![self.dbInterface.cane_length])
+        
     }
     
     @IBAction func touchEditSave(_ sender: UIButton) {
@@ -292,6 +299,7 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             beepNoiseBox.text = selectedBeepNoise
         }else if(pickerView == profilePicker){
             profileBox.text = pickerProfiles[row]
+            loadOptions(user_name: profileBox.text!)
         }
     }
 }
