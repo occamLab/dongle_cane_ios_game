@@ -126,6 +126,11 @@ class GameSettingsViewController: UIViewController {
     
     func loadOptions(user_name: String){
         let user_row = self.dbInterface.getRow(u_name: user_name)
+//        self.selectedBeepNoiseCode =
+        self.selectedBeepNoise = String(user_row![self.dbInterface.beep_noise])
+        self.beepNoiseBox.text = selectedBeepNoise
+        
+        //For the sliders
         beepCountLabel.text = String(user_row![self.dbInterface.beep_count])
         sweepRangeLabel.text = String(user_row![self.dbInterface.sweep_width])
         caneLengthLabel.text = String(user_row![self.dbInterface.cane_length])
