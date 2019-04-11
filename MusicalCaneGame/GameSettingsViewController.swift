@@ -34,7 +34,8 @@ class GameSettingsViewController: UIViewController {
     //Beep Noise Declaration
     let countBeepPicker = UIPickerView()
     @IBOutlet weak var beepNoiseBox: UITextField!
-    @IBOutlet weak var slectBeepNoiseText: UILabel!
+    
+    @IBOutlet weak var selectBeepNoiseText: UILabel!
     let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
                       "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
     let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
@@ -121,7 +122,7 @@ class GameSettingsViewController: UIViewController {
         caneLengthText.isEnabled = b
         sweepRangeText.isEnabled = b
         beepCountText.isEnabled = b
-        slectBeepNoiseText.isEnabled = b
+        selectBeepNoiseText.isEnabled = b
         selectMusicText.isEnabled = b
     }
     
@@ -129,8 +130,8 @@ class GameSettingsViewController: UIViewController {
         let user_row = self.dbInterface.getRow(u_name: user_name)
 //        self.selectedBeepNoiseCode =
         //Change beep noise
-//        self.selectedBeepNoise = String(user_row![self.dbInterface.beep_noise])
-//        self.beepNoiseBox.text = selectedBeepNoise
+        selectedBeepNoise = String(user_row![self.dbInterface.beep_noise])
+        beepNoiseBox.text = selectedBeepNoise
         
         //Change Music Title
         selectedSongTitle = String(user_row![self.dbInterface.music])
@@ -153,7 +154,8 @@ class GameSettingsViewController: UIViewController {
             sender.setTitle("Edit", for: .normal)
             // TODO once we have the name picker working, put it in here
             dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
-                u_music: selectedSongTitle!)
+                u_music: selectedSongTitle!,
+                u_beep_noise: selectedBeepNoise!)
             isEdit = true
         }
         changeOptions(b:!isEdit)

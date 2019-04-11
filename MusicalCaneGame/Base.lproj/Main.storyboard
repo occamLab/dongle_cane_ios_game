@@ -243,8 +243,9 @@
                         <outlet property="musicTrackPicker" destination="tmy-dX-9xS" id="BSM-WU-UBE"/>
                         <outlet property="newProfileButton" destination="DVI-zi-BFz" id="mE5-zH-ALx"/>
                         <outlet property="profileBox" destination="B3a-NK-mxw" id="aon-LR-0gW"/>
-                        <outlet property="selectMusicText" destination="2a9-Gg-Mzh" id="rij-dJ-45b"/>
-                        <outlet property="slectBeepNoiseText" destination="bcH-Km-hSE" id="ZsN-JH-6bK"/>
+                        <outlet property="selectBeepNoiseText" destination="bcH-Km-hSE" id="mlF-Zh-YDw"/>
+                        <outlet property="selectMusicText" destination="2a9-Gg-Mzh" id="1H0-RY-AX1"/>
+                        <outlet property="slectBeepNoiseText" destination="bcH-Km-hSE" id="jyz-lL-bs6"/>
                         <outlet property="sweepRangeLabel" destination="I7c-ki-mOh" id="tf7-ao-FBV"/>
                         <outlet property="sweepRangeSlider" destination="7fj-6Y-tuW" id="kJ0-ha-Y1t"/>
                         <outlet property="sweepRangeText" destination="5Db-41-Ihh" id="3EO-33-tVA"/>
