@@ -162,23 +162,12 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var viewContainer: UIView!
     var views: [UIView]!
 
-    func printProfile(){
-        let default_username = "Default User"
-        var beepCountValue: Int?
-        var sweepRangeValue: Float?
-        var caneLengthValue: Float?
-        sweepRangeValue = Float(db.getSweepWidth(u_name: default_username)!)
-        print(sweepRangeValue!)
-        caneLengthValue = Float(db.getCaneLength(u_name: default_username)!)
-        print(caneLengthValue)
-        beepCountValue = Int(db.getBeepCount(u_name: default_username)!)
-        print(beepCountValue)
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         sideMenu()
         
-        printProfile()
+
         selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
         selectedBeepNoise = UserDefaults.standard.string(forKey: "myBeepNoise")
         selectedBeepNoiseCode = UserDefaults.standard.integer(forKey: "myBeepNoiseCode")

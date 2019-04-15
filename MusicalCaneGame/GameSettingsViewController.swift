@@ -29,8 +29,8 @@ class GameSettingsViewController: UIViewController {
     var selectedSongTitle: String?
     var selectedSong: MPMediaItemCollection?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-    var temp: URL?
     var mySong: URL?
+    var mySongStr: String?
     //Beep Noise Declaration
     let countBeepPicker = UIPickerView()
     @IBOutlet weak var beepNoiseBox: UITextField!
@@ -71,7 +71,7 @@ class GameSettingsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
             
             print("text field: \(textField?.text)")
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep")
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "")
             
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             
@@ -135,14 +135,18 @@ class GameSettingsViewController: UIViewController {
         
         //Change Music Title
         selectedSongTitle = String(user_row![self.dbInterface.music])
+        mySongStr = String(user_row![self.dbInterface.music_url])
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
         
         //For the sliders
-        beepCountSlider.setValue(Float(user_row![self.dbInterface.beep_count]), animated: false)
+        beepCountValue = user_row![self.dbInterface.beep_count]
+        beepCountSlider.setValue(Float(beepCountValue!), animated: false)
         beepCountLabel.text = String(beepCountSlider.value)
-        sweepRangeSlider.setValue(Float(user_row![self.dbInterface.sweep_width]), animated: false)
+        sweepRangeValue = Float(user_row![self.dbInterface.sweep_width])
+        sweepRangeSlider.setValue(sweepRangeValue!, animated: false)
         sweepRangeLabel.text = String(sweepRangeSlider.value)
-        caneLengthSlider.setValue(Float(user_row![self.dbInterface.cane_length]), animated: false)
+        caneLengthValue = Float(user_row![self.dbInterface.cane_length])
+        caneLengthSlider.setValue(caneLengthValue!, animated: false)
         caneLengthLabel.text = String(caneLengthSlider.value)
         
     }
@@ -156,9 +160,14 @@ class GameSettingsViewController: UIViewController {
             //We save the values the user changed
             sender.setTitle("Edit", for: .normal)
             // TODO once we have the name picker working, put it in here
-            dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
-                u_music: selectedSongTitle!,
-                u_beep_noise: selectedBeepNoise!)
+            do{
+                try dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
+                    u_music: selectedSongTitle!,
+                    u_beep_noise: selectedBeepNoise!,
+                    u_music_url: mySongStr!)
+            }catch{
+                print("error updating users table in game settings: \(error)")
+            }
             isEdit = true
         }
         changeOptions(b:!isEdit)
@@ -222,18 +231,18 @@ class GameSettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-
-            // set selected song button
-        if let y = UserDefaults.standard.string(forKey: "mySongTitle") {
-            musicTrackPicker.setTitle(y, for: .normal)
-        }
-            // set beep noise text field
-        if let n = UserDefaults.standard.string(forKey: "myBeepNoise") {
-            beepNoiseBox.text = n
-        }
- 
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//
+//            // set selected song button
+//        if let y = UserDefaults.standard.string(forKey: "mySongTitle") {
+//            musicTrackPicker.setTitle(y, for: .normal)
+//        }
+//            // set beep noise text field
+//        if let n = UserDefaults.standard.string(forKey: "myBeepNoise") {
+//            beepNoiseBox.text = n
+//        }
+//
+//    }
     
 
     
@@ -257,17 +266,19 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         myMediaPlayer.setQueue(with: mediaItemCollection)
         selectedSong = mediaItemCollection
-        temp = selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) as? URL
+        mySong = selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) as? URL
+        mySongStr = mySong!.absoluteString
         
         //Configuration.setUserProperty(forUser: <#T##String#>, key: <#T##String#>, value: <#T##String#>)
-        
+        //Will be deleted and replaced with db functions
         // artist
-        UserDefaults.standard.set(selectedSong?.items[0].albumArtist, forKey: "myArtist")
+        //UserDefaults.standard.set(selectedSong?.items[0].albumArtist, forKey: "myArtist")
         // URL
-        UserDefaults.standard.set(temp, forKey: "mySongURL")
+        //UserDefaults.standard.set(mySong, forKey: "mySongURL")
         //Song title
         selectedSongTitle = selectedSong?.items[0].title
-        UserDefaults.standard.set(selectedSongTitle, forKey: "mySongTitle")
+        //UserDefaults.standard.set(selectedSongTitle, forKey: "mySongTitle")
+        
         
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
         mediaPicker.dismiss(animated: true, completion: nil)

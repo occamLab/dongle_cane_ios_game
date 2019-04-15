@@ -48,9 +48,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var sweepRange: Float = 1.0
     var caneLength: Float = 1.0
     var beepCount: Int = 10
-    //Other important variables not explicitly loaded from db
+    //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
-    var selectedBeepCode: Int?
     //For debugging purposes
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
@@ -59,7 +58,13 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
         //Change Music Title
         selectedSongStr = String(user_row![self.dbInterface.music])
-        songTitleLabel.text = selectedSongStr
+        
+        if(selectedSongStr != "Select Music"){
+            selectedSong = URL.init(string: user_row![self.dbInterface.music_url])
+            songTitleLabel.text = selectedSongStr
+        }else{
+            songTitleLabel.text = "Please select song on manage profiles screen"
+        }
         
         //For the sliders
         beepCount = Int(user_row![self.dbInterface.beep_count])
@@ -144,8 +149,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         
         sideMenu()
         //To be deleted. Load the song from user defaults
-        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
-        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
+//        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
+//        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
         //The new method should only use User defaults to know what the current profile is
         if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
             UserDefaults.standard.set("Default User", forKey: "currentProfile")
