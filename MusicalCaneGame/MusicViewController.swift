@@ -17,12 +17,12 @@ let sensorFusionCharacteristicCBUUID = CBUUID(string: "2ea78970-7d44-44bb-b097-2
 let sweepNotificationKey = "cane.sweep.notification"
 
 class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
+    //Declare db to load options
     let db = DBInterface()
-
-    @IBOutlet weak var menuButton: UIBarButtonItem!
-
-    @IBOutlet weak var songTitleLabel: UILabel!
     
+    @IBOutlet weak var menuButton: UIBarButtonItem!
+    @IBOutlet weak var songTitleLabel: UILabel!
+    //For Beacons
     let locationManager = CLLocationManager()
     let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
     // 8492E75F-4FD6-469D-B132-043FE94921D8
@@ -41,12 +41,54 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var offset:CGFloat = 100
     var knownBeaconMinorsStrings:[String] = []
     
-   
-    var selectedSong:URL?
-    var selectedProfile:String?
-    
+   //Declare variables that are loaded from profile
+    var selectedProfile:String = "Default User"
+    var selectedSongStr: String = "Select Music"
+    var selectedBeepStr: String = "Select Beep"
     var sweepRange: Float = 1.0
+    var caneLength: Float = 1.0
+    var beepCount: Int = 10
+    //Other important variables not explicitly loaded from db
+    var selectedSong:URL?
+    var selectedBeepCode: Int?
+    //Variable Declaration
     
+    var centralManager: CBCentralManager!
+    var dongleSensorPeripheral: CBPeripheral!
+    
+    var audioPlayer: AVAudioPlayer?
+    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
+    
+    
+    let sweep = Notification.Name(rawValue: sweepNotificationKey)
+    
+    var startSweep = true
+    var startDir:[Float] = []
+    var anglePrev:Float = 0.0
+    
+    var beginningMusic = true
+    var sweepTolerance:Float = 2.0
+    
+    var playing = -1
+    var shouldPlay = -1
+    
+    var stopMusicTimer:Timer?
+    var lastSweep = Date()
+    //For debugging purposes
+    func printProfile(){
+        let default_username = "Default User"
+        var beepCountValue: Int?
+        var sweepRangeValue: Float?
+        var caneLengthValue: Float?
+        sweepRangeValue = Float(db.getSweepWidth(u_name: default_username)!)
+        print(sweepRangeValue!)
+        caneLengthValue = Float(db.getCaneLength(u_name: default_username)!)
+        print(caneLengthValue!)
+        beepCountValue = Int(db.getBeepCount(u_name: default_username)!)
+        print(beepCountValue!)
+    }
+    
+    //Sweep Range for dynamic adjustment
     @IBOutlet weak var sweepRangeLabel: UILabel!
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
@@ -54,16 +96,15 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         sweepRange = sender.value
     }
     
+    
     var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
-
+    //To start the session
     @IBOutlet weak var controlButton: UIBarButtonItem!
     var temp:Bool?
-    
     @IBAction func controlButton(_ sender: Any) {
         
         if controlButton.title == "Start" {
             if selectedSong != nil {
-                
                 
                 activityIndicator.center = self.view.center
                 activityIndicator.hidesWhenStopped = true
@@ -104,9 +145,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         
     }
     
-
-    
-    
     func createAlert (title:String, message:String) {
         let alert = UIAlertController(title:title, message:message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in alert.dismiss(animated: true, completion: nil)}))
@@ -114,53 +152,25 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-
-    var centralManager: CBCentralManager!
-    var dongleSensorPeripheral: CBPeripheral!
-    
-    var audioPlayer: AVAudioPlayer?
-    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-    
-    
-    let sweep = Notification.Name(rawValue: sweepNotificationKey)
-    
-    var startSweep = true
-    var startDir:[Float] = []
-    var anglePrev:Float = 0.0
-    let caneLength:Float = 1.1684
-    
-    var beginningMusic = true
-    var sweepTolerance:Float = 2.0
-    
-    var playing = -1
-    var shouldPlay = -1
-    
-    var stopMusicTimer:Timer?
-    var lastSweep = Date()
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    func printProfile(){
-        let default_username = "Default User"
-        var beepCountValue: Int?
-        var sweepRangeValue: Float?
-        var caneLengthValue: Float?
-        sweepRangeValue = Float(db.getSweepWidth(u_name: default_username)!)
-        print(sweepRangeValue!)
-        caneLengthValue = Float(db.getCaneLength(u_name: default_username)!)
-        print(caneLengthValue)
-        beepCountValue = Int(db.getBeepCount(u_name: default_username)!)
-        print(beepCountValue)
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         printProfile()
         sideMenu()
+        //To be deleted. Load the song from user defaults
         selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
         songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
-        createObservers()
+        //The new method should only use User defaults to know what the current profile is
+        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
+            UserDefaults.standard.set("Default User", forKey: "currentProfile")
+        }
+        selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         
+        createObservers()
+        //For beacons
         locationManager.delegate = self
         if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
             locationManager.requestWhenInUseAuthorization()
@@ -172,10 +182,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         
         animator.addBehavior(gravity)
         gravity.magnitude = 4
-        
-        
-
-        
         
     }
     

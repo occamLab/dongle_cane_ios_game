@@ -71,7 +71,7 @@ class GameSettingsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
             
             print("text field: \(textField?.text)")
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "", u_beep_noise: "Begin")
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep")
             
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             
@@ -138,9 +138,12 @@ class GameSettingsViewController: UIViewController {
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
         
         //For the sliders
-        beepCountLabel.text = String(user_row![self.dbInterface.beep_count])
-        sweepRangeLabel.text = String(user_row![self.dbInterface.sweep_width])
-        caneLengthLabel.text = String(user_row![self.dbInterface.cane_length])
+        beepCountSlider.setValue(Float(user_row![self.dbInterface.beep_count]), animated: false)
+        beepCountLabel.text = String(beepCountSlider.value)
+        sweepRangeSlider.setValue(Float(user_row![self.dbInterface.sweep_width]), animated: false)
+        sweepRangeLabel.text = String(sweepRangeSlider.value)
+        caneLengthSlider.setValue(Float(user_row![self.dbInterface.cane_length]), animated: false)
+        caneLengthLabel.text = String(caneLengthSlider.value)
         
     }
     
@@ -165,14 +168,7 @@ class GameSettingsViewController: UIViewController {
         super.viewDidLoad()
         sideMenu()
         //Declare Sweep Range
-        let default_username = "Default User"
-        sweepRangeValue = Float(self.dbInterface.getSweepWidth(u_name: default_username)!)
-        sweepRangeLabel.text = String(sweepRangeValue!)
-        caneLengthValue = Float(self.dbInterface.getCaneLength(u_name: default_username)!)
-        caneLengthLabel.text = String(caneLengthValue!)
-        beepCountValue = Int(self.dbInterface.getBeepCount(u_name: default_username)!)
-        beepCountLabel.text = String(beepCountValue!)
-        
+
         //Populate Picker
         pickerProfiles = self.dbInterface.getAllUserNames()
         
@@ -183,6 +179,8 @@ class GameSettingsViewController: UIViewController {
         createToolbar()
         changeOptions(b:!isEdit)
         
+        let default_username = "Default User"
+        loadOptions(user_name: default_username)
 
     
 //        let defaults = UserDefaults.standard
@@ -316,6 +314,7 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             beepNoiseBox.text = selectedBeepNoise
         }else if(pickerView == profilePicker){
             profileBox.text = pickerProfiles[row]
+            UserDefaults.standard.set(profileBox.text, forKey: "currentProfile")
             loadOptions(user_name: profileBox.text!)
         }
     }
