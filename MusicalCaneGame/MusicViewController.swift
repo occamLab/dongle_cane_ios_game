@@ -18,7 +18,7 @@ let sweepNotificationKey = "cane.sweep.notification"
 
 class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     //Declare db to load options
-    let db = DBInterface()
+    let dbInterface = DBInterface()
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var songTitleLabel: UILabel!
@@ -40,8 +40,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var offset:CGFloat = 100
     var knownBeaconMinorsStrings:[String] = []
-    
-   //Declare variables that are loaded from profile
+
+    //Declare variables that are loaded from profile
     var selectedProfile:String = "Default User"
     var selectedSongStr: String = "Select Music"
     var selectedBeepStr: String = "Select Beep"
@@ -51,45 +51,28 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     //Other important variables not explicitly loaded from db
     var selectedSong:URL?
     var selectedBeepCode: Int?
-    //Variable Declaration
-    
-    var centralManager: CBCentralManager!
-    var dongleSensorPeripheral: CBPeripheral!
-    
-    var audioPlayer: AVAudioPlayer?
-    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-    
-    
-    let sweep = Notification.Name(rawValue: sweepNotificationKey)
-    
-    var startSweep = true
-    var startDir:[Float] = []
-    var anglePrev:Float = 0.0
-    
-    var beginningMusic = true
-    var sweepTolerance:Float = 2.0
-    
-    var playing = -1
-    var shouldPlay = -1
-    
-    var stopMusicTimer:Timer?
-    var lastSweep = Date()
     //For debugging purposes
-    func printProfile(){
-        let default_username = "Default User"
-        var beepCountValue: Int?
-        var sweepRangeValue: Float?
-        var caneLengthValue: Float?
-        sweepRangeValue = Float(db.getSweepWidth(u_name: default_username)!)
-        print(sweepRangeValue!)
-        caneLengthValue = Float(db.getCaneLength(u_name: default_username)!)
-        print(caneLengthValue!)
-        beepCountValue = Int(db.getBeepCount(u_name: default_username)!)
-        print(beepCountValue!)
+    func loadProfile(){
+        let user_row = self.dbInterface.getRow(u_name: selectedProfile)
+        //Change beep noise
+        selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
+
+        //Change Music Title
+        selectedSongStr = String(user_row![self.dbInterface.music])
+        songTitleLabel.text = selectedSongStr
+        
+        //For the sliders
+        beepCount = Int(user_row![self.dbInterface.beep_count])
+        sweepRange = Float(user_row![self.dbInterface.sweep_width])
+        sweepRangeLabel.text = String(sweepRange)
+        sweepRangeSliderUI.setValue(sweepRange, animated: false)
+
+        caneLength = Float(user_row![self.dbInterface.cane_length])
     }
     
     //Sweep Range for dynamic adjustment
     @IBOutlet weak var sweepRangeLabel: UILabel!
+    @IBOutlet weak var sweepRangeSliderUI: UISlider!
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
         sweepRangeLabel.text = String(x)
@@ -158,7 +141,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        printProfile()
+        
         sideMenu()
         //To be deleted. Load the song from user defaults
         selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
@@ -168,6 +151,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             UserDefaults.standard.set("Default User", forKey: "currentProfile")
         }
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        loadProfile()
         
         createObservers()
         //For beacons
@@ -335,6 +319,28 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
     }
+    //Variable Declaration
+    var centralManager: CBCentralManager!
+    var dongleSensorPeripheral: CBPeripheral!
+    
+    var audioPlayer: AVAudioPlayer?
+    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
+    
+    
+    let sweep = Notification.Name(rawValue: sweepNotificationKey)
+    
+    var startSweep = true
+    var startDir:[Float] = []
+    var anglePrev:Float = 0.0
+    
+    var beginningMusic = true
+    var sweepTolerance:Float = 2.0
+    
+    var playing = -1
+    var shouldPlay = -1
+    
+    var stopMusicTimer:Timer?
+    var lastSweep = Date()
     
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)

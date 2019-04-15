@@ -1043,6 +1043,7 @@
                         <outlet property="menuButton" destination="tAq-DT-M5k" id="PI7-8d-CCz"/>
                         <outlet property="songTitleLabel" destination="2Mi-TU-CAr" id="gK4-9d-j6d"/>
                         <outlet property="sweepRangeLabel" destination="1rI-9s-9HR" id="9JV-wj-IyV"/>
+                        <outlet property="sweepRangeSliderUI" destination="QpT-ml-sOJ" id="JzU-94-kto"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jD5-Kl-99w" userLabel="First Responder" sceneMemberID="firstResponder"/>
