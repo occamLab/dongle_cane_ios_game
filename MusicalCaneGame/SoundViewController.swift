@@ -13,11 +13,30 @@ import MediaPlayer
 import CoreLocation
 
 class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
-    let db = DBInterface()
+    //Declare db to load options
+    let dbInterface = DBInterface()
+    //Helpful dictionary to find code from beep string
+    var getBeepCode = ["Begin": 1110,
+                            "Begin Record": 1113,
+                            "End Record": 1114,
+                            "Clypso": 1022,
+                            "Choo Choo": 1023,
+                            "Congestion": 1071,
+                            "General Beep": 1052,
+                            "Positive Beep": 1054,
+                            "Negative Beep": 1053,
+                            "Keytone": 1075,
+                            "Received": 1013,
+                            "Tink": 1103,
+                            "Tock": 1104,
+                            "Tiptoes": 1034,
+                            "Tweet": 1016]
+    
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     @IBOutlet weak var controlButton: UIBarButtonItem!
-    
+    //---------------------------
+    //Defintions for beacons
     let locationManager = CLLocationManager()
     let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
     // 8492E75F-4FD6-469D-B132-043FE94921D8
@@ -33,18 +52,48 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var viewDragging = false
     var viewPinned = false
     
-
-    
     var offset:CGFloat = 100
     var knownBeaconMinorsStrings:[String] = []
-
-    
+    //----------------------------
+    //Declare variables that are loaded from profile
+    var selectedProfile:String = "Default User"
+    var selectedSongStr: String = "Select Music"
+    var selectedBeepStr: String = "Select Beep"
+    var sweepRange: Float = 1.0
+    var caneLength: Float = 1.0
+    var beepCount: Int = 10
+    //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
-    var selectedBeepNoise: String?
     var selectedBeepNoiseCode: Int?
     
-    var sweepRange: Float = 1.0
+    func loadProfile(){
+        let user_row = self.dbInterface.getRow(u_name: selectedProfile)
+
+        
+        //Get Music Title
+        selectedSongStr = String(user_row![self.dbInterface.music])
+        
+        if(selectedSongStr != "Select Music"){
+            selectedSong = URL.init(string: user_row![self.dbInterface.music_url])
+        }
+        //Get beep noise
+        selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
+        if(selectedBeepStr != "Select Beep"){
+            selectedBeepNoiseCode = getBeepCode[selectedBeepStr]
+        }
+        
+        //For the sliders
+        beepCount = Int(user_row![self.dbInterface.beep_count])
+        sweepRange = Float(user_row![self.dbInterface.sweep_width])
+        sweepRangeLabel.text = String(sweepRange)
+        sweepRangeSliderUI.setValue(sweepRange, animated: false)
+        
+        caneLength = Float(user_row![self.dbInterface.cane_length])
+    }
+    
+    
     @IBOutlet weak var sweepRangeLabel: UILabel!
+    @IBOutlet weak var sweepRangeSliderUI: UISlider!
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
         sweepRangeLabel.text = String(x)
@@ -128,7 +177,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var startSweep = true
     var startDir:[Float] = []
     var anglePrev:Float = 0.0
-    let caneLength:Float = 1.1684
     
     var numSweeps:Int = 0
     
@@ -136,7 +184,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         
         var reward: [Int: Bool] = [:]
         
-        for num in [10, 25, 50, 100, 250, 500, 1000]{
+        for num in [beepCount, 100, 250, 500, 1000]{
             reward[num] = true
         }
         return reward
@@ -166,15 +214,20 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         sideMenu()
-        
-
+        //Load the options from the database
+        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
+            UserDefaults.standard.set("Default User", forKey: "currentProfile")
+        }
+        selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        loadProfile()
+        //deprecated will be removed and replaced with the database
         selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
-        selectedBeepNoise = UserDefaults.standard.string(forKey: "myBeepNoise")
+//        selectedBeepNoise = UserDefaults.standard.string(forKey: "myBeepNoise")
         selectedBeepNoiseCode = UserDefaults.standard.integer(forKey: "myBeepNoiseCode")
 
         createObservers()
-
-        
+        //-------------------
+        //Inits for the beacon controllers
         locationManager.delegate = self
         if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
             locationManager.requestWhenInUseAuthorization()
@@ -186,18 +239,29 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         
         animator.addBehavior(gravity)
         gravity.magnitude = 4
-        
-        
-        
-        
+        //-----------------
+        //We define a list of potential views for the center view container and put them in a list
+        //We can then index in this list to bring the desired text to the front and display it
         views = [UIView]()
-        views.append(MusicSegmentViewController().view)
-        views.append(BeepSegmentViewController().view)
+        let mvc = MusicSegmentViewController()
+        let svc = BeepSegmentViewController()
         
+//        mvc.songTitleLabel.center = self.viewContainer.center
+//        svc.beepNameLabel.center = self.viewContainer.center
+        views.append(mvc.view)
+        views.append(svc.view)
         for v in views {
             viewContainer.addSubview(v)
         }
         viewContainer.bringSubview(toFront: views[0])
+        //Make sure titles are centered and populated
+        mvc.songTitleLabel.text = selectedSongStr
+        mvc.songTitleLabel.centerXAnchor.constraint(equalTo: viewContainer.centerXAnchor).isActive = true
+        mvc.songTitleLabel.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor).isActive = true
+        svc.beepNameLabel.text = selectedBeepStr
+        svc.beepNameLabel.centerXAnchor.constraint(equalTo: viewContainer.centerXAnchor).isActive = true
+        svc.beepNameLabel.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor).isActive = true
+
         
     }
     

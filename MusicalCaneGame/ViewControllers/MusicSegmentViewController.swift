@@ -17,8 +17,10 @@ class MusicSegmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
-
+        
+        //deprecated, should be changed with the sql version
+//        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
+        
         
 
         // Do any additional setup after loading the view.

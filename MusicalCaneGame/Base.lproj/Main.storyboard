@@ -622,6 +622,7 @@
                         <outlet property="controlButton" destination="VX0-d1-rvS" id="nL0-gI-wmo"/>
                         <outlet property="menuButton" destination="8yl-d9-IiF" id="5H1-aK-I5u"/>
                         <outlet property="sweepRangeLabel" destination="YMv-7J-vsD" id="q5Q-Lh-nqu"/>
+                        <outlet property="sweepRangeSliderUI" destination="eDc-Rp-Tpd" id="mMl-wM-ztU"/>
                         <outlet property="viewContainer" destination="wKw-tT-zrJ" id="v2A-bT-0Il"/>
                     </connections>
                 </viewController>

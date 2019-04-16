@@ -18,6 +18,7 @@ class GameSettingsViewController: UIViewController {
     //Create a profile button
     
     @IBOutlet weak var newProfileButton: UIButton!
+    var selectedProfile: String = "Default User"
     //Profile Picker View
     @IBOutlet weak var profileBox: UITextField!
     let profilePicker = UIPickerView()
@@ -126,9 +127,10 @@ class GameSettingsViewController: UIViewController {
         selectMusicText.isEnabled = b
     }
     
-    func loadOptions(user_name: String){
-        let user_row = self.dbInterface.getRow(u_name: user_name)
-//        self.selectedBeepNoiseCode =
+    func loadOptions(){
+        let user_row = self.dbInterface.getRow(u_name: selectedProfile)
+        
+        profileBox.text = selectedProfile
         //Change beep noise
         selectedBeepNoise = String(user_row![self.dbInterface.beep_noise])
         beepNoiseBox.text = selectedBeepNoise
@@ -187,9 +189,12 @@ class GameSettingsViewController: UIViewController {
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
         createToolbar()
         changeOptions(b:!isEdit)
-        
-        let default_username = "Default User"
-        loadOptions(user_name: default_username)
+        //Load db info
+        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
+            UserDefaults.standard.set("Default User", forKey: "currentProfile")
+        }
+        selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        loadOptions()
 
     
 //        let defaults = UserDefaults.standard
@@ -326,7 +331,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
         }else if(pickerView == profilePicker){
             profileBox.text = pickerProfiles[row]
             UserDefaults.standard.set(profileBox.text, forKey: "currentProfile")
-            loadOptions(user_name: profileBox.text!)
+            selectedProfile = pickerProfiles[row]
+            loadOptions()
         }
     }
 }

@@ -109,7 +109,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 synth.speak(utterance)
                 
                 centralManager = CBCentralManager(delegate: self, queue: nil)
-                temp = false
+                temp = false//temp false for music mode
                 
             } else {
                 createAlert(title: "Error", message: "Not all required fields are complete")
