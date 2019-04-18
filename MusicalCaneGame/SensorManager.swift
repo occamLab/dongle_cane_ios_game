@@ -92,6 +92,8 @@ class SensorManager {
                 }
             }
             anglePrev = angleFromStarting
+        } else if (lengthOnZAxiz < 0.3) {
+            // Stop music
         }
         return
     }

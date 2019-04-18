@@ -89,7 +89,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
     //To start the session
     @IBOutlet weak var controlButton: UIBarButtonItem!
-    var temp:Bool?
+    var startButtonPressed:Bool? = false
     @IBAction func controlButton(_ sender: Any) {
         
         if controlButton.title == "Start" {
@@ -110,7 +110,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 synth.speak(utterance)
                 
                 centralManager = CBCentralManager(delegate: self, queue: nil)
-                temp = false//temp false for music mode
+                startButtonPressed = true // music mode has started
                 
             } else {
                 createAlert(title: "Error", message: "Not all required fields are complete")
@@ -119,7 +119,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         } else if controlButton.title == "Stop" {
             centralManager.cancelPeripheralConnection(dongleSensorPeripheral)
             //  forget when i reest temp? here, maybe i should make it nil instead? also, i should rename because I already have temp in this file
-            temp = nil
+            startButtonPressed = false
             audioPlayer?.stop()
             
             // text to speech
@@ -129,6 +129,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             utterance.rate = 0.6
             synth.speak(utterance)
             controlButton.title = "Start"
+            print("stop button pressed")
      
         }
         
@@ -347,7 +348,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var shouldPlay = -1
     
     var stopMusicTimer:Timer?
-    var lastSweep = Date()
     
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)
@@ -356,15 +356,17 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     @objc func processSweeps(notification: NSNotification) {
         
         let sweepDistance = notification.object as! Float
-        if sweepDistance > sweepRange && temp == false {
+        // if we've turned around and we want to play music
+        if sweepDistance > sweepRange && startButtonPressed == true {
+            // we should play music
             shouldPlay = 1
             print("SweepRange: ", sweepRange)
             
+            // create a new timer in case a sweep takes too long?
             stopMusicTimer?.invalidate()
-            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(runCode), userInfo: nil, repeats: true)
-            let now = Date()
-            lastSweep = now
-            if playing != shouldPlay && shouldPlay >= -1 {
+            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: true)
+            // music has stopped but we want to restart it?
+            if playing != shouldPlay {
                 if beginningMusic == true {
                     if selectedSong != nil {
                         do {
@@ -381,12 +383,15 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 
                 audioPlayer?.play()
                 audioPlayer?.numberOfLoops = -1
-                playing = shouldPlay
+                playing = 1
             }
+        } else if (sweepDistance < sweepRange) {
+        // stop music
         }
     }
     
-    @objc func runCode() {
+    // stops music from playing
+    @objc func stopPlaying() {
         shouldPlay = -1
         if playing >= 0 {
             audioPlayer?.pause()
