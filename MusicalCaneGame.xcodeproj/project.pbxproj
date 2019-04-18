@@ -42,6 +42,7 @@
 		AD6C6F03210267C600E9D840 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */; };
 		AD6C6F05210267CB00E9D840 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6C6F04210267CB00E9D840 /* AVFoundation.framework */; };
 		E5220F4E2256634E004AE171 /* DBInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5220F4D2256634E004AE171 /* DBInterface.swift */; };
+		E5C038042268D0BD00373275 /* SensorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C038032268D0BD00373275 /* SensorManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,7 @@
 		AD6C6F04210267CB00E9D840 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DE99E1F1C532771B0712C418 /* Pods_MusicalCaneGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MusicalCaneGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5220F4D2256634E004AE171 /* DBInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBInterface.swift; sourceTree = "<group>"; };
+		E5C038032268D0BD00373275 /* SensorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManager.swift; sourceTree = "<group>"; };
 		F3AA5D150EA52EB2389E4668 /* Pods-MusicalCaneGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicalCaneGame.release.xcconfig"; path = "Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,7 +114,6 @@
 				9E2567276E4C1DEE283C0234 /* Pods-MusicalCaneGame.debug.xcconfig */,
 				F3AA5D150EA52EB2389E4668 /* Pods-MusicalCaneGame.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -160,6 +161,7 @@
 				AD6C6EEF210267B700E9D840 /* AppDelegate.swift */,
 				95BBF1F12168232A00DDA9DB /* MusicViewController.swift */,
 				951C05C92178BE5500CD2998 /* SoundViewController.swift */,
+				E5C038032268D0BD00373275 /* SensorManager.swift */,
 				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
 				95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */,
@@ -344,6 +346,7 @@
 				951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */,
 				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
 				951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */,
+				E5C038042268D0BD00373275 /* SensorManager.swift in Sources */,
 				9582BE572167CF0300F4209E /* MainViewController.swift in Sources */,
 				95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */,
 				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
