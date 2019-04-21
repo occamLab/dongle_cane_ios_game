@@ -540,7 +540,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="SM1-HC-hOO">
-                                <rect key="frame" x="16" y="79" width="288" height="346.5"/>
+                                <rect key="frame" x="16" y="79" width="288" height="405.5"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cls-ZU-SAr">
                                         <rect key="frame" x="80" y="0.0" width="128" height="29"/>
@@ -552,15 +552,21 @@
                                             <action selector="segmentedControl:" destination="5gR-6F-LX3" eventType="valueChanged" id="MJ7-Fn-d7k"/>
                                         </connections>
                                     </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYT-pB-ym1" userLabel="Name">
+                                        <rect key="frame" x="113.5" y="58" width="61.5" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wKw-tT-zrJ">
-                                        <rect key="frame" x="0.0" y="58" width="288" height="200"/>
+                                        <rect key="frame" x="0.0" y="117" width="288" height="200"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="jgp-x6-UFY"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="miU-cl-hjn">
-                                        <rect key="frame" x="0.0" y="288" width="288" height="58.5"/>
+                                        <rect key="frame" x="0.0" y="347" width="288" height="58.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Zjr-tl-3Zw">
                                                 <rect key="frame" x="0.0" y="0.0" width="139" height="20.5"/>
@@ -621,6 +627,7 @@
                     <connections>
                         <outlet property="controlButton" destination="VX0-d1-rvS" id="nL0-gI-wmo"/>
                         <outlet property="menuButton" destination="8yl-d9-IiF" id="5H1-aK-I5u"/>
+                        <outlet property="playerName" destination="OYT-pB-ym1" id="JBE-nw-4Y1"/>
                         <outlet property="sweepRangeLabel" destination="YMv-7J-vsD" id="q5Q-Lh-nqu"/>
                         <outlet property="sweepRangeSliderUI" destination="eDc-Rp-Tpd" id="mMl-wM-ztU"/>
                         <outlet property="viewContainer" destination="wKw-tT-zrJ" id="v2A-bT-0Il"/>
@@ -981,16 +988,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="BoI-Jn-b9W">
-                                <rect key="frame" x="16" y="238" width="288" height="137.5"/>
+                                <rect key="frame" x="16" y="238" width="288" height="216.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-TU-CAr">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0if-pa-hNV" userLabel="Name">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-TU-CAr">
+                                        <rect key="frame" x="0.0" y="79" width="288" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="waJ-Ay-ueK">
-                                        <rect key="frame" x="0.0" y="79" width="288" height="58.5"/>
+                                        <rect key="frame" x="0.0" y="158" width="288" height="58.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gbO-Cx-CQL">
                                                 <rect key="frame" x="0.0" y="0.0" width="139" height="20.5"/>
@@ -1042,6 +1055,7 @@
                     <connections>
                         <outlet property="controlButton" destination="1Ic-lj-ru2" id="O8P-dv-40W"/>
                         <outlet property="menuButton" destination="tAq-DT-M5k" id="PI7-8d-CCz"/>
+                        <outlet property="playerName" destination="0if-pa-hNV" id="yK4-2b-Oph"/>
                         <outlet property="songTitleLabel" destination="2Mi-TU-CAr" id="gK4-9d-j6d"/>
                         <outlet property="sweepRangeLabel" destination="1rI-9s-9HR" id="9JV-wj-IyV"/>
                         <outlet property="sweepRangeSliderUI" destination="QpT-ml-sOJ" id="JzU-94-kto"/>

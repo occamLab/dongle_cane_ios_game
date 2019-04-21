@@ -23,6 +23,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var songTitleLabel: UILabel!
+    @IBOutlet weak var playerName: UILabel!
+    
     //For Beacons
     let locationManager = CLLocationManager()
     let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
@@ -55,6 +57,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     //For debugging purposes
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
+        playerName.text = selectedProfile
         //Change beep noise
         selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
 

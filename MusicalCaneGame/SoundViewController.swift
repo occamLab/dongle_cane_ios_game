@@ -35,7 +35,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                             "Tweet": 1016]
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
-    
+    @IBOutlet weak var playerName: UILabel!
     @IBOutlet weak var controlButton: UIBarButtonItem!
     //---------------------------
     //Defintions for beacons
@@ -64,14 +64,14 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var sweepRange: Float = 1.0
     var caneLength: Float = 1.0
     var beepCount: Int = 10
-    var sweepTolerance: Float = 0.25
+    var sweepTolerance: Float = 0.25 //seems like a good value for a skiled cane user
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
     var selectedBeepNoiseCode: Int?
     
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
-
+        playerName.text = selectedProfile
         
         //Get Music Title
         selectedSongStr = String(user_row![self.dbInterface.music])
