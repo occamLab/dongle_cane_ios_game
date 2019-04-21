@@ -64,6 +64,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var sweepRange: Float = 1.0
     var caneLength: Float = 1.0
     var beepCount: Int = 10
+    var sweepTolerance: Float = 0.25
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
     var selectedBeepNoiseCode: Int?
@@ -106,8 +107,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
     
-    var temp:Bool?
-    var mode:Bool = true
+    var startButtonPressed:Bool?
+    var speakSweeps:Bool = true
     
     @IBAction func controlButton(_ sender: Any) {
         if controlButton.title == "Start" {
@@ -131,7 +132,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 centralManager = CBCentralManager(delegate: self, queue: nil)
                 
                 // temp true for sound mode
-                temp = true
+                startButtonPressed = true
                 
                 
             } else {
@@ -141,7 +142,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         } else if controlButton.title == "Stop" {
             centralManager.cancelPeripheralConnection(dongleSensorPeripheral)
             //  forget when i reest temp? here, maybe i should make it nil instead? also, i should rename because I already have temp in this file
-            temp = nil
+            startButtonPressed = false
             audioPlayer?.stop()
             
             // text to speech
@@ -203,9 +204,9 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBAction func segmentedControl(_ sender: UISegmentedControl) {
         self.viewContainer.bringSubview(toFront: views[sender.selectedSegmentIndex])
         if sender.selectedSegmentIndex == 1 {
-            mode = false
+            speakSweeps = false
         } else {
-            mode = true
+            speakSweeps = true
         }
     }
     
@@ -431,13 +432,15 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     
     @objc func processSweeps(notification: NSNotification) {
         let sweepDistance = notification.object as! Float
+        let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
 
-        if sweepDistance > sweepRange && temp == true {
+        if is_valid_sweep && startButtonPressed == true {
             
             numSweeps += 1
             print("SweepRange: ", sweepRange)
             
-            if mode == true {
+            if speakSweeps == true {
+                //We are saying the number rather than playing a noise
                 print("im speaking")
                 let string = String(numSweeps)
                 let synth = AVSpeechSynthesizer()
@@ -450,8 +453,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 AudioServicesPlaySystemSound(SystemSoundID(Float(selectedBeepNoiseCode!)))
             }
             
-            let temp = rewardAt[numSweeps]
-            if temp != nil && rewardAt[numSweeps] == true {
+            
+            if rewardAt[numSweeps] != nil && rewardAt[numSweeps]! {
                 if beginningMusic == true {
                     if selectedSong != nil {
                         
@@ -470,7 +473,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 }
                 audioPlayer?.play()
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { // change 2 to desired number of seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { // change to to desired number of seconds
                     // Your code with delay
                     self.audioPlayer?.pause()
                 }

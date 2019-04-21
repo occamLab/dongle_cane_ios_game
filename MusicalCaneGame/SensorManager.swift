@@ -92,8 +92,11 @@ class SensorManager {
                 }
             }
             anglePrev = angleFromStarting
-        } else if (lengthOnZAxiz < 0.3) {
+        } else if (lengthOnZAxiz < 0.2) {
             // Stop music
+            print("Shepards Pose")
+            let name = Notification.Name(rawValue: sweepNotificationKey)
+            NotificationCenter.default.post(name: name, object: 0.0)
         }
         return
     }

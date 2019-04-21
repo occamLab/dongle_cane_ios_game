@@ -49,6 +49,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var sweepRange: Float = 1.0
     var caneLength: Float = 1.0
     var beepCount: Int = 10
+    var sweepTolerance: Float = 0.25
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
     //For debugging purposes
@@ -342,7 +343,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var anglePrev:Float = 0.0
     
     var beginningMusic = true
-    var sweepTolerance:Float = 2.0
+    var sweepTime:Float = 2.0
     
     var playing = -1
     var shouldPlay = -1
@@ -355,16 +356,18 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     @objc func processSweeps(notification: NSNotification) {
         
+        if (!startButtonPressed!){ return}
         let sweepDistance = notification.object as! Float
+        let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
         // if we've turned around and we want to play music
-        if sweepDistance > sweepRange && startButtonPressed == true {
+        if is_valid_sweep{
             // we should play music
             shouldPlay = 1
             print("SweepRange: ", sweepRange)
             
             // create a new timer in case a sweep takes too long?
-            stopMusicTimer?.invalidate()
-            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: true)
+//            stopMusicTimer?.invalidate()
+//            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: true)
             // music has stopped but we want to restart it?
             if playing != shouldPlay {
                 if beginningMusic == true {
@@ -387,6 +390,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         } else if (sweepDistance < sweepRange) {
         // stop music
+            
+            stopPlaying()
         }
     }
     
