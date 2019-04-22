@@ -391,7 +391,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 audioPlayer?.numberOfLoops = -1
                 playing = 1
             }
-        } else if (sweepDistance < sweepRange) {
+        } else{
         // stop music
             
             stopPlaying()
