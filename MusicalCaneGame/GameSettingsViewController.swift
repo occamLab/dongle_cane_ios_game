@@ -102,12 +102,12 @@ class GameSettingsViewController: UIViewController {
     
     @IBAction func sweepRangeChanged(_ sender: UISlider) {
         sweepRangeValue = Float(sender.value)
-        sweepRangeLabel.text = String(sweepRangeValue!)
+        sweepRangeLabel.text = String(format:"%.1f",sweepRangeValue!) + " in"
     }
     
     @IBAction func caneLengthChanged(_ sender: UISlider) {
         caneLengthValue = Float(sender.value)
-        caneLengthLabel.text = String(caneLengthValue!)
+        caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " in"
     }
     
     func changeOptions(b:Bool){
