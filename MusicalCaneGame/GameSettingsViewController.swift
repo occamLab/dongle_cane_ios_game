@@ -58,6 +58,11 @@ class GameSettingsViewController: UIViewController {
     @IBOutlet weak var sweepRangeLabel: UILabel!
     @IBOutlet weak var sweepRangeText: UILabel!
     var sweepRangeValue: Float?
+    //Sweeo Tolerance
+    @IBOutlet weak var sweepToleranceSlider: UISlider!
+    @IBOutlet weak var sweepToleranceLabel: UILabel!
+    @IBOutlet weak var sweepToleranceText: UILabel!
+    var sweepToleranceValue: Float?
     //Save button
     @IBOutlet weak var editSaveButton: UIButton!
     var isEdit:Bool = true
@@ -110,6 +115,11 @@ class GameSettingsViewController: UIViewController {
         caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " in"
     }
     
+    @IBAction func sweepToleranceChanged(_ sender: UISlider) {
+        sweepToleranceValue = Float(sender.value)
+        sweepToleranceLabel.text = String(format:"%.1f",sweepToleranceValue!) + " in"
+    }
+    
     func changeOptions(b:Bool){
         musicTrackPicker.isEnabled = b
         beepNoiseBox.isEnabled = b
@@ -119,10 +129,13 @@ class GameSettingsViewController: UIViewController {
         caneLengthLabel.isEnabled = b
         sweepRangeSlider.isEnabled = b
         sweepRangeLabel.isEnabled = b
+        sweepToleranceSlider.isEnabled = b
+        sweepToleranceLabel.isEnabled = b
         
         caneLengthText.isEnabled = b
         sweepRangeText.isEnabled = b
         beepCountText.isEnabled = b
+        sweepToleranceText.isEnabled = b
         selectBeepNoiseText.isEnabled = b
         selectMusicText.isEnabled = b
     }
