@@ -195,7 +195,7 @@ class GameSettingsViewController: UIViewController {
 
         //Populate Picker
         pickerProfiles = self.dbInterface.getAllUserNames()
-        
+        print(pickerProfiles)
         createProfilePicker()
         
         //Create pickers

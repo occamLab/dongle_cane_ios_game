@@ -15,7 +15,7 @@ import CoreLocation
 let dongleSensorCBUUID = CBUUID(string: "2ea7")
 let sensorFusionCharacteristicCBUUID = CBUUID(string: "2ea78970-7d44-44bb-b097-26183f402407")
 let sweepNotificationKey = "cane.sweep.notification"
-
+let updateProgressNotificationKey = "cane.prog.notification"
 class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     //Declare db to load options
     let dbInterface = DBInterface()

@@ -37,6 +37,18 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var playerName: UILabel!
     @IBOutlet weak var controlButton: UIBarButtonItem!
+    //Progress bar
+    
+    @IBOutlet weak var progressBarUI: UIProgressView!
+    @objc func updateProgress(notification: NSNotification){
+        let currSweepRange = notification.object as! Float
+        if(currSweepRange <= sweepRange){
+            progressBarUI.progress = currSweepRange/sweepRange
+        }else{
+            progressBarUI.progress = 1.0
+        }
+    }
+    
     //---------------------------
     //Defintions for beacons
     let locationManager = CLLocationManager()
@@ -174,8 +186,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
     
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
+    let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
     var beginningMusic = true
-    
     
     var startSweep = true
     var startDir:[Float] = []
@@ -413,6 +425,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.processSweeps (notification:)), name: sweep, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
     }
 
 

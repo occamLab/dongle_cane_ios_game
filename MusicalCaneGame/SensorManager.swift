@@ -78,6 +78,8 @@ class SensorManager {
             let deltaAngleDeg = deltaAngle * 57.2958
             let sweepDistance = caneLength * sin(angleFromStarting / 2) * 2
             //            sweepProgress.setProgress(sweepDistance/sweepRange, animated: false)
+            let name = Notification.Name(rawValue: updateProgressNotificationKey)
+            NotificationCenter.default.post(name: name, object: sweepDistance)
             
             if deltaAngleDeg > 1.0 || deltaAngleDeg < -1.0 {
                 if deltaAngle < 0 {
