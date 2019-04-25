@@ -63,6 +63,9 @@ class GameSettingsViewController: UIViewController {
     @IBOutlet weak var sweepToleranceLabel: UILabel!
     @IBOutlet weak var sweepToleranceText: UILabel!
     var sweepToleranceValue: Float?
+    
+    @IBOutlet weak var sweepTolerancePicker: UIPickerView!
+    let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
     //Save button
     @IBOutlet weak var editSaveButton: UIButton!
     var isEdit:Bool = true
@@ -77,7 +80,7 @@ class GameSettingsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
             
             print("text field: \(textField?.text)")
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "")
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 20)
             
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             
@@ -119,6 +122,10 @@ class GameSettingsViewController: UIViewController {
         sweepToleranceValue = Float(sender.value)
         sweepToleranceLabel.text = String(format:"%.1f",sweepToleranceValue!) + " in"
     }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(sweepTolerancePickerData[row])
+        }
     
     func changeOptions(b:Bool){
         musicTrackPicker.isEnabled = b
@@ -163,6 +170,9 @@ class GameSettingsViewController: UIViewController {
         caneLengthValue = Float(user_row![self.dbInterface.cane_length])
         caneLengthSlider.setValue(caneLengthValue!, animated: false)
         caneLengthLabel.text = String(caneLengthSlider.value)
+        sweepToleranceValue = Float(user_row![self.dbInterface.sweep_tolerance])
+        sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
+        sweepToleranceLabel.text = String(sweepToleranceValue!)
         
     }
     
@@ -179,7 +189,8 @@ class GameSettingsViewController: UIViewController {
                 try dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
                     u_music: selectedSongTitle!,
                     u_beep_noise: selectedBeepNoise!,
-                    u_music_url: mySongStr!)
+                    u_music_url: mySongStr!,
+                    u_sweep_tolerance: Double(sweepToleranceValue!))
             }catch{
                 print("error updating users table in game settings: \(error)")
             }
