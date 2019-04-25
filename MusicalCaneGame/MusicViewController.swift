@@ -32,6 +32,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         let currSweepRange = notification.object as! Float
         if(currSweepRange <= sweepRange){
             progressBarUI.progress = currSweepRange/sweepRange
+            progressBarOverflowUI.progress = 0
         }else{
             progressBarUI.progress = 1.0
             let overflow = currSweepRange - sweepRange
