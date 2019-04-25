@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -595,21 +595,34 @@
                                         <rect key="frame" x="0.0" y="117" width="288" height="200"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="200" id="jgp-x6-UFY"/>
+                                            <constraint firstAttribute="height" priority="900" constant="200" id="jgp-x6-UFY"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="miU-cl-hjn">
                                         <rect key="frame" x="0.0" y="347" width="288" height="86.5"/>
                                         <subviews>
-                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c9p-av-vbg">
+                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qlR-vj-DIN">
                                                 <rect key="frame" x="0.0" y="0.0" width="288" height="20"/>
+                                                <subviews>
+                                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c9p-av-vbg">
+                                                        <rect key="frame" x="0.0" y="0.0" width="216" height="20"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="20" id="8Pz-XO-n6F"/>
+                                                        </constraints>
+                                                        <color key="progressTintColor" red="0.33713351566878019" green="0.81007124352331605" blue="0.35362574187552998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </progressView>
+                                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gam-BN-faY">
+                                                        <rect key="frame" x="216" y="0.0" width="72" height="20"/>
+                                                        <color key="progressTintColor" red="0.79977637529373169" green="0.26107227304742625" blue="0.29755758152595368" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </progressView>
+                                                </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="8Pz-XO-n6F"/>
+                                                    <constraint firstItem="Gam-BN-faY" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" priority="900" id="JAL-Tb-lvQ"/>
+                                                    <constraint firstItem="Gam-BN-faY" firstAttribute="width" secondItem="c9p-av-vbg" secondAttribute="width" multiplier="0.333" priority="900" id="NA7-Mo-FtS"/>
                                                 </constraints>
-                                                <color key="progressTintColor" red="0.33713351566878019" green="0.81007124352331605" blue="0.35362574187552998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </progressView>
+                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Zjr-tl-3Zw">
-                                                <rect key="frame" x="0.0" y="28" width="139" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="28" width="156.5" height="20.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sweep Range:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wg0-MS-BeW">
                                                         <rect key="frame" x="0.0" y="0.0" width="109.5" height="20.5"/>
@@ -617,15 +630,15 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMv-7J-vsD">
-                                                        <rect key="frame" x="117.5" y="0.0" width="21.5" height="20.5"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40 in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMv-7J-vsD">
+                                                        <rect key="frame" x="117.5" y="0.0" width="39" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                             </stackView>
-                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.5" maxValue="1.5" translatesAutoresizingMaskIntoConstraints="NO" id="eDc-Rp-Tpd">
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="40" minValue="20" maxValue="60" translatesAutoresizingMaskIntoConstraints="NO" id="eDc-Rp-Tpd">
                                                 <rect key="frame" x="-2" y="56.5" width="292" height="31"/>
                                                 <connections>
                                                     <action selector="sweepRangeSlider:" destination="5gR-6F-LX3" eventType="valueChanged" id="Til-f5-QYb"/>
@@ -633,22 +646,21 @@
                                             </slider>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="04p-NI-P1l"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="900" constant="288" id="04p-NI-P1l"/>
+                                            <constraint firstItem="qlR-vj-DIN" firstAttribute="width" secondItem="miU-cl-hjn" secondAttribute="width" id="0hf-5s-5kM"/>
                                             <constraint firstItem="eDc-Rp-Tpd" firstAttribute="leading" secondItem="miU-cl-hjn" secondAttribute="leading" id="1Mt-rg-WZI"/>
-                                            <constraint firstItem="c9p-av-vbg" firstAttribute="width" secondItem="miU-cl-hjn" secondAttribute="width" id="FJt-xe-twQ"/>
                                             <constraint firstAttribute="trailing" secondItem="eDc-Rp-Tpd" secondAttribute="trailing" id="Hn1-mv-L44"/>
-                                            <constraint firstAttribute="width" constant="288" id="QHP-cC-Y20"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="cls-ZU-SAr" firstAttribute="top" secondItem="SM1-HC-hOO" secondAttribute="topMargin" id="0lG-h7-JaO"/>
-                                    <constraint firstItem="miU-cl-hjn" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" id="E9x-X4-BCL"/>
-                                    <constraint firstItem="miU-cl-hjn" firstAttribute="trailing" secondItem="SM1-HC-hOO" secondAttribute="trailingMargin" id="GBF-zw-fbi"/>
+                                    <constraint firstItem="cls-ZU-SAr" firstAttribute="top" secondItem="SM1-HC-hOO" secondAttribute="topMargin" priority="900" id="0lG-h7-JaO"/>
+                                    <constraint firstItem="miU-cl-hjn" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" priority="800" id="E9x-X4-BCL"/>
+                                    <constraint firstItem="miU-cl-hjn" firstAttribute="trailing" secondItem="SM1-HC-hOO" secondAttribute="trailingMargin" priority="800" id="GBF-zw-fbi"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="cls-ZU-SAr" secondAttribute="trailing" constant="80" id="cOA-tf-tST"/>
-                                    <constraint firstItem="wKw-tT-zrJ" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leading" id="ccp-tO-dFc"/>
+                                    <constraint firstItem="wKw-tT-zrJ" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leading" priority="800" id="ccp-tO-dFc"/>
                                     <constraint firstItem="cls-ZU-SAr" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" constant="80" id="pWk-Vh-Ghb"/>
-                                    <constraint firstAttribute="trailing" secondItem="wKw-tT-zrJ" secondAttribute="trailing" id="uCc-yZ-Yuh"/>
+                                    <constraint firstAttribute="trailing" secondItem="wKw-tT-zrJ" secondAttribute="trailing" priority="800" id="uCc-yZ-Yuh"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -671,6 +683,7 @@
                         <outlet property="controlButton" destination="VX0-d1-rvS" id="nL0-gI-wmo"/>
                         <outlet property="menuButton" destination="8yl-d9-IiF" id="5H1-aK-I5u"/>
                         <outlet property="playerName" destination="OYT-pB-ym1" id="JBE-nw-4Y1"/>
+                        <outlet property="progressBarOverflowUI" destination="Gam-BN-faY" id="fq3-As-iEN"/>
                         <outlet property="progressBarUI" destination="c9p-av-vbg" id="88F-bi-vNF"/>
                         <outlet property="sweepRangeLabel" destination="YMv-7J-vsD" id="q5Q-Lh-nqu"/>
                         <outlet property="sweepRangeSliderUI" destination="eDc-Rp-Tpd" id="mMl-wM-ztU"/>
@@ -1032,7 +1045,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="50" translatesAutoresizingMaskIntoConstraints="NO" id="BoI-Jn-b9W">
-                                <rect key="frame" x="16" y="238" width="288" height="216.5"/>
+                                <rect key="frame" x="16" y="72" width="288" height="286.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0if-pa-hNV" userLabel="Name">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="29"/>
@@ -1046,8 +1059,28 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="udL-98-KoB">
+                                        <rect key="frame" x="0.0" y="158" width="288" height="20"/>
+                                        <subviews>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hwd-dC-9Y4">
+                                                <rect key="frame" x="0.0" y="0.0" width="216" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="XWI-OD-XU7"/>
+                                                </constraints>
+                                                <color key="progressTintColor" red="0.3371335157" green="0.81007124350000004" blue="0.35362574190000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </progressView>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="102-7W-2wC">
+                                                <rect key="frame" x="216" y="0.0" width="72" height="20"/>
+                                                <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </progressView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="102-7W-2wC" firstAttribute="height" secondItem="Hwd-dC-9Y4" secondAttribute="height" priority="900" id="KFX-ji-0S5"/>
+                                            <constraint firstItem="102-7W-2wC" firstAttribute="width" secondItem="Hwd-dC-9Y4" secondAttribute="width" multiplier="0.333" priority="900" id="x7I-Sq-tTV"/>
+                                        </constraints>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="waJ-Ay-ueK">
-                                        <rect key="frame" x="0.0" y="158" width="288" height="58.5"/>
+                                        <rect key="frame" x="0.0" y="228" width="288" height="58.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gbO-Cx-CQL">
                                                 <rect key="frame" x="0.0" y="0.0" width="139" height="20.5"/>
@@ -1085,7 +1118,7 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="BoI-Jn-b9W" secondAttribute="trailing" id="1hV-23-hsY"/>
                             <constraint firstItem="BoI-Jn-b9W" firstAttribute="leading" secondItem="2NS-5d-NNk" secondAttribute="leadingMargin" id="9tg-ql-bjw"/>
-                            <constraint firstItem="BoI-Jn-b9W" firstAttribute="top" secondItem="8iv-Up-FP4" secondAttribute="bottom" constant="174" id="HCX-bx-JEQ"/>
+                            <constraint firstItem="BoI-Jn-b9W" firstAttribute="top" secondItem="8iv-Up-FP4" secondAttribute="bottom" constant="8" symbolic="YES" id="HCX-bx-JEQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Music Mode" id="Wbl-7U-37g">
@@ -1100,6 +1133,8 @@
                         <outlet property="controlButton" destination="1Ic-lj-ru2" id="O8P-dv-40W"/>
                         <outlet property="menuButton" destination="tAq-DT-M5k" id="PI7-8d-CCz"/>
                         <outlet property="playerName" destination="0if-pa-hNV" id="yK4-2b-Oph"/>
+                        <outlet property="progressBarOverflowUI" destination="102-7W-2wC" id="l64-vi-s0m"/>
+                        <outlet property="progressBarUI" destination="Hwd-dC-9Y4" id="A6B-m4-87Z"/>
                         <outlet property="songTitleLabel" destination="2Mi-TU-CAr" id="gK4-9d-j6d"/>
                         <outlet property="sweepRangeLabel" destination="1rI-9s-9HR" id="9JV-wj-IyV"/>
                         <outlet property="sweepRangeSliderUI" destination="QpT-ml-sOJ" id="JzU-94-kto"/>

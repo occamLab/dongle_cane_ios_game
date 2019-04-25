@@ -25,6 +25,25 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var songTitleLabel: UILabel!
     @IBOutlet weak var playerName: UILabel!
     
+    @IBOutlet weak var progressBarUI: UIProgressView!
+    @IBOutlet weak var progressBarOverflowUI: UIProgressView!
+    
+    @objc func updateProgress(notification: NSNotification){
+        let currSweepRange = notification.object as! Float
+        if(currSweepRange <= sweepRange){
+            progressBarUI.progress = currSweepRange/sweepRange
+        }else{
+            progressBarUI.progress = 1.0
+            let overflow = currSweepRange - sweepRange
+            let overflow_percent = overflow/(sweepRange*0.33)
+            if overflow_percent < 1{
+                progressBarOverflowUI.progress = overflow_percent
+            }else{
+                progressBarOverflowUI.progress = 1
+            }
+        }
+    }
+    
     //For Beacons
     let locationManager = CLLocationManager()
     let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
@@ -340,6 +359,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
+    let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
     
     var startSweep = true
     var startDir:[Float] = []
@@ -355,6 +375,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
     }
     
     @objc func processSweeps(notification: NSNotification) {

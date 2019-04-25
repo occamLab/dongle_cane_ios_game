@@ -40,12 +40,21 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     //Progress bar
     
     @IBOutlet weak var progressBarUI: UIProgressView!
+    @IBOutlet weak var progressBarOverflowUI: UIProgressView!
+    
     @objc func updateProgress(notification: NSNotification){
         let currSweepRange = notification.object as! Float
         if(currSweepRange <= sweepRange){
             progressBarUI.progress = currSweepRange/sweepRange
         }else{
             progressBarUI.progress = 1.0
+            let overflow = currSweepRange - sweepRange
+            let overflow_percent = overflow/(sweepRange*0.33)
+            if overflow_percent < 1{
+                progressBarOverflowUI.progress = overflow_percent
+            }else{
+                progressBarOverflowUI.progress = 1
+            }
         }
     }
     
@@ -236,9 +245,9 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
         //deprecated will be removed and replaced with the database
-        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
+//        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
 //        selectedBeepNoise = UserDefaults.standard.string(forKey: "myBeepNoise")
-        selectedBeepNoiseCode = UserDefaults.standard.integer(forKey: "myBeepNoiseCode")
+//        selectedBeepNoiseCode = UserDefaults.standard.integer(forKey: "myBeepNoiseCode")
 
         createObservers()
         //-------------------
