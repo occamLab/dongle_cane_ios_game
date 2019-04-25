@@ -64,7 +64,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var sweepRange: Float = 1.0
     var caneLength: Float = 1.0
     var beepCount: Int = 10
-    var sweepTolerance: Float = 0.25 //seems like a good value for a skiled cane user
+    var sweepTolerance: Float = 20 //seems like a good value for a skiled cane user
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
     var selectedBeepNoiseCode: Int?

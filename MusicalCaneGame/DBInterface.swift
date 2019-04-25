@@ -26,6 +26,7 @@ class DBInterface {
     let music: Expression<String> = Expression<String>("music")
     let beep_noise: Expression<String> = Expression<String>("beep_noise")
     let music_url: Expression<String> = Expression<String>("music_url")
+    let sweep_tolerance: Expression<Double> = Expression<Double>("sweep_tolerance")
     
     
     init() {
@@ -44,6 +45,7 @@ class DBInterface {
         
         do {
             if (db != nil) {
+                //dropTable()
                 // create the table if it doesn't exist
                 try self.db!.run(self.users.create(ifNotExists: true) { t in
                     t.column(self.name, primaryKey: true)
@@ -53,12 +55,15 @@ class DBInterface {
                     t.column(self.music)
                     t.column(self.beep_noise)
                     t.column(self.music_url)
+                    t.column(self.sweep_tolerance)
             })
                 // if there are no rows, add a default user
                 let count = try self.db!.scalar(self.users.count)
                 if (count == 0) {
-                    insertRow(u_name: "Default User", u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "")
+                    insertRow(u_name: "Default User", u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 20)
                 }
+            } else {
+                print("error loading database")
             }
         } catch {
             print(error)
@@ -66,10 +71,10 @@ class DBInterface {
         
     }
     
-    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double , u_beep_count: Int,u_music: String, u_beep_noise: String, u_music_url: String) {
+    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double , u_beep_count: Int,u_music: String, u_beep_noise: String, u_music_url: String, u_sweep_tolerance: Double) {
         if (db != nil) {
             do {
-                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, beep_count <- u_beep_count,music <- u_music, beep_noise <- u_beep_noise, music_url <- u_music_url))
+                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, beep_count <- u_beep_count,music <- u_music, beep_noise <- u_beep_noise, music_url <- u_music_url, sweep_tolerance <- u_sweep_tolerance))
                 print("insertion success! \(rowId)")
                 
             } catch {
@@ -81,7 +86,7 @@ class DBInterface {
     func getRow(u_name: String) -> Row?{
         if (db != nil) {
             do {
-                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, beep_count, music, beep_noise, music_url)
+                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, beep_count, music, beep_noise, music_url, sweep_tolerance)
                                                 .filter(name == u_name))
                 for row in rows {
                     return row
@@ -93,44 +98,12 @@ class DBInterface {
         return nil
     }
     
-//    func getMusic(u_name: String) -> URL?{
-//        return URL(string: getRow(u_name: u_name)![music])
-//    }
-//
-//    func getSweepWidth(u_name: String) -> Double? {
-//        return getRow(u_name: u_name)![sweep_width]
-//    }
-//
-//    func getCaneLength(u_name: String) -> Double? {
-//        return getRow(u_name: u_name)![cane_length]
-//    }
-    
-//    func getBeepCount(u_name: String) -> Int? {
-//        return getRow(u_name: u_name)![beep_count]
-//    }
-//
-//    func changeMusic(u_name: String, u_music: String) {
-//        do {
-//            try self.db!.run(self.users.filter(name == u_name).update(music <- u_music))
-//        } catch {
-//            print("update failed: \(error)")
-//        }
-//    }
-//
-//    func changeSweepWidth(u_name: String, u_sweep_width: Double) {
-//        do {
-//            try self.db!.run(self.users.filter(name == u_name).update(sweep_width <- u_sweep_width))
-//        } catch {
-//            print("update failed: \(error)")
-//        }
-//    }
-    
-    func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_beep_count: Int,u_music: String, u_beep_noise: String, u_music_url: String) {
+    func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_beep_count: Int,u_music: String, u_beep_noise: String, u_music_url: String, u_sweep_tolerance: Double) {
         // Update all values
         do {
             try self.db!.run(self.users.filter(name == u_name)
                 .update(sweep_width <- u_sweep_width,
-                        cane_length <- u_cane_length, beep_count <- u_beep_count, music <- u_music, beep_noise <- u_beep_noise, music_url <- u_music_url))
+                        cane_length <- u_cane_length, beep_count <- u_beep_count, music <- u_music, beep_noise <- u_beep_noise, music_url <- u_music_url, sweep_tolerance <- u_sweep_tolerance))
         } catch {
             print("error updating users table: \(error)")
         }
