@@ -118,7 +118,7 @@ class GameSettingsViewController: UIViewController {
         caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " in"
     }
     
-    @IBAction func sweepToleranceChanged(_ sender: UISlider) {
+    @IBAction func sweepTolerChanged(_ sender: UISlider) {
         sweepToleranceValue = Float(sender.value)
         sweepToleranceLabel.text = String(format:"%.1f",sweepToleranceValue!) + " in"
     }

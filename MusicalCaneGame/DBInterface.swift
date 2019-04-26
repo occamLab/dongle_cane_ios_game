@@ -45,7 +45,7 @@ class DBInterface {
         
         do {
             if (db != nil) {
-                //dropTable()
+//                dropTable()
                 // create the table if it doesn't exist
                 try self.db!.run(self.users.create(ifNotExists: true) { t in
                     t.column(self.name, primaryKey: true)

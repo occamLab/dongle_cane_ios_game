@@ -108,6 +108,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         
         //For the sliders
+        sweepTolerance = Float(user_row![self.dbInterface.sweep_tolerance])
         beepCount = Int(user_row![self.dbInterface.beep_count])
         sweepRange = Float(user_row![self.dbInterface.sweep_width])
         sweepRangeLabel.text = String(sweepRange)
