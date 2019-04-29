@@ -41,16 +41,36 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     
     @IBOutlet weak var progressBarUI: UIProgressView!
     @IBOutlet weak var progressBarOverflowUI: UIProgressView!
+    @IBOutlet weak var progressBarUnderflow: UIProgressView!
+    
     
     @objc func updateProgress(notification: NSNotification){
         let currSweepRange = notification.object as! Float
-        if(currSweepRange <= sweepRange){
-            progressBarUI.progress = currSweepRange/sweepRange
+        let sweepPercent = currSweepRange/sweepRange
+        let overflowBarLength = (0.33-percentTolerance!)
+        var progressAdjuster:Float = 0
+        if overflowBarLength < 0{
+            progressAdjuster = overflowBarLength
+        }
+        
+        if( sweepPercent <= (1-percentTolerance!)){
+            progressBarUnderflow.progress = sweepPercent/(1-percentTolerance!)
+            progressBarUI.progress = 0
             progressBarOverflowUI.progress = 0
+            
+        }else if(sweepPercent <= (1+percentTolerance!)){
+            progressBarUnderflow.progress = 1
+            progressBarUI.progress = (sweepPercent - (1-percentTolerance!))/((2*percentTolerance!) - progressAdjuster)
+            progressBarOverflowUI.progress = 0
+            
         }else{
+            progressBarUnderflow.progress = 1.0
             progressBarUI.progress = 1.0
-            let overflow = currSweepRange - sweepRange
-            let overflow_percent = overflow/(sweepRange*0.33)
+            if (overflowBarLength <= 0){
+                return
+            }
+            let overflow_percent = (sweepPercent - 1 - percentTolerance!)/overflowBarLength
+
             if overflow_percent < 1{
                 progressBarOverflowUI.progress = overflow_percent
             }else{
@@ -90,6 +110,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
     var selectedBeepNoiseCode: Int?
+    var percentTolerance: Float?
     
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
@@ -115,6 +136,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
         
         caneLength = Float(user_row![self.dbInterface.cane_length])
+        percentTolerance = sweepTolerance/sweepRange
     }
     
     

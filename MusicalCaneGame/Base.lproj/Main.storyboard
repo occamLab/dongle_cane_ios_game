@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -354,7 +354,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="119.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBq-mQ-MZf">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cane Game!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBq-mQ-MZf">
                                                     <rect key="frame" x="16" y="49" width="288" height="36"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                     <nil key="textColor"/>
@@ -605,8 +605,12 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qlR-vj-DIN">
                                                 <rect key="frame" x="0.0" y="0.0" width="288" height="20"/>
                                                 <subviews>
+                                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j8D-jW-VFs">
+                                                        <rect key="frame" x="0.0" y="0.0" width="144" height="20"/>
+                                                        <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    </progressView>
                                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c9p-av-vbg">
-                                                        <rect key="frame" x="0.0" y="0.0" width="216" height="20"/>
+                                                        <rect key="frame" x="144" y="0.0" width="72" height="20"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="20" id="8Pz-XO-n6F"/>
                                                         </constraints>
@@ -618,8 +622,11 @@
                                                     </progressView>
                                                 </subviews>
                                                 <constraints>
+                                                    <constraint firstItem="Gam-BN-faY" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="900" id="2zx-fO-32E"/>
+                                                    <constraint firstItem="j8D-jW-VFs" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" id="30m-Gn-r5c"/>
                                                     <constraint firstItem="Gam-BN-faY" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" priority="900" id="JAL-Tb-lvQ"/>
-                                                    <constraint firstItem="Gam-BN-faY" firstAttribute="width" secondItem="c9p-av-vbg" secondAttribute="width" multiplier="0.333" priority="900" id="NA7-Mo-FtS"/>
+                                                    <constraint firstItem="c9p-av-vbg" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="900" id="JRw-Ux-K7U"/>
+                                                    <constraint firstItem="j8D-jW-VFs" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.5" priority="900" id="rEo-Mm-wZy"/>
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Zjr-tl-3Zw">
@@ -686,6 +693,7 @@
                         <outlet property="playerName" destination="OYT-pB-ym1" id="JBE-nw-4Y1"/>
                         <outlet property="progressBarOverflowUI" destination="Gam-BN-faY" id="fq3-As-iEN"/>
                         <outlet property="progressBarUI" destination="c9p-av-vbg" id="88F-bi-vNF"/>
+                        <outlet property="progressBarUnderflow" destination="j8D-jW-VFs" id="g9U-h3-Ude"/>
                         <outlet property="sweepRangeLabel" destination="YMv-7J-vsD" id="q5Q-Lh-nqu"/>
                         <outlet property="sweepRangeSliderUI" destination="eDc-Rp-Tpd" id="mMl-wM-ztU"/>
                         <outlet property="viewContainer" destination="wKw-tT-zrJ" id="v2A-bT-0Il"/>
