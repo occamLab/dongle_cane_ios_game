@@ -12,6 +12,12 @@ import AVFoundation
 import MediaPlayer
 import CoreLocation
 
+extension NSLayoutConstraint {
+    func constraintWithMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
+        return NSLayoutConstraint(item: self.firstItem, attribute: self.firstAttribute, relatedBy: self.relation, toItem: self.secondItem, attribute: self.secondAttribute, multiplier: multiplier, constant: self.constant)
+    }
+}
+
 class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     //Declare db to load options
     let dbInterface = DBInterface()
@@ -39,9 +45,15 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var controlButton: UIBarButtonItem!
     //Progress bar
     
+    @IBOutlet weak var stackViewBar: UIStackView!
     @IBOutlet weak var progressBarUI: UIProgressView!
+    @IBOutlet weak var progressBarSize: NSLayoutConstraint!
+    //Over the range
     @IBOutlet weak var progressBarOverflowUI: UIProgressView!
+    @IBOutlet weak var progressBarOverflowSize: NSLayoutConstraint!
+    //Under the range
     @IBOutlet weak var progressBarUnderflow: UIProgressView!
+    @IBOutlet weak var progressBarUnderflowSize: NSLayoutConstraint!
     
     
     @objc func updateProgress(notification: NSNotification){
@@ -60,7 +72,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             
         }else if(sweepPercent <= (1+percentTolerance!)){
             progressBarUnderflow.progress = 1
-            progressBarUI.progress = (sweepPercent - (1-percentTolerance!))/((2*percentTolerance!) - progressAdjuster)
+            progressBarUI.progress = (sweepPercent - (1-percentTolerance!))/((2*percentTolerance!) + progressAdjuster)
             progressBarOverflowUI.progress = 0
             
         }else{
@@ -77,6 +89,42 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 progressBarOverflowUI.progress = 1
             }
         }
+    }
+    
+    func updateProgressView(){
+        let totalSize:Float = 1.33
+        let overflowSizeAbs:Float = (0.33-percentTolerance!)
+        var progressAdjuster:Float = 0
+        var overflowSizeRel = overflowSizeAbs / totalSize
+        
+        if overflowSizeAbs < 0{
+            progressAdjuster = overflowSizeAbs
+            overflowSizeRel = 0
+        }
+        let underflowSize = (1-percentTolerance!) / totalSize
+        
+        let validZoneSize = (2 * percentTolerance! + progressAdjuster)/totalSize
+        print("\(underflowSize)")
+        print(overflowSizeRel)
+        print(validZoneSize)
+       //----Update Values
+        var newConstraint = progressBarUnderflowSize.constraintWithMultiplier(CGFloat(underflowSize))
+        self.stackViewBar.removeConstraint(progressBarUnderflowSize)
+        progressBarUnderflowSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarUnderflowSize)
+        
+        newConstraint = progressBarOverflowSize.constraintWithMultiplier(CGFloat(overflowSizeRel))
+        self.stackViewBar.removeConstraint(progressBarOverflowSize)
+        progressBarOverflowSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarOverflowSize)
+        
+        newConstraint = progressBarSize.constraintWithMultiplier(CGFloat(validZoneSize))
+        self.stackViewBar.removeConstraint(progressBarSize)
+        progressBarSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarSize)
+        
+        self.stackViewBar.layoutIfNeeded()
+        
     }
     
     //---------------------------
@@ -269,9 +317,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
         //deprecated will be removed and replaced with the database
-//        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
-//        selectedBeepNoise = UserDefaults.standard.string(forKey: "myBeepNoise")
-//        selectedBeepNoiseCode = UserDefaults.standard.integer(forKey: "myBeepNoiseCode")
+        updateProgressView()
 
         createObservers()
         //-------------------

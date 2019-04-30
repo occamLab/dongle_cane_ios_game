@@ -625,8 +625,8 @@
                                                     <constraint firstItem="Gam-BN-faY" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="900" id="2zx-fO-32E"/>
                                                     <constraint firstItem="j8D-jW-VFs" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" id="30m-Gn-r5c"/>
                                                     <constraint firstItem="Gam-BN-faY" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" priority="900" id="JAL-Tb-lvQ"/>
-                                                    <constraint firstItem="c9p-av-vbg" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="900" id="JRw-Ux-K7U"/>
-                                                    <constraint firstItem="j8D-jW-VFs" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.5" priority="900" id="rEo-Mm-wZy"/>
+                                                    <constraint firstItem="c9p-av-vbg" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="902" id="JRw-Ux-K7U"/>
+                                                    <constraint firstItem="j8D-jW-VFs" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.5" priority="901" id="rEo-Mm-wZy"/>
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Zjr-tl-3Zw">
@@ -691,9 +691,13 @@
                         <outlet property="controlButton" destination="VX0-d1-rvS" id="nL0-gI-wmo"/>
                         <outlet property="menuButton" destination="8yl-d9-IiF" id="5H1-aK-I5u"/>
                         <outlet property="playerName" destination="OYT-pB-ym1" id="JBE-nw-4Y1"/>
+                        <outlet property="progressBarOverflowSize" destination="2zx-fO-32E" id="if3-Yn-IBe"/>
                         <outlet property="progressBarOverflowUI" destination="Gam-BN-faY" id="fq3-As-iEN"/>
+                        <outlet property="progressBarSize" destination="JRw-Ux-K7U" id="ggj-bG-o8q"/>
                         <outlet property="progressBarUI" destination="c9p-av-vbg" id="88F-bi-vNF"/>
                         <outlet property="progressBarUnderflow" destination="j8D-jW-VFs" id="g9U-h3-Ude"/>
+                        <outlet property="progressBarUnderflowSize" destination="rEo-Mm-wZy" id="lDx-a6-CkO"/>
+                        <outlet property="stackViewBar" destination="qlR-vj-DIN" id="PyK-23-g1L"/>
                         <outlet property="sweepRangeLabel" destination="YMv-7J-vsD" id="q5Q-Lh-nqu"/>
                         <outlet property="sweepRangeSliderUI" destination="eDc-Rp-Tpd" id="mMl-wM-ztU"/>
                         <outlet property="viewContainer" destination="wKw-tT-zrJ" id="v2A-bT-0Il"/>
