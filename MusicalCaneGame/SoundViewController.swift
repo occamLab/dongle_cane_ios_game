@@ -236,6 +236,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 
             }
         } else if controlButton.title == "Stop" {
+            numSweeps = 0
             centralManager.cancelPeripheralConnection(dongleSensorPeripheral)
             //  forget when i reest temp? here, maybe i should make it nil instead? also, i should rename because I already have temp in this file
             startButtonPressed = false
@@ -320,7 +321,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
         updateProgressView()
-
+        numSweeps = 0
         createObservers()
         //-------------------
         //Inits for the beacon controllers
