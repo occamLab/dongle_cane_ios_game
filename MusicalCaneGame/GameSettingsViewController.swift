@@ -80,9 +80,13 @@ class GameSettingsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
             
             print("text field: \(textField?.text)")
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 20)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 10)
             
             self.pickerProfiles = self.dbInterface.getAllUserNames()
+            self.profileBox.text = textField!.text!
+            UserDefaults.standard.set(self.profileBox.text, forKey: "currentProfile")
+            self.selectedProfile = textField!.text!
+            self.loadOptions()
             
             self.profilePicker.reloadAllComponents()
             
