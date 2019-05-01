@@ -208,7 +208,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     
     @IBAction func controlButton(_ sender: Any) {
         if controlButton.title == "Start" {
-            if selectedSong != nil {
+            if selectedSong != nil && (selectedBeepNoiseCode != nil || speakSweeps){
                 
                 
                 activityIndicator.center = self.view.center
@@ -231,8 +231,11 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 startButtonPressed = true
                 
                 
-            } else {
-                createAlert(title: "Error", message: "Not all required fields are complete")
+            } else if (selectedSong == nil){
+                createAlert(title: "Error", message: "You have not selected a song.")
+                
+            }else{
+                createAlert(title: "Error", message: "You have not selected a beep noise.")
                 
             }
         } else if controlButton.title == "Stop" {
