@@ -167,8 +167,8 @@
                                     <action selector="sweepTolerChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="jPx-Hr-F6o"/>
                                 </connections>
                             </slider>
-                            <pickerView hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUh-8N-M8i">
-                                <rect key="frame" x="114" y="433" width="186" height="57"/>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUh-8N-M8i">
+                                <rect key="frame" x="20" y="441" width="186" height="57"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </pickerView>
                         </subviews>

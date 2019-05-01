@@ -12,7 +12,7 @@ import AVFoundation
 import MediaPlayer
 
 
-class GameSettingsViewController: UIViewController {
+class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     //Create a profile button
@@ -273,6 +273,23 @@ class GameSettingsViewController: UIViewController {
 //
 //    }
     
+    // sweep tolerance level picker
+    
+    // Number of columns of data
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // The number of rows of data
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return sweepTolerancePickerData.count
+    }
+    
+    // The data to return fopr the row and component (column) that's being passed in
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return sweepTolerancePickerData[row]
+    }
+    
 
     
     func sideMenu() {
@@ -320,7 +337,7 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
    
 }
 
-extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension GameSettingsViewController {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
