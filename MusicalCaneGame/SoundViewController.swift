@@ -57,6 +57,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     
     
     @objc func updateProgress(notification: NSNotification){
+        
         let currSweepRange = notification.object as! Float
         let sweepPercent = currSweepRange/sweepRange
         let overflowBarLength = (0.33-percentTolerance!)
@@ -92,6 +93,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     func updateProgressView(){
+        percentTolerance = sweepTolerance/sweepRange
         let totalSize:Float = 1.33
         let overflowSizeAbs:Float = (0.33-percentTolerance!)
         var progressAdjuster:Float = 0
@@ -184,7 +186,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
         
         caneLength = Float(user_row![self.dbInterface.cane_length])
-        percentTolerance = sweepTolerance/sweepRange
+        
     }
     
     
@@ -194,6 +196,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         let x = Double(sender.value).roundTo(places: 2)
         sweepRangeLabel.text = String(x)
         sweepRange = sender.value
+        updateProgressView()
     }
     
     
@@ -316,7 +319,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
-        //deprecated will be removed and replaced with the database
         updateProgressView()
 
         createObservers()

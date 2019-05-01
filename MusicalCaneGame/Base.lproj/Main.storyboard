@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -574,7 +574,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="SM1-HC-hOO">
-                                <rect key="frame" x="16" y="79" width="288" height="283.5"/>
+                                <rect key="frame" x="16" y="79" width="288" height="305.5"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cls-ZU-SAr">
                                         <rect key="frame" x="80" y="0.0" width="128" height="29"/>
@@ -599,38 +599,38 @@
                                             <constraint firstAttribute="height" priority="900" constant="50" id="4wD-wG-8Ir"/>
                                         </constraints>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="miU-cl-hjn">
-                                        <rect key="frame" x="0.0" y="197" width="288" height="86.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qlR-vj-DIN">
+                                        <rect key="frame" x="0.0" y="197" width="288" height="20"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qlR-vj-DIN">
-                                                <rect key="frame" x="0.0" y="0.0" width="288" height="20"/>
-                                                <subviews>
-                                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j8D-jW-VFs">
-                                                        <rect key="frame" x="0.0" y="0.0" width="144" height="20"/>
-                                                        <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c9p-av-vbg">
-                                                        <rect key="frame" x="144" y="0.0" width="72" height="20"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="20" id="8Pz-XO-n6F"/>
-                                                        </constraints>
-                                                        <color key="progressTintColor" red="0.33713351566878019" green="0.81007124352331605" blue="0.35362574187552998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </progressView>
-                                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gam-BN-faY">
-                                                        <rect key="frame" x="216" y="0.0" width="72" height="20"/>
-                                                        <color key="progressTintColor" red="0.79977637529373169" green="0.26107227304742625" blue="0.29755758152595368" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                    </progressView>
-                                                </subviews>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="j8D-jW-VFs">
+                                                <rect key="frame" x="0.0" y="0.0" width="144" height="20"/>
+                                                <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </progressView>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="c9p-av-vbg">
+                                                <rect key="frame" x="144" y="0.0" width="72" height="20"/>
                                                 <constraints>
-                                                    <constraint firstItem="Gam-BN-faY" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="900" id="2zx-fO-32E"/>
-                                                    <constraint firstItem="j8D-jW-VFs" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" id="30m-Gn-r5c"/>
-                                                    <constraint firstItem="Gam-BN-faY" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" priority="900" id="JAL-Tb-lvQ"/>
-                                                    <constraint firstItem="c9p-av-vbg" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="902" id="JRw-Ux-K7U"/>
-                                                    <constraint firstItem="j8D-jW-VFs" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.5" priority="901" id="rEo-Mm-wZy"/>
+                                                    <constraint firstAttribute="height" constant="20" id="8Pz-XO-n6F"/>
                                                 </constraints>
-                                            </stackView>
+                                                <color key="progressTintColor" red="0.33713351566878019" green="0.81007124352331605" blue="0.35362574187552998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </progressView>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gam-BN-faY">
+                                                <rect key="frame" x="216" y="0.0" width="72" height="20"/>
+                                                <color key="progressTintColor" red="0.79977637529373169" green="0.26107227304742625" blue="0.29755758152595368" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </progressView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Gam-BN-faY" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="900" id="2zx-fO-32E"/>
+                                            <constraint firstItem="j8D-jW-VFs" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" id="30m-Gn-r5c"/>
+                                            <constraint firstItem="Gam-BN-faY" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" priority="900" id="JAL-Tb-lvQ"/>
+                                            <constraint firstItem="c9p-av-vbg" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="902" id="JRw-Ux-K7U"/>
+                                            <constraint firstItem="j8D-jW-VFs" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.5" priority="901" id="rEo-Mm-wZy"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="miU-cl-hjn">
+                                        <rect key="frame" x="0.0" y="247" width="288" height="58.5"/>
+                                        <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Zjr-tl-3Zw">
-                                                <rect key="frame" x="0.0" y="28" width="156.5" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="156.5" height="20.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sweep Range:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wg0-MS-BeW">
                                                         <rect key="frame" x="0.0" y="0.0" width="109.5" height="20.5"/>
@@ -647,15 +647,13 @@
                                                 </subviews>
                                             </stackView>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="40" minValue="20" maxValue="60" translatesAutoresizingMaskIntoConstraints="NO" id="eDc-Rp-Tpd">
-                                                <rect key="frame" x="-2" y="56.5" width="292" height="31"/>
+                                                <rect key="frame" x="-2" y="28.5" width="292" height="31"/>
                                                 <connections>
                                                     <action selector="sweepRangeSlider:" destination="5gR-6F-LX3" eventType="valueChanged" id="Til-f5-QYb"/>
                                                 </connections>
                                             </slider>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="900" constant="288" id="04p-NI-P1l"/>
-                                            <constraint firstItem="qlR-vj-DIN" firstAttribute="width" secondItem="miU-cl-hjn" secondAttribute="width" id="0hf-5s-5kM"/>
                                             <constraint firstItem="eDc-Rp-Tpd" firstAttribute="leading" secondItem="miU-cl-hjn" secondAttribute="leading" id="1Mt-rg-WZI"/>
                                             <constraint firstAttribute="trailing" secondItem="eDc-Rp-Tpd" secondAttribute="trailing" id="Hn1-mv-L44"/>
                                         </constraints>
@@ -665,9 +663,11 @@
                                     <constraint firstItem="cls-ZU-SAr" firstAttribute="top" secondItem="SM1-HC-hOO" secondAttribute="topMargin" priority="900" id="0lG-h7-JaO"/>
                                     <constraint firstItem="miU-cl-hjn" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" priority="800" id="E9x-X4-BCL"/>
                                     <constraint firstItem="miU-cl-hjn" firstAttribute="trailing" secondItem="SM1-HC-hOO" secondAttribute="trailingMargin" priority="800" id="GBF-zw-fbi"/>
+                                    <constraint firstAttribute="trailing" secondItem="qlR-vj-DIN" secondAttribute="trailing" id="aCE-Oc-MYA"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="cls-ZU-SAr" secondAttribute="trailing" constant="80" id="cOA-tf-tST"/>
                                     <constraint firstItem="wKw-tT-zrJ" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leading" priority="800" id="ccp-tO-dFc"/>
                                     <constraint firstItem="cls-ZU-SAr" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" constant="80" id="pWk-Vh-Ghb"/>
+                                    <constraint firstItem="qlR-vj-DIN" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leading" id="qs0-JA-96r"/>
                                     <constraint firstAttribute="trailing" secondItem="wKw-tT-zrJ" secondAttribute="trailing" priority="800" id="uCc-yZ-Yuh"/>
                                 </constraints>
                             </stackView>
@@ -1072,24 +1072,31 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="udL-98-KoB">
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zYm-cQ-eqb">
                                         <rect key="frame" x="0.0" y="158" width="288" height="20"/>
                                         <subviews>
-                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hwd-dC-9Y4">
-                                                <rect key="frame" x="0.0" y="0.0" width="216" height="20"/>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MPf-7y-vhG">
+                                                <rect key="frame" x="0.0" y="0.0" width="144" height="20"/>
+                                                <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </progressView>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zM3-U7-LPd">
+                                                <rect key="frame" x="144" y="0.0" width="72" height="20"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="20" id="XWI-OD-XU7"/>
+                                                    <constraint firstAttribute="height" constant="20" id="fgI-mS-8KR"/>
                                                 </constraints>
                                                 <color key="progressTintColor" red="0.3371335157" green="0.81007124350000004" blue="0.35362574190000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </progressView>
-                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="102-7W-2wC">
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YXN-q2-BcI">
                                                 <rect key="frame" x="216" y="0.0" width="72" height="20"/>
                                                 <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </progressView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="102-7W-2wC" firstAttribute="height" secondItem="Hwd-dC-9Y4" secondAttribute="height" priority="900" id="KFX-ji-0S5"/>
-                                            <constraint firstItem="102-7W-2wC" firstAttribute="width" secondItem="Hwd-dC-9Y4" secondAttribute="width" multiplier="0.333" priority="900" id="x7I-Sq-tTV"/>
+                                            <constraint firstItem="YXN-q2-BcI" firstAttribute="width" secondItem="zYm-cQ-eqb" secondAttribute="width" multiplier="0.25" priority="900" id="483-k8-F14"/>
+                                            <constraint firstItem="MPf-7y-vhG" firstAttribute="width" secondItem="zYm-cQ-eqb" secondAttribute="width" multiplier="0.5" priority="901" id="6Ku-pQ-y5C"/>
+                                            <constraint firstItem="zM3-U7-LPd" firstAttribute="width" secondItem="zYm-cQ-eqb" secondAttribute="width" multiplier="0.25" priority="902" id="6nH-5Y-ak3"/>
+                                            <constraint firstItem="YXN-q2-BcI" firstAttribute="height" secondItem="zM3-U7-LPd" secondAttribute="height" priority="900" id="t5l-zb-Nuf"/>
+                                            <constraint firstItem="MPf-7y-vhG" firstAttribute="height" secondItem="zM3-U7-LPd" secondAttribute="height" id="vbq-e7-LcI"/>
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="waJ-Ay-ueK">
@@ -1146,9 +1153,14 @@
                         <outlet property="controlButton" destination="1Ic-lj-ru2" id="O8P-dv-40W"/>
                         <outlet property="menuButton" destination="tAq-DT-M5k" id="PI7-8d-CCz"/>
                         <outlet property="playerName" destination="0if-pa-hNV" id="yK4-2b-Oph"/>
-                        <outlet property="progressBarOverflowUI" destination="102-7W-2wC" id="l64-vi-s0m"/>
-                        <outlet property="progressBarUI" destination="Hwd-dC-9Y4" id="A6B-m4-87Z"/>
+                        <outlet property="progressBarOverflowSize" destination="483-k8-F14" id="RSi-oE-YSs"/>
+                        <outlet property="progressBarOverflowUI" destination="YXN-q2-BcI" id="P9C-hR-2dc"/>
+                        <outlet property="progressBarSize" destination="6nH-5Y-ak3" id="hnu-bd-lP7"/>
+                        <outlet property="progressBarUI" destination="zM3-U7-LPd" id="4M5-Ed-r6j"/>
+                        <outlet property="progressBarUnderflow" destination="MPf-7y-vhG" id="jKh-ht-e6e"/>
+                        <outlet property="progressBarUnderflowSize" destination="6Ku-pQ-y5C" id="6kU-tX-cp8"/>
                         <outlet property="songTitleLabel" destination="2Mi-TU-CAr" id="gK4-9d-j6d"/>
+                        <outlet property="stackViewBar" destination="zYm-cQ-eqb" id="qaI-ul-HIV"/>
                         <outlet property="sweepRangeLabel" destination="1rI-9s-9HR" id="9JV-wj-IyV"/>
                         <outlet property="sweepRangeSliderUI" destination="QpT-ml-sOJ" id="JzU-94-kto"/>
                     </connections>
