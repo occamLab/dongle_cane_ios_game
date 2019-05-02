@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B12111EFF1006193E6 /* MediaPlayer.framework */; };
+		57C85F49830BFA7051E7EE1A /* Pods_MusicalCaneGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE99E1F1C532771B0712C418 /* Pods_MusicalCaneGame.framework */; };
 		86591D90224D049E0050816B /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86591D8F224D049E0050816B /* SWRevealViewController.m */; };
 		951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05C92178BE5500CD2998 /* SoundViewController.swift */; };
 		951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05CD2178C1DF00CD2998 /* Configuration.swift */; };
@@ -40,6 +41,8 @@
 		AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */; };
 		AD6C6F03210267C600E9D840 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */; };
 		AD6C6F05210267CB00E9D840 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD6C6F04210267CB00E9D840 /* AVFoundation.framework */; };
+		E5220F4E2256634E004AE171 /* DBInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5220F4D2256634E004AE171 /* DBInterface.swift */; };
+		E5C038042268D0BD00373275 /* SensorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5C038032268D0BD00373275 /* SensorManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +75,7 @@
 		98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		98D44AE4211A2D8300E11840 /* BeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
 		98EBC690211C843500340583 /* LocationPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPopUpViewController.swift; sourceTree = "<group>"; };
+		9E2567276E4C1DEE283C0234 /* Pods-MusicalCaneGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicalCaneGame.debug.xcconfig"; path = "Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame.debug.xcconfig"; sourceTree = "<group>"; };
 		AD6C6EEC210267B700E9D840 /* MusicalCaneGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicalCaneGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6C6EEF210267B700E9D840 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AD6C6EF4210267B700E9D840 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,6 +84,10 @@
 		AD6C6EFB210267B800E9D840 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		AD6C6F04210267CB00E9D840 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DE99E1F1C532771B0712C418 /* Pods_MusicalCaneGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MusicalCaneGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5220F4D2256634E004AE171 /* DBInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBInterface.swift; sourceTree = "<group>"; };
+		E5C038032268D0BD00373275 /* SensorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManager.swift; sourceTree = "<group>"; };
+		F3AA5D150EA52EB2389E4668 /* Pods-MusicalCaneGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicalCaneGame.release.xcconfig"; path = "Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,12 +101,22 @@
 				4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */,
 				AD6C6F05210267CB00E9D840 /* AVFoundation.framework in Frameworks */,
 				AD6C6F03210267C600E9D840 /* CoreBluetooth.framework in Frameworks */,
+				57C85F49830BFA7051E7EE1A /* Pods_MusicalCaneGame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CF1A8CA480D094482360B28 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9E2567276E4C1DEE283C0234 /* Pods-MusicalCaneGame.debug.xcconfig */,
+				F3AA5D150EA52EB2389E4668 /* Pods-MusicalCaneGame.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		95BBF1FB216F8A0200DDA9DB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +134,7 @@
 				AD6C6EEE210267B700E9D840 /* MusicalCaneGame */,
 				AD6C6EED210267B700E9D840 /* Products */,
 				AD6C6F01210267C500E9D840 /* Frameworks */,
+				2CF1A8CA480D094482360B28 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -142,6 +161,7 @@
 				AD6C6EEF210267B700E9D840 /* AppDelegate.swift */,
 				95BBF1F12168232A00DDA9DB /* MusicViewController.swift */,
 				951C05C92178BE5500CD2998 /* SoundViewController.swift */,
+				E5C038032268D0BD00373275 /* SensorManager.swift */,
 				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
 				95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */,
@@ -157,6 +177,7 @@
 				86591D8E224D049E0050816B /* SWRevealViewController.h */,
 				86591D8F224D049E0050816B /* SWRevealViewController.m */,
 				9582BE522167CC1D00F4209E /* MusicalCaneGame-Bridging-Header.h */,
+				E5220F4D2256634E004AE171 /* DBInterface.swift */,
 			);
 			path = MusicalCaneGame;
 			sourceTree = "<group>";
@@ -170,6 +191,7 @@
 				4959A5B12111EFF1006193E6 /* MediaPlayer.framework */,
 				AD6C6F04210267CB00E9D840 /* AVFoundation.framework */,
 				AD6C6F02210267C600E9D840 /* CoreBluetooth.framework */,
+				DE99E1F1C532771B0712C418 /* Pods_MusicalCaneGame.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -181,9 +203,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AD6C6EFE210267B800E9D840 /* Build configuration list for PBXNativeTarget "MusicalCaneGame" */;
 			buildPhases = (
+				38555B9BAE2FF72B82751DD1 /* [CP] Check Pods Manifest.lock */,
 				AD6C6EE8210267B700E9D840 /* Sources */,
 				AD6C6EE9210267B700E9D840 /* Frameworks */,
 				AD6C6EEA210267B700E9D840 /* Resources */,
+				DE5955A1EDA5D61E8F41AD03 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -258,6 +282,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		38555B9BAE2FF72B82751DD1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MusicalCaneGame-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE5955A1EDA5D61E8F41AD03 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AD6C6EE8210267B700E9D840 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -266,6 +337,7 @@
 				95BBF1F82168295D00DDA9DB /* BeaconsViewController.swift in Sources */,
 				98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */,
 				86591D90224D049E0050816B /* SWRevealViewController.m in Sources */,
+				E5220F4E2256634E004AE171 /* DBInterface.swift in Sources */,
 				95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */,
 				95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */,
 				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
@@ -274,6 +346,7 @@
 				951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */,
 				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
 				951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */,
+				E5C038042268D0BD00373275 /* SensorManager.swift in Sources */,
 				9582BE572167CF0300F4209E /* MainViewController.swift in Sources */,
 				95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */,
 				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
@@ -421,6 +494,7 @@
 		};
 		AD6C6EFF210267B800E9D840 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E2567276E4C1DEE283C0234 /* Pods-MusicalCaneGame.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -443,6 +517,7 @@
 		};
 		AD6C6F00210267B800E9D840 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3AA5D150EA52EB2389E4668 /* Pods-MusicalCaneGame.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

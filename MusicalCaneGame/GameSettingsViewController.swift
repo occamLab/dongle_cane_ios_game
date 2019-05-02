@@ -11,16 +11,93 @@ import CoreBluetooth
 import AVFoundation
 import MediaPlayer
 
+
 class GameSettingsViewController: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    //Create a profile button
     
-    
-    
+    @IBOutlet weak var newProfileButton: UIButton!
+    var selectedProfile: String = "Default User"
+    //Profile Picker View
+    @IBOutlet weak var profileBox: UITextField!
+    let profilePicker = UIPickerView()
+    var pickerProfiles: [String] = [String]()
     // Music Track Picker
     @IBOutlet weak var musicTrackPicker: UIButton!
-    
+    @IBOutlet weak var selectMusicText: UILabel!
     var selectedMusicTrack: String?
+    var selectedSongTitle: String?
+    var selectedSong: MPMediaItemCollection?
+    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
+    var mySong: URL?
+    var mySongStr: String?
+    //Beep Noise Declaration
+    let countBeepPicker = UIPickerView()
+    @IBOutlet weak var beepNoiseBox: UITextField!
+    
+    @IBOutlet weak var selectBeepNoiseText: UILabel!
+    let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
+                      "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
+    let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
+    var selectedBeepNoise: String?
+    var selectedBeepNoiseCode: Int?
+    //Sliders Declaration
+    //Beep Count
+    @IBOutlet weak var beepCountSlider: UISlider!
+    @IBOutlet weak var beepCountLabel: UILabel!
+    @IBOutlet weak var beepCountText: UILabel!
+    var beepCountValue: Int?
+    //Cane Legnth
+    @IBOutlet weak var caneLengthSlider: UISlider!
+    @IBOutlet weak var caneLengthLabel: UILabel!
+    @IBOutlet weak var caneLengthText: UILabel!
+    var caneLengthValue: Float?
+    //Sweep Range
+    @IBOutlet weak var sweepRangeSlider: UISlider!
+    @IBOutlet weak var sweepRangeLabel: UILabel!
+    @IBOutlet weak var sweepRangeText: UILabel!
+    var sweepRangeValue: Float?
+    //Sweeo Tolerance
+    @IBOutlet weak var sweepToleranceSlider: UISlider!
+    @IBOutlet weak var sweepToleranceLabel: UILabel!
+    @IBOutlet weak var sweepToleranceText: UILabel!
+    var sweepToleranceValue: Float?
+    
+    @IBOutlet weak var sweepTolerancePicker: UIPickerView!
+    let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
+    //Save button
+    @IBOutlet weak var editSaveButton: UIButton!
+    var isEdit:Bool = true
+    
+    var dbInterface = DBInterface()
+    
+    
+    @IBAction func newProfilePressed(_ sender: UIButton) {
+        let alert = UIAlertController(title:"New Profile",message:"Enter a Profile Name",preferredStyle: .alert)
+        alert.addTextField{(textField) in textField.text = "Johnny"}
+        
+        alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
+            
+            print("text field: \(textField?.text)")
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 10)
+            
+            self.pickerProfiles = self.dbInterface.getAllUserNames()
+            self.profileBox.text = textField!.text!
+            UserDefaults.standard.set(self.profileBox.text, forKey: "currentProfile")
+            self.selectedProfile = textField!.text!
+            self.loadOptions()
+            
+            self.profilePicker.reloadAllComponents()
+            
+            
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
+        
+    }
+    
+    
     @IBAction func chooseMusictrack(_ sender: Any) {
         let myMediaPickerVC = MPMediaPickerController.self(mediaTypes: MPMediaType.music)
         myMediaPickerVC.allowsPickingMultipleItems = false
@@ -30,31 +107,122 @@ class GameSettingsViewController: UIViewController {
         
     }
     
-    var selectedSong: MPMediaItemCollection?
-    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
+    @IBAction func beepCountChanged(_ sender: UISlider) {
+        beepCountValue = Int(sender.value)
+        beepCountLabel.text = String(beepCountValue!)
+    }
     
-    // Beep noise picker
-    @IBOutlet weak var beepNoiseTextField: UITextField!
-    let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
-                      "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
-    let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
-    var selectedBeepNoise: String?
-    var selectedBeepNoiseCode: Int?
+    @IBAction func sweepRangeChanged(_ sender: UISlider) {
+        sweepRangeValue = Float(sender.value)
+        sweepRangeLabel.text = String(format:"%.1f",sweepRangeValue!) + " in"
+    }
     
-    var temp: URL?
-    var mySong: URL?
+    @IBAction func caneLengthChanged(_ sender: UISlider) {
+        caneLengthValue = Float(sender.value)
+        caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " in"
+    }
+    
+    @IBAction func sweepTolerChanged(_ sender: UISlider) {
+        sweepToleranceValue = Float(sender.value)
+        sweepToleranceLabel.text = String(format:"%.1f",sweepToleranceValue!) + " in"
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(sweepTolerancePickerData[row])
+        }
+    
+    func changeOptions(b:Bool){
+        musicTrackPicker.isEnabled = b
+        beepNoiseBox.isEnabled = b
+        beepCountSlider.isEnabled = b
+        beepCountLabel.isEnabled = b
+        caneLengthSlider.isEnabled = b
+        caneLengthLabel.isEnabled = b
+        sweepRangeSlider.isEnabled = b
+        sweepRangeLabel.isEnabled = b
+        sweepToleranceSlider.isEnabled = b
+        sweepToleranceLabel.isEnabled = b
+        
+        caneLengthText.isEnabled = b
+        sweepRangeText.isEnabled = b
+        beepCountText.isEnabled = b
+        sweepToleranceText.isEnabled = b
+        selectBeepNoiseText.isEnabled = b
+        selectMusicText.isEnabled = b
+    }
+    
+    func loadOptions(){
+        let user_row = self.dbInterface.getRow(u_name: selectedProfile)
+        
+        profileBox.text = selectedProfile
+        //Change beep noise
+        selectedBeepNoise = String(user_row![self.dbInterface.beep_noise])
+        beepNoiseBox.text = selectedBeepNoise
+        
+        //Change Music Title
+        selectedSongTitle = String(user_row![self.dbInterface.music])
+        mySongStr = String(user_row![self.dbInterface.music_url])
+        musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
+        
+        //For the sliders
+        beepCountValue = user_row![self.dbInterface.beep_count]
+        beepCountSlider.setValue(Float(beepCountValue!), animated: false)
+        beepCountLabel.text = String(beepCountSlider.value)
+        sweepRangeValue = Float(user_row![self.dbInterface.sweep_width])
+        sweepRangeSlider.setValue(sweepRangeValue!, animated: false)
+        sweepRangeLabel.text = String(sweepRangeSlider.value)
+        caneLengthValue = Float(user_row![self.dbInterface.cane_length])
+        caneLengthSlider.setValue(caneLengthValue!, animated: false)
+        caneLengthLabel.text = String(caneLengthSlider.value)
+        sweepToleranceValue = Float(user_row![self.dbInterface.sweep_tolerance])
+        sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
+        sweepToleranceLabel.text = String(sweepToleranceValue!)
+        
+    }
+    
+    @IBAction func touchEditSave(_ sender: UIButton) {
+        if(isEdit){
+            //We enable the user to change values
+            sender.setTitle("Save", for: .normal)
+            isEdit = false
+        }else{
+            //We save the values the user changed
+            sender.setTitle("Edit", for: .normal)
+            // TODO once we have the name picker working, put it in here
+            do{
+                try dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
+                    u_music: selectedSongTitle!,
+                    u_beep_noise: selectedBeepNoise!,
+                    u_music_url: mySongStr!,
+                    u_sweep_tolerance: Double(sweepToleranceValue!))
+            }catch{
+                print("error updating users table in game settings: \(error)")
+            }
+            isEdit = true
+        }
+        changeOptions(b:!isEdit)
+    }
 
-
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         sideMenu()
+        //Declare Sweep Range
+
+        //Populate Picker
+        pickerProfiles = self.dbInterface.getAllUserNames()
+        print(pickerProfiles)
+        createProfilePicker()
+        
+        //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
         createToolbar()
-        
+        changeOptions(b:!isEdit)
+        //Load db info
+        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
+            UserDefaults.standard.set("Default User", forKey: "currentProfile")
+        }
+        selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        loadOptions()
 
     
 //        let defaults = UserDefaults.standard
@@ -65,10 +233,14 @@ class GameSettingsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    let countBeepPicker = UIPickerView()
+    func createProfilePicker() {
+        profilePicker.delegate = self
+        profilePicker.dataSource = self
+        profileBox.inputView = profilePicker
+    }
     func createBeepNoisePicker(countNoisePicker: UIPickerView) {
         countNoisePicker.delegate = self
-        beepNoiseTextField.inputView = countNoisePicker
+        beepNoiseBox.inputView = countNoisePicker
     }
     func createToolbar() {
         let toolbar = UIToolbar()
@@ -79,7 +251,8 @@ class GameSettingsViewController: UIViewController {
         toolbar.setItems([doneButton], animated: false)
         toolbar.isUserInteractionEnabled = true
         
-        beepNoiseTextField.inputAccessoryView = toolbar
+        beepNoiseBox.inputAccessoryView = toolbar
+        profileBox.inputAccessoryView = toolbar
     }
     
     @objc func dismissKeyboard() {
@@ -91,18 +264,18 @@ class GameSettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-
-            // set selected song button
-        if let y = UserDefaults.standard.string(forKey: "mySongTitle") {
-            musicTrackPicker.setTitle(y, for: .normal)
-        }
-            // set beep noise text field
-        if let n = UserDefaults.standard.string(forKey: "myBeepNoise") {
-            beepNoiseTextField.text = n
-        }
- 
-    }
+//    override func viewDidAppear(_ animated: Bool) {
+//
+//            // set selected song button
+//        if let y = UserDefaults.standard.string(forKey: "mySongTitle") {
+//            musicTrackPicker.setTitle(y, for: .normal)
+//        }
+//            // set beep noise text field
+//        if let n = UserDefaults.standard.string(forKey: "myBeepNoise") {
+//            beepNoiseBox.text = n
+//        }
+//
+//    }
     
 
     
@@ -126,18 +299,21 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         myMediaPlayer.setQueue(with: mediaItemCollection)
         selectedSong = mediaItemCollection
-        temp = selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) as? URL
+        mySong = selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) as? URL
+        mySongStr = mySong!.absoluteString
         
         //Configuration.setUserProperty(forUser: <#T##String#>, key: <#T##String#>, value: <#T##String#>)
-        
+        //Will be deleted and replaced with db functions
         // artist
-        UserDefaults.standard.set(selectedSong?.items[0].albumArtist, forKey: "myArtist")
+        //UserDefaults.standard.set(selectedSong?.items[0].albumArtist, forKey: "myArtist")
         // URL
-        UserDefaults.standard.set(temp, forKey: "mySongURL")
+        //UserDefaults.standard.set(mySong, forKey: "mySongURL")
         //Song title
-        UserDefaults.standard.set(selectedSong?.items[0].title, forKey: "mySongTitle")
+        selectedSongTitle = selectedSong?.items[0].title
+        //UserDefaults.standard.set(selectedSongTitle, forKey: "mySongTitle")
         
-        musicTrackPicker.setTitle(selectedSong?.items[0].title, for: .normal)
+        
+        musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
         mediaPicker.dismiss(animated: true, completion: nil)
         
     }
@@ -156,6 +332,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == countBeepPicker {
             return beepNoises.count
+        }else if(pickerView == profilePicker){
+            return pickerProfiles.count
         }
         return 0
     }
@@ -163,6 +341,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == countBeepPicker {
             return beepNoises[row]
+        }else if(pickerView == profilePicker){
+            return pickerProfiles[row]
         }
         return ""
     }
@@ -175,7 +355,12 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             selectedBeepNoise = beepNoises[row]
             // saving beep noise name
             UserDefaults.standard.set(selectedBeepNoise, forKey: "myBeepNoise")
-            beepNoiseTextField.text = selectedBeepNoise
+            beepNoiseBox.text = selectedBeepNoise
+        }else if(pickerView == profilePicker){
+            profileBox.text = pickerProfiles[row]
+            UserDefaults.standard.set(profileBox.text, forKey: "currentProfile")
+            selectedProfile = pickerProfiles[row]
+            loadOptions()
         }
     }
 }

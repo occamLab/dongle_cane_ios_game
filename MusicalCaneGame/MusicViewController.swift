@@ -15,14 +15,100 @@ import CoreLocation
 let dongleSensorCBUUID = CBUUID(string: "2ea7")
 let sensorFusionCharacteristicCBUUID = CBUUID(string: "2ea78970-7d44-44bb-b097-26183f402407")
 let sweepNotificationKey = "cane.sweep.notification"
-
+let updateProgressNotificationKey = "cane.prog.notification"
 class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
-
-
-    @IBOutlet weak var menuButton: UIBarButtonItem!
-
-    @IBOutlet weak var songTitleLabel: UILabel!
+    //Declare db to load options
+    let dbInterface = DBInterface()
+    let sensorManager = SensorManager()
     
+    @IBOutlet weak var menuButton: UIBarButtonItem!
+    @IBOutlet weak var songTitleLabel: UILabel!
+    @IBOutlet weak var playerName: UILabel!
+    
+    @IBOutlet weak var stackViewBar: UIStackView!
+    @IBOutlet weak var progressBarUI: UIProgressView!
+    @IBOutlet weak var progressBarSize: NSLayoutConstraint!
+    //Over the range
+    @IBOutlet weak var progressBarOverflowUI: UIProgressView!
+    @IBOutlet weak var progressBarOverflowSize: NSLayoutConstraint!
+    //Under the range
+    @IBOutlet weak var progressBarUnderflow: UIProgressView!
+    @IBOutlet weak var progressBarUnderflowSize: NSLayoutConstraint!
+    
+    
+    @objc func updateProgress(notification: NSNotification){
+        let currSweepRange = notification.object as! Float
+        let sweepPercent = currSweepRange/sweepRange
+        let overflowBarLength = (0.33-percentTolerance!)
+        var progressAdjuster:Float = 0
+        if overflowBarLength < 0{
+            progressAdjuster = overflowBarLength
+        }
+        
+        if( sweepPercent <= (1-percentTolerance!)){
+            progressBarUnderflow.progress = sweepPercent/(1-percentTolerance!)
+            progressBarUI.progress = 0
+            progressBarOverflowUI.progress = 0
+            
+        }else if(sweepPercent <= (1+percentTolerance!)){
+            progressBarUnderflow.progress = 1
+            progressBarUI.progress = (sweepPercent - (1-percentTolerance!))/((2*percentTolerance!) + progressAdjuster)
+            progressBarOverflowUI.progress = 0
+            
+        }else{
+            progressBarUnderflow.progress = 1.0
+            progressBarUI.progress = 1.0
+            if (overflowBarLength <= 0){
+                return
+            }
+            let overflow_percent = (sweepPercent - 1 - percentTolerance!)/overflowBarLength
+            
+            if overflow_percent < 1{
+                progressBarOverflowUI.progress = overflow_percent
+            }else{
+                progressBarOverflowUI.progress = 1
+            }
+        }
+    }
+    
+    func updateProgressView(){
+        percentTolerance = sweepTolerance/sweepRange
+        let totalSize:Float = 1.33
+        let overflowSizeAbs:Float = (0.33-percentTolerance!)
+        var progressAdjuster:Float = 0
+        var overflowSizeRel = overflowSizeAbs / totalSize
+        
+        if overflowSizeAbs < 0{
+            progressAdjuster = overflowSizeAbs
+            overflowSizeRel = 0
+        }
+        let underflowSize = (1-percentTolerance!) / totalSize
+        
+        let validZoneSize = (2 * percentTolerance! + progressAdjuster)/totalSize
+        print("\(underflowSize)")
+        print(overflowSizeRel)
+        print(validZoneSize)
+        //----Update Values
+        var newConstraint = progressBarUnderflowSize.constraintWithMultiplier(CGFloat(underflowSize))
+        self.stackViewBar.removeConstraint(progressBarUnderflowSize)
+        progressBarUnderflowSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarUnderflowSize)
+        
+        newConstraint = progressBarOverflowSize.constraintWithMultiplier(CGFloat(overflowSizeRel))
+        self.stackViewBar.removeConstraint(progressBarOverflowSize)
+        progressBarOverflowSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarOverflowSize)
+        
+        newConstraint = progressBarSize.constraintWithMultiplier(CGFloat(validZoneSize))
+        self.stackViewBar.removeConstraint(progressBarSize)
+        progressBarSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarSize)
+        
+        self.stackViewBar.layoutIfNeeded()
+        
+    }
+    
+    //For Beacons
     let locationManager = CLLocationManager()
     let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
     // 8492E75F-4FD6-469D-B132-043FE94921D8
@@ -40,29 +126,64 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     var offset:CGFloat = 100
     var knownBeaconMinorsStrings:[String] = []
-    
-   
-    var selectedSong:URL?
-    
+
+    //Declare variables that are loaded from profile
+    var selectedProfile:String = "Default User"
+    var selectedSongStr: String = "Select Music"
+    var selectedBeepStr: String = "Select Beep"
     var sweepRange: Float = 1.0
+    var caneLength: Float = 1.0
+    var beepCount: Int = 10
+    var sweepTolerance: Float = 20
+    //Other important variable(s) not explicitly loaded from db
+    var selectedSong:URL?
+    var percentTolerance: Float?
+    //For debugging purposes
+    func loadProfile(){
+        let user_row = self.dbInterface.getRow(u_name: selectedProfile)
+        playerName.text = selectedProfile
+        //Change beep noise
+        selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
+
+        //Change Music Title
+        selectedSongStr = String(user_row![self.dbInterface.music])
+        
+        if(selectedSongStr != "Select Music"){
+            selectedSong = URL.init(string: user_row![self.dbInterface.music_url])
+            songTitleLabel.text = selectedSongStr
+        }else{
+            songTitleLabel.text = "Please select song on manage profiles screen"
+        }
+        
+        //For the sliders
+        sweepTolerance = Float(user_row![self.dbInterface.sweep_tolerance])
+        beepCount = Int(user_row![self.dbInterface.beep_count])
+        sweepRange = Float(user_row![self.dbInterface.sweep_width])
+        sweepRangeLabel.text = String(sweepRange)
+        sweepRangeSliderUI.setValue(sweepRange, animated: false)
+
+        caneLength = Float(user_row![self.dbInterface.cane_length])
+    }
     
+    //Sweep Range for dynamic adjustment
     @IBOutlet weak var sweepRangeLabel: UILabel!
+    @IBOutlet weak var sweepRangeSliderUI: UISlider!
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
         sweepRangeLabel.text = String(x)
         sweepRange = sender.value
+        updateProgressView()
     }
     
-    var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
-
-    @IBOutlet weak var controlButton: UIBarButtonItem!
-    var temp:Bool?
     
+    var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
+    //To start the session
+    @IBOutlet weak var controlButton: UIBarButtonItem!
+    var startButtonPressed:Bool? = false
     @IBAction func controlButton(_ sender: Any) {
         
         if controlButton.title == "Start" {
             if selectedSong != nil {
-                
                 
                 activityIndicator.center = self.view.center
                 activityIndicator.hidesWhenStopped = true
@@ -79,7 +200,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 synth.speak(utterance)
                 
                 centralManager = CBCentralManager(delegate: self, queue: nil)
-                temp = false
+                startButtonPressed = true // music mode has started
                 
             } else {
                 createAlert(title: "Error", message: "Not all required fields are complete")
@@ -88,7 +209,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         } else if controlButton.title == "Stop" {
             centralManager.cancelPeripheralConnection(dongleSensorPeripheral)
             //  forget when i reest temp? here, maybe i should make it nil instead? also, i should rename because I already have temp in this file
-            temp = nil
+            startButtonPressed = false
             audioPlayer?.stop()
             
             // text to speech
@@ -98,14 +219,12 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             utterance.rate = 0.6
             synth.speak(utterance)
             controlButton.title = "Start"
+            print("stop button pressed")
      
         }
         
     }
-    
-
-    
-    
+    //Start beacon code
     func createAlert (title:String, message:String) {
         let alert = UIAlertController(title:title, message:message, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in alert.dismiss(animated: true, completion: nil)}))
@@ -113,41 +232,26 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-
-    var centralManager: CBCentralManager!
-    var dongleSensorPeripheral: CBPeripheral!
-    
-    var audioPlayer: AVAudioPlayer?
-    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-    
-    
-    let sweep = Notification.Name(rawValue: sweepNotificationKey)
-    
-    var startSweep = true
-    var startDir:[Float] = []
-    var anglePrev:Float = 0.0
-    let caneLength:Float = 1.1684
-    
-    var beginningMusic = true
-    var sweepTolerance:Float = 2.0
-    
-    var playing = -1
-    var shouldPlay = -1
-    
-    var stopMusicTimer:Timer?
-    var lastSweep = Date()
-    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        sideMenu()
-        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
-        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
-        createObservers()
         
+        sideMenu()
+        //To be deleted. Load the song from user defaults
+//        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
+//        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
+        //The new method should only use User defaults to know what the current profile is
+        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
+            UserDefaults.standard.set("Default User", forKey: "currentProfile")
+        }
+        selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        loadProfile()
+        updateProgressView()
+        createObservers()
+        //For beacons
         locationManager.delegate = self
         if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
             locationManager.requestWhenInUseAuthorization()
@@ -159,10 +263,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         
         animator.addBehavior(gravity)
         gravity.magnitude = 4
-        
-        
-
-        
         
     }
     
@@ -306,6 +406,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             
         }
     }
+    //End becaons
     
     func sideMenu() {
         
@@ -316,23 +417,50 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
     }
+    //Variable Declaration
+    var centralManager: CBCentralManager!
+    var dongleSensorPeripheral: CBPeripheral!
+    
+    var audioPlayer: AVAudioPlayer?
+    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
+    
+    
+    let sweep = Notification.Name(rawValue: sweepNotificationKey)
+    let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
+    
+    var startSweep = true
+    var startDir:[Float] = []
+    var anglePrev:Float = 0.0
+    
+    var beginningMusic = true
+    var sweepTime:Float = 2.0
+    
+    var playing = -1
+    var shouldPlay = -1
+    
+    var stopMusicTimer:Timer?
     
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
     }
     
     @objc func processSweeps(notification: NSNotification) {
         
+        if (!startButtonPressed!){ return}
         let sweepDistance = notification.object as! Float
-        if sweepDistance > sweepRange && temp == false {
+        let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
+        // if we've turned around and we want to play music
+        if is_valid_sweep{
+            // we should play music
             shouldPlay = 1
             print("SweepRange: ", sweepRange)
             
-            stopMusicTimer?.invalidate()
-            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(runCode), userInfo: nil, repeats: true)
-            let now = Date()
-            lastSweep = now
-            if playing != shouldPlay && shouldPlay >= -1 {
+            // create a new timer in case a sweep takes too long?
+//            stopMusicTimer?.invalidate()
+//            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: true)
+            // music has stopped but we want to restart it?
+            if playing != shouldPlay {
                 if beginningMusic == true {
                     if selectedSong != nil {
                         do {
@@ -349,12 +477,17 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 
                 audioPlayer?.play()
                 audioPlayer?.numberOfLoops = -1
-                playing = shouldPlay
+                playing = 1
             }
+        } else{
+        // stop music
+            
+            stopPlaying()
         }
     }
     
-    @objc func runCode() {
+    // stops music from playing
+    @objc func stopPlaying() {
         shouldPlay = -1
         if playing >= 0 {
             audioPlayer?.pause()
@@ -442,90 +575,13 @@ extension MusicViewController: CBPeripheralDelegate {
         switch characteristic.uuid {
         case sensorFusionCharacteristicCBUUID:
             
-            sensorFusionReading(from: characteristic)
+            sensorManager.sensorFusionReading(from: characteristic, caneLength: caneLength)
             
         default:
             1==2
         }
     }
     
-    private func sensorFusionReading(from characteristic: CBCharacteristic) {
-        guard let characteristicData = characteristic.value else { return }
-        let byteArray = [UInt8](characteristicData)
-        let data = Data(bytes: byteArray[3...])
-        
-        let array = data.withUnsafeBytes {
-            [Int16](UnsafeBufferPointer(start: $0, count: 4))
-        }
-        
-        // get quaternion vales from the dongle
-        let w = Float(array[0]) / Float(Int16.max)
-        let x = Float(array[1]) / Float(Int16.max)
-        let y = Float(array[2]) / Float(Int16.max)
-        let z = Float(array[3]) / Float(Int16.max)
-        
-        
-        // Rotation Matrix
-        // math from euclideanspace
-        // for normalization
-        let invs = 1 / (x*x + y*y + z*z + w*w)
-        
-        // x and y projected on z axis from matrix
-        let m02 = 2.0 * (x*z + y*w) * invs
-        let m12 = 2.0 * (y*z - x*w) * invs
-        
-        // normaized vector values multiplied by cane length
-        // to estimate tip of cane
-        let xPos = m02 * caneLength
-        let yPos = m12 * caneLength
-        
-        if xPos.isNaN || yPos.isNaN || (xPos == 0 && yPos == 0) {
-            return
-        }
-        
-        let lengthOnZAxiz = sqrt((xPos * xPos) + (yPos * yPos))
-        
-        if lengthOnZAxiz > 0.6 {
-            
-            // normalizing
-            var direction = [xPos, yPos]
-            let magnitude = lengthOnZAxiz
-            direction = direction.map { $0 / magnitude }
-            
-            // sets frist position as direction as a reference point
-            if startSweep == true {
-                startDir = direction
-                startSweep = false
-            }
-            
-            // using dot product to find angle between starting vector and current direction
-            // varified
-            let angleFromStarting = acos(direction[0] * startDir[0] + direction[1] * startDir[1])
-            
-            // change in angle
-            let deltaAngle = angleFromStarting - anglePrev
-            
-            // change in angle from raidans to degrees
-            let deltaAngleDeg = deltaAngle * 57.2958
-            let sweepDistance = caneLength * sin(angleFromStarting / 2) * 2
-            //            sweepProgress.setProgress(sweepDistance/sweepRange, animated: false)
-            
-            if deltaAngleDeg > 1.0 || deltaAngleDeg < -1.0 {
-                if deltaAngle < 0 {
-                    
-                    // changed
-                    let name = Notification.Name(rawValue: sweepNotificationKey)
-                    NotificationCenter.default.post(name: name, object: sweepDistance)
-                    
-                    startDir = direction
-                    anglePrev = 0.0
-                    return
-                }
-            }
-            anglePrev = angleFromStarting
-        }
-        return
-    }
 }
 
 extension MusicViewController: CLLocationManagerDelegate {
