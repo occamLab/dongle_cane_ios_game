@@ -25,24 +25,87 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var songTitleLabel: UILabel!
     @IBOutlet weak var playerName: UILabel!
     
+    @IBOutlet weak var stackViewBar: UIStackView!
     @IBOutlet weak var progressBarUI: UIProgressView!
+    @IBOutlet weak var progressBarSize: NSLayoutConstraint!
+    //Over the range
     @IBOutlet weak var progressBarOverflowUI: UIProgressView!
+    @IBOutlet weak var progressBarOverflowSize: NSLayoutConstraint!
+    //Under the range
+    @IBOutlet weak var progressBarUnderflow: UIProgressView!
+    @IBOutlet weak var progressBarUnderflowSize: NSLayoutConstraint!
+    
     
     @objc func updateProgress(notification: NSNotification){
         let currSweepRange = notification.object as! Float
-        if(currSweepRange <= sweepRange){
-            progressBarUI.progress = currSweepRange/sweepRange
+        let sweepPercent = currSweepRange/sweepRange
+        let overflowBarLength = (0.33-percentTolerance!)
+        var progressAdjuster:Float = 0
+        if overflowBarLength < 0{
+            progressAdjuster = overflowBarLength
+        }
+        
+        if( sweepPercent <= (1-percentTolerance!)){
+            progressBarUnderflow.progress = sweepPercent/(1-percentTolerance!)
+            progressBarUI.progress = 0
             progressBarOverflowUI.progress = 0
+            
+        }else if(sweepPercent <= (1+percentTolerance!)){
+            progressBarUnderflow.progress = 1
+            progressBarUI.progress = (sweepPercent - (1-percentTolerance!))/((2*percentTolerance!) + progressAdjuster)
+            progressBarOverflowUI.progress = 0
+            
         }else{
+            progressBarUnderflow.progress = 1.0
             progressBarUI.progress = 1.0
-            let overflow = currSweepRange - sweepRange
-            let overflow_percent = overflow/(sweepRange*0.33)
+            if (overflowBarLength <= 0){
+                return
+            }
+            let overflow_percent = (sweepPercent - 1 - percentTolerance!)/overflowBarLength
+            
             if overflow_percent < 1{
                 progressBarOverflowUI.progress = overflow_percent
             }else{
                 progressBarOverflowUI.progress = 1
             }
         }
+    }
+    
+    func updateProgressView(){
+        percentTolerance = sweepTolerance/sweepRange
+        let totalSize:Float = 1.33
+        let overflowSizeAbs:Float = (0.33-percentTolerance!)
+        var progressAdjuster:Float = 0
+        var overflowSizeRel = overflowSizeAbs / totalSize
+        
+        if overflowSizeAbs < 0{
+            progressAdjuster = overflowSizeAbs
+            overflowSizeRel = 0
+        }
+        let underflowSize = (1-percentTolerance!) / totalSize
+        
+        let validZoneSize = (2 * percentTolerance! + progressAdjuster)/totalSize
+        print("\(underflowSize)")
+        print(overflowSizeRel)
+        print(validZoneSize)
+        //----Update Values
+        var newConstraint = progressBarUnderflowSize.constraintWithMultiplier(CGFloat(underflowSize))
+        self.stackViewBar.removeConstraint(progressBarUnderflowSize)
+        progressBarUnderflowSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarUnderflowSize)
+        
+        newConstraint = progressBarOverflowSize.constraintWithMultiplier(CGFloat(overflowSizeRel))
+        self.stackViewBar.removeConstraint(progressBarOverflowSize)
+        progressBarOverflowSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarOverflowSize)
+        
+        newConstraint = progressBarSize.constraintWithMultiplier(CGFloat(validZoneSize))
+        self.stackViewBar.removeConstraint(progressBarSize)
+        progressBarSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarSize)
+        
+        self.stackViewBar.layoutIfNeeded()
+        
     }
     
     //For Beacons
@@ -74,6 +137,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var sweepTolerance: Float = 20
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
+    var percentTolerance: Float?
     //For debugging purposes
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
@@ -108,6 +172,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         let x = Double(sender.value).roundTo(places: 2)
         sweepRangeLabel.text = String(x)
         sweepRange = sender.value
+        updateProgressView()
     }
     
     
@@ -184,7 +249,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
-        
+        updateProgressView()
         createObservers()
         //For beacons
         locationManager.delegate = self

@@ -66,7 +66,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
     let skillLevelSweepToTolerance = ["Level 1": 50, "Level  2": 20, "Level 3": 15, "Level 4": 10, "Level 5": 5]
     let sweepToleranceToSkillLevel = [50: "Level 1", 20: "Level  2", 15: "Level 3", 10: "Level 4", 5: "Level 5"]
-    var sweepToleranceValue: Int = 50
+    var sweepToleranceValue = 50
     
     //Save button
     @IBOutlet weak var editSaveButton: UIButton!
@@ -82,9 +82,14 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
             
             print("text field: \(textField?.text)")
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 50)
+
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 20)
             
             self.pickerProfiles = self.dbInterface.getAllUserNames()
+            self.profileBox.text = textField!.text!
+            UserDefaults.standard.set(self.profileBox.text, forKey: "currentProfile")
+            self.selectedProfile = textField!.text!
+            self.loadOptions()
             
             self.profilePicker.reloadAllComponents()
             
@@ -174,7 +179,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         if skillLevel != nil {
             skillLevelBox.text = skillLevel!
         } else {
-            skillLevelBox.text = "Select Skill Level"
+            skillLevelBox.text = "Level 1"
         }
         //sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
         //sweepToleranceLabel.text = String(sweepToleranceValue!)
@@ -387,12 +392,16 @@ extension GameSettingsViewController {
         } else if (pickerView == sweepTolerancePicker) {
             let level = sweepTolerancePickerData[row]
             skillLevelBox.text = level
+            if level == "Level 1" {
+                sweepToleranceValue = Int(sweepRangeValue!)
+            } else {
                 let sv: Int? = skillLevelSweepToTolerance[level]
                 if sv != nil {
                     sweepToleranceValue = sv!
                 } else {
                     print("sweeptolerance is nil")
                 }
+            }
         }
     }
 }
