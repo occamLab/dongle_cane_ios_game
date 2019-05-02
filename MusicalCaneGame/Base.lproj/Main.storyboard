@@ -50,8 +50,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sweep Tolerance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v9t-Id-Fdo">
-                                <rect key="frame" x="20" y="374.5" width="131" height="21"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sweep Tolerance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v9t-Id-Fdo">
+                                <rect key="frame" x="20" y="467" width="131" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -62,8 +62,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15 in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Euz-sr-eqR">
-                                <rect key="frame" x="159.5" y="374.5" width="36" height="21"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="15 in" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Euz-sr-eqR">
+                                <rect key="frame" x="170" y="468" width="36" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -100,6 +100,13 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h24-fl-c4P">
                                 <rect key="frame" x="20" y="87" width="53.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Skill Level:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="msY-aU-FLe">
+                                <rect key="frame" x="16" y="389" width="121" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -161,16 +168,19 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="15" minValue="5" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="7fj-6Y-tuW">
-                                <rect key="frame" x="18" y="403.5" width="284" height="31"/>
+                            <slider hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="15" minValue="5" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="7fj-6Y-tuW">
+                                <rect key="frame" x="14" y="483" width="284" height="31"/>
                                 <connections>
                                     <action selector="sweepTolerChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="jPx-Hr-F6o"/>
                                 </connections>
                             </slider>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUh-8N-M8i">
-                                <rect key="frame" x="20" y="441" width="186" height="57"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            </pickerView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="infinite" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Select Skill Level" borderStyle="roundedRect" placeholder="beep" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gbk-hl-uyQ">
+                                <rect key="frame" x="165" y="389" width="131" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -275,11 +285,11 @@
                         <outlet property="profileBox" destination="B3a-NK-mxw" id="aon-LR-0gW"/>
                         <outlet property="selectBeepNoiseText" destination="bcH-Km-hSE" id="mlF-Zh-YDw"/>
                         <outlet property="selectMusicText" destination="2a9-Gg-Mzh" id="1H0-RY-AX1"/>
+                        <outlet property="skillLevelText" destination="Gbk-hl-uyQ" id="VG4-uU-yKh"/>
                         <outlet property="sweepRangeLabel" destination="I7c-ki-mOh" id="tf7-ao-FBV"/>
                         <outlet property="sweepRangeSlider" destination="Z7C-JH-RFr" id="NBJ-Yy-bO3"/>
                         <outlet property="sweepRangeText" destination="5Db-41-Ihh" id="3EO-33-tVA"/>
                         <outlet property="sweepToleranceLabel" destination="Euz-sr-eqR" id="Lcc-aU-5NF"/>
-                        <outlet property="sweepTolerancePicker" destination="GUh-8N-M8i" id="fol-lN-VDu"/>
                         <outlet property="sweepToleranceSlider" destination="7fj-6Y-tuW" id="ILM-TA-ydT"/>
                         <outlet property="sweepToleranceText" destination="v9t-Id-Fdo" id="y9Z-fa-FRS"/>
                     </connections>

@@ -62,10 +62,13 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var sweepToleranceSlider: UISlider!
     @IBOutlet weak var sweepToleranceLabel: UILabel!
     @IBOutlet weak var sweepToleranceText: UILabel!
-    var sweepToleranceValue: Float?
+    //var sweepToleranceValue: Float?
     
-    @IBOutlet weak var sweepTolerancePicker: UIPickerView!
+    @IBOutlet weak var skillLevelText: UITextField!
+    let sweepTolerancePicker = UIPickerView()
     let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
+    let levelSweepToleranceMap = ["Level 1": 50, "Level  2": 20, "Level 3": 15, "Level 4": 10, "Level 5": 5]
+    var sweepToleranceValue: Int = 50
     //Save button
     @IBOutlet weak var editSaveButton: UIButton!
     var isEdit:Bool = true
@@ -118,10 +121,10 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " in"
     }
     
-    @IBAction func sweepTolerChanged(_ sender: UISlider) {
-        sweepToleranceValue = Float(sender.value)
-        sweepToleranceLabel.text = String(format:"%.1f",sweepToleranceValue!) + " in"
-    }
+//    @IBAction func sweepTolerChanged(_ sender: UISlider) {
+//        sweepToleranceValue = Float(sender.value)
+//        sweepToleranceLabel.text = String(format:"%.1f",sweepToleranceValue!) + " in"
+//    }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(sweepTolerancePickerData[row])
@@ -170,9 +173,10 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         caneLengthValue = Float(user_row![self.dbInterface.cane_length])
         caneLengthSlider.setValue(caneLengthValue!, animated: false)
         caneLengthLabel.text = String(caneLengthSlider.value)
-        sweepToleranceValue = Float(user_row![self.dbInterface.sweep_tolerance])
-        sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
-        sweepToleranceLabel.text = String(sweepToleranceValue!)
+        sweepToleranceValue = Int(user_row![self.dbInterface.sweep_tolerance])
+        skillLevelText.text = String(sweepToleranceValue)
+        //sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
+        //sweepToleranceLabel.text = String(sweepToleranceValue!)
         
     }
     
@@ -190,7 +194,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
                     u_music: selectedSongTitle!,
                     u_beep_noise: selectedBeepNoise!,
                     u_music_url: mySongStr!,
-                    u_sweep_tolerance: Double(sweepToleranceValue!))
+                    u_sweep_tolerance: Double(sweepToleranceValue))
             }catch{
                 print("error updating users table in game settings: \(error)")
             }
@@ -208,6 +212,10 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         pickerProfiles = self.dbInterface.getAllUserNames()
         print(pickerProfiles)
         createProfilePicker()
+        
+        self.sweepTolerancePicker.delegate = self
+        self.sweepTolerancePicker.dataSource = self
+        self.skillLevelText.inputView = sweepTolerancePicker
         
         //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
@@ -249,6 +257,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         beepNoiseBox.inputAccessoryView = toolbar
         profileBox.inputAccessoryView = toolbar
+        skillLevelText.inputAccessoryView = toolbar
     }
     
     @objc func dismissKeyboard() {
@@ -275,20 +284,15 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // sweep tolerance level picker
     
-    // Number of columns of data
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    // The number of rows of data
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return sweepTolerancePickerData.count
-    }
+//    // The number of rows of data
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        return sweepTolerancePickerData.count
+//    }
     
     // The data to return fopr the row and component (column) that's being passed in
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return sweepTolerancePickerData[row]
-    }
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        return sweepTolerancePickerData[row]
+//    }
     
 
     
@@ -347,6 +351,8 @@ extension GameSettingsViewController {
             return beepNoises.count
         }else if(pickerView == profilePicker){
             return pickerProfiles.count
+        } else if (pickerView == sweepTolerancePicker) {
+            return sweepTolerancePickerData.count
         }
         return 0
     }
@@ -356,6 +362,9 @@ extension GameSettingsViewController {
             return beepNoises[row]
         }else if(pickerView == profilePicker){
             return pickerProfiles[row]
+        } else if (pickerView == sweepTolerancePicker) {
+            print("sweep tolerance!")
+            return sweepTolerancePickerData[row]
         }
         return ""
     }
@@ -374,6 +383,15 @@ extension GameSettingsViewController {
             UserDefaults.standard.set(profileBox.text, forKey: "currentProfile")
             selectedProfile = pickerProfiles[row]
             loadOptions()
+        } else if (pickerView == sweepTolerancePicker) {
+            let level = sweepTolerancePickerData[row]
+            skillLevelText.text = level
+                let sv: Int? = levelSweepToleranceMap[level]
+                if sv != nil {
+                    sweepToleranceValue = sv!
+                } else {
+                    print("sweeptolerance is nil")
+                }
         }
     }
 }
