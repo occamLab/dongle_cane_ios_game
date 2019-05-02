@@ -1129,455 +1129,448 @@
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 35,
-      "symbol": "MusicViewController.dbInterface",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 37,
+      "line": 38,
       "symbol": "MusicViewController.menuButton",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 38,
+      "line": 39,
       "symbol": "MusicViewController.songTitleLabel",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 40,
+      "line": 41,
       "symbol": "MusicViewController.locationManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 41,
+      "line": 42,
       "symbol": "MusicViewController.region",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 45,
+      "line": 46,
       "symbol": "MusicViewController.beacons",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 47,
+      "line": 48,
       "symbol": "MusicViewController.viewsBeacons",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 48,
+      "line": 49,
       "symbol": "MusicViewController.animator",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 49,
+      "line": 50,
       "symbol": "MusicViewController.gravity",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 50,
+      "line": 51,
       "symbol": "MusicViewController.snap",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 51,
+      "line": 52,
       "symbol": "MusicViewController.previousTouchPoint",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 52,
+      "line": 53,
       "symbol": "MusicViewController.viewDragging",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 53,
+      "line": 54,
       "symbol": "MusicViewController.viewPinned",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 55,
+      "line": 56,
       "symbol": "MusicViewController.offset",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 56,
+      "line": 57,
       "symbol": "MusicViewController.knownBeaconMinorsStrings",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 59,
+      "line": 60,
       "symbol": "MusicViewController.selectedProfile",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 60,
+      "line": 61,
       "symbol": "MusicViewController.selectedSongStr",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 61,
+      "line": 62,
       "symbol": "MusicViewController.selectedBeepStr",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 62,
+      "line": 63,
       "symbol": "MusicViewController.sweepRange",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 63,
+      "line": 64,
       "symbol": "MusicViewController.caneLength",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 64,
+      "line": 65,
       "symbol": "MusicViewController.beepCount",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 66,
+      "line": 67,
       "symbol": "MusicViewController.selectedSong",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 68,
+      "line": 69,
       "symbol": "MusicViewController.loadProfile()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 93,
+      "line": 94,
       "symbol": "MusicViewController.sweepRangeLabel",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 94,
+      "line": 95,
       "symbol": "MusicViewController.sweepRangeSliderUI",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 95,
+      "line": 96,
       "symbol": "MusicViewController.sweepRangeSlider(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 102,
+      "line": 103,
       "symbol": "MusicViewController.activityIndicator",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 104,
+      "line": 105,
       "symbol": "MusicViewController.controlButton",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 105,
+      "line": 106,
       "symbol": "MusicViewController.temp",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 106,
+      "line": 107,
       "symbol": "MusicViewController.controlButton(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 150,
+      "line": 151,
       "symbol": "MusicViewController.createAlert(title:message:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 157,
+      "line": 158,
       "symbol": "MusicViewController.deinit",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 161,
+      "line": 162,
       "symbol": "MusicViewController.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 191,
+      "line": 192,
       "symbol": "MusicViewController.addViewController(atOffset:dataForVC:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 239,
+      "line": 240,
       "symbol": "MusicViewController.handlePan(gestureRecognizer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 266,
+      "line": 267,
       "symbol": "MusicViewController.pin(view:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 293,
+      "line": 294,
       "symbol": "MusicViewController.setVisibility(view:alpha:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 302,
+      "line": 303,
       "symbol": "MusicViewController.addVelocity(toView:fromGestureRecognizer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 312,
+      "line": 313,
       "symbol": "MusicViewController.itemBehavior(forView:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 324,
+      "line": 325,
       "symbol": "MusicViewController.collisionBehavior(_:endedContactFor:withBoundaryIdentifier:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 332,
+      "line": 333,
       "symbol": "MusicViewController.sideMenu()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 342,
+      "line": 343,
       "symbol": "MusicViewController.centralManager",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 343,
+      "line": 344,
       "symbol": "MusicViewController.dongleSensorPeripheral",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 345,
+      "line": 346,
       "symbol": "MusicViewController.audioPlayer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 346,
+      "line": 347,
       "symbol": "MusicViewController.myMediaPlayer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 349,
+      "line": 350,
       "symbol": "MusicViewController.sweep",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 351,
+      "line": 352,
       "symbol": "MusicViewController.startSweep",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 352,
+      "line": 353,
       "symbol": "MusicViewController.startDir",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 353,
+      "line": 354,
       "symbol": "MusicViewController.anglePrev",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 355,
+      "line": 356,
       "symbol": "MusicViewController.beginningMusic",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 356,
+      "line": 357,
       "symbol": "MusicViewController.sweepTolerance",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 358,
+      "line": 359,
       "symbol": "MusicViewController.playing",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 359,
+      "line": 360,
       "symbol": "MusicViewController.shouldPlay",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 361,
+      "line": 362,
       "symbol": "MusicViewController.stopMusicTimer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 362,
+      "line": 363,
       "symbol": "MusicViewController.lastSweep",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 364,
+      "line": 365,
       "symbol": "MusicViewController.createObservers()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 368,
+      "line": 369,
       "symbol": "MusicViewController.processSweeps(notification:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 401,
+      "line": 402,
       "symbol": "MusicViewController.runCode()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 419,
+      "line": 420,
       "symbol": "MusicViewController.centralManagerDidUpdateState(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 438,
+      "line": 439,
       "symbol": "MusicViewController.centralManager(_:didDiscover:advertisementData:rssi:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 445,
+      "line": 446,
       "symbol": "MusicViewController.centralManager(_:didConnect:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 451,
+      "line": 452,
       "symbol": "MusicViewController.peripheral(_:didDiscoverServices:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 459,
+      "line": 460,
       "symbol": "MusicViewController.peripheral(_:didDiscoverCharacteristicsFor:error:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 485,
+      "line": 486,
       "symbol": "MusicViewController.peripheral(_:didUpdateValueFor:error:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/slyu/Documents/dongle_cane_ios_game/MusicalCaneGame/MusicViewController.swift",
-      "line": 577,
+      "line": 578,
       "symbol": "MusicViewController.locationManager(_:didRangeBeacons:in:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"

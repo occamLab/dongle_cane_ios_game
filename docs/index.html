@@ -13,7 +13,7 @@
     <a title="  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html"> Docs</a> (1% documented)</p>
+        <p><a href="index.html"> Docs</a> (0% documented)</p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -51,9 +51,6 @@
                 <a href="Classes/BeepSegmentViewController.html">BeepSegmentViewController</a>
               </li>
               <li class="nav-group-task">
-                <a href="Classes/DBInterface.html">DBInterface</a>
-              </li>
-              <li class="nav-group-task">
                 <a href="Classes/GameSettingsViewController.html">GameSettingsViewController</a>
               </li>
               <li class="nav-group-task">
@@ -85,6 +82,9 @@
               <li class="nav-group-task">
                 <a href="Global Variables.html#/s:15MusicalCaneGame20sweepNotificationKeySSvp">sweepNotificationKey</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Global Variables.html#/s:15MusicalCaneGame29updateProgressNotificationKeySSvp">updateProgressNotificationKey</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -92,6 +92,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Extensions/Double.html">Double</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSLayoutConstraint.html">NSLayoutConstraint</a>
               </li>
             </ul>
           </li>
@@ -101,12 +104,76 @@
         <section>
           <section class="section">
             
-            <h3 id='authors' class='heading'>Authors</h3>
+            <h1 id='musical-cane-game' class='heading'>Musical Cane Game</h1>
+
+<p>Last updated : April 25th, 2019</p>
+<h2 id='background' class='heading'>Background</h2>
+
+<p>This project has been initiated and maintained by Paul&rsquo;s students (Occam Lab, TAD)
+Eric Jerman from Perkins School for the Blind is our primary partner for this project.
+He works with students at Perkins School for the Blind to help them develop their orientation and mobility skills.
+<strong>Orientation and Mobility</strong> refers to a set of skills that consists of knowing where you are in an environment, understanding how to navigate to a place of interest, and how to move about safely within an environment.While these skills are vital to the independence of Eric’s students, their motivation to practice these skills is often low.  In contrast, other elements of the Perkins curriculum (e.g., music therapy) tend to be met with more excitement and commitment.  Eric is interested in developing strategies for making his sessions more engaging and effective through the use of the concept of gamified learning, whereby elements of game design are brought to an educational context.</p>
+<h2 id='introduction' class='heading'>Introduction</h2>
+
+<p>Musical Cane Game gamifies the orientation and mobility learning experience and helps an O&amp;M instructor by</p>
+
+<ul>
+<li>Motivating students with sounds, music, and beep noises</li>
+<li>Rewarding students while preventing them from <q>cheating</q></li>
+<li>Providing Real-Time feedback of a student&rsquo;s cane sweep through the app screen</li>
+<li>Enabling customized support for each individual student (cane length, sweep range, skill level)</li>
+<li>Introducing cool features like <q>Shepard&rsquo;s Grip</q></li>
+</ul>
+<h3 id='how-to-play' class='heading'>How to Play</h3>
+
+<p>This guide is for the O&amp;M instructor who runs the training sessions with students who play this game.
+To play our musical cane game,</p>
+
+<ol>
+<li>Create a new profile for the student.</li>
+<li>Touch &lsquo;Edit&rsquo;</li>
+<li>Select the student&rsquo;s favorite music, sounds, and beep noises from Apple Music. 
+You need to put sound files into Apple Music if you don&rsquo;t have any
+(The app only selects music files from Apple Music)</li>
+<li>Set custom values for the student
+
+<ul>
+<li>Beep Count : Number of Beeps needed for the reward music to play</li>
+<li>Cane Length (inches) : Length between the tip of the cane and the student&rsquo;s grip</li>
+<li>Sweep Range (inches): Chord Length (straight line from left end to right end) of the sweep range</li>
+<li>Skill Level : Determines the error tolerance (from 1 being super loose to 5 being super strict)</li>
+</ul></li>
+<li>Touch &lsquo;Save&rsquo;</li>
+<li>Go to the side navigation and choose the game mode you would like to play
+There are three different modes available.
+
+<ul>
+<li>Sound Mode</li>
+<li>Music Mode</li>
+<li>Beep Mode</li>
+</ul></li>
+<li>Touch &lsquo;Start&rsquo;. With sound turned on, you should hear &lsquo;Connected, start sweeping&rsquo;</li>
+<li>Let the student start sweeping, refer to the screen to guide the student accordingly.</li>
+<li>When the reward music plays, Touch &lsquo;Stop&rsquo;.</li>
+</ol>
+<h3 id='contribution-guide-for-developers' class='heading'>Contribution Guide (for developers)</h3>
+
+<p>Code documentation (Jazzy) is available in <code>docs/</code>.
+Pod / DB Guide
+Test Flight</p>
+<h3 id='future-direction' class='heading'>Future Direction</h3>
+
+<ul>
+<li>Tracking of a student&rsquo;s progress over multiple games (Generate daily, weekly, monthly development report)</li>
+<li>Beacons Mode (expansion of the game into learning spaces around)</li>
+<li>Detect Cane Velocity</li>
+<li>Refactor the code base</li>
+</ul>
 
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2019-04-18)</p>
+          <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2019-05-02)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
