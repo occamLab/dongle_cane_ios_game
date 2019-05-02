@@ -58,17 +58,16 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var sweepRangeLabel: UILabel!
     @IBOutlet weak var sweepRangeText: UILabel!
     var sweepRangeValue: Float?
-    //Sweeo Tolerance
-    @IBOutlet weak var sweepToleranceSlider: UISlider!
-    @IBOutlet weak var sweepToleranceLabel: UILabel!
-    @IBOutlet weak var sweepToleranceText: UILabel!
-    //var sweepToleranceValue: Float?
-    
-    @IBOutlet weak var skillLevelText: UITextField!
+
+    // skill level/ sweep tolerance
+    @IBOutlet weak var skillLevelLabel: UILabel!
+    @IBOutlet weak var skillLevelBox: UITextField!
     let sweepTolerancePicker = UIPickerView()
     let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
-    let levelSweepToleranceMap = ["Level 1": 50, "Level  2": 20, "Level 3": 15, "Level 4": 10, "Level 5": 5]
+    let skillLevelSweepToTolerance = ["Level 1": 50, "Level  2": 20, "Level 3": 15, "Level 4": 10, "Level 5": 5]
+    let sweepToleranceToSkillLevel = [50: "Level 1", 20: "Level  2", 15: "Level 3", 10: "Level 4", 5: "Level 5"]
     var sweepToleranceValue: Int = 50
+    
     //Save button
     @IBOutlet weak var editSaveButton: UIButton!
     var isEdit:Bool = true
@@ -83,7 +82,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
             
             print("text field: \(textField?.text)")
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 20)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 1.0, u_cane_length: 1.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 50)
             
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             
@@ -121,11 +120,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " in"
     }
     
-//    @IBAction func sweepTolerChanged(_ sender: UISlider) {
-//        sweepToleranceValue = Float(sender.value)
-//        sweepToleranceLabel.text = String(format:"%.1f",sweepToleranceValue!) + " in"
-//    }
-    
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(sweepTolerancePickerData[row])
         }
@@ -139,13 +133,13 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         caneLengthLabel.isEnabled = b
         sweepRangeSlider.isEnabled = b
         sweepRangeLabel.isEnabled = b
-        sweepToleranceSlider.isEnabled = b
-        sweepToleranceLabel.isEnabled = b
+        skillLevelBox.isEnabled = b
+        skillLevelLabel.isEnabled = b
+        
         
         caneLengthText.isEnabled = b
         sweepRangeText.isEnabled = b
         beepCountText.isEnabled = b
-        sweepToleranceText.isEnabled = b
         selectBeepNoiseText.isEnabled = b
         selectMusicText.isEnabled = b
     }
@@ -173,8 +167,15 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         caneLengthValue = Float(user_row![self.dbInterface.cane_length])
         caneLengthSlider.setValue(caneLengthValue!, animated: false)
         caneLengthLabel.text = String(caneLengthSlider.value)
+        
+        // User skill level
         sweepToleranceValue = Int(user_row![self.dbInterface.sweep_tolerance])
-        skillLevelText.text = String(sweepToleranceValue)
+        let skillLevel = sweepToleranceToSkillLevel[sweepToleranceValue]
+        if skillLevel != nil {
+            skillLevelBox.text = skillLevel!
+        } else {
+            skillLevelBox.text = "Select Skill Level"
+        }
         //sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
         //sweepToleranceLabel.text = String(sweepToleranceValue!)
         
@@ -215,7 +216,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         self.sweepTolerancePicker.delegate = self
         self.sweepTolerancePicker.dataSource = self
-        self.skillLevelText.inputView = sweepTolerancePicker
+        self.skillLevelBox.inputView = sweepTolerancePicker
         
         //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
@@ -257,7 +258,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         beepNoiseBox.inputAccessoryView = toolbar
         profileBox.inputAccessoryView = toolbar
-        skillLevelText.inputAccessoryView = toolbar
+        skillLevelBox.inputAccessoryView = toolbar
     }
     
     @objc func dismissKeyboard() {
@@ -385,8 +386,8 @@ extension GameSettingsViewController {
             loadOptions()
         } else if (pickerView == sweepTolerancePicker) {
             let level = sweepTolerancePickerData[row]
-            skillLevelText.text = level
-                let sv: Int? = levelSweepToleranceMap[level]
+            skillLevelBox.text = level
+                let sv: Int? = skillLevelSweepToTolerance[level]
                 if sv != nil {
                     sweepToleranceValue = sv!
                 } else {
