@@ -1,17 +1,19 @@
-//
+/**
 //  GameSettingsViewController.swift
 //  MusicalCaneGame
 //
 //  Created by Anna Griffin on 10/5/18.
 //  Copyright © 2018 occamlab. All rights reserved.
-//
+*/
 
 import UIKit
 import CoreBluetooth
 import AVFoundation
 import MediaPlayer
 
-
+/**
+Add sample doc for GameSetitngs
+*/
 class GameSettingsViewController: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
