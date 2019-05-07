@@ -129,7 +129,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
     }
 
-    //For Beacons
+    ///For Beacons `DUPLICATED`
     let locationManager = CLLocationManager()
     let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
     // 8492E75F-4FD6-469D-B132-043FE94921D8
@@ -148,7 +148,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var offset:CGFloat = 100
     var knownBeaconMinorsStrings:[String] = []
 
-    //Declare variables that are loaded from profile
+    ///Declare variables that are loaded from profile `DUPLICATED`
     var selectedProfile:String = "Default User"
     var selectedSongStr: String = "Select Music"
     var selectedBeepStr: String = "Select Beep"
@@ -159,7 +159,10 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:URL?
     var percentTolerance: Float?
-    //For debugging purposes
+    /**
+      `DUPLICATED`
+      Load a user profile into global memory using the global `selectedProfile`
+    */
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
         playerName.text = selectedProfile
@@ -186,9 +189,14 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         caneLength = Float(user_row![self.dbInterface.cane_length])
     }
 
-    //Sweep Range for dynamic adjustment
+
     @IBOutlet weak var sweepRangeLabel: UILabel!
     @IBOutlet weak var sweepRangeSliderUI: UISlider!
+    /**
+      `DUPLICATED`
+      Allow the user to update the sweep range on the fly
+      Will update the view of the progress bars
+    */
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
         sweepRangeLabel.text = String(x)
@@ -201,6 +209,12 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     //To start the session
     @IBOutlet weak var controlButton: UIBarButtonItem!
     var startButtonPressed:Bool? = false
+    /**
+      This is a function that gets activated whenever the start/stop button is pressed
+      It will give feedback when it is looking for a connection and when it found one
+      It should connect and init the audio player when started
+      It should stop the audio and disconnect when stopped
+    */
     @IBAction func controlButton(_ sender: Any) {
 
         if controlButton.title == "Start" {
@@ -224,7 +238,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 startButtonPressed = true // music mode has started
 
             } else {
-                createAlert(title: "Error", message: "Not all required fields are complete")
+                createAlert(title: "Error", message: "Please select song")
 
             }
         } else if controlButton.title == "Stop" {
@@ -252,18 +266,35 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
         self.present(alert, animated: true, completion: nil)
     }
+    //Variable Declaration
+    var centralManager: CBCentralManager!
+    var dongleSensorPeripheral: CBPeripheral!
+
+    var audioPlayer: AVAudioPlayer?
+    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
+
+
+    let sweep = Notification.Name(rawValue: sweepNotificationKey)
+    let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
+    var beginningMusic = true
 
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-
+    /**
+    When the sview is loaded function will (in order)
+    1.Call the super view
+    2. Create the side menu
+    3. Choose which user profile is being used via default settings
+    4. Load the profile preference
+    5. Dynamically change the progress bars according to preferences
+    6. Register functions for calls from other files (create observers)
+    7. Handle Beacon stuff
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
 
         sideMenu()
-        //To be deleted. Load the song from user defaults
-//        selectedSong = UserDefaults.standard.url(forKey: "mySongURL")
-//        songTitleLabel.text = UserDefaults.standard.string(forKey: "mySongTitle")
         //The new method should only use User defaults to know what the current profile is
         if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
             UserDefaults.standard.set("Default User", forKey: "currentProfile")
@@ -286,7 +317,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         gravity.magnitude = 4
 
     }
-
+    ///For Beacons `DUPLICATED`
     func addViewController (atOffset offset:CGFloat, dataForVC data:AnyObject?) -> UIView? {
 
         let frameForView = self.view.bounds.offsetBy(dx: 0, dy: self.view.bounds.size.height - offset)
@@ -334,7 +365,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         return nil
 
     }
-
+    ///For Beacons `DUPLICATED`
     @objc func handlePan (gestureRecognizer:UIPanGestureRecognizer) {
 
         let touchPoint = gestureRecognizer.location(in: self.view)
@@ -361,7 +392,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         }
 
     }
-
+    ///For Beacons `DUPLICATED`
     func pin (view:UIView) {
 
         // how far user has to drag upwards for it to pin
@@ -388,7 +419,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         }
     }
-
+    ///For Beacons `DUPLICATED`
     func setVisibility (view:UIView, alpha:CGFloat) {
 
         for aView in viewsBeacons {
@@ -397,7 +428,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         }
     }
-
+    ///For Beacons `DUPLICATED`
     func addVelocity (toView view:UIView, fromGestureRecognizer panGesture:UIPanGestureRecognizer) {
         var velocity = panGesture.velocity(in: self.view)
         velocity.x = 0
@@ -407,7 +438,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         }
 
     }
-
+    ///For Beacons `DUPLICATED`
     func itemBehavior (forView view:UIView) -> UIDynamicItemBehavior? {
 
         for behavior in animator.behaviors {
@@ -419,7 +450,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         return nil
     }
-
+    ///For Beacons `DUPLICATED`
     func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
         if NSNumber(integerLiteral: 2).isEqual(identifier){
             let view = item as! UIView
@@ -428,7 +459,11 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         }
     }
     //End becaons
-
+    func createObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
+    }
+    //Loads the navigation menu `DUPLICATED`
     func sideMenu() {
 
         if revealViewController() != nil {
@@ -438,34 +473,19 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
     }
-    //Variable Declaration
-    var centralManager: CBCentralManager!
-    var dongleSensorPeripheral: CBPeripheral!
 
-    var audioPlayer: AVAudioPlayer?
-    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-
-
-    let sweep = Notification.Name(rawValue: sweepNotificationKey)
-    let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
-
-    var startSweep = true
-    var startDir:[Float] = []
-    var anglePrev:Float = 0.0
-
-    var beginningMusic = true
     var sweepTime:Float = 2.0
 
     var playing = -1
     var shouldPlay = -1
 
     var stopMusicTimer:Timer?
-
-    func createObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
-    }
-
+    /**
+      This function is called when the user switched cane movement directions.
+      If the sweep is long enough it will start or continue the music, otherwise
+      it will stop the music
+      Parameter notification: Passed in container that has the length of the sweep
+    */
     @objc func processSweeps(notification: NSNotification) {
 
         if (!startButtonPressed!){ return}
@@ -507,7 +527,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         }
     }
 
-    // stops music from playing
+    /// Stops music from playing if necessary
     @objc func stopPlaying() {
         shouldPlay = -1
         if playing >= 0 {
@@ -524,8 +544,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 //        return (self*divisor).rounded() / divisor
 //    }
 //}
-
+///I believe this handles all the connection to the bluetooth device`DUPLICATED`
 extension MusicViewController: CBCentralManagerDelegate {
+    ///Honestly have no idea what's going on here
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
 
@@ -556,7 +577,7 @@ extension MusicViewController: CBCentralManagerDelegate {
         dongleSensorPeripheral.discoverServices(nil)
     }
 }
-
+///I believe this handles some of the speaking associated with bluetooth connection
 extension MusicViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
@@ -602,9 +623,8 @@ extension MusicViewController: CBPeripheralDelegate {
             1==2
         }
     }
-
 }
-
+///I Believe this does beacon stuff. Continually scanning for them `DUPLICATED`
 extension MusicViewController: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {

@@ -153,7 +153,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     }
 
     //---------------------------
-    //Defintions for beacons
+    ///Defintions for beacons `DUPLICATED`
     let locationManager = CLLocationManager()
     let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
     // 8492E75F-4FD6-469D-B132-043FE94921D8
@@ -172,7 +172,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var offset:CGFloat = 100
     var knownBeaconMinorsStrings:[String] = []
     //----------------------------
-    //Declare variables that are loaded from profile
+    ///Declare variables that are loaded from profile `DUPLICATED`
     var selectedProfile:String = "Default User"
     var selectedSongStr: String = "Select Music"
     var selectedBeepStr: String = "Select Beep"
@@ -184,7 +184,10 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var selectedSong:URL?
     var selectedBeepNoiseCode: Int?
     var percentTolerance: Float?
-
+    /**
+      `DUPLICATED`
+      Load a user profile into global memory using the global `selectedProfile`
+    */
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
         playerName.text = selectedProfile
@@ -215,6 +218,11 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
     @IBOutlet weak var sweepRangeLabel: UILabel!
     @IBOutlet weak var sweepRangeSliderUI: UISlider!
+    /**
+      `DUPLICATED`
+      Allow the user to update the sweep range on the fly
+      Will update the view of the progress bars
+    */
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
         sweepRangeLabel.text = String(x)
@@ -229,6 +237,12 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var startButtonPressed:Bool?
     var speakSweeps:Bool = true
 
+    /**
+      This is a function that gets activated whenever the start/stop button is pressed
+      It will give feedback when it is looking for a connection and when it found one
+      It should connect and init the audio player when started
+      It should eset number beeps, stop the audio and disconnect when stopped
+    */
     @IBAction func controlButton(_ sender: Any) {
         if controlButton.title == "Start" {
             if selectedSong != nil && (selectedBeepNoiseCode != nil || speakSweeps){
@@ -275,13 +289,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             utterance.rate = 0.6
             synth.speak(utterance)
             controlButton.title = "Start"
-
         }
-
-
     }
-
-
 
     func createAlert (title:String, message:String) {
         let alert = UIAlertController(title:title, message:message, preferredStyle: UIAlertControllerStyle.alert)
@@ -289,7 +298,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
         self.present(alert, animated: true, completion: nil)
     }
-
+    //Definitions for sweeping
     var centralManager: CBCentralManager!
     var dongleSensorPeripheral: CBPeripheral!
 
@@ -300,12 +309,13 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
     var beginningMusic = true
 
-    var startSweep = true
-    var startDir:[Float] = []
-    var anglePrev:Float = 0.0
-
     var numSweeps:Int = 0
-
+    /**
+    Creates a large array that will be filled with false and some true at the
+    specified indices (the first is controlled by the user while the rest are hardcoded)
+    The main sweep loop will reference this array at each index to see whether to
+    play the reward music
+    */
     func populateRewards() -> ([Int: Bool]) {
 
         var reward: [Int: Bool] = [:]
@@ -336,7 +346,17 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var viewContainer: UIView!
     var views: [UIView]!
 
-
+    /**
+    When the sview is loaded function will (in order)
+    1.Call the super view
+    2. Create the side menu
+    3. Choose which user profile is being used via default settings
+    4. Load the profile preference
+    5. Dynamically change the progress bars according to preferences
+    6. Register functions for calls from other files (create observers)
+    7. Handle Beacon stuff
+    8. Center the text in the dynamic view
+    */
     override func viewDidLoad() {
         super.viewDidLoad()
         sideMenu()
@@ -387,7 +407,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
 
     }
-
+    ///For Beacons `DUPLICATED`
     func addViewController (atOffset offset:CGFloat, dataForVC data:AnyObject?) -> UIView? {
 
         let frameForView = self.view.bounds.offsetBy(dx: 0, dy: self.view.bounds.size.height - offset)
@@ -435,7 +455,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         return nil
 
     }
-
+    ///For Beacons `DUPLICATED`
     @objc func handlePan (gestureRecognizer:UIPanGestureRecognizer) {
         let touchPoint = gestureRecognizer.location(in: self.view)
         let draggedView = gestureRecognizer.view!
@@ -460,7 +480,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             viewDragging = false
         }
     }
-
+    ///For Beacons `DUPLICATED`
     func pin (view:UIView) {
 
         // how far user has to drag upwards for it to pin
@@ -487,7 +507,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         }
     }
-
+    ///For Beacons `DUPLICATED`
     func setVisibility (view:UIView, alpha:CGFloat) {
 
         for aView in viewsBeacons {
@@ -496,7 +516,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         }
     }
-
+    ///For Beacons `DUPLICATED`
     func addVelocity (toView view:UIView, fromGestureRecognizer panGesture:UIPanGestureRecognizer) {
         var velocity = panGesture.velocity(in: self.view)
         velocity.x = 0
@@ -506,7 +526,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         }
 
     }
-
+    ///For Beacons `DUPLICATED`
     func itemBehavior (forView view:UIView) -> UIDynamicItemBehavior? {
 
         for behavior in animator.behaviors {
@@ -518,7 +538,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         return nil
     }
-
+    ///For Beacons `DUPLICATED`
     func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
         if NSNumber(integerLiteral: 2).isEqual(identifier){
             let view = item as! UIView
@@ -530,14 +550,13 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    //End beacons
 
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.processSweeps (notification:)), name: sweep, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
     }
-
-
-
+    //Loads the navigation menu `DUPLICATED`
     func sideMenu() {
 
         if revealViewController() != nil {
@@ -550,7 +569,12 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
         }
     }
-
+    /**
+      This function is called when the user switched cane movement directions.
+    If the sweep is long enough it will beep or speak the count (depending on the mode)
+    Also if the sweep activated is one of the key numbers to play music, it will play the selected song
+    Parameter notification: Passed in container that has the length of the sweep
+    */
     @objc func processSweeps(notification: NSNotification) {
         let sweepDistance = notification.object as! Float
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
@@ -601,12 +625,10 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         }
     }
-
-
-
 }
-
+///I believe this handles all the connection to the bluetooth device`DUPLICATED`
 extension SoundViewController: CBCentralManagerDelegate {
+    ///Honestly have no idea what's going on here
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch central.state {
 
@@ -626,7 +648,6 @@ extension SoundViewController: CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        print(peripheral)
         dongleSensorPeripheral = peripheral
         dongleSensorPeripheral.delegate = self
         centralManager.stopScan()
@@ -634,7 +655,6 @@ extension SoundViewController: CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("Connected!")
         dongleSensorPeripheral.discoverServices(nil)
     }
 }
@@ -646,6 +666,7 @@ extension Double {
     }
 }
 
+///I believe this handles some of the speaking associated with bluetooth connection
 extension SoundViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
@@ -686,18 +707,13 @@ extension SoundViewController: CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         switch characteristic.uuid {
         case sensorFusionCharacteristicCBUUID:
-
             sensorManager.sensorFusionReading(from: characteristic, caneLength: caneLength)
-
         default:
             1==2
-
         }
     }
-
-
 }
-
+///I Believe this does beacon stuff. Continually scanning for them `DUPLICATED`
 extension SoundViewController: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
