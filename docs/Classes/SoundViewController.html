@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SoundViewController Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/SoundViewController" class="dashAnchor"></a>
+    <a title="SoundViewController Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (33% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        SoundViewController Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/GameSettingsViewController.html">GameSettingsViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MusicViewController.html">MusicViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SoundViewController.html">SoundViewController</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>SoundViewController</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">class</span> <span class="kt">SoundViewController</span> <span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">UICollisionBehaviorDelegate</span></code></pre>
+
+                </div>
+              </div>
+            <p>Sound View Controller
+<code>DUPLICATED</code> means this also appears on the Music View Controller</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Property/dbInterface" class="dashAnchor"></a>
+                    <a class="token" href="#/">dbInterface</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Declare db to load options <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">dbInterface</span><span class="p">:</span> <span class="o">&lt;&lt;</span><span class="n">error</span> <span class="n">type</span><span class="o">&gt;&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Property/sensorManager" class="dashAnchor"></a>
+                    <a class="token" href="#/">sensorManager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">sensorManager</span><span class="p">:</span> <span class="o">&lt;&lt;</span><span class="n">error</span> <span class="n">type</span><span class="o">&gt;&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC11getBeepCodeSDySSSiGvp"></a>
+                    <a name="//apple_ref/swift/Property/getBeepCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC11getBeepCodeSDySSSiGvp">getBeepCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Helpful dictionary to find code from beep string</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">getBeepCode</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(py)menuButton"></a>
+                    <a name="//apple_ref/swift/Property/menuButton" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(py)menuButton">menuButton</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBOutlet</span>
+<span class="k">weak</span> <span class="k">var</span> <span class="nv">menuButton</span><span class="p">:</span> <span class="kt">UIBarButtonItem</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(py)stackViewBar"></a>
+                    <a name="//apple_ref/swift/Property/stackViewBar" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(py)stackViewBar">stackViewBar</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code> Progress bar</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBOutlet</span>
+<span class="k">weak</span> <span class="k">var</span> <span class="nv">stackViewBar</span><span class="p">:</span> <span class="kt">UIStackView</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(py)progressBarOverflowUI"></a>
+                    <a name="//apple_ref/swift/Property/progressBarOverflowUI" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(py)progressBarOverflowUI">progressBarOverflowUI</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code> Over the range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBOutlet</span>
+<span class="k">weak</span> <span class="k">var</span> <span class="nv">progressBarOverflowUI</span><span class="p">:</span> <span class="kt">UIProgressView</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(py)progressBarUnderflow"></a>
+                    <a name="//apple_ref/swift/Property/progressBarUnderflow" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(py)progressBarUnderflow">progressBarUnderflow</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code> Under the range</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBOutlet</span>
+<span class="k">weak</span> <span class="k">var</span> <span class="nv">progressBarUnderflow</span><span class="p">:</span> <span class="kt">UIProgressView</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)updateProgressWithNotification:"></a>
+                    <a name="//apple_ref/swift/Method/updateProgress(notification:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)updateProgressWithNotification:">updateProgress(notification:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code>
+Calculate how full each progress bar should be:
+The progress bars are:
+The one that shows how far under the range they are
+The one that shows where in the range
+The one that shows how far over the range they are</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">func</span> <span class="nf">updateProgress</span><span class="p">(</span><span class="nv">notification</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>notification</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>contains the current progress</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC014updateProgressE0yyF"></a>
+                    <a name="//apple_ref/swift/Method/updateProgressView()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC014updateProgressE0yyF">updateProgressView()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code>
+Calculate the size of each progress bar on the screen:
+The progress bars are:
+The one that shows how far under the range they are
+The one that shows where in the range
+The one that shows how far over the range they are</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">updateProgressView</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC15locationManagerSo010CLLocationH0Cvp"></a>
+                    <a name="//apple_ref/swift/Property/locationManager" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC15locationManagerSo010CLLocationH0Cvp">locationManager</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Defintions for beacons <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">locationManager</span><span class="p">:</span> <span class="kt">CLLocationManager</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC15selectedProfileSSvp"></a>
+                    <a name="//apple_ref/swift/Property/selectedProfile" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC15selectedProfileSSvp">selectedProfile</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Declare variables that are loaded from profile <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">selectedProfile</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC11loadProfileyyF"></a>
+                    <a name="//apple_ref/swift/Method/loadProfile()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC11loadProfileyyF">loadProfile()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code>
+Load a user profile into global memory using the global <code><a href="../Classes/SoundViewController.html#/s:15MusicalCaneGame19SoundViewControllerC15selectedProfileSSvp">selectedProfile</a></code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">loadProfile</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)sweepRangeSlider:"></a>
+                    <a name="//apple_ref/swift/Method/sweepRangeSlider(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)sweepRangeSlider:">sweepRangeSlider(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DUPLICATED</code>
+Allow the user to update the sweep range on the fly
+Will update the view of the progress bars</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBAction</span>
+<span class="kd">func</span> <span class="nf">sweepRangeSlider</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">UISlider</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)controlButton:"></a>
+                    <a name="//apple_ref/swift/Method/controlButton(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)controlButton:">controlButton(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This is a function that gets activated whenever the start/stop button is pressed
+It will give feedback when it is looking for a connection and when it found one
+It should connect and init the audio player when started
+It should eset number beeps, stop the audio and disconnect when stopped</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@IBAction</span>
+<span class="kd">func</span> <span class="nf">controlButton</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC15populateRewardsSDySiSbGyF"></a>
+                    <a name="//apple_ref/swift/Method/populateRewards()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC15populateRewardsSDySiSbGyF">populateRewards()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a large array that will be filled with false and some true at the
+specified indices (the first is controlled by the user while the rest are hardcoded)
+The main sweep loop will reference this array at each index to see whether to
+play the reward music</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">populateRewards</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">([</span><span class="kt">Int</span> <span class="p">:</span> <span class="kt">Bool</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)viewDidLoad"></a>
+                    <a name="//apple_ref/swift/Method/viewDidLoad()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)viewDidLoad">viewDidLoad()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>When the sview is loaded function will (in order)
+1.Call the super view</p>
+
+<ol>
+<li>Create the side menu</li>
+<li>Choose which user profile is being used via default settings</li>
+<li>Load the profile preference</li>
+<li>Dynamically change the progress bars according to preferences</li>
+<li>Register functions for calls from other files (create observers)</li>
+<li>Handle Beacon stuff</li>
+<li>Center the text in the dynamic view</li>
+</ol>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC03addeF08atOffset9dataForVCSo6UIViewCSg12CoreGraphics7CGFloatV_yXlSgtF"></a>
+                    <a name="//apple_ref/swift/Method/addViewController(atOffset:dataForVC:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC03addeF08atOffset9dataForVCSo6UIViewCSg12CoreGraphics7CGFloatV_yXlSgtF">addViewController(atOffset:dataForVC:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>For Beacons <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addViewController</span><span class="p">(</span><span class="n">atOffset</span> <span class="nv">offset</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">,</span> <span class="n">dataForVC</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">UIView</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)handlePanWithGestureRecognizer:"></a>
+                    <a name="//apple_ref/swift/Method/handlePan(gestureRecognizer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)handlePanWithGestureRecognizer:">handlePan(gestureRecognizer:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>For Beacons <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">func</span> <span class="nf">handlePan</span><span class="p">(</span><span class="nv">gestureRecognizer</span><span class="p">:</span> <span class="kt">UIPanGestureRecognizer</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC3pin4viewySo6UIViewC_tF"></a>
+                    <a name="//apple_ref/swift/Method/pin(view:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC3pin4viewySo6UIViewC_tF">pin(view:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>For Beacons <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">pin</span><span class="p">(</span><span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC13setVisibility4view5alphaySo6UIViewC_12CoreGraphics7CGFloatVtF"></a>
+                    <a name="//apple_ref/swift/Method/setVisibility(view:alpha:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC13setVisibility4view5alphaySo6UIViewC_12CoreGraphics7CGFloatVtF">setVisibility(view:alpha:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>For Beacons <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">setVisibility</span><span class="p">(</span><span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC11addVelocity02toE021fromGestureRecognizerySo6UIViewC_So05UIPankL0CtF"></a>
+                    <a name="//apple_ref/swift/Method/addVelocity(toView:fromGestureRecognizer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC11addVelocity02toE021fromGestureRecognizerySo6UIViewC_So05UIPankL0CtF">addVelocity(toView:fromGestureRecognizer:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>For Beacons <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addVelocity</span><span class="p">(</span><span class="n">toView</span> <span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">,</span> <span class="n">fromGestureRecognizer</span> <span class="nv">panGesture</span><span class="p">:</span> <span class="kt">UIPanGestureRecognizer</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:15MusicalCaneGame19SoundViewControllerC12itemBehavior03forE0So013UIDynamicItemH0CSgSo6UIViewC_tF"></a>
+                    <a name="//apple_ref/swift/Method/itemBehavior(forView:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:15MusicalCaneGame19SoundViewControllerC12itemBehavior03forE0So013UIDynamicItemH0CSgSo6UIViewC_tF">itemBehavior(forView:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>For Beacons <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">itemBehavior</span><span class="p">(</span><span class="n">forView</span> <span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIDynamicItemBehavior</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)collisionBehavior:endedContactForItem:withBoundaryIdentifier:"></a>
+                    <a name="//apple_ref/swift/Method/collisionBehavior(_:endedContactFor:withBoundaryIdentifier:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)collisionBehavior:endedContactForItem:withBoundaryIdentifier:">collisionBehavior(_:endedContactFor:withBoundaryIdentifier:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>For Beacons <code>DUPLICATED</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">collisionBehavior</span><span class="p">(</span><span class="n">_</span> <span class="nv">behavior</span><span class="p">:</span> <span class="kt">UICollisionBehavior</span><span class="p">,</span> <span class="n">endedContactFor</span> <span class="nv">item</span><span class="p">:</span> <span class="kt">UIDynamicItem</span><span class="p">,</span> <span class="n">withBoundaryIdentifier</span> <span class="nv">identifier</span><span class="p">:</span> <span class="kt">NSCopying</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)processSweepsWithNotification:"></a>
+                    <a name="//apple_ref/swift/Method/processSweeps(notification:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@MusicalCaneGame@objc(cs)SoundViewController(im)processSweepsWithNotification:">processSweeps(notification:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This function is called when the user switched cane movement directions.
+If the sweep is long enough it will beep or speak the count (depending on the mode)
+Also if the sweep activated is one of the key numbers to play music, it will play the selected song
+Parameter notification: Passed in container that has the length of the sweep</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">func</span> <span class="nf">processSweeps</span><span class="p">(</span><span class="nv">notification</span><span class="p">:</span> <span class="kt">NSNotification</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@MusicalCaneGame@objc(cs)SoundViewController(im)centralManagerDidUpdateState:"></a>
+                    <a name="//apple_ref/swift/Method/centralManagerDidUpdateState(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@MusicalCaneGame@objc(cs)SoundViewController(im)centralManagerDidUpdateState:">centralManagerDidUpdateState(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Honestly have no idea what&rsquo;s going on here</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">centralManagerDidUpdateState</span><span class="p">(</span><span class="n">_</span> <span class="nv">central</span><span class="p">:</span> <span class="kt">CBCentralManager</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2019-05-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
