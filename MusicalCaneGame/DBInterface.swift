@@ -1,24 +1,26 @@
-//
-//  DBInterface.swift
-//  MusicalCaneGame
-//
-//  Created by Team Eric on 4/4/19.
-//  Copyright © 2019 occamlab. All rights reserved.
-//
-// Built off of the SQLite.swift library.
-// For more information, documentation is here:
-// https://github.com/stephencelis/SQLite.swift/blob/master/Documentation/Index.md
-//
+/**
+DBInterface.swift
+MusicalCaneGame
+Created by Team Eric on 4/4/19.
+Copyright © 2019 occamlab. All rights reserved.
+Built off of the SQLite.swift library.
+For more information, documentation is here:
+https://github.com/stephencelis/SQLite.swift/blob/master/Documentation/Index.md
+*/
 
 import Foundation
 import SQLite
 
+/**
+DB class to store user profiles. Uses SQLite Pod.
+Run pod install if this class breaks.
+*/
 class DBInterface {
-    // Database
+    /// Database
     var db: Connection?
-    // Users table
+    /// Users table
     let users: Table = Table("Users")
-    // column names
+    /// column names
     let name: Expression<String> = Expression<String>("name")
     let sweep_width: Expression<Double> = Expression<Double>("sweep_width")
     let cane_length: Expression<Double> = Expression<Double>("cane_length")
