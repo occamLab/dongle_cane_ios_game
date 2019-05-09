@@ -14,7 +14,7 @@ import MediaPlayer
 /**
 Add sample doc for GameSetitngs
 */
-class GameSettingsViewController: UIViewController {
+class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var newProfileButton: UIButton!
@@ -56,15 +56,17 @@ class GameSettingsViewController: UIViewController {
     @IBOutlet weak var sweepRangeLabel: UILabel!
     @IBOutlet weak var sweepRangeText: UILabel!
     var sweepRangeValue: Float?
-    //Sweeo Tolerance
-    @IBOutlet weak var sweepToleranceSlider: UISlider!
-    @IBOutlet weak var sweepToleranceLabel: UILabel!
-    @IBOutlet weak var sweepToleranceText: UILabel!
-    var sweepToleranceValue: Float?
 
-    @IBOutlet weak var sweepTolerancePicker: UIPickerView!
+    // skill level/ sweep tolerance
+    @IBOutlet weak var skillLevelLabel: UILabel!
+    @IBOutlet weak var skillLevelBox: UITextField!
+    let sweepTolerancePicker = UIPickerView()
     let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
-    ///Save button
+    let skillLevelSweepToTolerance = ["Level 1": 50, "Level 2": 20, "Level 3": 15, "Level 4": 10, "Level 5": 5]
+    let sweepToleranceToSkillLevel = [50: "Level 1", 20: "Level 2", 15: "Level 3", 10: "Level 4", 5: "Level 5"]
+    var sweepToleranceValue = 50
+    
+    //Save button
     @IBOutlet weak var editSaveButton: UIButton!
     var isEdit:Bool = true
     ///Database of user information
@@ -88,7 +90,9 @@ class GameSettingsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
 
             print("text field: \(textField?.text)")
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 10)
+
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 20)
+            
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             self.profileBox.text = textField!.text!
@@ -143,11 +147,6 @@ class GameSettingsViewController: UIViewController {
         caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " in"
     }
 
-    @IBAction func sweepTolerChanged(_ sender: UISlider) {
-        sweepToleranceValue = Float(sender.value)
-        sweepToleranceLabel.text = String(format:"%.1f",sweepToleranceValue!) + " in"
-    }
-
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(sweepTolerancePickerData[row])
     }
@@ -165,13 +164,13 @@ class GameSettingsViewController: UIViewController {
         caneLengthLabel.isEnabled = b
         sweepRangeSlider.isEnabled = b
         sweepRangeLabel.isEnabled = b
-        sweepToleranceSlider.isEnabled = b
-        sweepToleranceLabel.isEnabled = b
+        skillLevelBox.isEnabled = b
+        skillLevelLabel.isEnabled = b
+        
 
         caneLengthText.isEnabled = b
         sweepRangeText.isEnabled = b
         beepCountText.isEnabled = b
-        sweepToleranceText.isEnabled = b
         selectBeepNoiseText.isEnabled = b
         selectMusicText.isEnabled = b
     }
@@ -202,10 +201,18 @@ class GameSettingsViewController: UIViewController {
         caneLengthValue = Float(user_row![self.dbInterface.cane_length])
         caneLengthSlider.setValue(caneLengthValue!, animated: false)
         caneLengthLabel.text = String(caneLengthSlider.value)
-        sweepToleranceValue = Float(user_row![self.dbInterface.sweep_tolerance])
-        sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
-        sweepToleranceLabel.text = String(sweepToleranceValue!)
-
+        
+        // User skill level
+        sweepToleranceValue = Int(user_row![self.dbInterface.sweep_tolerance])
+        let skillLevel = sweepToleranceToSkillLevel[sweepToleranceValue]
+        if skillLevel != nil {
+            skillLevelBox.text = skillLevel!
+        } else {
+            skillLevelBox.text = "Level 1"
+        }
+        //sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
+        //sweepToleranceLabel.text = String(sweepToleranceValue!)
+        
     }
 
     /**
@@ -229,7 +236,7 @@ class GameSettingsViewController: UIViewController {
                     u_music: selectedSongTitle!,
                     u_beep_noise: selectedBeepNoise!,
                     u_music_url: mySongStr!,
-                    u_sweep_tolerance: Double(sweepToleranceValue!))
+                    u_sweep_tolerance: Double(sweepToleranceValue))
             }catch{
                 print("error updating users table in game settings: \(error)")
             }
@@ -259,7 +266,11 @@ class GameSettingsViewController: UIViewController {
         pickerProfiles = self.dbInterface.getAllUserNames()
         print(pickerProfiles)
         createProfilePicker()
-
+        
+        self.sweepTolerancePicker.delegate = self
+        self.sweepTolerancePicker.dataSource = self
+        self.skillLevelBox.inputView = sweepTolerancePicker
+        
         //Create pickers
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
         createToolbar()
@@ -295,6 +306,7 @@ class GameSettingsViewController: UIViewController {
 
         beepNoiseBox.inputAccessoryView = toolbar
         profileBox.inputAccessoryView = toolbar
+        skillLevelBox.inputAccessoryView = toolbar
     }
 
     @objc func dismissKeyboard() {
@@ -305,6 +317,7 @@ class GameSettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
 
     func sideMenu() {
 
@@ -342,7 +355,7 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
 
 }
 
-extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension GameSettingsViewController {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -354,6 +367,8 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             return beepNoises.count
         }else if(pickerView == profilePicker){
             return pickerProfiles.count
+        } else if (pickerView == sweepTolerancePicker) {
+            return sweepTolerancePickerData.count
         }
         return 0
     }
@@ -365,6 +380,9 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             return beepNoises[row]
         }else if(pickerView == profilePicker){
             return pickerProfiles[row]
+        } else if (pickerView == sweepTolerancePicker) {
+            print("sweep tolerance!")
+            return sweepTolerancePickerData[row]
         }
         return ""
     }
@@ -385,6 +403,19 @@ extension GameSettingsViewController: UIPickerViewDelegate, UIPickerViewDataSour
             UserDefaults.standard.set(profileBox.text, forKey: "currentProfile")
             selectedProfile = pickerProfiles[row]
             loadOptions()
+        } else if (pickerView == sweepTolerancePicker) {
+            let level = sweepTolerancePickerData[row]
+            skillLevelBox.text = level
+            if level == "Level 1" {
+                sweepToleranceValue = Int(sweepRangeValue!)
+            } else {
+                let sv: Int? = skillLevelSweepToTolerance[level]
+                if sv != nil {
+                    sweepToleranceValue = sv!
+                } else {
+                    print("sweeptolerance is nil")
+                }
+            }
         }
     }
 }
