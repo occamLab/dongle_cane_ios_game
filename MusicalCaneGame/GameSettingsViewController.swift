@@ -62,8 +62,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var skillLevelBox: UITextField!
     let sweepTolerancePicker = UIPickerView()
     let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
-    let skillLevelSweepToTolerance = ["Level 1": 50, "Level  2": 20, "Level 3": 15, "Level 4": 10, "Level 5": 5]
-    let sweepToleranceToSkillLevel = [50: "Level 1", 20: "Level  2", 15: "Level 3", 10: "Level 4", 5: "Level 5"]
+    let skillLevelSweepToTolerance = ["Level 1": 50, "Level 2": 20, "Level 3": 15, "Level 4": 10, "Level 5": 5]
+    let sweepToleranceToSkillLevel = [50: "Level 1", 20: "Level 2", 15: "Level 3", 10: "Level 4", 5: "Level 5"]
     var sweepToleranceValue = 50
     
     //Save button

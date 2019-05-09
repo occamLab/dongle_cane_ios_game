@@ -53,8 +53,10 @@ class SensorManager {
         }
         
         let lengthOnZAxiz = sqrt((xPos * xPos) + (yPos * yPos))
+        let length_normalized = lengthOnZAxiz / caneLength
+        print("Length of Z: \(length_normalized)")
         
-        if lengthOnZAxiz > 0.6 {
+        if length_normalized > 0.3 {
             
             // normalizing
             var direction = [xPos, yPos]
@@ -94,11 +96,11 @@ class SensorManager {
                 }
             }
             anglePrev = angleFromStarting
-        } else if (lengthOnZAxiz < 0.2) {
+        } else if (length_normalized < 0.2) {
             // Stop music
             print("Shepards Pose")
             let name = Notification.Name(rawValue: sweepNotificationKey)
-            NotificationCenter.default.post(name: name, object: 0.0)
+            NotificationCenter.default.post(name: name, object:  -10)
         }
         return
     }

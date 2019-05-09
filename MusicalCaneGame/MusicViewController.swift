@@ -99,9 +99,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         var progressAdjuster:Float = 0
         var overflowSizeRel = overflowSizeAbs / totalSize
 
-        if overflowSizeAbs < 0{
+        if overflowSizeAbs < 0.03{
             progressAdjuster = overflowSizeAbs
-            overflowSizeRel = 0
+            overflowSizeRel = 0.00001
         }
         let underflowSize = (1-percentTolerance!) / totalSize
 
