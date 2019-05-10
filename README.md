@@ -16,6 +16,10 @@ Musical Cane Game gamifies the orientation and mobility learning experience and 
 - Enabling customized support for each individual student (cane length, sweep range, skill level)
 - Introducing cool features like "Shepard's Grip"
 
+Please take a look at our to get a quick sense of how the game works. 
+- [demo video 1](https://drive.google.com/open?id=19O9A1Zl33U8vBhbvgl8cHi0ooh2F9v4x)
+- [demo video 2](https://drive.google.com/open?id=1PkCNFPGI4S7V4RvfroAmBrIL4apV8vOf)
+
 ### How to Play
 
 This guide is for the O&M instructor who runs the training sessions with students who play this game.
@@ -36,24 +40,24 @@ Take a paper clip, and unbend one end of it. Stick the end into the slot on the 
 5. Select the student's favorite music, sounds, and beep noises from Apple Music. 
    You need to put sound files into Apple Music if you don't have any
    (The app only selects music files from Apple Music)
-4. Set custom values for the student
+6. Set custom values for the student
      - Beep Count : Number of Beeps needed for the reward music to play
      - Cane Length (inches) : Length between the tip of the cane and the student's grip
      - Sweep Range (inches): Chord Length (straight line from left end to right end) of the arc the cane makes
      - Skill Level : Determines the error tolerance (from 1 being super loose to 5 being super strict)
-5. Touch `Save` in the top right.
-6. Go to the side navigation and choose the game mode you would like to play. The student's name and other relevent information should appear on the screen when the mode is selected.
+7. Touch `Save` in the top right.
+8. Go to the side navigation and choose the game mode you would like to play. The student's name and other relevent information should appear on the screen when the mode is selected.
    There are three different modes available.
       - **Sound Mode**
           - **Speaking mode**: Phone says the number of sweeps
           - **Beep mode**: Phone plays the selected beep sound on each successful sweep
       - **Music Mode**: Phone plays music while there is successful sweeping
-7. Touch 'Start' in the top right. With sound turned on, you should hear `Connected` and then `start sweeping`
-8. Let the student start sweeping, there should be a progress bar indicating their progress on the current sweep. When students are in green zone, it means they could change directions and the sweep would be counted as valid. 
+9. Touch 'Start' in the top right. With sound turned on, you should hear `Connected` and then `start sweeping`
+10. Let the student start sweeping, there should be a progress bar indicating their progress on the current sweep. When students are in green zone, it means they could change directions and the sweep would be counted as valid. 
     - Remember that the app only measures the length the student is sweeping, not the orientation of the cane to the student.
     - If the green range is not representative of where you want them to be sweeping, consider changing the sweep range (for wider/shorter sweeps) or the user level (for more tolerence for bad sweeps).
 
-10. When the reward music plays or you want to end the game, Touch `Stop` in the top right. 
+11. When the reward music plays or you want to end the game, Touch `Stop` in the top right. 
 
 ### Contribution Guide (for developers)
 
