@@ -60,11 +60,11 @@ Take a paper clip, and unbend one end of it. Stick the end into the slot on the 
 #### Dev Environment Setup
 The code is written in **Swift 4**.
 When working on the app, open the workspace on Xcode.
-Run `pod install` to install the pods locally. 
-(It's using SQLite to store internal profile data).
+Run `pod install` in a terminal to install the pods locally. 
+(It uses an external library called [SQLite.swift](https://github.com/stephencelis/SQLite.swift) to manage the database for profile data).
 
 #### Documentation
-Code documentation (Jazzy) is available in `docs/`. The master branch automatically generates a documentation website based on `docs/` 
+Code documentation (Jazzy) is available in `docs/`. The master branch automatically generates a [documentation website](https://occamlab.github.io/dongle_cane_ios_game/index.html) based on `docs/` 
 
 To generate the documentation, you need to first install [Jazzy](https://github.com/realm/jazzy). 
 Run `[sudo] gem install jazzy`.
