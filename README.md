@@ -21,6 +21,11 @@ Musical Cane Game gamifies the orientation and mobility learning experience and 
 This guide is for the O&M instructor who runs the training sessions with students who play this game.
 To play our musical cane game,
 
+#### On the cane
+Attach the bluetooth dongle to the cane using a zip tie. Orientation does not matter.
+Take a paper clip, and unbend one end of it. Stick the end into the slot on the rounded side of the dongle. There is a switch inside that you must toggle. If you see a blue light on the dongle, that means the device is on! Remember to turn it back off when you are done.
+
+#### On the App
 1. Form the start screen, hit the menu navigation bar in the top left.
 2. Select `Manage Profiles`
 3. Create a new profile for the student by clicking `Create Profile` in the top right
