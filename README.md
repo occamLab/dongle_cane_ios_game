@@ -30,7 +30,7 @@ Attach the bluetooth dongle to the cane using a zip tie. Orientation does not ma
 Take a paper clip, and unbend one end of it. Stick the end into the slot on the rounded side of the dongle. There is a switch inside that you must toggle. If you see a blue light on the dongle, that means the device is on! Remember to turn it back off when you are done.
 
 ![Dongle attached to a cane with a ziptie](https://raw.githubusercontent.com/occamLab/dongle_cane_ios_game/master/docs/img/setup1.jpg)
-![Dongle attached to a cane with a ziptie](https://raw.githubusercontent.com/occamLab/dongle_cane_ios_game/master/docs/img/setup2.jpg)
+![another Dongle attached to a cane with a ziptie](https://raw.githubusercontent.com/occamLab/dongle_cane_ios_game/master/docs/img/setup2.jpg)
 
 #### On the App
 1. Form the start screen, hit the menu navigation bar in the top left.
