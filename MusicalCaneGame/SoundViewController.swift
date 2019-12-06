@@ -177,7 +177,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var selectedSongStr: String = "Select Music"
     var selectedBeepStr: String = "Select Beep"
     var sweepRange: Float = 1.0
-    var caneLength: Float = 1.0
     var beepCount: Int = 10
     var sweepTolerance: Float = 20 //seems like a good value for a skiled cane user
     //Other important variable(s) not explicitly loaded from db
@@ -210,9 +209,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         sweepRange = Float(user_row![self.dbInterface.sweep_width])
         sweepRangeLabel.text = String(sweepRange)
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
-
-        caneLength = Float(user_row![self.dbInterface.cane_length])
-
+        sensorManager.caneLength = Float(user_row![self.dbInterface.cane_length])
     }
 
 
@@ -261,9 +258,9 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
                 synth.speak(utterance)
-
-                centralManager = CBCentralManager(delegate: self, queue: nil)
-
+                sensorManager.finishConnection(true) { () in
+                    self.readyToSweep()
+                }
                 // temp true for sound mode
                 startButtonPressed = true
 
@@ -277,18 +274,18 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         } else if controlButton.title == "Stop" {
             numSweeps = 0
-            centralManager.cancelPeripheralConnection(dongleSensorPeripheral)
-            //  forget when i reest temp? here, maybe i should make it nil instead? also, i should rename because I already have temp in this file
-            startButtonPressed = false
-            audioPlayer?.stop()
+            sensorManager.disconnectAndCleanup() { () in
+                self.sensorManager.inSweepMode = false
+                self.startButtonPressed = false
+                self.audioPlayer?.stop()
 
-            // text to speech
-            let synth = AVSpeechSynthesizer()
-            let utterance = AVSpeechUtterance(string: "Disconnected")
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-            utterance.rate = 0.6
-            synth.speak(utterance)
-            controlButton.title = "Start"
+                let synth = AVSpeechSynthesizer()
+                let utterance = AVSpeechUtterance(string: "Disconnected")
+                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+                utterance.rate = 0.6
+                synth.speak(utterance)
+                self.controlButton.title = "Start"
+            }
         }
     }
 
@@ -327,11 +324,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     }
 
     lazy var rewardAt = populateRewards()
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
 
 
     @IBAction func segmentedControl(_ sender: UISegmentedControl) {
@@ -404,9 +396,21 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         svc.beepNameLabel.text = selectedBeepStr
         svc.beepNameLabel.centerXAnchor.constraint(equalTo: viewContainer.centerXAnchor).isActive = true
         svc.beepNameLabel.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor).isActive = true
-
-
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        sensorManager.inSweepMode = false
+        print("Scanning for the dongle")
+        sensorManager.scanForDevice()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+        sensorManager.disconnectAndCleanup(postDisconnect: nil)
+    }
+    
     ///For Beacons `DUPLICATED`
     func addViewController (atOffset offset:CGFloat, dataForVC data:AnyObject?) -> UIView? {
 
@@ -569,6 +573,17 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
         }
     }
+    
+    func readyToSweep() {
+        activityIndicator.stopAnimating()
+        controlButton.title = "Stop"
+        UIApplication.shared.endIgnoringInteractionEvents()
+        let synth = AVSpeechSynthesizer()
+        let utterance = AVSpeechUtterance(string: "Start Sweeping")
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.rate = 0.6
+        synth.speak(utterance)
+    }
     /**
       This function is called when the user switched cane movement directions.
     If the sweep is long enough it will beep or speak the count (depending on the mode)
@@ -626,38 +641,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         }
     }
 }
-///I believe this handles all the connection to the bluetooth device`DUPLICATED`
-extension SoundViewController: CBCentralManagerDelegate {
-    ///Honestly have no idea what's going on here
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        switch central.state {
-
-        case .unknown:
-            1==2
-        case .resetting:
-            1==2
-        case .unsupported:
-            1==2
-        case .unauthorized:
-            1==2
-        case .poweredOff:
-            1==2
-        case .poweredOn:
-            centralManager.scanForPeripherals(withServices: [dongleSensorCBUUID])
-        }
-    }
-
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        dongleSensorPeripheral = peripheral
-        dongleSensorPeripheral.delegate = self
-        centralManager.stopScan()
-        centralManager.connect(dongleSensorPeripheral)
-    }
-
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        dongleSensorPeripheral.discoverServices(nil)
-    }
-}
 
 extension Double {
     func roundTo(places:Int) -> Double {
@@ -666,53 +649,6 @@ extension Double {
     }
 }
 
-///I believe this handles some of the speaking associated with bluetooth connection
-extension SoundViewController: CBPeripheralDelegate {
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        guard let services = peripheral.services else { return }
-
-        for service in services {
-            peripheral.discoverCharacteristics(nil, for: service)
-        }
-    }
-
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        guard let characteristics = service.characteristics else { return }
-
-        for characteristic in characteristics {
-            if characteristic.properties.contains(.write) {
-                var rawArray:[UInt8] = [0x01]
-                let data = NSData(bytes: &rawArray, length: rawArray.count)
-                peripheral.writeValue(data as Data, for: characteristic, type: CBCharacteristicWriteType.withResponse)
-            }
-            if characteristic.properties.contains(.read) {
-                peripheral.readValue(for: characteristic)
-            }
-            if characteristic.properties.contains(.notify) {
-                peripheral.setNotifyValue(true, for: characteristic)
-            }
-
-        }
-        activityIndicator.stopAnimating()
-        controlButton.title = "Stop"
-        UIApplication.shared.endIgnoringInteractionEvents()
-        let synth = AVSpeechSynthesizer()
-        let utterance = AVSpeechUtterance(string: "Start Sweeping")
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        utterance.rate = 0.6
-        synth.speak(utterance)
-
-    }
-
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        switch characteristic.uuid {
-        case sensorFusionCharacteristicCBUUID:
-            sensorManager.sensorFusionReading(from: characteristic, caneLength: caneLength)
-        default:
-            1==2
-        }
-    }
-}
 ///I Believe this does beacon stuff. Continually scanning for them `DUPLICATED`
 extension SoundViewController: CLLocationManagerDelegate {
 

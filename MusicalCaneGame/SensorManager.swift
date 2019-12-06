@@ -8,42 +8,48 @@
 
 import Foundation
 import CoreBluetooth
+import MetaWear
+import MBProgressHUD
+import iOSDFULibrary
 
 class SensorManager {
-    var startSweep = true
-    var startDir:[Float] = []
-    var anglePrev:Float = 0.0
+    private var startSweep = true
+    private var startDir:[Float] = []
+    private var anglePrev:Float = 0.0
+    private var device: MBLMetaWear?
+    private var finishingConnection = false
+    private var streamingEvents: Set<NSObject> = [] // Can't use proper type due to compiler seg fault
+    private var stepsPostSensorFusionDataAvailable : (()->())?
+    var inSweepMode = false
+    var caneLength: Float = 1.0
     
     init() {
         
     }
-    
-    public func sensorFusionReading(from characteristic: CBCharacteristic, caneLength: Float) {
-        guard let characteristicData = characteristic.value else { return }
-        let byteArray = [UInt8](characteristicData)
-        let data = Data(bytes: byteArray[3...])
-        
-        let array = data.withUnsafeBytes {
-            [Int16](UnsafeBufferPointer(start: $0, count: 4))
-        }
-        
-        // get quaternion vales from the dongle
-        let w = Float(array[0]) / Float(Int16.max)
-        let x = Float(array[1]) / Float(Int16.max)
-        let y = Float(array[2]) / Float(Int16.max)
-        let z = Float(array[3]) / Float(Int16.max)
-        
-        
+
+    public func sensorFusionReadingNewDongle(w: Float, x: Float, y: Float, z: Float, caneLength: Float) {
         // Rotation Matrix
-        // math from euclideanspace
+        // math from euclideanspace (https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm)
         // for normalization
         let invs = 1 / (x*x + y*y + z*z + w*w)
+        let zAxisAlignedWithShaft = false
         
         // x and y projected on z axis from matrix
-        let m02 = 2.0 * (x*z + y*w) * invs
-        let m12 = 2.0 * (y*z - x*w) * invs
+        let m02 : Float
+        let m12 : Float
         
-        // normaized vector values multiplied by cane length
+        // this code is appropriate when the z-axis is aligned with the cane shaft
+        if zAxisAlignedWithShaft {
+            // x and y projected on z axis from matrix
+            m02 = 2.0 * (x*z + y*w) * invs
+            m12 = 2.0 * (y*z - x*w) * invs
+        } else {
+            // keep name the same even though it is a bit weird
+            // x and y projected on x axis from matrix (this is really m01 and m11)
+            m02 = 2.0 * (x*y - z*w) * invs
+            m12 = 1 - 2.0 * (x*x + z*z) * invs
+        }
+        // normalized vector values multiplied by cane length
         // to estimate tip of cane
         let xPos = m02 * caneLength
         let yPos = m12 * caneLength
@@ -103,5 +109,85 @@ class SensorManager {
             NotificationCenter.default.post(name: name, object:  -10)
         }
         return
+    }
+
+    private func stopAllStreamingEvents() {
+        for obj in streamingEvents {
+            if let event = obj as? MBLEvent<AnyObject> {
+                event.stopNotificationsAsync()
+            }
+        }
+        streamingEvents.removeAll()
+    }
+
+    func scanForDevice() {
+        finishingConnection = false
+        MBLMetaWearManager.shared().startScan(forMetaWearsAllowDuplicates: true, handler: { array in
+            if !self.finishingConnection {
+                self.device = array[0]
+            }
+        })
+    }
+
+    func disconnectAndCleanup(postDisconnect: (() -> Void)?) {
+        stopAllStreamingEvents()
+        device?.disconnectAsync().continueOnDispatch {_ in
+            postDisconnect?()
+        }
+    }
+    
+    func finishConnection(_ on: Bool, stepsPostSensorFusionDataAvailable: @escaping ()->()) {
+        if self.finishingConnection {
+            // we somehow executed this twice
+            return
+        }
+        self.stepsPostSensorFusionDataAvailable = stepsPostSensorFusionDataAvailable
+        MBLMetaWearManager.shared().stopScan()
+        finishingConnection = true
+        if on {
+            device?.connect(withTimeoutAsync: 15).continueOnDispatch { t in
+                if (t.error?._domain == kMBLErrorDomain) && (t.error?._code == kMBLErrorOutdatedFirmware) {
+                    return nil
+                }
+                if t.error != nil {
+                    print("ERROR CONNECTING")
+                } else {
+                    print("DEVICE CONNECTED")
+                    self.sensorFusionStartStreamPressed()
+                }
+                self.finishingConnection = false
+                return nil
+            }
+        } else {
+            device?.disconnectAsync().continueOnDispatch { t in
+                //self.deviceDisconnected()
+                if t.error != nil {
+                    print(t.error!.localizedDescription)
+                }
+                return nil
+            }
+        }
+    }
+    
+    func updateSensorFusionSettings() {
+        device?.sensorFusion?.mode = MBLSensorFusionMode(rawValue:2)! // this is probably IMU+ (verify this) https://mbientlab.com/iosdocs/2/sensor_fusion.html
+    }
+
+    func sensorFusionStartStreamPressed() {
+        updateSensorFusionSettings()
+        
+        var task: BFTask<AnyObject>?
+        
+        streamingEvents.insert(device!.sensorFusion!.quaternion)
+        task = device!.sensorFusion!.quaternion.startNotificationsAsync { (obj, error) in
+            if let obj = obj {
+                if !self.inSweepMode {
+                    self.stepsPostSensorFusionDataAvailable?()
+                    self.inSweepMode = true
+                }
+                self.sensorFusionReadingNewDongle(w: Float(obj.w), x: Float(obj.x), y: Float(obj.y), z: Float(obj.z), caneLength: self.caneLength)
+                print("\(obj.timestamp.timeIntervalSince1970),\(obj.w),\(obj.x),\(obj.y),\(obj.z)\n")
+            }
+        }
     }
 }
