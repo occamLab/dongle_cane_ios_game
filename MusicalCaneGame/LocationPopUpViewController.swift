@@ -24,8 +24,9 @@ class LocationPopUpViewController: UIViewController {
 //            createAlert(title: "Error", message: "Not all required fields are complete")
 //        }
         dismissKeyboard()
-        performSegue(withIdentifier: "segue", sender: self)
-            }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconDestination"), object: ["forBeacon": selectedBeacon!, "location": newLocationTextField.text!])
+        dismiss(animated: true)
+    }
     
     let beacons = ["Blue", "Pink", "Purple", "Rose", "White", "Yellow"]
 
@@ -37,26 +38,17 @@ class LocationPopUpViewController: UIViewController {
 //
 //        self.present(alert, animated: true, completion: nil)
 //    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let beaconViewController = segue.destination as! BeaconViewController
-        beaconViewController.setNewLocation(forBeacon: selectedBeacon!, location: newLocationTextField.text!)
-    }
-    
-    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         createBeaconPicker()
         createToolBar()
-
     }
 
     func createBeaconPicker() {
         let beaconPicker = UIPickerView()
         beaconPicker.delegate = self
-        
         beaconTextField.inputView = beaconPicker
     }
     
@@ -85,19 +77,23 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return beacons.count
+        return beacons.count + 1
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return beacons[row]
+        if row == 0 {
+            return ""
+        } else {
+            return beacons[row-1]
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selectedBeacon = beacons[row]
+        if row == 0 {
+            selectedBeacon = ""
+        } else {
+            selectedBeacon = beacons[row-1]
+        }
         beaconTextField.text = selectedBeacon
     }
-    
-    
-    
-    
 }

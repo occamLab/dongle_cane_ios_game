@@ -16,6 +16,37 @@ let dongleSensorCBUUID = CBUUID(string: "2ea7")
 let sensorFusionCharacteristicCBUUID = CBUUID(string: "2ea78970-7d44-44bb-b097-26183f402407")
 let sweepNotificationKey = "cane.sweep.notification"
 let updateProgressNotificationKey = "cane.prog.notification"
+
+
+
+extension UIViewController {
+    /// call on a parent VC with desired child as param
+    func add(_ child: UIViewController) {
+        /// add the child to the parent
+        addChildViewController(child)
+        /// add the view of the child to the view of the parent
+        view.addSubview(child.view)
+        /// notify the child that it was moved to a parent
+        child.didMove(toParentViewController: self)
+    }
+    
+    /// call on a child VC
+    func remove() {
+        // Just to be safe, we check that this view controller
+        // is actually added to a parent before removing it.
+        guard parent != nil else {
+            return
+        }
+        /// notify the child that it’s about to be removed
+        willMove(toParentViewController: nil)
+        /// remove the child’s view from the parent’s
+        view.removeFromSuperview()
+        /// remove the child from its parent
+        removeFromParentViewController()
+    }
+}
+
+
 /**
   Music View Controller
   `DUPLICATED` means this also appears on the Sound View Controller
@@ -317,7 +348,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
         animator.addBehavior(gravity)
         gravity.magnitude = 4
-
     }
     
     override func viewWillAppear(_ animated: Bool) {

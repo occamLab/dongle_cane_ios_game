@@ -44,11 +44,11 @@ class BeaconViewController: UIViewController {
     
     
     var threshold: Float = 2.5
-//    @IBOutlet weak var thresholdLabel: UILabel!
-//    @IBAction func thresholdSlider(_ sender: UISlider) {
-//        thresholdLabel.text = String(sender.value)
-//        threshold = sender.value
-//    }
+    @IBOutlet weak var thresholdLabel: UILabel!
+    @IBAction func thresholdSlider(_ sender: UISlider) {
+        thresholdLabel.text = String(sender.value)
+        threshold = sender.value
+    }
     
     var newLocation:(Beacon: String?,Location: String?)
     
@@ -59,6 +59,9 @@ class BeaconViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleNewLocation(notification:)), name: NSNotification.Name(rawValue: "setBeaconDestination"), object: nil)
+
         // Do any additional setup after loading the view, typically from a nib.
        
         locationManager.delegate = self
@@ -79,30 +82,21 @@ class BeaconViewController: UIViewController {
         }
     }
     
+    @objc func handleNewLocation(notification: NSNotification) {
+        if let fields = notification.object as? Dictionary<String, String> {
+            setNewLocation(forBeacon: fields["forBeacon"]!, location: fields["location"]!)
+        }
+    }
+    
     func setNewLocation(forBeacon: String, location: String) {
         locationDict[colorsToMinors[forBeacon]!] = location
         // store the location in UserDefaults
         
         let userDefaults: UserDefaults = UserDefaults.standard
         userDefaults.set(location, forKey: forBeacon)
-
-//        var tempArray:[String] = []
-//
-//        for (_, location) in locationDict {
-//            tempArray.append(location)
-//        }
-//        print(tempArray)
-//
-//        let userDefaults: UserDefaults = UserDefaults.standard
-//        userDefaults.set(tempArray, forKey: "locations")
-//
         
         tableView?.reloadData()
     }
-    
-
-    
-    
 }
 
 
