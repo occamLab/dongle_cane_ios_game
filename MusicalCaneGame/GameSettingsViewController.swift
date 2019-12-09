@@ -341,8 +341,23 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         myMediaPlayer.setQueue(with: mediaItemCollection)
         selectedSong = mediaItemCollection
-        mySong = selectedSong?.items[0].value(forProperty:MPMediaItemPropertyAssetURL) as? URL
-        mySongStr = mySong!.absoluteString
+        let mySongObj = selectedSong?.items[0]
+        mySong = mySongObj?.value(forProperty:MPMediaItemPropertyAssetURL) as? URL
+        guard let mySongURL = mySong else {
+            if mySongObj!.isCloudItem {
+                let alertController = UIAlertController(title: "Media not found on device", message:
+                    "Perhaps you need to download this from iCloud.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+                mediaPicker.present(alertController, animated: true, completion: nil)
+            } else if mySongObj!.hasProtectedAsset {
+                let alertController = UIAlertController(title: "Not authorized to play media", message:
+                    "Something is off with your iTunes settings.", preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+                mediaPicker.present(alertController, animated: true, completion: nil)
+            }
+            return
+        }
+        mySongStr = mySongURL.absoluteString
         selectedSongTitle = selectedSong?.items[0].title
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
         mediaPicker.dismiss(animated: true, completion: nil)
