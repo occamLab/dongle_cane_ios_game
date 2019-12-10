@@ -20,6 +20,7 @@ class BeaconTableViewCell: UITableViewCell {
     
     @IBOutlet weak var beaconLocationLabel: UILabel!
     
+    var beaconName: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()

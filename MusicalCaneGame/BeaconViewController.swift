@@ -13,8 +13,8 @@ import AVFoundation
 class BeaconViewController: UIViewController {
     
     let beacons = ["Blue", "Pink", "Purple", "Rose", "White", "Yellow"]
-
-    
+    var voiceNoteToPlay: AVAudioPlayer?
+    let dbInterface = DBInterface()
     
     let colorsToMinors:[String:NSNumber] = ["Yellow": 33334,
                                             "Pink": 6103,
@@ -94,6 +94,8 @@ class BeaconViewController: UIViewController {
         
         let userDefaults: UserDefaults = UserDefaults.standard
         userDefaults.set(location, forKey: forBeacon)
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        dbInterface.updateBeaconLocation(u_name: selectedProfile, b_name: forBeacon, location_text: location)
         
         tableView?.reloadData()
     }
@@ -130,13 +132,30 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         return beacons.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? BeaconTableViewCell else {
+              return
+        }
+        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "locationpopupview") as? LocationPopUpViewController else {
+            return
+        }
+        // TODO add a dismiss button
+        // Use the popover presentation style for your view controller.
+        viewController.modalPresentationStyle = .popover
+        viewController.selectedBeacon = cell.beaconName
+
+        self.present(viewController, animated: true)
+        //viewController.beaconTextField.text = cell.beaconLabel.text
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BeaconTableViewCell
         let currentBeacon = beacons[indexPath.row]
-        
+        cell.beaconName = currentBeacon
         cell.beaconColorImage.image = UIImage(named: (currentBeacon + ".jpg"))
+        
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        
         cell.beaconLabel.text = currentBeacon + ":"
         
         
@@ -146,19 +165,44 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.beaconDistanceLabel.text = String(format: "%f", distanceDict[currentMinor!]!)
         }
-        print(currentMinor, distanceDict[currentMinor!]!)
-        if Float(distanceDict[currentMinor!]!) <= threshold && Float(distanceDict[currentMinor!]!) > Float(0.0) {
-            let synth = AVSpeechSynthesizer()
-            let utterance = AVSpeechUtterance(string: locationDict[currentMinor!]!)
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-            utterance.rate = 0.5
-            synth.speak(utterance)
+        
+        let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_name: currentBeacon)
+
+        if let thisBeaconInfo = beaconInfo {
+            try! cell.beaconLocationLabel.text = thisBeaconInfo.get(dbInterface.locationText)
+        } else {
+            cell.beaconLocationLabel.text = ""
         }
         
+        if Float(distanceDict[currentMinor!]!) <= threshold && Float(distanceDict[currentMinor!]!) > Float(0.0) {
+            do {
+                if let thisBeaconInfo = beaconInfo, try !thisBeaconInfo.get(dbInterface.voiceNoteURL).isEmpty {
+                    if voiceNoteToPlay == nil || !voiceNoteToPlay!.isPlaying {
+                        let voiceNoteFile = try thisBeaconInfo.get(dbInterface.voiceNoteURL)
+                        let documentsUrl = FileManager.default.urls(for: .documentDirectory, in:.userDomainMask).first!
+                        let voiceNoteURL = documentsUrl.appendingPathComponent(voiceNoteFile)
+                        let data = try Data(contentsOf: voiceNoteURL)
+                        print(data)
+                        voiceNoteToPlay = try AVAudioPlayer(data: data, fileTypeHint: AVFileType.caf.rawValue)
+                        
+                        voiceNoteToPlay?.prepareToPlay()
+                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                        try AVAudioSession.sharedInstance().setActive(true)
+                        voiceNoteToPlay?.volume = 1.0
+                        voiceNoteToPlay?.play()
+                    }
+                } else {
+                    let synth = AVSpeechSynthesizer()
+                    let utterance = AVSpeechUtterance(string: locationDict[currentMinor!]!)
+                    utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+                    utterance.rate = 0.5
+                    synth.speak(utterance)
+                }
+            } catch {
+                print("Error info: \(error)")
+            }
+        }
         
-        cell.beaconLocationLabel.text = locationDict[currentMinor!]
-//        print(locationDict)
-
         return cell
     }
     

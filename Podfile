@@ -12,6 +12,7 @@ target 'MusicalCaneGame' do
   pod 'MBProgressHUD'
   pod 'StaticDataTableViewController'
   pod 'iOSDFULibrary'
+  pod 'PRTween', '~> 0.1'
 end
 
 

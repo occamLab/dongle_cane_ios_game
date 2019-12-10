@@ -7,6 +7,7 @@ PODS:
   - MetaWearPrivate (2.10.0):
     - Bolts/Tasks (~> 1.8.4)
     - FastCoding (~> 3.2.2)
+  - PRTween (0.1.0)
   - SQLite.swift (0.11.6):
     - SQLite.swift/standard (= 0.11.6)
   - SQLite.swift/standard (0.11.6)
@@ -17,11 +18,12 @@ DEPENDENCIES:
   - iOSDFULibrary
   - MBProgressHUD
   - MetaWearPrivate (from `https://github.com/mbientlab/MetaWear-SDK-iOS-macOS-tvOS.git`, commit `1254b54`)
+  - PRTween (~> 0.1)
   - SQLite.swift (~> 0.11.5)
   - StaticDataTableViewController
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Bolts
     - FastCoding
     - iOSDFULibrary
@@ -29,6 +31,8 @@ SPEC REPOS:
     - SQLite.swift
     - StaticDataTableViewController
     - ZIPFoundation
+  trunk:
+    - PRTween
 
 EXTERNAL SOURCES:
   MetaWearPrivate:
@@ -46,10 +50,11 @@ SPEC CHECKSUMS:
   iOSDFULibrary: 7f25ff33edd65f7d23bf6ebe4827723509ac091b
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   MetaWearPrivate: f9cb466d358f6a4a5639f3cce393ddaf37c4def5
+  PRTween: 6c58c7e32ebcf31e33e6a6e6bc727ebef3b668ef
   SQLite.swift: 46d890be8601964454bd3392527f863d1b802d45
   StaticDataTableViewController: 0c5c4a47861446dd3cfd52530ae801ec7662ce26
   ZIPFoundation: 89df685c971926b0323087952320bdfee9f0b6ef
 
-PODFILE CHECKSUM: 4e792b5e2cd9f63dd237d6c7f4649dea29d03682
+PODFILE CHECKSUM: a52d80665e3fe12bfd1d128656f9d75ad13da56e
 
-COCOAPODS: 1.7.1
+COCOAPODS: 1.8.4

@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B12111EFF1006193E6 /* MediaPlayer.framework */; };
 		57C85F49830BFA7051E7EE1A /* Pods_MusicalCaneGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE99E1F1C532771B0712C418 /* Pods_MusicalCaneGame.framework */; };
+		820EF296239EBA7D004A4BCD /* RecordButtonKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820EF292239EBA7D004A4BCD /* RecordButtonKit.swift */; };
+		820EF297239EBA7D004A4BCD /* AudioVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820EF293239EBA7D004A4BCD /* AudioVisualizerView.swift */; };
+		820EF298239EBA7D004A4BCD /* RecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820EF294239EBA7D004A4BCD /* RecorderViewController.swift */; };
+		820EF299239EBA7D004A4BCD /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820EF295239EBA7D004A4BCD /* RecordButton.swift */; };
+		820EF29E239ED24C004A4BCD /* StartRecording.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 820EF29C239ED24C004A4BCD /* StartRecording.aiff */; };
+		820EF29F239ED24C004A4BCD /* StopRecording.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 820EF29D239ED24C004A4BCD /* StopRecording.aiff */; };
 		86591D90224D049E0050816B /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86591D8F224D049E0050816B /* SWRevealViewController.m */; };
 		951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05C92178BE5500CD2998 /* SoundViewController.swift */; };
 		951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05CD2178C1DF00CD2998 /* Configuration.swift */; };
@@ -48,6 +54,13 @@
 /* Begin PBXFileReference section */
 		4959A5B12111EFF1006193E6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		4959A5B32111F811006193E6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		820EF292239EBA7D004A4BCD /* RecordButtonKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButtonKit.swift; sourceTree = "<group>"; };
+		820EF293239EBA7D004A4BCD /* AudioVisualizerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioVisualizerView.swift; sourceTree = "<group>"; };
+		820EF294239EBA7D004A4BCD /* RecorderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecorderViewController.swift; sourceTree = "<group>"; };
+		820EF295239EBA7D004A4BCD /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		820EF29B239ED24C004A4BCD /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
+		820EF29C239ED24C004A4BCD /* StartRecording.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = StartRecording.aiff; sourceTree = "<group>"; };
+		820EF29D239ED24C004A4BCD /* StopRecording.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = StopRecording.aiff; sourceTree = "<group>"; };
 		86591D8E224D049E0050816B /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = ViewControllers/SWRevealViewController.h; sourceTree = "<group>"; };
 		86591D8F224D049E0050816B /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = ViewControllers/SWRevealViewController.m; sourceTree = "<group>"; };
 		951C05C92178BE5500CD2998 /* SoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +130,27 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		820EF291239EBA7D004A4BCD /* Voice Notes */ = {
+			isa = PBXGroup;
+			children = (
+				820EF292239EBA7D004A4BCD /* RecordButtonKit.swift */,
+				820EF293239EBA7D004A4BCD /* AudioVisualizerView.swift */,
+				820EF294239EBA7D004A4BCD /* RecorderViewController.swift */,
+				820EF295239EBA7D004A4BCD /* RecordButton.swift */,
+			);
+			path = "Voice Notes";
+			sourceTree = "<group>";
+		};
+		820EF29A239ED24C004A4BCD /* Sound Effects */ = {
+			isa = PBXGroup;
+			children = (
+				820EF29B239ED24C004A4BCD /* SettingsTableViewController.h */,
+				820EF29C239ED24C004A4BCD /* StartRecording.aiff */,
+				820EF29D239ED24C004A4BCD /* StopRecording.aiff */,
+			);
+			path = "Sound Effects";
+			sourceTree = "<group>";
+		};
 		95BBF1FB216F8A0200DDA9DB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +183,8 @@
 		AD6C6EEE210267B700E9D840 /* MusicalCaneGame */ = {
 			isa = PBXGroup;
 			children = (
+				820EF29A239ED24C004A4BCD /* Sound Effects */,
+				820EF291239EBA7D004A4BCD /* Voice Notes */,
 				95BBF1FB216F8A0200DDA9DB /* ViewControllers */,
 				981823A1211A3894006A28F7 /* Blue.jpg */,
 				9818239E211A3894006A28F7 /* Rose.jpg */,
@@ -268,10 +304,12 @@
 				95BBF1FF216F8A4F00DDA9DB /* MusicSegmentViewController.xib in Resources */,
 				AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */,
 				981823A2211A3894006A28F7 /* Pink.jpg in Resources */,
+				820EF29F239ED24C004A4BCD /* StopRecording.aiff in Resources */,
 				981823A7211A3894006A28F7 /* Blue.jpg in Resources */,
 				981823A4211A3894006A28F7 /* Rose.jpg in Resources */,
 				981823A3211A3894006A28F7 /* White.jpg in Resources */,
 				AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */,
+				820EF29E239ED24C004A4BCD /* StartRecording.aiff in Resources */,
 				981823A6211A3894006A28F7 /* Yellow.jpg in Resources */,
 				95BBF203216F8A6800DDA9DB /* BeepSegmentViewController.xib in Resources */,
 				959EFD7D216463E90058906E /* coffee.jpg in Resources */,
@@ -330,11 +368,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				95BBF1F82168295D00DDA9DB /* BeaconsViewController.swift in Sources */,
+				820EF297239EBA7D004A4BCD /* AudioVisualizerView.swift in Sources */,
 				98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */,
 				86591D90224D049E0050816B /* SWRevealViewController.m in Sources */,
 				E5220F4E2256634E004AE171 /* DBInterface.swift in Sources */,
 				95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */,
+				820EF296239EBA7D004A4BCD /* RecordButtonKit.swift in Sources */,
 				95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */,
+				820EF298239EBA7D004A4BCD /* RecorderViewController.swift in Sources */,
 				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
 				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
 				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,
@@ -343,6 +384,7 @@
 				951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */,
 				E5C038042268D0BD00373275 /* SensorManager.swift in Sources */,
 				9582BE572167CF0300F4209E /* MainViewController.swift in Sources */,
+				820EF299239EBA7D004A4BCD /* RecordButton.swift in Sources */,
 				95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */,
 				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
 				AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */,

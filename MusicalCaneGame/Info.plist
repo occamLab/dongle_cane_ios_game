@@ -28,6 +28,8 @@
 	<string>This device uses a bluetooth peripheral to track the motion of your mobility cane</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location needed to detect beacons</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The microphone is used for recording voice notes</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

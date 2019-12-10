@@ -7,8 +7,22 @@
 //
 
 import UIKit
+import SQLite
 
-class LocationPopUpViewController: UIViewController {
+class LocationPopUpViewController: UIViewController, UIPopoverPresentationControllerDelegate, RecorderViewControllerDelegate {
+    func didStartRecording() {
+        // ignore for now
+    }
+    
+    @IBOutlet weak var actionPicker: UIPickerView!
+    func didFinishRecording(audioFileURL: URL) {
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        // TODO: fix unwrapping
+        print("url", audioFileURL.absoluteString)
+        dbInterface.updateBeaconVoiceNote(u_name: selectedProfile, b_name: selectedBeacon!, voiceNote_URL: audioFileURL.lastPathComponent)
+    }
+    
+    let dbInterface = DBInterface()
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var beaconTextField: UITextField!
@@ -43,13 +57,15 @@ class LocationPopUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createBeaconPicker()
+
+        // Connect data:
+        self.actionPicker.delegate = self
+        self.actionPicker.dataSource = self
         createToolBar()
     }
 
     func createBeaconPicker() {
-        let beaconPicker = UIPickerView()
-        beaconPicker.delegate = self
-        beaconTextField.inputView = beaconPicker
+        beaconTextField.text = selectedBeacon
     }
     
     func createToolBar() {
@@ -68,7 +84,21 @@ class LocationPopUpViewController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-  
+    
+    @IBAction func recordVoiceNote(_ sender: Any) {
+        let popoverContent = RecorderViewController()
+        //says that the recorder should dismiss tiself when it is done
+        popoverContent.shouldAutoDismiss = true
+        popoverContent.delegate = self
+        popoverContent.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: popoverContent, action: #selector(popoverContent.doneWithRecording))
+        let nav = UINavigationController(rootViewController: popoverContent)
+        nav.modalPresentationStyle = .popover
+        let popover = nav.popoverPresentationController
+        popover?.delegate = self
+        popover?.sourceView = self.view
+        popover?.sourceRect = CGRect(x: 0, y: 10, width: 0,height: 0)
+        self.present(nav, animated: true, completion: nil)
+    }
 }
 
 extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -77,23 +107,20 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return beacons.count + 1
+        return 3
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if row == 0 {
-            return ""
+            return "Use Location Text"
+        } else if row == 1 {
+            return "Use Voice Note"
         } else {
-            return beacons[row-1]
+            return "Deactivate This Beacon"
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if row == 0 {
-            selectedBeacon = ""
-        } else {
-            selectedBeacon = beacons[row-1]
-        }
-        beaconTextField.text = selectedBeacon
+        print("selected", row)
     }
 }
