@@ -200,7 +200,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         sweepTolerance = Float(user_row![self.dbInterface.sweep_tolerance])
         beepCount = Int(user_row![self.dbInterface.beep_count])
         sweepRange = Float(user_row![self.dbInterface.sweep_width])
-        sweepRangeLabel.text = String(sweepRange)
+        sweepRangeLabel.text = String(sweepRange) + " inches"
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
         sensorManager.caneLength = Float(user_row![self.dbInterface.cane_length])
     }
@@ -215,7 +215,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
-        sweepRangeLabel.text = String(x)
+        sweepRangeLabel.text = String(x) + " inches"
         sweepRange = sender.value
         updateProgressView()
     }

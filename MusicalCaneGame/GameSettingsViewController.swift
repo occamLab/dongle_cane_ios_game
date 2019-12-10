@@ -134,7 +134,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     */
     @IBAction func sweepRangeChanged(_ sender: UISlider) {
         sweepRangeValue = Float(sender.value)
-        sweepRangeLabel.text = String(format:"%.1f",sweepRangeValue!) + " in"
+        sweepRangeLabel.text = String(format:"%.1f",sweepRangeValue!) + " inches"
     }
     /**
         This function runs when the user changes the can length slider. It will
@@ -144,7 +144,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     */
     @IBAction func caneLengthChanged(_ sender: UISlider) {
         caneLengthValue = Float(sender.value)
-        caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " in"
+        caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " inches"
     }
 
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -194,13 +194,13 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         //For the sliders
         beepCountValue = user_row![self.dbInterface.beep_count]
         beepCountSlider.setValue(Float(beepCountValue!), animated: false)
-        beepCountLabel.text = String(beepCountSlider.value)
+        beepCountLabel.text = String(Int(beepCountSlider.value))
         sweepRangeValue = Float(user_row![self.dbInterface.sweep_width])
         sweepRangeSlider.setValue(sweepRangeValue!, animated: false)
-        sweepRangeLabel.text = String(sweepRangeSlider.value)
+        sweepRangeLabel.text = String(sweepRangeSlider.value) + " inches"
         caneLengthValue = Float(user_row![self.dbInterface.cane_length])
         caneLengthSlider.setValue(caneLengthValue!, animated: false)
-        caneLengthLabel.text = String(caneLengthSlider.value)
+        caneLengthLabel.text = String(caneLengthSlider.value) + " inches"
         
         // User skill level
         sweepToleranceValue = Int(user_row![self.dbInterface.sweep_tolerance])

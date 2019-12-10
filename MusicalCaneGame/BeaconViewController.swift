@@ -44,7 +44,7 @@ class BeaconViewController: UIViewController {
     @IBOutlet weak var thresholdLabel: UILabel!
     @IBAction func thresholdSlider(_ sender: UISlider) {
         threshold = sender.value
-        thresholdLabel.text = String(Double(sender.value).roundTo(places: 2))
+        thresholdLabel.text = String(Double(sender.value).roundTo(places: 2)) + " meters"
     }
     
     var newLocation:(Beacon: String?,Location: String?)
@@ -190,7 +190,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         if distanceDict[currentMinor!] == -1 {
             cell.beaconDistanceLabel.text = "Unknown"
         } else {
-            cell.beaconDistanceLabel.text = String(format: "%f", distanceDict[currentMinor!]!)
+            cell.beaconDistanceLabel.text = String(format: "%f", distanceDict[currentMinor!]!) + " meters"
         }
         
         let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_name: currentBeacon)
