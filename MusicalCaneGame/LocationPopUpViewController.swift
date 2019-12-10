@@ -27,45 +27,27 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var beaconTextField: UITextField!
     @IBOutlet weak var newLocationTextField: UITextField!
-    @IBOutlet weak var saveLocationButton: UIButton!
-    
-    @IBAction func saveLocationButtonAction(_ sender: Any) {
-       
-       // doesn't catch not filled in fields
-//        if selectedBeacon != nil || newLocationTextField.text != nil {
-//            performSegue(withIdentifier: "segue", sender: self)
-//        } else {
-//            createAlert(title: "Error", message: "Not all required fields are complete")
-//        }
-        dismissKeyboard()
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconDestination"), object: ["forBeacon": selectedBeacon!, "location": newLocationTextField.text!])
-        dismiss(animated: true)
-    }
     
     let beacons = ["Blue", "Pink", "Purple", "Rose", "White", "Yellow"]
 
     var selectedBeacon: String?
-
-//    func createAlert (title:String, message:String) {
-//        let alert = UIAlertController(title:title, message:message, preferredStyle: UIAlertControllerStyle.alert)
-//        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in alert.dismiss(animated: true, completion: nil)}))
-//
-//        self.present(alert, animated: true, completion: nil)
-//    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createBeaconPicker()
+        beaconTextField.text = selectedBeacon
 
         // Connect data:
         self.actionPicker.delegate = self
         self.actionPicker.dataSource = self
         createToolBar()
+        
+        newLocationTextField.addTarget(self, action: #selector(locationTextFieldChanged), for: .editingChanged)
     }
 
-    func createBeaconPicker() {
-        beaconTextField.text = selectedBeacon
+    @objc func locationTextFieldChanged() {
+        // TODO: could replace with direct call to DB interface    
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconDestination"), object: ["forBeacon": selectedBeacon!, "location": newLocationTextField.text!])
     }
     
     func createToolBar() {
@@ -78,6 +60,13 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         toolBar.isUserInteractionEnabled = true
         
         beaconTextField.inputAccessoryView = toolBar
+        
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        // TODO: fix unwrapping
+        if let row = dbInterface.getBeaconNames(u_name: selectedProfile, b_name: selectedBeacon!) {
+            newLocationTextField.text = try! row.get(dbInterface.locationText)
+            actionPicker.selectRow(try! row.get(dbInterface.beaconStatus), inComponent: 0, animated: false)
+        }
     
     }
     
@@ -111,6 +100,7 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        print("populating")
         if row == 0 {
             return "Use Location Text"
         } else if row == 1 {
@@ -121,6 +111,8 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print("selected", row)
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        // TODO: fix unwrapping
+        dbInterface.updateBeaconStatus(u_name: selectedProfile, b_name: selectedBeacon!, status: row)
     }
 }

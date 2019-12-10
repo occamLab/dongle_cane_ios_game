@@ -750,14 +750,17 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="IPJ-ue-Qye">
                                                 <rect key="frame" x="0.0" y="0.0" width="256" height="31"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Beacons" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCA-hY-cXW">
+                                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Beacons" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCA-hY-cXW">
                                                         <rect key="frame" x="0.0" y="0.0" width="199" height="31"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BTe-Uq-Xo3">
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BTe-Uq-Xo3">
                                                         <rect key="frame" x="207" y="0.0" width="51" height="31"/>
+                                                        <connections>
+                                                            <action selector="enableBeaconsSwitchToggled:" destination="8jr-Ta-tOG" eventType="valueChanged" id="QOz-mo-14J"/>
+                                                        </connections>
                                                     </switch>
                                                 </subviews>
                                             </stackView>
@@ -880,6 +883,7 @@
                     <tabBarItem key="tabBarItem" title="Beacons" id="mFr-2e-1a6"/>
                     <navigationItem key="navigationItem" title="Beacon Location" id="FFu-PH-B23"/>
                     <connections>
+                        <outlet property="beaconsEnabledSwitch" destination="BTe-Uq-Xo3" id="bYr-7U-plx"/>
                         <outlet property="tableView" destination="Bbp-Cq-XOz" id="DvG-yz-5RV"/>
                         <outlet property="thresholdLabel" destination="w4N-DJ-xhY" id="XZ5-kZ-Pn2"/>
                     </connections>
@@ -937,15 +941,8 @@
                                             <action selector="recordVoiceNote:" destination="MxI-zc-oZ6" eventType="touchUpInside" id="YdI-tO-VsT"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AbV-AA-5Vj">
-                                        <rect key="frame" x="96" y="242" width="96" height="30"/>
-                                        <state key="normal" title="Save Location"/>
-                                        <connections>
-                                            <action selector="saveLocationButtonAction:" destination="MxI-zc-oZ6" eventType="touchUpInside" id="0vd-MS-jxW"/>
-                                        </connections>
-                                    </button>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8g-oL-i35">
-                                        <rect key="frame" x="-16" y="292" width="320" height="216"/>
+                                        <rect key="frame" x="-16" y="238" width="320" height="216"/>
                                     </pickerView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -953,17 +950,15 @@
                                     <constraint firstItem="fza-lB-Ggq" firstAttribute="leading" secondItem="UyX-7Q-Mo0" secondAttribute="leadingMargin" id="4h5-oO-jtW"/>
                                     <constraint firstItem="rym-QD-Cuo" firstAttribute="top" secondItem="bBI-h1-Jtp" secondAttribute="bottom" constant="24" id="5is-Aj-lqh"/>
                                     <constraint firstAttribute="height" constant="500" id="8OH-ZW-Xxc"/>
-                                    <constraint firstItem="AbV-AA-5Vj" firstAttribute="top" secondItem="rym-QD-Cuo" secondAttribute="bottom" constant="24" id="9me-c6-AZt"/>
                                     <constraint firstItem="p8g-oL-i35" firstAttribute="centerX" secondItem="UyX-7Q-Mo0" secondAttribute="centerX" id="DfZ-98-TpR"/>
                                     <constraint firstItem="bBI-h1-Jtp" firstAttribute="top" secondItem="fza-lB-Ggq" secondAttribute="bottom" constant="24" id="Ix2-QS-p3N"/>
-                                    <constraint firstItem="AbV-AA-5Vj" firstAttribute="centerX" secondItem="UyX-7Q-Mo0" secondAttribute="centerX" id="Q6f-ue-TSN"/>
                                     <constraint firstItem="bBI-h1-Jtp" firstAttribute="trailing" secondItem="UyX-7Q-Mo0" secondAttribute="trailingMargin" id="R85-w4-OhY"/>
                                     <constraint firstItem="sea-Fc-Eee" firstAttribute="top" secondItem="UyX-7Q-Mo0" secondAttribute="top" constant="24" id="Tj8-1L-fcA"/>
                                     <constraint firstItem="fza-lB-Ggq" firstAttribute="leading" secondItem="sea-Fc-Eee" secondAttribute="leading" id="VBF-8m-lo7"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sea-Fc-Eee" secondAttribute="trailing" constant="20" symbolic="YES" id="cjK-56-jR8"/>
                                     <constraint firstItem="rym-QD-Cuo" firstAttribute="centerX" secondItem="UyX-7Q-Mo0" secondAttribute="centerX" id="i3D-cL-lVh"/>
+                                    <constraint firstItem="p8g-oL-i35" firstAttribute="top" secondItem="rym-QD-Cuo" secondAttribute="bottom" constant="20" id="iSn-vV-sZU"/>
                                     <constraint firstItem="bBI-h1-Jtp" firstAttribute="leading" secondItem="UyX-7Q-Mo0" secondAttribute="leadingMargin" id="jBV-e6-Ips"/>
-                                    <constraint firstItem="p8g-oL-i35" firstAttribute="top" secondItem="AbV-AA-5Vj" secondAttribute="bottom" constant="20" id="jwV-mN-Bi1"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="fza-lB-Ggq" secondAttribute="trailing" id="ltD-2E-v25"/>
                                     <constraint firstItem="fza-lB-Ggq" firstAttribute="top" secondItem="sea-Fc-Eee" secondAttribute="bottom" constant="25" id="sQK-wU-t35"/>
                                 </constraints>
@@ -980,7 +975,6 @@
                         <outlet property="actionPicker" destination="p8g-oL-i35" id="Tcg-5f-k0Q"/>
                         <outlet property="beaconTextField" destination="ldk-dL-sCZ" id="UFX-YK-yRa"/>
                         <outlet property="newLocationTextField" destination="bBI-h1-Jtp" id="5IT-mI-VmP"/>
-                        <outlet property="saveLocationButton" destination="AbV-AA-5Vj" id="rRV-wm-Cs8"/>
                         <outlet property="titleLabel" destination="sea-Fc-Eee" id="Du7-ci-Gym"/>
                     </connections>
                 </viewController>

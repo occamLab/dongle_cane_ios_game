@@ -33,12 +33,13 @@ class DBInterface {
     let beep_noise: Expression<String> = Expression<String>("beep_noise")
     let music_url: Expression<String> = Expression<String>("music_url")
     let sweep_tolerance: Expression<Double> = Expression<Double>("sweep_tolerance")
-    
+    let beacons_enabled: Expression<Bool> = Expression<Bool>("beacons_enabled")
+
     /// column names for beacon mappings
     let beaconName: Expression<String> = Expression<String>("beaconname")
     let locationText: Expression<String> = Expression<String>("locationtext")
     let voiceNoteURL: Expression<String> = Expression<String>("voicenoteurl")
-
+    let beaconStatus: Expression<Int> = Expression<Int>("beaconstatus")
     
     init() {
         
@@ -56,7 +57,7 @@ class DBInterface {
         
         do {
             if (db != nil) {
-//                dropTable()
+                 //dropTable()
                 // create the table if it doesn't exist
                 try self.db!.run(self.users.create(ifNotExists: true) { t in
                     t.column(self.name, primaryKey: true)
@@ -67,6 +68,7 @@ class DBInterface {
                     t.column(self.beep_noise)
                     t.column(self.music_url)
                     t.column(self.sweep_tolerance)
+                    t.column(self.beacons_enabled)
             })
                 // if there are no rows, add a default user
                 let count = try self.db!.scalar(self.users.count)
@@ -79,6 +81,7 @@ class DBInterface {
                     t.column(self.beaconName)
                     t.column(self.locationText)
                     t.column(self.voiceNoteURL)
+                    t.column(self.beaconStatus          )
                 })
             } else {
                 print("error loading database")
@@ -92,7 +95,7 @@ class DBInterface {
     func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double , u_beep_count: Int,u_music: String, u_beep_noise: String, u_music_url: String, u_sweep_tolerance: Double) {
         if (db != nil) {
             do {
-                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, beep_count <- u_beep_count,music <- u_music, beep_noise <- u_beep_noise, music_url <- u_music_url, sweep_tolerance <- u_sweep_tolerance))
+                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, beep_count <- u_beep_count,music <- u_music, beep_noise <- u_beep_noise, music_url <- u_music_url, sweep_tolerance <- u_sweep_tolerance, beacons_enabled <- false))
                 print("insertion success! \(rowId)")
                 
             } catch {
@@ -104,7 +107,7 @@ class DBInterface {
     func getRow(u_name: String) -> Row?{
         if (db != nil) {
             do {
-                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, beep_count, music, beep_noise, music_url, sweep_tolerance)
+                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, beep_count, music, beep_noise, music_url, sweep_tolerance, beacons_enabled)
                                                 .filter(name == u_name))
                 for row in rows {
                     return row
@@ -121,7 +124,7 @@ class DBInterface {
     func getBeaconNames(u_name: String, b_name: String) -> Row?{
         if (db != nil) {
             do {
-                let rows = try self.db!.prepare(self.beaconMappings.select(name, beaconName, locationText, voiceNoteURL).filter(name == u_name && b_name == beaconName))
+                let rows = try self.db!.prepare(self.beaconMappings.select(name, beaconName, locationText, voiceNoteURL, beaconStatus).filter(name == u_name && b_name == beaconName))
                 for row in rows {
                     return row
                 }
@@ -146,11 +149,22 @@ class DBInterface {
         }
     }
     
+    func updateBeaconStatus(u_name: String, b_name: String, status: Int) {
+        // Update just the location of the Beacon
+        do {
+            insertBeaconDataRowIfMissing(u_name: u_name, b_name: b_name)
+            try self.db!.run(self.beaconMappings.filter(name == u_name && beaconName == b_name)
+                    .update(beaconStatus <- status))
+        } catch {
+            print("error updating beacon table: \(error)")
+        }
+    }
+    
     func insertBeaconDataRowIfMissing(u_name: String, b_name: String) {
         do {
            if getBeaconNames(u_name: u_name, b_name: b_name) == nil {
                print("inserting new entry")
-               try self.db!.run(self.beaconMappings.insert(name <- u_name, beaconName <- b_name, locationText <- "", voiceNoteURL <- ""))
+               try self.db!.run(self.beaconMappings.insert(name <- u_name, beaconName <- b_name, locationText <- "", voiceNoteURL <- "", beaconStatus <- 0))
            }
        } catch {
            print("error updating beacon table: \(error)")
@@ -168,9 +182,17 @@ class DBInterface {
         }
     }
     
+    func updateBeaconsEnabled(u_name: String, enabled: Bool) {
+        do {
+            try self.db!.run(self.users.filter(name == u_name)
+                .update(beacons_enabled <- enabled))
+        } catch {
+            print("error updating users table: \(error)")
+        }
+    }
     
     func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_beep_count: Int,u_music: String, u_beep_noise: String, u_music_url: String, u_sweep_tolerance: Double) {
-        // Update all values
+        // Update all values except the Beacon enabled flag
         do {
             try self.db!.run(self.users.filter(name == u_name)
                 .update(sweep_width <- u_sweep_width,
@@ -183,6 +205,7 @@ class DBInterface {
     func dropTable() {
         do {
             try self.db!.run(self.users.drop())
+            try self.db!.run(self.beaconMappings.drop())
         } catch {
             print("error dropping users table: \(error)")
         }

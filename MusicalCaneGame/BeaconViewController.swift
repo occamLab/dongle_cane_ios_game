@@ -40,7 +40,8 @@ class BeaconViewController: UIViewController {
 
    
     @IBOutlet weak var tableView: UITableView!
-        
+    @IBOutlet weak var beaconsEnabledSwitch: UISwitch!
+    
     
     
     var threshold: Float = 2.5
@@ -52,7 +53,12 @@ class BeaconViewController: UIViewController {
     
     var newLocation:(Beacon: String?,Location: String?)
     
-
+    @IBAction func enableBeaconsSwitchToggled(_ sender: UISwitch) {
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        dbInterface.updateBeaconsEnabled(u_name: selectedProfile, enabled: sender.isOn)
+        print("toggled")
+    }
+    
     
     let locationManager = CLLocationManager()
     let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")! as UUID, identifier: "Estimotes")
@@ -80,6 +86,12 @@ class BeaconViewController: UIViewController {
                 locationDict[key] = location
             }
         }
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        let row = dbInterface.getRow(u_name: selectedProfile)
+        if let row = row {
+            beaconsEnabledSwitch.isOn = try! row.get(dbInterface.beacons_enabled)
+        }
+
     }
     
     @objc func handleNewLocation(notification: NSNotification) {
@@ -90,10 +102,6 @@ class BeaconViewController: UIViewController {
     
     func setNewLocation(forBeacon: String, location: String) {
         locationDict[colorsToMinors[forBeacon]!] = location
-        // store the location in UserDefaults
-        
-        let userDefaults: UserDefaults = UserDefaults.standard
-        userDefaults.set(location, forKey: forBeacon)
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         dbInterface.updateBeaconLocation(u_name: selectedProfile, b_name: forBeacon, location_text: location)
         
@@ -155,9 +163,14 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         cell.beaconColorImage.image = UIImage(named: (currentBeacon + ".jpg"))
         
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
-        
         cell.beaconLabel.text = currentBeacon + ":"
-        
+
+        let row = dbInterface.getBeaconNames(u_name: selectedProfile, b_name: currentBeacon)
+        if let row = row, row[dbInterface.beaconStatus] == 2 { // TODO: bad magic number!
+            cell.contentView.backgroundColor = .gray
+        } else {
+            cell.contentView.backgroundColor = .white
+        }
         
         let currentMinor = colorsToMinors[currentBeacon]
         if distanceDict[currentMinor!] == -1 {
@@ -174,11 +187,11 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
             cell.beaconLocationLabel.text = ""
         }
         
-        if Float(distanceDict[currentMinor!]!) <= threshold && Float(distanceDict[currentMinor!]!) > Float(0.0) {
+        if beaconsEnabledSwitch.isOn, Float(distanceDict[currentMinor!]!) <= threshold && Float(distanceDict[currentMinor!]!) > Float(0.0), let beaconInfo = beaconInfo {
             do {
-                if let thisBeaconInfo = beaconInfo, try !thisBeaconInfo.get(dbInterface.voiceNoteURL).isEmpty {
+                if try beaconInfo.get(dbInterface.beaconStatus) == 1 && !beaconInfo.get(dbInterface.voiceNoteURL).isEmpty {
                     if voiceNoteToPlay == nil || !voiceNoteToPlay!.isPlaying {
-                        let voiceNoteFile = try thisBeaconInfo.get(dbInterface.voiceNoteURL)
+                        let voiceNoteFile = try beaconInfo.get(dbInterface.voiceNoteURL)
                         let documentsUrl = FileManager.default.urls(for: .documentDirectory, in:.userDomainMask).first!
                         let voiceNoteURL = documentsUrl.appendingPathComponent(voiceNoteFile)
                         let data = try Data(contentsOf: voiceNoteURL)
@@ -191,9 +204,9 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
                         voiceNoteToPlay?.volume = 1.0
                         voiceNoteToPlay?.play()
                     }
-                } else {
+                } else if try beaconInfo.get(dbInterface.beaconStatus) == 0 && !beaconInfo.get(dbInterface.locationText).isEmpty {
                     let synth = AVSpeechSynthesizer()
-                    let utterance = AVSpeechUtterance(string: locationDict[currentMinor!]!)
+                    let utterance = AVSpeechUtterance(string: try  beaconInfo.get(dbInterface.locationText))
                     utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                     utterance.rate = 0.5
                     synth.speak(utterance)
