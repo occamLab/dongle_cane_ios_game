@@ -176,6 +176,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
     var offset:CGFloat = 100
     var knownBeaconMinorsStrings:[String] = []
+    var isRecordingAudio = false
 
     ///Declare variables that are loaded from profile `DUPLICATED`
     var selectedProfile:String = "Default User"
@@ -348,6 +349,19 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
         animator.addBehavior(gravity)
         gravity.magnitude = 4
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
+    }
+    
+    @objc func handleChangeInAudioRecording(notification: NSNotification) {
+        if let audioRecordingNewStatus = notification.object as? Bool {
+            isRecordingAudio = audioRecordingNewStatus
+            if isRecordingAudio {
+                // stop the music!!
+                stopPlaying()
+            }
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -538,7 +552,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         let sweepDistance = notification.object as! Float
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
         // if we've turned around and we want to play music
-        if is_valid_sweep{
+        if is_valid_sweep && !isRecordingAudio {
             // we should play music
             shouldPlay = 1
             print("SweepRange: ", sweepRange)

@@ -15,6 +15,7 @@ class BeaconViewController: UIViewController {
     let beacons = ["Blue", "Pink", "Purple", "Rose", "White", "Yellow"]
     var voiceNoteToPlay: AVAudioPlayer?
     let dbInterface = DBInterface()
+    var isRecordingAudio = false
     
     let colorsToMinors:[String:NSNumber] = ["Yellow": 33334,
                                             "Pink": 6103,
@@ -67,6 +68,8 @@ class BeaconViewController: UIViewController {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleNewLocation(notification:)), name: NSNotification.Name(rawValue: "setBeaconDestination"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
 
         // Do any additional setup after loading the view, typically from a nib.
        
@@ -97,6 +100,18 @@ class BeaconViewController: UIViewController {
     @objc func handleNewLocation(notification: NSNotification) {
         if let fields = notification.object as? Dictionary<String, String> {
             setNewLocation(forBeacon: fields["forBeacon"]!, location: fields["location"]!)
+        }
+    }
+    
+    @objc func handleChangeInAudioRecording(notification: NSNotification) {
+        if let recordingStatus = notification.object as? Bool {
+            isRecordingAudio = recordingStatus
+            if isRecordingAudio {
+                // stop any audio that is currently running
+                voiceNoteToPlay?.stop()
+                let synth = AVSpeechSynthesizer()
+                synth.stopSpeaking(at: .immediate)
+            }
         }
     }
     
@@ -187,7 +202,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
             cell.beaconLocationLabel.text = ""
         }
         
-        if beaconsEnabledSwitch.isOn, Float(distanceDict[currentMinor!]!) <= threshold && Float(distanceDict[currentMinor!]!) > Float(0.0), let beaconInfo = beaconInfo {
+        if !isRecordingAudio, beaconsEnabledSwitch.isOn, Float(distanceDict[currentMinor!]!) <= threshold && Float(distanceDict[currentMinor!]!) > Float(0.0), let beaconInfo = beaconInfo {
             do {
                 if try beaconInfo.get(dbInterface.beaconStatus) == 1 && !beaconInfo.get(dbInterface.voiceNoteURL).isEmpty {
                     if voiceNoteToPlay == nil || !voiceNoteToPlay!.isPlaying {

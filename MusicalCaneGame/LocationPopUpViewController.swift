@@ -11,7 +11,6 @@ import SQLite
 
 class LocationPopUpViewController: UIViewController, UIPopoverPresentationControllerDelegate, RecorderViewControllerDelegate {
     func didStartRecording() {
-        // ignore for now
     }
     
     @IBOutlet weak var actionPicker: UIPickerView!
@@ -32,7 +31,6 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
 
     var selectedBeacon: String?
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         beaconTextField.text = selectedBeacon
@@ -44,7 +42,7 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         
         newLocationTextField.addTarget(self, action: #selector(locationTextFieldChanged), for: .editingChanged)
     }
-
+    
     @objc func locationTextFieldChanged() {
         // TODO: could replace with direct call to DB interface    
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconDestination"), object: ["forBeacon": selectedBeacon!, "location": newLocationTextField.text!])
@@ -75,6 +73,8 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     }
     
     @IBAction func recordVoiceNote(_ sender: Any) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: true)
+
         let popoverContent = RecorderViewController()
         //says that the recorder should dismiss tiself when it is done
         popoverContent.shouldAutoDismiss = true

@@ -84,7 +84,7 @@ class RecorderViewController: UIViewController {
         setupTimeLabel()
         setupAudioView()
         
-        title = NSLocalizedString("voiceNoteRecorderPop-UpHeader", comment: "The header of a pop-up window that allows user to record a voice note")
+        title = "Record a voice note for this beacon"
     }
     
     /// Called when the view will appear.
@@ -102,6 +102,8 @@ class RecorderViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: false)
+
     }
     
     //MARK:- Setup Methods
