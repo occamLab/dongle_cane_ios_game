@@ -16,6 +16,7 @@ class BeaconViewController: UIViewController {
     var voiceNoteToPlay: AVAudioPlayer?
     let dbInterface = DBInterface.shared
     var isRecordingAudio = false
+    let synth = AVSpeechSynthesizer()
     
     let colorsToMinors:[String:NSNumber] = ["Yellow": 33334,
                                             "Pink": 6103,
@@ -109,7 +110,6 @@ class BeaconViewController: UIViewController {
             if isRecordingAudio {
                 // stop any audio that is currently running
                 voiceNoteToPlay?.stop()
-                let synth = AVSpeechSynthesizer()
                 synth.stopSpeaking(at: .immediate)
             }
         }
@@ -220,11 +220,13 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
                         voiceNoteToPlay?.play()
                     }
                 } else if try beaconInfo.get(dbInterface.beaconStatus) == 0 && !beaconInfo.get(dbInterface.locationText).isEmpty {
-                    let synth = AVSpeechSynthesizer()
-                    let utterance = AVSpeechUtterance(string: try  beaconInfo.get(dbInterface.locationText))
-                    utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-                    utterance.rate = 0.5
-                    synth.speak(utterance)
+                    // make sure we're not currently speaking
+                    if !synth.isSpeaking {
+                        let utterance = AVSpeechUtterance(string: try  beaconInfo.get(dbInterface.locationText))
+                        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+                        utterance.rate = 0.5
+                        synth.speak(utterance)
+                    }
                 }
             } catch {
                 print("Error info: \(error)")

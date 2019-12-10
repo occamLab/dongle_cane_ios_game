@@ -556,9 +556,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             shouldPlay = 1
             print("SweepRange: ", sweepRange)
 
-            // tODo: why is this not enabled? create a new timer in case a sweep takes too long?
-//            stopMusicTimer?.invalidate()
-//            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: true)
+            // todo: why is this not enabled? create a new timer in case a sweep takes too long?
+            stopMusicTimer?.invalidate()
+            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(sweepTolerance), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: false)
             // music has stopped but we want to restart it?
             if playing != shouldPlay {
                 if beginningMusic == true {

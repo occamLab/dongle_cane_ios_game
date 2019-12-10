@@ -22,6 +22,8 @@ class SensorManager {
     private var stepsPostSensorFusionDataAvailable : (()->())?
     var inSweepMode = false
     var caneLength: Float = 1.0
+    var directionAtMaximum = [Float(1.0), Float(0.0)]
+    var maxAngleFromStartingThisSweep = Float(-1.0)
     
     init() {
         
@@ -33,7 +35,6 @@ class SensorManager {
         // for normalization
         let invs = 1 / (x*x + y*y + z*z + w*w)
         let zAxisAlignedWithShaft = false
-        
         // x and y projected on z axis from matrix
         let m02 : Float
         let m12 : Float
@@ -60,7 +61,6 @@ class SensorManager {
         
         let lengthOnZAxiz = sqrt((xPos * xPos) + (yPos * yPos))
         let length_normalized = lengthOnZAxiz / caneLength
-        print("Length of Z: \(length_normalized)")
         
         if length_normalized > 0.3 {
             
@@ -69,9 +69,10 @@ class SensorManager {
             let magnitude = lengthOnZAxiz
             direction = direction.map { $0 / magnitude }
             
-            // sets frist position as direction as a reference point
-            if startSweep == true {
-                startDir = direction
+            // sets first position as direction as a reference point
+            if startSweep {
+                // use this direction so the progress is relative to the maximum rather than when the sweep was triggered
+                startDir = directionAtMaximum
                 startSweep = false
             }
             
@@ -81,34 +82,39 @@ class SensorManager {
             
             // change in angle
             let deltaAngle = angleFromStarting - anglePrev
+            print("anglefrom starting", angleFromStarting, "maxanglefromstaring", maxAngleFromStartingThisSweep)
+            if angleFromStarting > maxAngleFromStartingThisSweep {
+                maxAngleFromStartingThisSweep = angleFromStarting
+                directionAtMaximum = direction
+                print(maxAngleFromStartingThisSweep)
+            }
             
-            // change in angle from raidans to degrees
+            // change in angle from radians to degrees
             let deltaAngleDeg = deltaAngle * 57.2958
-            let sweepDistance = caneLength * sin(angleFromStarting / 2) * 2
+            let sweepDistance = caneLength * sin(maxAngleFromStartingThisSweep / 2) * 2
             //            sweepProgress.setProgress(sweepDistance/sweepRange, animated: false)
             let name = Notification.Name(rawValue: updateProgressNotificationKey)
             NotificationCenter.default.post(name: name, object: sweepDistance)
             
-            if deltaAngleDeg > 1.0 || deltaAngleDeg < -1.0 {
-                if deltaAngle < 0 {
-                    
-                    // changed
-                    let name = Notification.Name(rawValue: sweepNotificationKey)
-                    NotificationCenter.default.post(name: name, object: sweepDistance)
-                    
-                    startDir = direction
-                    anglePrev = 0.0
-                    return
-                }
+            if deltaAngleDeg < -0.5 {
+                // changed
+                let name = Notification.Name(rawValue: sweepNotificationKey)
+                NotificationCenter.default.post(name: name, object: sweepDistance)
+                
+                startDir = direction
+                // correct for any offset between the maximum of the sweep and the current angle
+                anglePrev = 0.0
+                maxAngleFromStartingThisSweep = -1.0
+                return
             }
             anglePrev = angleFromStarting
         } else if (length_normalized < 0.2) {
             // Stop music
             print("Shepards Pose")
             let name = Notification.Name(rawValue: sweepNotificationKey)
+            maxAngleFromStartingThisSweep = -1.0
             NotificationCenter.default.post(name: name, object:  -10)
         }
-        return
     }
 
     private func stopAllStreamingEvents() {
@@ -186,7 +192,6 @@ class SensorManager {
                     self.inSweepMode = true
                 }
                 self.sensorFusionReadingNewDongle(w: Float(obj.w), x: Float(obj.x), y: Float(obj.y), z: Float(obj.z), caneLength: self.caneLength)
-                print("\(obj.timestamp.timeIntervalSince1970),\(obj.w),\(obj.x),\(obj.y),\(obj.z)\n")
             }
         }
     }

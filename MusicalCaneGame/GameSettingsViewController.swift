@@ -91,7 +91,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
             print("text field: \(textField?.text)")
 
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 20)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 3)
             
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
