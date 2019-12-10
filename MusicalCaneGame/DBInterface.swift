@@ -16,6 +16,8 @@ DB class to store user profiles. Uses SQLite Pod.
 Run pod install if this class breaks.
 */
 class DBInterface {
+    static let shared = DBInterface()
+    
     /// Database
     var db: Connection?
     /// Users table
@@ -41,7 +43,7 @@ class DBInterface {
     let voiceNoteURL: Expression<String> = Expression<String>("voicenoteurl")
     let beaconStatus: Expression<Int> = Expression<Int>("beaconstatus")
     
-    init() {
+    private init() {
         
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true

@@ -26,7 +26,7 @@ extension NSLayoutConstraint {
 */
 class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     ///Declare db to load options `DUPLICATED`
-    let dbInterface = DBInterface()
+    let dbInterface = DBInterface.shared
     ///`DUPLICATED`
     let sensorManager = SensorManager()
 
@@ -61,6 +61,19 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     ///`DUPLICATED` Under the range
     @IBOutlet weak var progressBarUnderflow: UIProgressView!
     @IBOutlet weak var progressBarUnderflowSize: NSLayoutConstraint!
+
+    var isRecordingAudio = false
+    
+    
+    @objc func handleChangeInAudioRecording(notification: NSNotification) {
+        if let audioRecordingNewStatus = notification.object as? Bool {
+            isRecordingAudio = audioRecordingNewStatus
+            if isRecordingAudio {
+                // stop the music!!
+                audioPlayer?.stop()
+            }
+        }
+    }
 
     /**
     `DUPLICATED`
@@ -396,6 +409,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         svc.beepNameLabel.text = selectedBeepStr
         svc.beepNameLabel.centerXAnchor.constraint(equalTo: viewContainer.centerXAnchor).isActive = true
         svc.beepNameLabel.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor).isActive = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -594,12 +609,12 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         let sweepDistance = notification.object as! Float
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
 
-        if is_valid_sweep && startButtonPressed == true {
+        if !isRecordingAudio, is_valid_sweep && startButtonPressed == true {
 
             numSweeps += 1
             print("SweepRange: ", sweepRange)
 
-            if speakSweeps == true {
+            if speakSweeps {
                 //We are saying the number rather than playing a noise
                 print("im speaking")
                 let string = String(numSweeps)

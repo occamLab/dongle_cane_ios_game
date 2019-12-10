@@ -21,7 +21,7 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         dbInterface.updateBeaconVoiceNote(u_name: selectedProfile, b_name: selectedBeacon!, voiceNote_URL: audioFileURL.lastPathComponent)
     }
     
-    let dbInterface = DBInterface()
+    let dbInterface = DBInterface.shared
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var beaconTextField: UITextField!

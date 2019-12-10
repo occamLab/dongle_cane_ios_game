@@ -53,7 +53,7 @@ extension UIViewController {
 */
 class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     ///Declare db to load options `DUPLICATED`
-    let dbInterface = DBInterface()
+    let dbInterface = DBInterface.shared
     ///`DUPLICATED`
     let sensorManager = SensorManager()
 
@@ -361,7 +361,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 stopPlaying()
             }
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

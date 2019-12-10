@@ -70,7 +70,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var editSaveButton: UIButton!
     var isEdit:Bool = true
     ///Database of user information
-    var dbInterface = DBInterface()
+    var dbInterface = DBInterface.shared
 
 
     /**

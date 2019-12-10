@@ -14,7 +14,7 @@ class BeaconViewController: UIViewController {
     
     let beacons = ["Blue", "Pink", "Purple", "Rose", "White", "Yellow"]
     var voiceNoteToPlay: AVAudioPlayer?
-    let dbInterface = DBInterface()
+    let dbInterface = DBInterface.shared
     var isRecordingAudio = false
     
     let colorsToMinors:[String:NSNumber] = ["Yellow": 33334,
