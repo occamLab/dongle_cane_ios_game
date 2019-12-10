@@ -43,8 +43,8 @@ class BeaconViewController: UIViewController {
     var threshold: Float = 2.5
     @IBOutlet weak var thresholdLabel: UILabel!
     @IBAction func thresholdSlider(_ sender: UISlider) {
-        thresholdLabel.text = String(sender.value)
         threshold = sender.value
+        thresholdLabel.text = String(Double(sender.value).roundTo(places: 2))
     }
     
     var newLocation:(Beacon: String?,Location: String?)
@@ -61,6 +61,11 @@ class BeaconViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //The new method should only use User defaults to know what the current profile is
+        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
+            UserDefaults.standard.set("Default User", forKey: "currentProfile")
+        }
+
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleNewLocation(notification:)), name: NSNotification.Name(rawValue: "setBeaconDestination"), object: nil)
         
