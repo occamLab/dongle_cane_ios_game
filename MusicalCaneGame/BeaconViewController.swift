@@ -12,29 +12,23 @@ import AVFoundation
 
 class BeaconViewController: UIViewController {
     
-    let beacons = ["Blue", "Pink", "Purple", "Rose", "White", "Yellow"]
+    let beacons = ["Blue", "Purple", "Rose", "White"]
     var voiceNoteToPlay: AVAudioPlayer?
     let dbInterface = DBInterface.shared
     var isRecordingAudio = false
     let synth = AVSpeechSynthesizer()
     
-    let colorsToMinors:[String:NSNumber] = ["Yellow": 33334,
-                                            "Pink": 6103,
-                                            "Rose": 4724,
+    let colorsToMinors:[String:NSNumber] = ["Rose": 4724,
                                             "Blue": 7567,
                                             "White": 56186,
                                             "Purple": 11819]
     
-    var distanceDict:[NSNumber:Double] = [33334: -1.0,
-                                      6103: -1.0,
-                                      4724: -1.0,
+    var distanceDict:[NSNumber:Double] = [4724: -1.0,
                                       7567: -1.0,
                                       56186: -1.0,
                                       11819: -1.0]
     
-    var locationDict:[NSNumber:String] = [33334: "",
-                                      6103: "",
-                                      4724: "",
+    var locationDict:[NSNumber:String] = [4724: "",
                                       7567: "",
                                       56186: "",
                                       11819: ""]
@@ -184,7 +178,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         if let row = row, row[dbInterface.beaconStatus] == 2 { // TODO: bad magic number!
             cell.contentView.backgroundColor = .gray
         } else {
-            cell.contentView.backgroundColor = .white
+            cell.contentView.backgroundColor = .groupTableViewBackground
         }
         
         let currentMinor = colorsToMinors[currentBeacon]

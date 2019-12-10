@@ -22,7 +22,7 @@ class SensorManager {
     private var stepsPostSensorFusionDataAvailable : (()->())?
     var inSweepMode = false
     var caneLength: Float = 1.0
-    var directionAtMaximum = [Float(1.0), Float(0.0)]
+    var directionAtMaximum: [Float] = []
     var maxAngleFromStartingThisSweep = Float(-1.0)
     
     init() {
@@ -72,7 +72,11 @@ class SensorManager {
             // sets first position as direction as a reference point
             if startSweep {
                 // use this direction so the progress is relative to the maximum rather than when the sweep was triggered
-                startDir = directionAtMaximum
+                if !directionAtMaximum.isEmpty {
+                    startDir = directionAtMaximum
+                } else {
+                    startDir = direction
+                }
                 startSweep = false
             }
             
@@ -82,11 +86,9 @@ class SensorManager {
             
             // change in angle
             let deltaAngle = angleFromStarting - anglePrev
-            print("anglefrom starting", angleFromStarting, "maxanglefromstaring", maxAngleFromStartingThisSweep)
             if angleFromStarting > maxAngleFromStartingThisSweep {
                 maxAngleFromStartingThisSweep = angleFromStarting
                 directionAtMaximum = direction
-                print(maxAngleFromStartingThisSweep)
             }
             
             // change in angle from radians to degrees
@@ -152,6 +154,7 @@ class SensorManager {
         finishingConnection = true
         if on {
             device?.connect(withTimeoutAsync: 15).continueOnDispatch { t in
+                print("CONNECTED!!!!")
                 if (t.error?._domain == kMBLErrorDomain) && (t.error?._code == kMBLErrorOutdatedFirmware) {
                     return nil
                 }
@@ -183,7 +186,6 @@ class SensorManager {
         updateSensorFusionSettings()
         
         var task: BFTask<AnyObject>?
-        
         streamingEvents.insert(device!.sensorFusion!.quaternion)
         task = device!.sensorFusion!.quaternion.startNotificationsAsync { (obj, error) in
             if let obj = obj {

@@ -12,8 +12,9 @@ import SQLite
 class LocationPopUpViewController: UIViewController, UIPopoverPresentationControllerDelegate, RecorderViewControllerDelegate {
     func didStartRecording() {
     }
-    
+    @IBOutlet weak var beaconLabel: UILabel!
     @IBOutlet weak var actionPicker: UIPickerView!
+
     func didFinishRecording(audioFileURL: URL) {
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         // TODO: fix unwrapping
@@ -27,13 +28,13 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     @IBOutlet weak var beaconTextField: UITextField!
     @IBOutlet weak var newLocationTextField: UITextField!
     
-    let beacons = ["Blue", "Pink", "Purple", "Rose", "White", "Yellow"]
+    let beacons = ["Blue", "Purple", "Rose", "White"]
 
     var selectedBeacon: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        beaconTextField.text = selectedBeacon
+        beaconLabel.text = "Beacon: " + selectedBeacon!
 
         // Connect data:
         self.actionPicker.delegate = self
@@ -57,7 +58,7 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         toolBar.setItems([doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         
-        beaconTextField.inputAccessoryView = toolBar
+        newLocationTextField.inputAccessoryView = toolBar
         
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         // TODO: fix unwrapping

@@ -62,9 +62,9 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var skillLevelBox: UITextField!
     let sweepTolerancePicker = UIPickerView()
     let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
-    let skillLevelSweepToTolerance = ["Level 1": 50, "Level 2": 20, "Level 3": 15, "Level 4": 10, "Level 5": 5]
-    let sweepToleranceToSkillLevel = [50: "Level 1", 20: "Level 2", 15: "Level 3", 10: "Level 4", 5: "Level 5"]
-    var sweepToleranceValue = 50
+    let skillLevelSweepToTolerance = ["Level 1": 15, "Level 2": 7, "Level 3": 5, "Level 4": 3, "Level 5": 1]
+    let sweepToleranceToSkillLevel = [15: "Level 1", 7: "Level 2", 5: "Level 3", 3: "Level 4", 1: "Level 5"]
+    var sweepToleranceValue = 15
     
     //Save button
     @IBOutlet weak var editSaveButton: UIButton!
@@ -91,7 +91,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
             print("text field: \(textField?.text)")
 
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 3)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_url: "", u_sweep_tolerance: 15)
             
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
@@ -210,9 +210,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         } else {
             skillLevelBox.text = "Level 1"
         }
-        //sweepToleranceSlider.setValue(sweepToleranceValue!, animated: false)
-        //sweepToleranceLabel.text = String(sweepToleranceValue!)
-        
     }
 
     /**
@@ -299,7 +296,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
 
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(SoundViewController.dismissKeyboard))
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.dismissKeyboard))
 
         toolbar.setItems([doneButton], animated: false)
         toolbar.isUserInteractionEnabled = true
@@ -421,15 +418,12 @@ extension GameSettingsViewController {
         } else if (pickerView == sweepTolerancePicker) {
             let level = sweepTolerancePickerData[row]
             skillLevelBox.text = level
-            if level == "Level 1" {
-                sweepToleranceValue = Int(sweepRangeValue!)
+
+            let sv: Int? = skillLevelSweepToTolerance[level]
+            if sv != nil {
+                sweepToleranceValue = sv!
             } else {
-                let sv: Int? = skillLevelSweepToTolerance[level]
-                if sv != nil {
-                    sweepToleranceValue = sv!
-                } else {
-                    print("sweeptolerance is nil")
-                }
+                print("sweeptolerance is nil")
             }
         }
     }

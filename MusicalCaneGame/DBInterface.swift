@@ -76,7 +76,7 @@ class DBInterface {
                 let count = try self.db!.scalar(self.users.count)
                 print(count)
                 if (count == 0) {
-                    insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Select Beep", u_music_url: "", u_sweep_tolerance: 3)
+                    insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_url: "", u_sweep_tolerance: 15)
                 }
                 try self.db!.run(self.beaconMappings.create(ifNotExists: true) { t in
                     t.column(self.name)

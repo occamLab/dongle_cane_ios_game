@@ -748,26 +748,26 @@
                         <viewControllerLayoutGuide type="bottom" id="t0Z-GC-6e3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="92p-8T-1kF">
-                        <rect key="frame" x="0.0" y="0.0" width="240" height="160"/>
+                        <rect key="frame" x="0.0" y="0.0" width="288" height="160"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="MPH-FJ-hbg">
-                                <rect key="frame" x="16" y="10" width="208" height="364.5"/>
+                                <rect key="frame" x="16" y="10" width="256" height="364.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="RCp-CE-H9F">
-                                        <rect key="frame" x="0.0" y="0.0" width="208" height="364.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="256" height="364.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="IPJ-ue-Qye">
-                                                <rect key="frame" x="0.0" y="0.0" width="208" height="31"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="256" height="31"/>
                                                 <subviews>
                                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Beacons" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCA-hY-cXW">
-                                                        <rect key="frame" x="0.0" y="0.0" width="151" height="31"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="199" height="31"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="BTe-Uq-Xo3">
-                                                        <rect key="frame" x="159" y="0.0" width="51" height="31"/>
+                                                        <rect key="frame" x="207" y="0.0" width="51" height="31"/>
                                                         <connections>
                                                             <action selector="enableBeaconsSwitchToggled:" destination="8jr-Ta-tOG" eventType="valueChanged" id="QOz-mo-14J"/>
                                                         </connections>
@@ -775,7 +775,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="789-Uf-Mx9">
-                                                <rect key="frame" x="0.0" y="51" width="208" height="50.5"/>
+                                                <rect key="frame" x="0.0" y="51" width="256" height="50.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="URr-3C-eg4">
                                                         <rect key="frame" x="0.0" y="0.0" width="114" height="20.5"/>
@@ -795,7 +795,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2.5" minValue="0.0" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="DvL-lz-cVr">
-                                                        <rect key="frame" x="-2" y="20.5" width="212" height="31"/>
+                                                        <rect key="frame" x="-2" y="20.5" width="260" height="31"/>
                                                         <connections>
                                                             <action selector="thresholdSlider:" destination="8jr-Ta-tOG" eventType="valueChanged" id="SRA-8B-tce"/>
                                                         </connections>
@@ -807,27 +807,27 @@
                                                 </constraints>
                                             </stackView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bbp-Cq-XOz">
-                                                <rect key="frame" x="0.0" y="121.5" width="208" height="243"/>
+                                                <rect key="frame" x="0.0" y="121.5" width="256" height="243"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="243" id="6Te-Xg-YfU"/>
                                                 </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="67" id="lcw-Mx-P4z" customClass="BeaconTableViewCell" customModule="MusicalCaneGame" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="28" width="208" height="67"/>
+                                                        <rect key="frame" x="0.0" y="28" width="256" height="67"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lcw-Mx-P4z" id="Kpb-DG-iGk">
-                                                            <rect key="frame" x="0.0" y="0.0" width="208" height="67"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="256" height="67"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="rZI-H2-dfl">
-                                                                    <rect key="frame" x="15" y="8" width="178" height="51"/>
+                                                                    <rect key="frame" x="15" y="8" width="226" height="51"/>
                                                                     <subviews>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="elr-NV-1Mc">
                                                                             <rect key="frame" x="0.0" y="0.0" width="52" height="51"/>
                                                                         </imageView>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="ZBo-pe-sDa">
-                                                                            <rect key="frame" x="60" y="0.0" width="118" height="51"/>
+                                                                            <rect key="frame" x="60" y="0.0" width="166" height="51"/>
                                                                             <subviews>
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="NJg-D0-DPI">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="92" height="20.5"/>
@@ -924,35 +924,30 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fza-lB-Ggq">
-                                        <rect key="frame" x="8" y="72" width="272" height="34"/>
+                                        <rect key="frame" x="8" y="72" width="272" height="20.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beacon:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bb-ii-wcq">
-                                                <rect key="frame" x="0.0" y="0.0" width="62.5" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="272" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="select " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ldk-dL-sCZ">
-                                                <rect key="frame" x="70.5" y="0.0" width="201.5" height="34"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
                                         </subviews>
                                     </stackView>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter new location" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bBI-h1-Jtp">
-                                        <rect key="frame" x="8" y="130" width="272" height="34"/>
+                                        <rect key="frame" x="8" y="116.5" width="272" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rym-QD-Cuo">
-                                        <rect key="frame" x="80" y="188" width="128" height="30"/>
+                                        <rect key="frame" x="80" y="174.5" width="128" height="30"/>
                                         <state key="normal" title="Record Voice Note"/>
                                         <connections>
                                             <action selector="recordVoiceNote:" destination="MxI-zc-oZ6" eventType="touchUpInside" id="YdI-tO-VsT"/>
                                         </connections>
                                     </button>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8g-oL-i35">
-                                        <rect key="frame" x="-16" y="238" width="320" height="216"/>
+                                        <rect key="frame" x="-16" y="224.5" width="320" height="216"/>
                                     </pickerView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -983,7 +978,7 @@
                     </view>
                     <connections>
                         <outlet property="actionPicker" destination="p8g-oL-i35" id="Tcg-5f-k0Q"/>
-                        <outlet property="beaconTextField" destination="ldk-dL-sCZ" id="UFX-YK-yRa"/>
+                        <outlet property="beaconLabel" destination="9Bb-ii-wcq" id="jhh-hH-MQw"/>
                         <outlet property="newLocationTextField" destination="bBI-h1-Jtp" id="5IT-mI-VmP"/>
                         <outlet property="titleLabel" destination="sea-Fc-Eee" id="Du7-ci-Gym"/>
                     </connections>
