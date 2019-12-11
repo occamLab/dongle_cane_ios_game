@@ -62,8 +62,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var skillLevelBox: UITextField!
     let sweepTolerancePicker = UIPickerView()
     let sweepTolerancePickerData = ["Level 1", "Level 2", "Level 3", "Level 4", "Level 5"]
-    let skillLevelSweepToTolerance = ["Level 1": 15, "Level 2": 7, "Level 3": 5, "Level 4": 3, "Level 5": 1]
-    let sweepToleranceToSkillLevel = [15: "Level 1", 7: "Level 2", 5: "Level 3", 3: "Level 4", 1: "Level 5"]
+    let skillLevelSweepToTolerance = ["Level 1": 15, "Level 2": 9, "Level 3": 6, "Level 4": 4, "Level 5": 2]
+    let sweepToleranceToSkillLevel = [15: "Level 1", 9: "Level 2", 6: "Level 3", 4: "Level 4", 2: "Level 5"]
     var sweepToleranceValue = 15
     
     //Save button
@@ -197,10 +197,10 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         beepCountLabel.text = String(Int(beepCountSlider.value))
         sweepRangeValue = Float(user_row![self.dbInterface.sweep_width])
         sweepRangeSlider.setValue(sweepRangeValue!, animated: false)
-        sweepRangeLabel.text = String(sweepRangeSlider.value) + " inches"
+        sweepRangeLabel.text = String(Double(sweepRangeSlider.value).roundTo(places: 2)) + " inches"
         caneLengthValue = Float(user_row![self.dbInterface.cane_length])
         caneLengthSlider.setValue(caneLengthValue!, animated: false)
-        caneLengthLabel.text = String(caneLengthSlider.value) + " inches"
+        caneLengthLabel.text = String(Double(caneLengthSlider.value).roundTo(places: 2)) + " inches"
         
         // User skill level
         sweepToleranceValue = Int(user_row![self.dbInterface.sweep_tolerance])
@@ -228,15 +228,11 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
             //We save the values the user changed
             sender.setTitle("Edit", for: .normal)
             // TODO once we have the name picker working, put it in here
-            do{
-                try dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
-                    u_music: selectedSongTitle!,
-                    u_beep_noise: selectedBeepNoise!,
-                    u_music_url: mySongStr!,
-                    u_sweep_tolerance: Double(sweepToleranceValue))
-            }catch{
-                print("error updating users table in game settings: \(error)")
-            }
+            dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
+                u_music: selectedSongTitle!,
+                u_beep_noise: selectedBeepNoise!,
+                u_music_url: mySongStr!,
+                u_sweep_tolerance: Double(sweepToleranceValue))
             isEdit = true
         }
         changeOptions(b:!isEdit)

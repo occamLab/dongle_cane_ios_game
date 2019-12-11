@@ -45,7 +45,6 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     }
     
     @objc func locationTextFieldChanged() {
-        // TODO: could replace with direct call to DB interface    
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconDestination"), object: ["forBeacon": selectedBeacon!, "location": newLocationTextField.text!])
     }
     
@@ -112,8 +111,6 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
-        // TODO: fix unwrapping
-        dbInterface.updateBeaconStatus(u_name: selectedProfile, b_name: selectedBeacon!, status: row)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconStatus"), object: ["forBeacon": selectedBeacon!, "status": row])
     }
 }

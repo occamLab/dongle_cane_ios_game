@@ -196,7 +196,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         sweepTolerance = Float(user_row![self.dbInterface.sweep_tolerance])
         beepCount = Int(user_row![self.dbInterface.beep_count])
         sweepRange = Float(user_row![self.dbInterface.sweep_width])
-        sweepRangeLabel.text = String(sweepRange) + " inches"
+        sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 2)) + " inches"
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
 
         sensorManager.caneLength = Float(user_row![self.dbInterface.cane_length])

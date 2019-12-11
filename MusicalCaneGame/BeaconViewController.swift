@@ -11,7 +11,7 @@ import CoreLocation
 import AVFoundation
 
 class BeaconViewController: UIViewController {
-    
+    let metersToFeet = Float(100.0/2.54/12)
     let beacons = ["Blue", "Purple", "Rose", "White"]
     var voiceNoteToPlay: AVAudioPlayer?
     let dbInterface = DBInterface.shared
@@ -27,12 +27,6 @@ class BeaconViewController: UIViewController {
                                       7567: -1.0,
                                       56186: -1.0,
                                       11819: -1.0]
-    
-    var locationDict:[NSNumber:String] = [4724: "",
-                                      7567: "",
-                                      56186: "",
-                                      11819: ""]
-    
 
    
     @IBOutlet weak var tableView: UITableView!
@@ -40,11 +34,11 @@ class BeaconViewController: UIViewController {
     
     
     
-    var threshold: Float = 2.5
+    var threshold: Float = 5.0
     @IBOutlet weak var thresholdLabel: UILabel!
     @IBAction func thresholdSlider(_ sender: UISlider) {
         threshold = sender.value
-        thresholdLabel.text = String(Double(sender.value).roundTo(places: 2)) + " meters"
+        thresholdLabel.text = String(Double(sender.value).roundTo(places: 2)) + " feet"
     }
     
     var newLocation:(Beacon: String?,Location: String?)
@@ -69,6 +63,9 @@ class BeaconViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleNewLocation(notification:)), name: NSNotification.Name(rawValue: "setBeaconDestination"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleNewBeaconStatus(notification:)), name: NSNotification.Name(rawValue: "setBeaconStatus"), object: nil)
+
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
 
         // Do any additional setup after loading the view, typically from a nib.
@@ -79,19 +76,8 @@ class BeaconViewController: UIViewController {
         }
         locationManager.startRangingBeacons(in: region)
         
-        
-        // get the locations from UserDefaults
-        let userDefaults: UserDefaults = UserDefaults.standard
-        for (key, _) in locationDict {
-            let matchingColors = colorsToMinors.filter {$0.value == key}
-            let color = matchingColors.keys.first
-            if let location = userDefaults.string(forKey: color!) {
-                locationDict[key] = location
-            }
-        }
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
-        let row = dbInterface.getRow(u_name: selectedProfile)
-        if let row = row {
+        if let row = dbInterface.getRow(u_name: selectedProfile) {
             beaconsEnabledSwitch.isOn = try! row.get(dbInterface.beacons_enabled)
         }
 
@@ -100,6 +86,12 @@ class BeaconViewController: UIViewController {
     @objc func handleNewLocation(notification: NSNotification) {
         if let fields = notification.object as? Dictionary<String, String> {
             setNewLocation(forBeacon: fields["forBeacon"]!, location: fields["location"]!)
+        }
+    }
+    
+    @objc func handleNewBeaconStatus(notification: NSNotification) {
+        if let fields = notification.object as? Dictionary<String, Any> {
+            setNewBeaconStatus(forBeacon: fields["forBeacon"] as! String, status: fields["status"] as! Int)
         }
     }
     
@@ -115,10 +107,15 @@ class BeaconViewController: UIViewController {
     }
     
     func setNewLocation(forBeacon: String, location: String) {
-        locationDict[colorsToMinors[forBeacon]!] = location
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         dbInterface.updateBeaconLocation(u_name: selectedProfile, b_name: forBeacon, location_text: location)
         
+        tableView?.reloadData()
+    }
+    
+    func setNewBeaconStatus(forBeacon: String, status: Int) {
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        dbInterface.updateBeaconStatus(u_name: selectedProfile, b_name: forBeacon, status: status)
         tableView?.reloadData()
     }
 }
@@ -190,7 +187,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         if distanceDict[currentMinor!] == -1 {
             cell.beaconDistanceLabel.text = "Unknown"
         } else {
-            cell.beaconDistanceLabel.text = String(format: "%f", distanceDict[currentMinor!]!) + " meters"
+            cell.beaconDistanceLabel.text = String(format: "%0.2f feet", distanceDict[currentMinor!]!*Double(metersToFeet))
         }
         
         let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_name: currentBeacon)
@@ -201,7 +198,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
             cell.beaconLocationLabel.text = ""
         }
         
-        if !isRecordingAudio, beaconsEnabledSwitch.isOn, Float(distanceDict[currentMinor!]!) <= threshold && Float(distanceDict[currentMinor!]!) > Float(0.0), let beaconInfo = beaconInfo {
+        if !isRecordingAudio, beaconsEnabledSwitch.isOn, Float(distanceDict[currentMinor!]!)*metersToFeet <= threshold && Float(distanceDict[currentMinor!]!) > Float(0.0), let beaconInfo = beaconInfo {
             do {
                 if try beaconInfo.get(dbInterface.beaconStatus) == 1 && !beaconInfo.get(dbInterface.voiceNoteURL).isEmpty {
                     if voiceNoteToPlay == nil || !voiceNoteToPlay!.isPlaying {

@@ -14,19 +14,23 @@ import iOSDFULibrary
 
 class SensorManager {
     private var startSweep = true
-    private var startDir:[Float] = []
-    private var anglePrev:Float = 0.0
+    private var startPosition:[Float] = []
     private var device: MBLMetaWear?
     private var finishingConnection = false
     private var streamingEvents: Set<NSObject> = [] // Can't use proper type due to compiler seg fault
     private var stepsPostSensorFusionDataAvailable : (()->())?
     var inSweepMode = false
     var caneLength: Float = 1.0
-    var directionAtMaximum: [Float] = []
-    var maxAngleFromStartingThisSweep = Float(-1.0)
-    
+    var positionAtMaximum: [Float] = []
+
+    var maxDistanceFromStartingThisSweep = Float(-1.0)
+
     init() {
         
+    }
+    
+    func euclideanDistance(_ a: Float, _ b: Float) -> Float {
+        return (a * a + b * b).squareRoot()
     }
 
     public func sensorFusionReadingNewDongle(w: Float, x: Float, y: Float, z: Float, caneLength: Float) {
@@ -38,17 +42,20 @@ class SensorManager {
         // x and y projected on z axis from matrix
         let m02 : Float
         let m12 : Float
-        
+        let m22 : Float
+
         // this code is appropriate when the z-axis is aligned with the cane shaft
         if zAxisAlignedWithShaft {
             // x and y projected on z axis from matrix
             m02 = 2.0 * (x*z + y*w) * invs
             m12 = 2.0 * (y*z - x*w) * invs
+            m22 = 1 - 2.0 * (x*x - y*y) * invs
         } else {
             // keep name the same even though it is a bit weird
             // x and y projected on x axis from matrix (this is really m01 and m11)
             m02 = 2.0 * (x*y - z*w) * invs
             m12 = 1 - 2.0 * (x*x + z*z) * invs
+            m22 = 2.0*(y*z + x*w) * invs
         }
         // normalized vector values multiplied by cane length
         // to estimate tip of cane
@@ -63,58 +70,47 @@ class SensorManager {
         let length_normalized = lengthOnZAxiz / caneLength
         
         if length_normalized > 0.3 {
-            
-            // normalizing
-            var direction = [xPos, yPos]
-            let magnitude = lengthOnZAxiz
-            direction = direction.map { $0 / magnitude }
-            
-            // sets first position as direction as a reference point
+            // this should be in inches
+            let position = [xPos, yPos]
+
+            // sets first position as a reference point
             if startSweep {
                 // use this direction so the progress is relative to the maximum rather than when the sweep was triggered
-                if !directionAtMaximum.isEmpty {
-                    startDir = directionAtMaximum
+                if !positionAtMaximum.isEmpty {
+                    startPosition = positionAtMaximum
                 } else {
-                    startDir = direction
+                    startPosition = position
                 }
                 startSweep = false
             }
             
-            // using dot product to find angle between starting vector and current direction
-            // varified
-            let angleFromStarting = acos(direction[0] * startDir[0] + direction[1] * startDir[1])
+            let distanceFromStarting = euclideanDistance(position[0] - startPosition[0], position[1] - startPosition[1])
             
-            // change in angle
-            let deltaAngle = angleFromStarting - anglePrev
-            if angleFromStarting > maxAngleFromStartingThisSweep {
-                maxAngleFromStartingThisSweep = angleFromStarting
-                directionAtMaximum = direction
+            // change in distance from maximum
+            let deltaDistance = distanceFromStarting - maxDistanceFromStartingThisSweep
+            if distanceFromStarting > maxDistanceFromStartingThisSweep {
+                maxDistanceFromStartingThisSweep = distanceFromStarting
+                positionAtMaximum = position
             }
             
-            // change in angle from radians to degrees
-            let deltaAngleDeg = deltaAngle * 57.2958
-            let sweepDistance = caneLength * sin(maxAngleFromStartingThisSweep / 2) * 2
-            //            sweepProgress.setProgress(sweepDistance/sweepRange, animated: false)
             let name = Notification.Name(rawValue: updateProgressNotificationKey)
-            NotificationCenter.default.post(name: name, object: sweepDistance)
+            NotificationCenter.default.post(name: name, object: maxDistanceFromStartingThisSweep)
             
-            if deltaAngleDeg < -0.5 {
+            if deltaDistance < -2.0 { // 2 inches from apex count the sweep
                 // changed
                 let name = Notification.Name(rawValue: sweepNotificationKey)
-                NotificationCenter.default.post(name: name, object: sweepDistance)
-                
-                startDir = direction
-                // correct for any offset between the maximum of the sweep and the current angle
-                anglePrev = 0.0
-                maxAngleFromStartingThisSweep = -1.0
+                NotificationCenter.default.post(name: name, object: maxDistanceFromStartingThisSweep)
+                // correct for any offset between the maximum of the sweep and the current position
+                startPosition = positionAtMaximum
+                maxDistanceFromStartingThisSweep = -1.0
                 return
             }
-            anglePrev = angleFromStarting
         } else if (length_normalized < 0.2) {
             // Stop music
             print("Shepards Pose")
             let name = Notification.Name(rawValue: sweepNotificationKey)
-            maxAngleFromStartingThisSweep = -1.0
+            maxDistanceFromStartingThisSweep = -1.0
+            positionAtMaximum = []
             NotificationCenter.default.post(name: name, object:  -10)
         }
     }
