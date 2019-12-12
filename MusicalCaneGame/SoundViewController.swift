@@ -28,6 +28,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     let overflowSize = Float(0.2)
     let underflowSize = Float(0.6)
     let validZoneSize =  Float(0.2)
+    let synth = AVSpeechSynthesizer()
 
     
     ///Declare db to load options `DUPLICATED`
@@ -246,7 +247,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 activityIndicator.startAnimating()
                 UIApplication.shared.beginIgnoringInteractionEvents()
 
-                let synth = AVSpeechSynthesizer()
                 let utterance = AVSpeechUtterance(string: "Connecting")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
@@ -272,11 +272,10 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 self.startButtonPressed = false
                 self.audioPlayer?.stop()
 
-                let synth = AVSpeechSynthesizer()
                 let utterance = AVSpeechUtterance(string: "Disconnected")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
-                synth.speak(utterance)
+                self.synth.speak(utterance)
                 self.controlButton.title = "Start"
             }
         }
@@ -427,7 +426,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         activityIndicator.stopAnimating()
         controlButton.title = "Stop"
         UIApplication.shared.endIgnoringInteractionEvents()
-        let synth = AVSpeechSynthesizer()
         let utterance = AVSpeechUtterance(string: "Start Sweeping")
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         utterance.rate = 0.6
@@ -446,16 +444,14 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         if !isRecordingAudio, is_valid_sweep && startButtonPressed == true {
 
             numSweeps += 1
-            print("SweepRange: ", sweepRange)
 
             if speakSweeps {
                 //We are saying the number rather than playing a noise
-                print("im speaking")
                 let string = String(numSweeps)
-                let synth = AVSpeechSynthesizer()
                 let utterance = AVSpeechUtterance(string: string)
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.8
+                synth.stopSpeaking(at: .immediate)
                 synth.speak(utterance)
             } else {
                 // beep mode
