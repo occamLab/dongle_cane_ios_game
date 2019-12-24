@@ -76,7 +76,7 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: true)
 
         let popoverContent = RecorderViewController()
-        //says that the recorder should dismiss tiself when it is done
+        //says that the recorder should dismiss itself when it is done
         popoverContent.shouldAutoDismiss = true
         popoverContent.delegate = self
         popoverContent.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: popoverContent, action: #selector(popoverContent.doneWithRecording))
@@ -87,6 +87,10 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         popover?.sourceView = self.view
         popover?.sourceRect = CGRect(x: 0, y: 10, width: 0,height: 0)
         self.present(nav, animated: true, completion: nil)
+    }
+    
+    @objc func dismissWindow() {
+        dismiss(animated: true)
     }
 }
 

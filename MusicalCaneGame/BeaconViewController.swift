@@ -155,16 +155,20 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.cellForRow(at: indexPath) as? BeaconTableViewCell else {
               return
         }
-        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "locationpopupview") as? LocationPopUpViewController else {
+        guard let popoverContent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "locationpopupview") as? LocationPopUpViewController else {
             return
         }
-        // TODO add a dismiss button
-        // Use the popover presentation style for your view controller.
-        viewController.modalPresentationStyle = .popover
-        viewController.selectedBeacon = cell.beaconName
+        
+        //says that the recorder should dismiss itself when it is done
+        popoverContent.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: popoverContent, action: #selector(popoverContent.dismissWindow))
+        let nav = UINavigationController(rootViewController: popoverContent)
+        nav.modalPresentationStyle = .popover
+        let popover = nav.popoverPresentationController
+        popover?.sourceView = self.view
+        popover?.sourceRect = CGRect(x: 0, y: 10, width: 0,height: 0)
+        popoverContent.selectedBeacon = cell.beaconName
 
-        self.present(viewController, animated: true)
-        //viewController.beaconTextField.text = cell.beaconLabel.text
+        self.present(nav, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
