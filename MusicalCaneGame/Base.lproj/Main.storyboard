@@ -157,7 +157,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="tmy-dX-9xS" firstAttribute="centerY" secondItem="2a9-Gg-Mzh" secondAttribute="centerY" id="0li-PV-F2X"/>
                             <constraint firstItem="eVo-Gd-MmC" firstAttribute="top" secondItem="H1K-ZL-5Vo" secondAttribute="bottom" constant="8" id="4Fn-HE-LhC"/>
@@ -277,7 +277,7 @@
                     <view key="view" contentMode="scaleToFill" id="8sF-fW-EfD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="Yx8-h9-M7d">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger" id="nf3-Jq-MDp"/>
@@ -301,7 +301,7 @@
                     <view key="view" contentMode="scaleToFill" id="MgW-oF-pDy">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="CrR-tK-OxF">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger" id="A0Z-Qd-sbN"/>
@@ -572,7 +572,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wKw-tT-zrJ">
                                         <rect key="frame" x="0.0" y="90" width="288" height="20"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" priority="900" constant="20" id="4wD-wG-8Ir"/>
                                         </constraints>
@@ -596,6 +596,7 @@
                                                 <color key="progressTintColor" red="0.79977637529373169" green="0.26107227304742625" blue="0.29755758152595368" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </progressView>
                                         </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstItem="Gam-BN-faY" firstAttribute="width" secondItem="qlR-vj-DIN" secondAttribute="width" multiplier="0.25" priority="900" id="2zx-fO-32E"/>
                                             <constraint firstItem="j8D-jW-VFs" firstAttribute="height" secondItem="c9p-av-vbg" secondAttribute="height" id="30m-Gn-r5c"/>
@@ -629,10 +630,13 @@
                                                         </connections>
                                                     </slider>
                                                 </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                             </stackView>
                                         </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </stackView>
                                 </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="cls-ZU-SAr" firstAttribute="top" secondItem="SM1-HC-hOO" secondAttribute="topMargin" priority="900" id="0lG-h7-JaO"/>
                                     <constraint firstItem="miU-cl-hjn" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" priority="800" id="E9x-X4-BCL"/>
@@ -647,12 +651,13 @@
                             </stackView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fF3-VS-Kht">
                                 <rect key="frame" x="16" y="269" width="288" height="279"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
                                     <segue destination="8jr-Ta-tOG" kind="embed" id="jMJ-AT-nIe"/>
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="fF3-VS-Kht" firstAttribute="top" secondItem="SM1-HC-hOO" secondAttribute="bottom" constant="20" id="LHZ-zm-fUF"/>
                             <constraint firstItem="fF3-VS-Kht" firstAttribute="leading" secondItem="fts-vf-hiA" secondAttribute="leadingMargin" id="MrE-CE-hCQ"/>
@@ -722,7 +727,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="Joj-hs-6D7">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="hamburger" id="w8F-d2-rKg"/>
@@ -875,7 +880,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="MPH-FJ-hbg" firstAttribute="top" secondItem="6d7-Le-c5C" secondAttribute="bottom" constant="10" id="Zty-bF-jUx"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MPH-FJ-hbg" secondAttribute="trailing" id="rA0-vT-HBH"/>
@@ -942,7 +947,7 @@
                                         <rect key="frame" x="-16" y="224.5" width="320" height="216"/>
                                     </pickerView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="fza-lB-Ggq" firstAttribute="leading" secondItem="UyX-7Q-Mo0" secondAttribute="leadingMargin" id="4h5-oO-jtW"/>
                                     <constraint firstItem="rym-QD-Cuo" firstAttribute="top" secondItem="bBI-h1-Jtp" secondAttribute="bottom" constant="24" id="5is-Aj-lqh"/>
@@ -1106,7 +1111,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="BoI-Jn-b9W" secondAttribute="trailing" id="1hV-23-hsY"/>
                             <constraint firstItem="BoI-Jn-b9W" firstAttribute="leading" secondItem="2NS-5d-NNk" secondAttribute="leadingMargin" id="9tg-ql-bjw"/>

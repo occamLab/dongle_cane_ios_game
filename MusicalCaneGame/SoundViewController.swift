@@ -377,6 +377,10 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         views.append(mvc.view)
         views.append(svc.view)
         for v in views {
+            // make sure we comply with dark mode
+            if #available(iOS 13.0, *) {
+                v.backgroundColor = .systemBackground
+            }
             viewContainer.addSubview(v)
         }
         viewContainer.bringSubview(toFront: views[0])
