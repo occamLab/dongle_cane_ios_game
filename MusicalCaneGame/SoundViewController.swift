@@ -30,7 +30,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     let validZoneSize =  Float(0.2)
     let synth = AVSpeechSynthesizer()
 
-    
+    let mp = MPMusicPlayerController.applicationMusicPlayer
+
     ///Declare db to load options `DUPLICATED`
     let dbInterface = DBInterface.shared
     ///`DUPLICATED`
@@ -76,7 +77,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             isRecordingAudio = audioRecordingNewStatus
             if isRecordingAudio {
                 // stop the music!!
-                audioPlayer?.stop()
+                mp.pause()
             }
         }
     }
@@ -174,7 +175,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var beepCount: Int = 10
     var sweepTolerance: Float = 20 //seems like a good value for a skiled cane user
     //Other important variable(s) not explicitly loaded from db
-    var selectedSong:URL?
+    var selectedSong:UInt64?
     var selectedBeepNoiseCode: Int?
     var percentTolerance: Float?
     /**
@@ -189,7 +190,12 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         selectedSongStr = String(user_row![self.dbInterface.music])
 
         if(selectedSongStr != "Select Music"){
-            selectedSong = URL.init(string: user_row![self.dbInterface.music_url])
+            selectedSong = UInt64(user_row![self.dbInterface.music_id])
+            let id = MPMediaPropertyPredicate(value: selectedSong, forProperty: MPMediaItemPropertyPersistentID)
+            let query = MPMediaQuery(filterPredicates: [id])
+            mp.setQueue(with: query)
+            mp.repeatMode = .one
+            mp.prepareToPlay()
         }
         //Get beep noise
         selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
@@ -270,7 +276,9 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             sensorManager.disconnectAndCleanup() { () in
                 self.sensorManager.inSweepMode = false
                 self.startButtonPressed = false
-                self.audioPlayer?.stop()
+                self.mp.stop()
+                // queue it up for next time
+                self.mp.prepareToPlay()
 
                 let utterance = AVSpeechUtterance(string: "Disconnected")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
@@ -291,12 +299,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var centralManager: CBCentralManager!
     var dongleSensorPeripheral: CBPeripheral!
 
-    var audioPlayer: AVAudioPlayer?
-    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
     let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
-    var beginningMusic = true
 
     var numSweeps:Int = 0
     /**
@@ -464,27 +468,10 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
 
             if rewardAt[numSweeps] != nil && rewardAt[numSweeps]! {
-                if beginningMusic == true {
-                    if selectedSong != nil {
+                mp.play()
 
-                        do {
-                            audioPlayer = try AVAudioPlayer(contentsOf: selectedSong! as URL)
-
-                        } catch {
-                            print("oh no")
-                        }
-                    } else {
-                        createAlert(title: "Error", message: "Could not find song address on device. Make sure it is on your device, not in you iClound library")
-                    }
-
-                    beginningMusic = false
-
-                }
-                audioPlayer?.play()
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) { // change to to desired number of seconds
-                    // Your code with delay
-                    self.audioPlayer?.pause()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                    self.mp.pause()
                 }
             }
         }

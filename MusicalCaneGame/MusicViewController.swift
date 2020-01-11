@@ -55,7 +55,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     let overflowSize = Float(0.2)
     let underflowSize = Float(0.6)
     let validZoneSize =  Float(0.2)
-
+    
+    let mp = MPMusicPlayerController.applicationMusicPlayer
     
     ///Declare db to load options `DUPLICATED`
     let dbInterface = DBInterface.shared
@@ -170,7 +171,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var beepCount: Int = 10
     var sweepTolerance: Float = 20
     //Other important variable(s) not explicitly loaded from db
-    var selectedSong:URL?
+    var selectedSong:Int64?
     var percentTolerance: Float?
     /**
       `DUPLICATED`
@@ -183,11 +184,14 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
 
         //Change Music Title
-        selectedSongStr = String(user_row![self.dbInterface.music])
-
-        if(selectedSongStr != "Select Music"){
-            selectedSong = URL.init(string: user_row![self.dbInterface.music_url])
-            songTitleLabel.text = selectedSongStr
+        if user_row![self.dbInterface.music] != "Select Music" {
+            selectedSong = Int64(user_row![self.dbInterface.music_id])
+            let id = MPMediaPropertyPredicate(value: selectedSong, forProperty: MPMediaItemPropertyPersistentID)
+            let query = MPMediaQuery(filterPredicates: [id])
+            mp.setQueue(with: query)
+            mp.repeatMode = .one
+            mp.prepareToPlay()
+            songTitleLabel.text = user_row![self.dbInterface.music]
         }else{
             songTitleLabel.text = "Please select song on manage profiles screen"
         }
@@ -266,7 +270,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
              { () in
                 self.sensorManager.inSweepMode = false
                 self.startButtonPressed = false
-                self.audioPlayer?.stop()
+                self.mp.stop()
+                // queue it up for next time
+                self.mp.prepareToPlay()
 
                 let synth = AVSpeechSynthesizer()
                 let utterance = AVSpeechUtterance(string: "Disconnected")
@@ -295,7 +301,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
     let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
-    var beginningMusic = true
 
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -402,22 +407,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(2), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: false)
             // music has stopped but we want to restart it?
             if playing != shouldPlay {
-                if beginningMusic == true {
-                    if selectedSong != nil {
-                        do {
-                            audioPlayer = try AVAudioPlayer(contentsOf: selectedSong! as URL)
-                        } catch {
-                            print("oh no")
-                        }
-                    } else {
-                        createAlert(title: "Error", message: "Could not find song address on device. Make sure it is on your device, not in you iClound library")
-                        print("error")
-                    }
-                    beginningMusic = false
-                }
-
-                audioPlayer?.play()
-                audioPlayer?.numberOfLoops = -1
+                mp.play()
                 playing = 1
             }
         } else{
@@ -431,7 +421,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     @objc func stopPlaying() {
         shouldPlay = -1
         if playing >= 0 {
-            audioPlayer?.pause()
+            mp.pause()
             playing = -1
         }
     }

@@ -30,8 +30,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     var selectedSongTitle: String?
     var selectedSong: MPMediaItemCollection?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-    var mySong: URL?
-    var mySongStr: String?
+    var mySong: UInt64?
     ///Beep Noise Declaration
     let countBeepPicker = UIPickerView()
     @IBOutlet weak var beepNoiseBox: UITextField!
@@ -91,7 +90,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
             print("text field: \(textField?.text)")
 
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_url: "", u_sweep_tolerance: 15)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15)
             
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
@@ -188,7 +187,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
         //Change Music Title
         selectedSongTitle = String(user_row![self.dbInterface.music])
-        mySongStr = String(user_row![self.dbInterface.music_url])
+        mySong = UInt64(user_row![self.dbInterface.music_id])
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
 
         //For the sliders
@@ -231,7 +230,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
             dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
                 u_music: selectedSongTitle!,
                 u_beep_noise: selectedBeepNoise!,
-                u_music_url: mySongStr!,
+                u_music_id: mySong != nil ? String(mySong!) : "",
                 u_sweep_tolerance: Double(sweepToleranceValue))
             isEdit = true
         }
@@ -334,23 +333,14 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         myMediaPlayer.setQueue(with: mediaItemCollection)
         selectedSong = mediaItemCollection
-        let mySongObj = selectedSong?.items[0]
-        mySong = mySongObj?.value(forProperty:MPMediaItemPropertyAssetURL) as? URL
-        guard let mySongURL = mySong else {
-            if mySongObj!.isCloudItem {
-                let alertController = UIAlertController(title: "Media not found on device", message:
-                    "Perhaps you need to download this from iCloud.", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
-                mediaPicker.present(alertController, animated: true, completion: nil)
-            } else if mySongObj!.hasProtectedAsset {
-                let alertController = UIAlertController(title: "Not authorized to play media", message:
-                    "Something is off with your iTunes settings.", preferredStyle: .alert)
-                alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
-                mediaPicker.present(alertController, animated: true, completion: nil)
-            }
+        guard let mySongObj = selectedSong?.items.first else {
+            let alertController = UIAlertController(title: "Unknown error", message:
+                "Something is off.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+            mediaPicker.present(alertController, animated: true, completion: nil)
             return
         }
-        mySongStr = mySongURL.absoluteString
+        mySong = mySongObj.persistentID
         selectedSongTitle = selectedSong?.items[0].title
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
         mediaPicker.dismiss(animated: true, completion: nil)
