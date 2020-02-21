@@ -126,6 +126,7 @@ class SensorManager {
 
     func scanForDevice() {
         finishingConnection = false
+        device = nil
         MBLMetaWearManager.shared().startScan(forMetaWearsAllowDuplicates: true, handler: { array in
             if !self.finishingConnection {
                 self.device = array[0]
@@ -141,6 +142,13 @@ class SensorManager {
     }
     
     func finishConnection(_ on: Bool, stepsPostSensorFusionDataAvailable: @escaping ()->()) {
+        guard let device = device else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // in half a second...
+                self.finishConnection(on, stepsPostSensorFusionDataAvailable: stepsPostSensorFusionDataAvailable)
+            }
+            return
+        }
+        
         if self.finishingConnection {
             // we somehow executed this twice
             return
@@ -149,7 +157,7 @@ class SensorManager {
         MBLMetaWearManager.shared().stopScan()
         finishingConnection = true
         if on {
-            device?.connect(withTimeoutAsync: 15).continueOnDispatch { t in
+            device.connect(withTimeoutAsync: 15).continueOnDispatch { t in
                 print("CONNECTED!!!!")
                 if (t.error?._domain == kMBLErrorDomain) && (t.error?._code == kMBLErrorOutdatedFirmware) {
                     return nil
@@ -164,7 +172,7 @@ class SensorManager {
                 return nil
             }
         } else {
-            device?.disconnectAsync().continueOnDispatch { t in
+            device.disconnectAsync().continueOnDispatch { t in
                 //self.deviceDisconnected()
                 if t.error != nil {
                     print(t.error!.localizedDescription)
