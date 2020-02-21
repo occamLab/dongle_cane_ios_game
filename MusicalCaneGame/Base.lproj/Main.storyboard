@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -554,11 +554,11 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="SM1-HC-hOO">
                                 <rect key="frame" x="16" y="59" width="288" height="190"/>
                                 <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cls-ZU-SAr">
-                                        <rect key="frame" x="80" y="0.0" width="128" height="32"/>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cls-ZU-SAr" userLabel="Counting, Beeps">
+                                        <rect key="frame" x="50" y="0.0" width="188" height="32"/>
                                         <segments>
-                                            <segment title="Music"/>
-                                            <segment title="Beep"/>
+                                            <segment title="Counting"/>
+                                            <segment title="Beeps"/>
                                         </segments>
                                         <connections>
                                             <action selector="segmentedControl:" destination="5gR-6F-LX3" eventType="valueChanged" id="MJ7-Fn-d7k"/>
@@ -642,9 +642,9 @@
                                     <constraint firstItem="miU-cl-hjn" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" priority="800" id="E9x-X4-BCL"/>
                                     <constraint firstItem="miU-cl-hjn" firstAttribute="trailing" secondItem="SM1-HC-hOO" secondAttribute="trailingMargin" priority="800" id="GBF-zw-fbi"/>
                                     <constraint firstAttribute="trailing" secondItem="qlR-vj-DIN" secondAttribute="trailing" id="aCE-Oc-MYA"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="cls-ZU-SAr" secondAttribute="trailing" constant="80" id="cOA-tf-tST"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="cls-ZU-SAr" secondAttribute="trailing" constant="50" id="cOA-tf-tST"/>
                                     <constraint firstItem="wKw-tT-zrJ" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leading" priority="800" id="ccp-tO-dFc"/>
-                                    <constraint firstItem="cls-ZU-SAr" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" constant="80" id="pWk-Vh-Ghb"/>
+                                    <constraint firstItem="cls-ZU-SAr" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leadingMargin" constant="50" id="pWk-Vh-Ghb"/>
                                     <constraint firstItem="qlR-vj-DIN" firstAttribute="leading" secondItem="SM1-HC-hOO" secondAttribute="leading" id="qs0-JA-96r"/>
                                     <constraint firstAttribute="trailing" secondItem="wKw-tT-zrJ" secondAttribute="trailing" priority="800" id="uCc-yZ-Yuh"/>
                                 </constraints>
@@ -749,7 +749,7 @@
                         <viewControllerLayoutGuide type="bottom" id="t0Z-GC-6e3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="92p-8T-1kF">
-                        <rect key="frame" x="0.0" y="0.0" width="288" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="288" height="279"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MPH-FJ-hbg">
@@ -1041,28 +1041,30 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Song Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mi-TU-CAr">
-                                        <rect key="frame" x="0.0" y="44" width="288" height="29"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="USs-vB-85m">
+                                        <rect key="frame" x="0.0" y="44" width="288" height="41"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="currentSongButtonPressed:" destination="W6w-gD-LRY" eventType="touchUpInside" id="6ni-wi-n3A"/>
+                                        </connections>
+                                    </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zYm-cQ-eqb">
-                                        <rect key="frame" x="0.0" y="88" width="288" height="306.5"/>
+                                        <rect key="frame" x="0.0" y="100" width="288" height="294.5"/>
                                         <subviews>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MPf-7y-vhG">
-                                                <rect key="frame" x="0.0" y="143.5" width="144" height="20"/>
+                                                <rect key="frame" x="0.0" y="137.5" width="144" height="20"/>
                                                 <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </progressView>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zM3-U7-LPd">
-                                                <rect key="frame" x="144" y="143.5" width="72" height="20"/>
+                                                <rect key="frame" x="144" y="137.5" width="72" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="fgI-mS-8KR"/>
                                                 </constraints>
                                                 <color key="progressTintColor" red="0.3371335157" green="0.81007124350000004" blue="0.35362574190000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </progressView>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YXN-q2-BcI">
-                                                <rect key="frame" x="216" y="143.5" width="72" height="20"/>
+                                                <rect key="frame" x="216" y="137.5" width="72" height="20"/>
                                                 <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </progressView>
                                         </subviews>
@@ -1129,6 +1131,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="controlButton" destination="1Ic-lj-ru2" id="O8P-dv-40W"/>
+                        <outlet property="currentSongButton" destination="USs-vB-85m" id="ZUb-SM-hyx"/>
                         <outlet property="menuButton" destination="tAq-DT-M5k" id="PI7-8d-CCz"/>
                         <outlet property="playerName" destination="0if-pa-hNV" id="yK4-2b-Oph"/>
                         <outlet property="progressBarOverflowSize" destination="483-k8-F14" id="RSi-oE-YSs"/>
@@ -1137,7 +1140,6 @@
                         <outlet property="progressBarUI" destination="zM3-U7-LPd" id="4M5-Ed-r6j"/>
                         <outlet property="progressBarUnderflow" destination="MPf-7y-vhG" id="jKh-ht-e6e"/>
                         <outlet property="progressBarUnderflowSize" destination="6Ku-pQ-y5C" id="6kU-tX-cp8"/>
-                        <outlet property="songTitleLabel" destination="2Mi-TU-CAr" id="gK4-9d-j6d"/>
                         <outlet property="stackViewBar" destination="zYm-cQ-eqb" id="qaI-ul-HIV"/>
                         <outlet property="sweepRangeLabel" destination="1rI-9s-9HR" id="9JV-wj-IyV"/>
                         <outlet property="sweepRangeSliderUI" destination="QpT-ml-sOJ" id="JzU-94-kto"/>
@@ -1322,6 +1324,6 @@
         <image name="icons8-up-3-96" width="96" height="96"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="GYc-pF-G1Z"/>
+        <segue reference="jMJ-AT-nIe"/>
     </inferredMetricsTieBreakers>
 </document>

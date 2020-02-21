@@ -30,8 +30,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     let validZoneSize =  Float(0.2)
     let synth = AVSpeechSynthesizer()
 
-    let mp = MPMusicPlayerController.applicationMusicPlayer
-
     ///Declare db to load options `DUPLICATED`
     let dbInterface = DBInterface.shared
     ///`DUPLICATED`
@@ -75,10 +73,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @objc func handleChangeInAudioRecording(notification: NSNotification) {
         if let audioRecordingNewStatus = notification.object as? Bool {
             isRecordingAudio = audioRecordingNewStatus
-            if isRecordingAudio {
-                // stop the music!!
-                mp.pause()
-            }
+            // nothing to do additionally right now
         }
     }
 
@@ -169,7 +164,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     //----------------------------
     ///Declare variables that are loaded from profile `DUPLICATED`
     var selectedProfile:String = "Default User"
-    var selectedSongStr: String = "Select Music"
     var selectedBeepStr: String = "Select Beep"
     var sweepRange: Float = 1.0
     var beepCount: Int = 10
@@ -186,17 +180,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
         playerName.text = selectedProfile
 
-        //Get Music Title
-        selectedSongStr = String(user_row![self.dbInterface.music])
-
-        if(selectedSongStr != "Select Music"){
-            selectedSong = UInt64(user_row![self.dbInterface.music_id])
-            let id = MPMediaPropertyPredicate(value: selectedSong, forProperty: MPMediaItemPropertyPersistentID)
-            let query = MPMediaQuery(filterPredicates: [id])
-            mp.setQueue(with: query)
-            mp.repeatMode = .one
-            mp.prepareToPlay()
-        }
         //Get beep noise
         selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
         if(selectedBeepStr != "Select Beep"){
@@ -242,7 +225,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @IBAction func controlButton(_ sender: Any) {
         if controlButton.title == "Start" {
-            if selectedSong != nil && (selectedBeepNoiseCode != nil || speakSweeps){
+            if selectedBeepNoiseCode != nil || speakSweeps {
 
 
                 activityIndicator.center = self.view.center
@@ -264,10 +247,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 startButtonPressed = true
 
 
-            } else if (selectedSong == nil){
-                createAlert(title: "Error", message: "You have not selected a song.")
-
-            }else{
+            } else{
                 createAlert(title: "Error", message: "You have not selected a beep noise.")
 
             }
@@ -276,9 +256,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             sensorManager.disconnectAndCleanup() { () in
                 self.sensorManager.inSweepMode = false
                 self.startButtonPressed = false
-                self.mp.stop()
-                // queue it up for next time
-                self.mp.prepareToPlay()
 
                 let utterance = AVSpeechUtterance(string: "Disconnected")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
@@ -303,24 +280,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
 
     var numSweeps:Int = 0
-    /**
-    Creates a large array that will be filled with false and some true at the
-    specified indices (the first is controlled by the user while the rest are hardcoded)
-    The main sweep loop will reference this array at each index to see whether to
-    play the reward music
-    */
-    func populateRewards() -> ([Int: Bool]) {
-
-        var reward: [Int: Bool] = [:]
-
-        for num in [beepCount, 100, 250, 500, 1000]{
-            reward[num] = true
-        }
-        return reward
-    }
-
-    lazy var rewardAt = populateRewards()
-
 
     @IBAction func segmentedControl(_ sender: UISegmentedControl) {
         self.viewContainer.bringSubview(toFront: views[sender.selectedSegmentIndex])
@@ -376,8 +335,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         let mvc = MusicSegmentViewController()
         let svc = BeepSegmentViewController()
 
-//        mvc.songTitleLabel.center = self.viewContainer.center
-//        svc.beepNameLabel.center = self.viewContainer.center
         views.append(mvc.view)
         views.append(svc.view)
         for v in views {
@@ -389,9 +346,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         viewContainer.bringSubview(toFront: views[0])
         //Make sure titles are centered and populated
-        mvc.songTitleLabel.text = selectedSongStr
-        mvc.songTitleLabel.centerXAnchor.constraint(equalTo: viewContainer.centerXAnchor).isActive = true
-        mvc.songTitleLabel.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor).isActive = true
         svc.beepNameLabel.text = selectedBeepStr
         svc.beepNameLabel.centerXAnchor.constraint(equalTo: viewContainer.centerXAnchor).isActive = true
         svc.beepNameLabel.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor).isActive = true
@@ -442,7 +396,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     /**
       This function is called when the user switched cane movement directions.
     If the sweep is long enough it will beep or speak the count (depending on the mode)
-    Also if the sweep activated is one of the key numbers to play music, it will play the selected song
     Parameter notification: Passed in container that has the length of the sweep
     */
     @objc func processSweeps(notification: NSNotification) {
@@ -464,15 +417,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             } else {
                 // beep mode
                 AudioServicesPlaySystemSound(SystemSoundID(Float(selectedBeepNoiseCode!)))
-            }
-
-
-            if rewardAt[numSweeps] != nil && rewardAt[numSweeps]! {
-                mp.play()
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                    self.mp.pause()
-                }
             }
         }
     }

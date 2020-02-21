@@ -30,7 +30,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     var selectedSongTitle: String?
     var selectedSong: MPMediaItemCollection?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-    var mySong: UInt64?
+    var mySong: [UInt64]?
     ///Beep Noise Declaration
     let countBeepPicker = UIPickerView()
     @IBOutlet weak var beepNoiseBox: UITextField!
@@ -110,7 +110,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     */
     @IBAction func chooseMusictrack(_ sender: Any) {
         let myMediaPickerVC = MPMediaPickerController.self(mediaTypes: MPMediaType.music)
-        myMediaPickerVC.allowsPickingMultipleItems = false
+        myMediaPickerVC.allowsPickingMultipleItems = true
         myMediaPickerVC.delegate = self
         self.present(myMediaPickerVC, animated: true, completion: nil)
     }
@@ -187,7 +187,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
         //Change Music Title
         selectedSongTitle = String(user_row![self.dbInterface.music])
-        mySong = UInt64(user_row![self.dbInterface.music_id])
+        mySong = user_row![self.dbInterface.music_id].split(separator: ",").compactMap({UInt64(String($0))})
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
 
         //For the sliders
@@ -230,7 +230,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
             dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
                 u_music: selectedSongTitle!,
                 u_beep_noise: selectedBeepNoise!,
-                u_music_id: mySong != nil ? String(mySong!) : "",
+                u_music_id: mySong != nil ? mySong!.map({String($0)}).joined(separator: ",") : "",   // serialize as an array
                 u_sweep_tolerance: Double(sweepToleranceValue))
             isEdit = true
         }
@@ -340,7 +340,7 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
             mediaPicker.present(alertController, animated: true, completion: nil)
             return
         }
-        mySong = mySongObj.persistentID
+        mySong = selectedSong?.items.map { $0.persistentID }
         selectedSongTitle = selectedSong?.items[0].title
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
         mediaPicker.dismiss(animated: true, completion: nil)

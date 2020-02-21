@@ -56,7 +56,12 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     let underflowSize = Float(0.6)
     let validZoneSize =  Float(0.2)
     
-    let mp = MPMusicPlayerController.applicationMusicPlayer
+    @IBOutlet weak var currentSongButton: UIButton!
+    @IBAction func currentSongButtonPressed(_ sender: Any) {
+        mp.indexOfNowPlayingItem
+        UIApplication.shared.open(URL(string: "music://")!)
+    }
+    let mp = MPMusicPlayerController.systemMusicPlayer
     
     ///Declare db to load options `DUPLICATED`
     let dbInterface = DBInterface.shared
@@ -65,7 +70,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
     ///`DUPLICATED`
     @IBOutlet weak var menuButton: UIBarButtonItem!
-    @IBOutlet weak var songTitleLabel: UILabel!
     @IBOutlet weak var playerName: UILabel!
     ///`DUPLICATED` Progress bar
     @IBOutlet weak var stackViewBar: UIStackView!
@@ -171,7 +175,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var beepCount: Int = 10
     var sweepTolerance: Float = 20
     //Other important variable(s) not explicitly loaded from db
-    var selectedSong:Int64?
+    var selectedSong:[Int64]?
     var percentTolerance: Float?
     /**
       `DUPLICATED`
@@ -185,15 +189,21 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
         //Change Music Title
         if user_row![self.dbInterface.music] != "Select Music" {
-            selectedSong = Int64(user_row![self.dbInterface.music_id])
-            let id = MPMediaPropertyPredicate(value: selectedSong, forProperty: MPMediaItemPropertyPersistentID)
-            let query = MPMediaQuery(filterPredicates: [id])
-            mp.setQueue(with: query)
-            mp.repeatMode = .one
+            var myPlaylist = [MPMediaItem]()
+            selectedSong = user_row![self.dbInterface.music_id].split(separator: ",").compactMap({Int64(String($0))})
+            for songPersistentId in selectedSong! {
+                let id = MPMediaPropertyPredicate(value: songPersistentId, forProperty: MPMediaItemPropertyPersistentID)
+                let query = MPMediaQuery(filterPredicates: [id])
+                if let song = query.items?.first {
+                    myPlaylist.append(song)
+                }
+            }
+            mp.setQueue(with: MPMediaItemCollection(items: myPlaylist))
+            mp.repeatMode = .all
             mp.prepareToPlay()
-            songTitleLabel.text = user_row![self.dbInterface.music]
+            currentSongButton.setTitle(user_row![self.dbInterface.music], for: .normal)
         }else{
-            songTitleLabel.text = "Please select song on manage profiles screen"
+            currentSongButton.setTitle("Please select song on manage profiles screen", for: .normal)
         }
 
         //For the sliders
@@ -295,10 +305,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var centralManager: CBCentralManager!
     var dongleSensorPeripheral: CBPeripheral!
 
-    var audioPlayer: AVAudioPlayer?
-    let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
-
-
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
     let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
 
@@ -338,6 +344,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         gravity.magnitude = 4
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.nowPlayingItemChanged(notification:)), name: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange, object: nil)
+
+        mp.beginGeneratingPlaybackNotifications()
     }
     
     @objc func handleChangeInAudioRecording(notification: NSNotification) {
@@ -348,6 +357,10 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 stopPlaying()
             }
         }
+    }
+    
+    @objc func nowPlayingItemChanged(notification: NSNotification) {
+        currentSongButton.setTitle(mp.nowPlayingItem?.title, for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
