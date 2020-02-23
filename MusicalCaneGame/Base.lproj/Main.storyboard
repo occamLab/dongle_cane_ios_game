@@ -921,31 +921,43 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fza-lB-Ggq">
-                                        <rect key="frame" x="8" y="72" width="272" height="20.5"/>
+                                        <rect key="frame" x="8" y="72" width="272" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beacon:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bb-ii-wcq">
-                                                <rect key="frame" x="0.0" y="0.0" width="272" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="62.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LbZ-Fk-eLB">
+                                                <rect key="frame" x="70.5" y="0.0" width="201.5" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                         </subviews>
                                     </stackView>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter new location" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bBI-h1-Jtp">
-                                        <rect key="frame" x="8" y="116.5" width="272" height="34"/>
+                                        <rect key="frame" x="8" y="130" width="272" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rym-QD-Cuo">
-                                        <rect key="frame" x="80" y="174.5" width="128" height="30"/>
+                                        <rect key="frame" x="80" y="188" width="128" height="30"/>
                                         <state key="normal" title="Record Voice Note"/>
                                         <connections>
                                             <action selector="recordVoiceNote:" destination="MxI-zc-oZ6" eventType="touchUpInside" id="YdI-tO-VsT"/>
                                         </connections>
                                     </button>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8g-oL-i35">
-                                        <rect key="frame" x="-16" y="224.5" width="320" height="216"/>
+                                        <rect key="frame" x="-16" y="238" width="320" height="216"/>
                                     </pickerView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IZp-SC-84d">
+                                        <rect key="frame" x="79.5" y="462" width="129" height="30"/>
+                                        <state key="normal" title="Forget this beacon"/>
+                                        <connections>
+                                            <action selector="forgetButtonPressed:" destination="MxI-zc-oZ6" eventType="touchUpInside" id="Cyi-98-SgI"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -954,10 +966,12 @@
                                     <constraint firstAttribute="height" constant="500" id="8OH-ZW-Xxc"/>
                                     <constraint firstItem="p8g-oL-i35" firstAttribute="centerX" secondItem="UyX-7Q-Mo0" secondAttribute="centerX" id="DfZ-98-TpR"/>
                                     <constraint firstItem="bBI-h1-Jtp" firstAttribute="top" secondItem="fza-lB-Ggq" secondAttribute="bottom" constant="24" id="Ix2-QS-p3N"/>
+                                    <constraint firstItem="IZp-SC-84d" firstAttribute="top" secondItem="p8g-oL-i35" secondAttribute="bottom" constant="8" id="O85-H1-Fj4"/>
                                     <constraint firstItem="bBI-h1-Jtp" firstAttribute="trailing" secondItem="UyX-7Q-Mo0" secondAttribute="trailingMargin" id="R85-w4-OhY"/>
                                     <constraint firstItem="sea-Fc-Eee" firstAttribute="top" secondItem="UyX-7Q-Mo0" secondAttribute="top" constant="24" id="Tj8-1L-fcA"/>
                                     <constraint firstItem="fza-lB-Ggq" firstAttribute="leading" secondItem="sea-Fc-Eee" secondAttribute="leading" id="VBF-8m-lo7"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sea-Fc-Eee" secondAttribute="trailing" constant="20" symbolic="YES" id="cjK-56-jR8"/>
+                                    <constraint firstItem="IZp-SC-84d" firstAttribute="centerX" secondItem="UyX-7Q-Mo0" secondAttribute="centerX" id="eme-3B-rHu"/>
                                     <constraint firstItem="rym-QD-Cuo" firstAttribute="centerX" secondItem="UyX-7Q-Mo0" secondAttribute="centerX" id="i3D-cL-lVh"/>
                                     <constraint firstItem="p8g-oL-i35" firstAttribute="top" secondItem="rym-QD-Cuo" secondAttribute="bottom" constant="20" id="iSn-vV-sZU"/>
                                     <constraint firstItem="bBI-h1-Jtp" firstAttribute="leading" secondItem="UyX-7Q-Mo0" secondAttribute="leadingMargin" id="jBV-e6-Ips"/>
@@ -976,6 +990,7 @@
                     <connections>
                         <outlet property="actionPicker" destination="p8g-oL-i35" id="Tcg-5f-k0Q"/>
                         <outlet property="beaconLabel" destination="9Bb-ii-wcq" id="jhh-hH-MQw"/>
+                        <outlet property="beaconTextField" destination="LbZ-Fk-eLB" id="kX4-Jm-8Pr"/>
                         <outlet property="newLocationTextField" destination="bBI-h1-Jtp" id="5IT-mI-VmP"/>
                         <outlet property="titleLabel" destination="sea-Fc-Eee" id="Du7-ci-Gym"/>
                     </connections>

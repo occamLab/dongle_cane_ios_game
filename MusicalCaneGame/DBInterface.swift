@@ -23,7 +23,10 @@ class DBInterface {
     /// Users table
     let users: Table = Table("Users")
     
-    /// Users table
+    // Properties of Beacons that are set for all users
+    let beaconIds: Table = Table("beaconIds")
+    
+    /// user beacon mappings table
     let beaconMappings: Table = Table("BeaconMappings")
 
     /// column names
@@ -37,8 +40,11 @@ class DBInterface {
     let sweep_tolerance: Expression<Double> = Expression<Double>("sweep_tolerance")
     let beacons_enabled: Expression<Bool> = Expression<Bool>("beacons_enabled")
 
-    /// column names for beacon mappings
+    // column names for beacon Ids
+    let beaconMinor: Expression<Int> = Expression<Int>("beaconminor")
     let beaconName: Expression<String> = Expression<String>("beaconname")
+
+    /// column names for beacon mappings
     let locationText: Expression<String> = Expression<String>("locationtext")
     let voiceNoteURL: Expression<String> = Expression<String>("voicenoteurl")
     let beaconStatus: Expression<Int> = Expression<Int>("beaconstatus")
@@ -80,10 +86,14 @@ class DBInterface {
                 }
                 try self.db!.run(self.beaconMappings.create(ifNotExists: true) { t in
                     t.column(self.name)
-                    t.column(self.beaconName)
+                    t.column(self.beaconMinor)
                     t.column(self.locationText)
                     t.column(self.voiceNoteURL)
                     t.column(self.beaconStatus          )
+                })
+                try self.db!.run(self.beaconIds.create(ifNotExists: true) { t in
+                    t.column(self.beaconMinor)
+                    t.column(self.beaconName)
                 })
             } else {
                 print("error loading database")
@@ -123,10 +133,10 @@ class DBInterface {
         return nil
     }
     
-    func getBeaconNames(u_name: String, b_name: String) -> Row?{
+    func getBeaconNames(u_name: String, b_minor: Int) -> Row?{
         if (db != nil) {
             do {
-                let rows = try self.db!.prepare(self.beaconMappings.select(name, beaconName, locationText, voiceNoteURL, beaconStatus).filter(name == u_name && b_name == beaconName))
+                let rows = try self.db!.prepare(self.beaconMappings.select(name, beaconMinor, locationText, voiceNoteURL, beaconStatus).filter(name == u_name && b_minor == beaconMinor))
                 for row in rows {
                     return row
                 }
@@ -139,45 +149,104 @@ class DBInterface {
         return nil
     }
     
+    func getBeaconMinors() -> [Int]{
+        var minors: [Int] = []
+
+        if (db != nil) {
+            do {
+                let rows = try self.db!.prepare(self.beaconIds.select(beaconMinor, beaconName))
+                for row in rows {
+                    minors.append(row[beaconMinor])
+                }
+            } catch {
+                print("select failed: \(error)")
+            }
+        }else{
+            print("DB NIL")
+        }
+        return minors
+    }
     
-    func updateBeaconLocation(u_name: String, b_name: String, location_text: String) {
+    
+    func getGlobalBeaconName(b_minor: Int) -> String?{
+        if (db != nil) {
+            do {
+                let rows = try self.db!.prepare(self.beaconIds.select(beaconMinor, beaconName).filter(beaconMinor == b_minor))
+                for row in rows {
+                    return row[beaconName]
+                }
+            } catch {
+                print("select failed: \(error)")
+            }
+        }else{
+            print("DB NIL")
+        }
+        return nil
+    }
+    
+    
+    func updateGlobalBeaconName(b_minor: Int, b_name: String) {
+        do {
+            if getGlobalBeaconName(b_minor: b_minor) == nil {
+                print("inserting new entry")
+                try self.db!.run(self.beaconIds.insert(beaconMinor <- b_minor, beaconName <- b_name))
+            } else {
+                try self.db!.run(self.beaconIds.filter(beaconMinor == b_minor)
+                    .update(beaconName <- b_name))
+            }
+        } catch {
+            print("error updating beacon Ids table: \(error)")
+        }
+    }
+    
+    
+    func forgetBeacon(b_minor: Int) {
+        do {
+            try self.db!.run(self.beaconIds.filter(beaconMinor == b_minor).delete())
+        } catch {
+            print("error updating beacon Ids table: \(error)")
+        }
+    }
+    
+    
+    func updateBeaconLocation(u_name: String, b_minor: Int, location_text: String) {
         // Update just the location of the Beacon
         do {
-            insertBeaconDataRowIfMissing(u_name: u_name, b_name: b_name)
-            try self.db!.run(self.beaconMappings.filter(name == u_name && beaconName == b_name)
+            insertBeaconDataRowIfMissing(u_name: u_name, b_minor: b_minor)
+            try self.db!.run(self.beaconMappings.filter(name == u_name && beaconMinor == b_minor)
                     .update(locationText <- location_text))
         } catch {
             print("error updating beacon table: \(error)")
         }
     }
     
-    func updateBeaconStatus(u_name: String, b_name: String, status: Int) {
+    func updateBeaconStatus(u_name: String, b_minor: Int, status: Int) {
         // Update just the location of the Beacon
         do {
-            insertBeaconDataRowIfMissing(u_name: u_name, b_name: b_name)
-            try self.db!.run(self.beaconMappings.filter(name == u_name && beaconName == b_name)
+            insertBeaconDataRowIfMissing(u_name: u_name, b_minor: b_minor)
+            try self.db!.run(self.beaconMappings.filter(name == u_name && beaconMinor == b_minor)
                     .update(beaconStatus <- status))
         } catch {
             print("error updating beacon table: \(error)")
         }
     }
     
-    func insertBeaconDataRowIfMissing(u_name: String, b_name: String) {
+    func insertBeaconDataRowIfMissing(u_name: String, b_minor: Int) {
         do {
-           if getBeaconNames(u_name: u_name, b_name: b_name) == nil {
+           if getBeaconNames(u_name: u_name, b_minor: b_minor) == nil {
                print("inserting new entry")
-               try self.db!.run(self.beaconMappings.insert(name <- u_name, beaconName <- b_name, locationText <- "", voiceNoteURL <- "", beaconStatus <- 0))
+               try self.db!.run(self.beaconMappings.insert(name <- u_name, beaconMinor <- b_minor, locationText <- "", voiceNoteURL <- "", beaconStatus <- 0))
            }
        } catch {
            print("error updating beacon table: \(error)")
        }
     }
     
-    func updateBeaconVoiceNote(u_name: String, b_name: String, voiceNote_URL: String) {
+    func updateBeaconVoiceNote(u_name: String, b_minor: Int, voiceNote_URL: String) {
         // Update all values
         do {
-            insertBeaconDataRowIfMissing(u_name: u_name, b_name: b_name)
-            try self.db!.run(self.beaconMappings.filter(name == u_name && beaconName == b_name)
+            insertBeaconDataRowIfMissing(u_name: u_name, b_minor: b_minor)
+            try self.db!.run(self.beaconMappings.filter(name == u_name && beaconMinor == b_minor)
                     .update(voiceNoteURL <- voiceNote_URL))
         } catch {
             print("error updating beacon table: \(error)")

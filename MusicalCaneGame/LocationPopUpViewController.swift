@@ -10,16 +10,17 @@ import UIKit
 import SQLite
 
 class LocationPopUpViewController: UIViewController, UIPopoverPresentationControllerDelegate, RecorderViewControllerDelegate {
-    func didStartRecording() {
-    }
     @IBOutlet weak var beaconLabel: UILabel!
     @IBOutlet weak var actionPicker: UIPickerView!
+
+    func didStartRecording() {
+    }
 
     func didFinishRecording(audioFileURL: URL) {
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         // TODO: fix unwrapping
         print("url", audioFileURL.absoluteString)
-        dbInterface.updateBeaconVoiceNote(u_name: selectedProfile, b_name: selectedBeacon!, voiceNote_URL: audioFileURL.lastPathComponent)
+        dbInterface.updateBeaconVoiceNote(u_name: selectedProfile, b_minor: selectedMinor!, voiceNote_URL: audioFileURL.lastPathComponent)
     }
     
     let dbInterface = DBInterface.shared
@@ -31,10 +32,12 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     let beacons = ["Blue", "Purple", "Rose", "White"]
 
     var selectedBeacon: String?
+    var selectedMinor: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        beaconLabel.text = "Beacon: " + selectedBeacon!
+        beaconTextField.text = selectedBeacon
+       // beaconLabel.text = "Beacon: " + selectedBeacon!
 
         // Connect data:
         self.actionPicker.delegate = self
@@ -42,10 +45,35 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         createToolBar()
         
         newLocationTextField.addTarget(self, action: #selector(locationTextFieldChanged), for: .editingChanged)
+        
+        beaconTextField.addTarget(self, action: #selector(beaconNameEdited), for: .editingChanged)
+    }
+    
+    @IBAction func forgetButtonPressed(_ sender: Any) {
+        // Create the alert controller
+           let alertController = UIAlertController(title: "Are you sure?", message: "Forgetting the beacon will result in it not activating in the game.", preferredStyle: .alert)
+
+           // Create the actions
+           let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+               UIAlertAction in
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "forgetBeacon"), object: ["forBeacon": self.selectedMinor!])
+            self.dismissKeyboard()
+            self.dismiss(animated: true)
+           }
+           let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+               UIAlertAction in
+           }
+
+           // Add the actions
+           alertController.addAction(okAction)
+           alertController.addAction(cancelAction)
+
+           // Present the controller
+           self.present(alertController, animated: true, completion: nil)
     }
     
     @objc func locationTextFieldChanged() {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconDestination"), object: ["forBeacon": selectedBeacon!, "location": newLocationTextField.text!])
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconDestination"), object: ["forBeacon": selectedMinor!, "location": newLocationTextField.text!])
     }
     
     func createToolBar() {
@@ -61,11 +89,18 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         // TODO: fix unwrapping
-        if let row = dbInterface.getBeaconNames(u_name: selectedProfile, b_name: selectedBeacon!) {
+        if let row = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!) {
             newLocationTextField.text = try! row.get(dbInterface.locationText)
             actionPicker.selectRow(try! row.get(dbInterface.beaconStatus), inComponent: 0, animated: false)
         }
     
+    }
+    
+    @objc func beaconNameEdited(_ sender: Any) {
+        if let newName = beaconTextField.text, newName != "Unknown" {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setGlobalBeaconName"), object: ["forBeacon": selectedMinor!, "globalName": newName])
+            
+        }
     }
     
     @objc func dismissKeyboard() {
@@ -115,6 +150,6 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconStatus"), object: ["forBeacon": selectedBeacon!, "status": row])
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconStatus"), object: ["forBeacon": selectedMinor!, "status": row])
     }
 }

@@ -201,8 +201,10 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             mp.setQueue(with: MPMediaItemCollection(items: myPlaylist))
             mp.repeatMode = .all
             mp.prepareToPlay()
+            currentSongButton.isEnabled = true
             currentSongButton.setTitle(user_row![self.dbInterface.music], for: .normal)
         }else{
+            currentSongButton.isEnabled = false
             currentSongButton.setTitle("Please select song on manage profiles screen", for: .normal)
         }
 

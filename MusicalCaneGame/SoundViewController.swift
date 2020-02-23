@@ -361,6 +361,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        // TODO: this screws stuff up on smaller phones, and possibly older OSes (since the popover is presented differently)
+        // it can be called even when the Beacons are being configured
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
         sensorManager.disconnectAndCleanup(postDisconnect: nil)
@@ -401,7 +403,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @objc func processSweeps(notification: NSNotification) {
         let sweepDistance = notification.object as! Float
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
-
+        print("sweepDistance", sweepDistance)
         if !isRecordingAudio, is_valid_sweep && startButtonPressed == true {
 
             numSweeps += 1
