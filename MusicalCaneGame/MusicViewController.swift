@@ -58,7 +58,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     @IBOutlet weak var currentSongButton: UIButton!
     @IBAction func currentSongButtonPressed(_ sender: Any) {
-        mp.indexOfNowPlayingItem
         UIApplication.shared.open(URL(string: "music://")!)
     }
     let mp = MPMusicPlayerController.systemMusicPlayer

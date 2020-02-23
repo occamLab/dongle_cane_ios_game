@@ -252,8 +252,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
                         voiceNoteToPlay = try AVAudioPlayer(data: data, fileTypeHint: AVFileType.caf.rawValue)
                         
                         voiceNoteToPlay?.prepareToPlay()
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-                        try AVAudioSession.sharedInstance().setActive(true)
+                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
                         voiceNoteToPlay?.volume = 1.0
                         voiceNoteToPlay?.play()
                     }
@@ -263,6 +262,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
                         let utterance = AVSpeechUtterance(string: try  beaconInfo.get(dbInterface.locationText))
                         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                         utterance.rate = 0.5
+                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
                         synth.speak(utterance)
                     }
                 }
