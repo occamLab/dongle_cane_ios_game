@@ -22,7 +22,7 @@ class BeaconTableViewCell: UITableViewCell {
     
     var beaconName: String?
     var beaconMinor: Int?
-
+    var beaconColor: UIColor?
     
     override func awakeFromNib() {
         super.awakeFromNib()

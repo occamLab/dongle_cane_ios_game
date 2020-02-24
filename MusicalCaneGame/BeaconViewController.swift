@@ -74,6 +74,8 @@ class BeaconViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleBeaconGlobalNameChange(notification:)), name: NSNotification.Name(rawValue: "setGlobalBeaconName"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleBeaconGlobalColorChange(notification:)), name: NSNotification.Name(rawValue: "setBeaconColor"), object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleForgetBeacon(notification:)), name: NSNotification.Name(rawValue: "forgetBeacon"), object: nil)
 
         // Do any additional setup after loading the view, typically from a nib.
@@ -100,6 +102,12 @@ class BeaconViewController: UIViewController {
     @objc func handleBeaconGlobalNameChange(notification: NSNotification) {
         if let fields = notification.object as? Dictionary<String, Any> {
             setNewGlobalName(forBeacon: fields["forBeacon"] as! Int, globalName: fields["globalName"] as! String)
+        }
+    }
+    
+    @objc func handleBeaconGlobalColorChange(notification: NSNotification) {
+        if let fields = notification.object as? Dictionary<String, Any> {
+            setNewGlobalBeaconColor(forBeacon: fields["forBeacon"] as! Int, hexCode: fields["colorHexValue"] as! String)
         }
     }
     
@@ -147,6 +155,11 @@ class BeaconViewController: UIViewController {
         dbInterface.updateGlobalBeaconName(b_minor: forBeacon, b_name: globalName)
         tableView?.reloadData()
     }
+    
+    func setNewGlobalBeaconColor(forBeacon: Int, hexCode: String) {
+        dbInterface.updateGlobalBeaconColorHexCode(b_minor: forBeacon, b_hex_code: hexCode)
+        tableView?.reloadData()
+    }
 }
 
 
@@ -172,6 +185,29 @@ extension BeaconViewController: CLLocationManagerDelegate {
     }
 }
 
+func hexStringToUIColor (hex:String) -> UIColor {
+    var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+    if (cString.hasPrefix("#")) {
+        cString.remove(at: cString.startIndex)
+    }
+
+    if ((cString.count) != 6) {
+        return UIColor.gray
+    }
+
+    var rgbValue:UInt64 = 0
+    Scanner(string: cString).scanHexInt64(&rgbValue)
+
+    return UIColor(
+        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+        alpha: CGFloat(1.0)
+    )
+}
+
+
 extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return beacons.count
@@ -194,7 +230,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         popover?.sourceRect = CGRect(x: 0, y: 10, width: 0,height: 0)
         popoverContent.selectedBeacon = cell.beaconName
         popoverContent.selectedMinor = cell.beaconMinor
-
+        popoverContent.selectedColor = cell.beaconColor
         self.present(nav, animated: true, completion: nil)
     }
     
@@ -202,6 +238,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
         print(beacons.count)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BeaconTableViewCell
         let currentBeacon:String
+        let beaconColor:UIColor
         let currentMinor = beacons[indexPath.row]
         let isUnknown:Bool
         if let beaconName = dbInterface.getGlobalBeaconName(b_minor: currentMinor) {
@@ -211,11 +248,17 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
             currentBeacon = "Unknown"
             isUnknown = true
         }
+        if let colorHexCode = dbInterface.getGlobalBeaconColorHexCode(b_minor: currentMinor) {
+            beaconColor = hexStringToUIColor(hex: colorHexCode)
+        } else {
+            beaconColor = UIColor.white
+        }
         cell.beaconName = currentBeacon
         cell.beaconMinor = currentMinor
-        // TODO: need something else here
-        cell.beaconColorImage.image = UIImage(named: ("White.jpg"))
-        
+        cell.beaconColor = beaconColor
+
+        cell.beaconColorImage.image = UIImage(named: ("White.jpg"))?.withRenderingMode(.alwaysTemplate)
+        cell.beaconColorImage.tintColor = beaconColor
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         cell.beaconLabel.text = currentBeacon + ":"
 
@@ -226,10 +269,10 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
             cell.contentView.backgroundColor = .groupTableViewBackground
         }
         
-        if let currDistance = distanceDict[currentMinor] {
+        if let currDistance = distanceDict[currentMinor], currDistance >= 0 {
             cell.beaconDistanceLabel.text = String(format: "%0.2f feet", currDistance*Double(metersToFeet))
         } else {
-            cell.beaconDistanceLabel.text = "Unknown"
+            cell.beaconDistanceLabel.text = "Unknown distance"
         }
         
         let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: currentMinor)

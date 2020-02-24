@@ -43,6 +43,8 @@ class DBInterface {
     // column names for beacon Ids
     let beaconMinor: Expression<Int> = Expression<Int>("beaconminor")
     let beaconName: Expression<String> = Expression<String>("beaconname")
+    let beaconColorHexCode: Expression<String> = Expression<String>("beaconcolorhexcode")
+
 
     /// column names for beacon mappings
     let locationText: Expression<String> = Expression<String>("locationtext")
@@ -94,6 +96,7 @@ class DBInterface {
                 try self.db!.run(self.beaconIds.create(ifNotExists: true) { t in
                     t.column(self.beaconMinor)
                     t.column(self.beaconName)
+                    t.column(self.beaconColorHexCode)
                 })
             } else {
                 print("error loading database")
@@ -184,15 +187,46 @@ class DBInterface {
         return nil
     }
     
+    func getGlobalBeaconColorHexCode(b_minor: Int) -> String?{
+        if (db != nil) {
+            do {
+                let rows = try self.db!.prepare(self.beaconIds.select(beaconMinor, beaconColorHexCode).filter(beaconMinor == b_minor))
+                for row in rows {
+                    return row[beaconColorHexCode]
+                }
+            } catch {
+                print("select failed: \(error)")
+            }
+        }else{
+            print("DB NIL")
+        }
+        return nil
+    }
+    
     
     func updateGlobalBeaconName(b_minor: Int, b_name: String) {
         do {
             if getGlobalBeaconName(b_minor: b_minor) == nil {
                 print("inserting new entry")
-                try self.db!.run(self.beaconIds.insert(beaconMinor <- b_minor, beaconName <- b_name))
+                try self.db!.run(self.beaconIds.insert(beaconMinor <- b_minor, beaconName <- b_name, beaconColorHexCode <- "#FFFFFF"))
             } else {
                 try self.db!.run(self.beaconIds.filter(beaconMinor == b_minor)
                     .update(beaconName <- b_name))
+            }
+        } catch {
+            print("error updating beacon Ids table: \(error)")
+        }
+    }
+    
+    
+    func updateGlobalBeaconColorHexCode(b_minor: Int, b_hex_code: String) {
+        do {
+            if getGlobalBeaconName(b_minor: b_minor) == nil {
+                print("inserting new entry")
+                try self.db!.run(self.beaconIds.insert(beaconMinor <- b_minor, beaconName <- "Unknown", beaconColorHexCode <- b_hex_code))
+            } else {
+                try self.db!.run(self.beaconIds.filter(beaconMinor == b_minor)
+                    .update(beaconColorHexCode <- b_hex_code))
             }
         } catch {
             print("error updating beacon Ids table: \(error)")

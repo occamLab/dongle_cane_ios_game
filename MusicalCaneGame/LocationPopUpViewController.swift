@@ -8,11 +8,41 @@
 
 import UIKit
 import SQLite
+import FlexColorPicker
 
-class LocationPopUpViewController: UIViewController, UIPopoverPresentationControllerDelegate, RecorderViewControllerDelegate {
+class LocationPopUpViewController: UIViewController, UIPopoverPresentationControllerDelegate, RecorderViewControllerDelegate, ColorPickerDelegate {
+    
+    func colorPicker(_ colorPicker: ColorPickerController, selectedColor: UIColor, usingControl: ColorControl) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconColor"), object: ["forBeacon": self.selectedMinor!, "colorHexValue": selectedColor.hexValue()])
+        self.selectedColor = selectedColor
+        beaconColorButton.backgroundColor = self.selectedColor
+    }
+    
+    func colorPicker(_ colorPicker: ColorPickerController, confirmedColor: UIColor, usingControl: ColorControl) {
+        print("confirmed color")
+    }
+    @IBOutlet weak var beaconColorButton: UIButton!
+    
+    @IBAction func beaconColorButtonPressed(_ sender: Any) {
+        let popoverContent = DefaultColorPickerViewController()
+               popoverContent.delegate = self
+
+               popoverContent.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: popoverContent, action: #selector(popoverContent.dismissPopover))
+               if let currentColor = self.selectedColor {
+                   popoverContent.selectedColor = currentColor
+               }
+               let nav = UINavigationController(rootViewController: popoverContent)
+               nav.modalPresentationStyle = .popover
+               let popover = nav.popoverPresentationController
+               popover?.sourceView = self.view
+               popover?.sourceRect = CGRect(x: 0, y: 10, width: 0,height: 0)
+
+               self.present(nav, animated: true, completion: nil)
+    }
+
     @IBOutlet weak var beaconLabel: UILabel!
     @IBOutlet weak var actionPicker: UIPickerView!
-
+    
     func didStartRecording() {
     }
 
@@ -29,15 +59,17 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     @IBOutlet weak var beaconTextField: UITextField!
     @IBOutlet weak var newLocationTextField: UITextField!
     
-    let beacons = ["Blue", "Purple", "Rose", "White"]
-
     var selectedBeacon: String?
     var selectedMinor: Int?
+    var selectedColor: UIColor?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        beaconColorButton.backgroundColor = selectedColor
+        beaconColorButton.layer.borderWidth = 2
+        beaconColorButton.layer.borderColor = UIColor.black.cgColor
+
         beaconTextField.text = selectedBeacon
-       // beaconLabel.text = "Beacon: " + selectedBeacon!
 
         // Connect data:
         self.actionPicker.delegate = self
@@ -62,7 +94,7 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
            }
            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
                UIAlertAction in
-           }
+            }
 
            // Add the actions
            alertController.addAction(okAction)
@@ -151,5 +183,11 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconStatus"), object: ["forBeacon": selectedMinor!, "status": row])
+    }
+}
+
+extension DefaultColorPickerViewController {
+    @objc func dismissPopover() {
+        dismiss(animated: true)
     }
 }

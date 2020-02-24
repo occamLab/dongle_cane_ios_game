@@ -13,6 +13,7 @@ target 'MusicalCaneGame' do
   pod 'StaticDataTableViewController'
   pod 'iOSDFULibrary'
   pod 'PRTween', '~> 0.1'
+  pod 'FlexColorPicker'
 end
 
 
