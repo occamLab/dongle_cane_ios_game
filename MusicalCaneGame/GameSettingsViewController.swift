@@ -333,13 +333,6 @@ extension GameSettingsViewController: MPMediaPickerControllerDelegate {
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         myMediaPlayer.setQueue(with: mediaItemCollection)
         selectedSong = mediaItemCollection
-        guard let mySongObj = selectedSong?.items.first else {
-            let alertController = UIAlertController(title: "Unknown error", message:
-                "Something is off.", preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
-            mediaPicker.present(alertController, animated: true, completion: nil)
-            return
-        }
         mySong = selectedSong?.items.map { $0.persistentID }
         selectedSongTitle = selectedSong?.items[0].title
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)

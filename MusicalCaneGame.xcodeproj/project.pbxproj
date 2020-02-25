@@ -23,7 +23,6 @@
 		959EFD7D216463E90058906E /* coffee.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 959EFD7C216463E90058906E /* coffee.jpg */; };
 		95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F12168232A00DDA9DB /* MusicViewController.swift */; };
 		95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */; };
-		95BBF1F82168295D00DDA9DB /* BeaconsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */; };
 		95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F92168297600DDA9DB /* AudioViewController.swift */; };
 		95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1FC216F8A4F00DDA9DB /* MusicSegmentViewController.swift */; };
 		95BBF1FF216F8A4F00DDA9DB /* MusicSegmentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BBF1FD216F8A4F00DDA9DB /* MusicSegmentViewController.xib */; };
@@ -71,7 +70,6 @@
 		959EFD7C216463E90058906E /* coffee.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = coffee.jpg; path = ViewControllers/coffee.jpg; sourceTree = "<group>"; };
 		95BBF1F12168232A00DDA9DB /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
 		95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsViewController.swift; sourceTree = "<group>"; };
-		95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconsViewController.swift; sourceTree = "<group>"; };
 		95BBF1F92168297600DDA9DB /* AudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
 		95BBF1FC216F8A4F00DDA9DB /* MusicSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicSegmentViewController.swift; sourceTree = "<group>"; };
 		95BBF1FD216F8A4F00DDA9DB /* MusicSegmentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MusicSegmentViewController.xib; sourceTree = "<group>"; };
@@ -202,7 +200,6 @@
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
 				95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */,
 				95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */,
-				95BBF1F72168295D00DDA9DB /* BeaconsViewController.swift */,
 				98D44AE4211A2D8300E11840 /* BeaconViewController.swift */,
 				95BBF1F92168297600DDA9DB /* AudioViewController.swift */,
 				9582BE562167CF0300F4209E /* MainViewController.swift */,
@@ -367,7 +364,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95BBF1F82168295D00DDA9DB /* BeaconsViewController.swift in Sources */,
 				820EF297239EBA7D004A4BCD /* AudioVisualizerView.swift in Sources */,
 				98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */,
 				86591D90224D049E0050816B /* SWRevealViewController.m in Sources */,

@@ -147,14 +147,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     }
 
     ///For Beacons `DUPLICATED`
-    let locationManager = CLLocationManager()
-    let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
-    // 8492E75F-4FD6-469D-B132-043FE94921D8
-    // B9407F30-F5F8-466E-AFF9-25556B57FE6D
+    let synth = AVSpeechSynthesizer()
 
-    let beacons = ["Blue", "Purple", "Rose", "White"]
-
-    var viewsBeacons = [UIView]()
     var animator:UIDynamicAnimator!
     var gravity:UIGravityBehavior!
     var snap:UISnapBehavior!
@@ -163,7 +157,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var viewPinned = false
 
     var offset:CGFloat = 100
-    var knownBeaconMinorsStrings:[String] = []
     var isRecordingAudio = false
 
     ///Declare variables that are loaded from profile `DUPLICATED`
@@ -264,7 +257,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 activityIndicator.startAnimating()
                 UIApplication.shared.beginIgnoringInteractionEvents()
 
-                let synth = AVSpeechSynthesizer()
                 let utterance = AVSpeechUtterance(string: "Connecting")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
@@ -284,12 +276,11 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 self.mp.stop()
                 // queue it up for next time
                 self.mp.prepareToPlay()
-
-                let synth = AVSpeechSynthesizer()
+                // TODO: change the playback to the default once it is done speaking?
                 let utterance = AVSpeechUtterance(string: "Disconnected")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
-                synth.speak(utterance)
+                self.synth.speak(utterance)
                 self.controlButton.title = "Start"
             }
         }
@@ -334,10 +325,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         loadProfile()
         updateProgressView()
         createObservers()
-        if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
-            locationManager.requestWhenInUseAuthorization()
-        }
-        locationManager.startRangingBeacons(in: region)
         animator = UIDynamicAnimator(referenceView: self.view)
         gravity = UIGravityBehavior()
 
@@ -346,7 +333,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.nowPlayingItemChanged(notification:)), name: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange, object: nil)
-
+        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [.duckOthers,.interruptSpokenAudioAndMixWithOthers])
         mp.beginGeneratingPlaybackNotifications()
     }
     

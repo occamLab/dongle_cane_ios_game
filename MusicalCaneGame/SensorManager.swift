@@ -192,9 +192,7 @@ class SensorManager {
         var task: BFTask<AnyObject>?
         streamingEvents.insert(device!.sensorFusion!.quaternion)
         task = device!.sensorFusion!.quaternion.startNotificationsAsync { (obj, error) in
-            print("error", error)
             if let obj = obj {
-                print("got object")
                 if !self.inSweepMode {
                     self.stepsPostSensorFusionDataAvailable?()
                     self.inSweepMode = true

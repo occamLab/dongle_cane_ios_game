@@ -17,12 +17,6 @@ class BeaconViewController: UIViewController {
     var isRecordingAudio = false
     let synth = AVSpeechSynthesizer()
     
-    // TODO: This needs to be refactored into the database
-    let minorsToColors:[Int: String] = [4724: "Rose",
-                                        7567: "Blue",
-                                        56186: "White",
-                                        11819: "Purple"]
-    
     var unknownBeaconMinors: [Int] = []
 
     var beacons: [Int] {
@@ -50,7 +44,6 @@ class BeaconViewController: UIViewController {
     @IBAction func enableBeaconsSwitchToggled(_ sender: UISwitch) {
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         dbInterface.updateBeaconsEnabled(u_name: selectedProfile, enabled: sender.isOn)
-        print("toggled")
     }
     
     
@@ -235,7 +228,6 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print(beacons.count)
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! BeaconTableViewCell
         let currentBeacon:String
         let beaconColor:UIColor
@@ -283,7 +275,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
             cell.beaconLocationLabel.text = ""
         }
         
-        if !isUnknown, !isRecordingAudio, beaconsEnabledSwitch.isOn, let distanceToCurrent = distanceDict[currentMinor], Float(distanceToCurrent)*metersToFeet <= threshold && Float(distanceDict[currentMinor]!) > Float(0.0), let beaconInfo = beaconInfo {
+        if !isUnknown, !isRecordingAudio, beaconsEnabledSwitch.isOn, let distanceToCurrent = distanceDict[currentMinor], Float(distanceToCurrent)*metersToFeet <= threshold && Float(distanceDict[currentMinor]!) >= Float(0.0), let beaconInfo = beaconInfo {
             do {
                 if try beaconInfo.get(dbInterface.beaconStatus) == 1 && !beaconInfo.get(dbInterface.voiceNoteURL).isEmpty {
                     if voiceNoteToPlay == nil || !voiceNoteToPlay!.isPlaying {
@@ -295,7 +287,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
                         voiceNoteToPlay = try AVAudioPlayer(data: data, fileTypeHint: AVFileType.caf.rawValue)
                         
                         voiceNoteToPlay?.prepareToPlay()
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
+                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [.duckOthers,.interruptSpokenAudioAndMixWithOthers])
                         voiceNoteToPlay?.volume = 1.0
                         voiceNoteToPlay?.play()
                     }
@@ -305,7 +297,7 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
                         let utterance = AVSpeechUtterance(string: try  beaconInfo.get(dbInterface.locationText))
                         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                         utterance.rate = 0.5
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
+                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [.duckOthers,.interruptSpokenAudioAndMixWithOthers])
                         synth.speak(utterance)
                     }
                 }

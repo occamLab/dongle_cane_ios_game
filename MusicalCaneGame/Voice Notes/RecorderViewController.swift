@@ -84,6 +84,8 @@ class RecorderViewController: UIViewController {
         setupTimeLabel()
         setupAudioView()
         
+        view.backgroundColor = UIColor.white
+        
         title = "Record a voice note for this beacon"
     }
     
