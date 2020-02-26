@@ -333,7 +333,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.nowPlayingItemChanged(notification:)), name: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange, object: nil)
-        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [.duckOthers,.interruptSpokenAudioAndMixWithOthers])
         mp.beginGeneratingPlaybackNotifications()
     }
     

@@ -92,7 +92,6 @@ class SensorManager {
                 maxDistanceFromStartingThisSweep = distanceFromStarting
                 positionAtMaximum = position
             }
-            print("updating progress")
             let name = Notification.Name(rawValue: updateProgressNotificationKey)
             NotificationCenter.default.post(name: name, object: maxDistanceFromStartingThisSweep)
             
@@ -107,7 +106,6 @@ class SensorManager {
             }
         } else if (length_normalized < 0.2) {
             // Stop music
-            print("Shepards Pose")
             let name = Notification.Name(rawValue: sweepNotificationKey)
             maxDistanceFromStartingThisSweep = -1.0
             positionAtMaximum = []

@@ -16,7 +16,7 @@ class BeaconViewController: UIViewController {
     let dbInterface = DBInterface.shared
     var isRecordingAudio = false
     let synth = AVSpeechSynthesizer()
-    
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     var unknownBeaconMinors: [Int] = []
 
     var beacons: [Int] {
@@ -52,6 +52,8 @@ class BeaconViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        sideMenu()
+
         //The new method should only use User defaults to know what the current profile is
         if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
             UserDefaults.standard.set("Default User", forKey: "currentProfile")
@@ -176,6 +178,18 @@ extension BeaconViewController: CLLocationManagerDelegate {
 
         tableView?.reloadData()
     }
+    func sideMenu() {
+
+        if revealViewController() != nil {
+
+            menuButton.target = revealViewController()
+            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
+            revealViewController().rearViewRevealWidth = 250
+
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+
+        }
+    }
 }
 
 func hexStringToUIColor (hex:String) -> UIColor {
@@ -287,7 +301,6 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
                         voiceNoteToPlay = try AVAudioPlayer(data: data, fileTypeHint: AVFileType.caf.rawValue)
                         
                         voiceNoteToPlay?.prepareToPlay()
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [.duckOthers,.interruptSpokenAudioAndMixWithOthers])
                         voiceNoteToPlay?.volume = 1.0
                         voiceNoteToPlay?.play()
                     }
@@ -297,7 +310,6 @@ extension BeaconViewController: UITableViewDelegate, UITableViewDataSource {
                         let utterance = AVSpeechUtterance(string: try  beaconInfo.get(dbInterface.locationText))
                         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                         utterance.rate = 0.5
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [.duckOthers,.interruptSpokenAudioAndMixWithOthers])
                         synth.speak(utterance)
                     }
                 }

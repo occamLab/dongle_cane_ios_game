@@ -351,7 +351,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         svc.beepNameLabel.centerYAnchor.constraint(equalTo: viewContainer.centerYAnchor).isActive = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
-        try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
 
     }
     
