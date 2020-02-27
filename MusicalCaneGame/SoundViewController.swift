@@ -35,22 +35,23 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     ///`DUPLICATED`
     let sensorManager = SensorManager()
 
-    ///Helpful dictionary to find code from beep string
-    var getBeepCode = ["Begin": 1110,
-                            "Begin Record": 1113,
-                            "End Record": 1114,
-                            "Clypso": 1022,
-                            "Choo Choo": 1023,
-                            "Congestion": 1071,
-                            "General Beep": 1052,
-                            "Positive Beep": 1054,
-                            "Negative Beep": 1053,
-                            "Keytone": 1075,
-                            "Received": 1013,
-                            "Tink": 1103,
-                            "Tock": 1104,
-                            "Tiptoes": 1034,
-                            "Tweet": 1016]
+    ///Helpful dictionary to find path from beep string
+    static var getBeepPath = ["Begin": "/System/Library/Audio/UISounds/jbl_begin.caf",
+                            "Begin Record": "/System/Library/Audio/UISounds/begin_record.caf",
+                            "End Record": "/System/Library/Audio/UISounds/end_record.caf",
+                            "Calypso": "/System/Library/Audio/UISounds/New/Calypso.caf",
+                            "Choo Choo": "/System/Library/Audio/UISounds/New/Choo_Choo.caf",
+                            "Congestion": "/System/Library/Audio/UISounds/ct-congestion.caf",
+                            "General Beep": "/System/Library/Audio/UISounds/SIMToolkitGeneralBeep.caf",
+                            "Positive Beep": "/System/Library/Audio/UISounds/SIMToolkitPositiveACK.caf",
+                            "Negative Beep": "/System/Library/Audio/UISounds/SIMToolkitNegativeACK.caf",
+                            "Keytone": "/System/Library/Audio/UISounds/ct-keytone2.caf",
+                            "Received": "/System/Library/Audio/UISounds/sms-received5.caf",
+                            "Tink": "/System/Library/Audio/UISounds/Tink.caf",
+                            "Tock": "/System/Library/Audio/UISounds/Tock.caf",
+                            "Tiptoes": "/System/Library/Audio/UISounds/New/Tiptoes.caf",
+                            "Tweet": "/System/Library/Audio/UISounds/tweet_sent.caf"]
+    
     ///`DUPLICATED`
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var playerName: UILabel!
@@ -166,11 +167,12 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var selectedProfile:String = "Default User"
     var selectedBeepStr: String = "Select Beep"
     var sweepRange: Float = 1.0
-    var beepCount: Int = 10
     var sweepTolerance: Float = 20 //seems like a good value for a skiled cane user
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:UInt64?
-    var selectedBeepNoiseCode: Int?
+    var selectedBeepNoisePath: String?
+    var beepPlayer: AVAudioPlayer!
+
     var percentTolerance: Float?
     /**
       `DUPLICATED`
@@ -183,12 +185,13 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         //Get beep noise
         selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
         if(selectedBeepStr != "Select Beep"){
-            selectedBeepNoiseCode = getBeepCode[selectedBeepStr]
+            selectedBeepNoisePath = SoundViewController.getBeepPath[selectedBeepStr]
+            beepPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: selectedBeepNoisePath!))
+            beepPlayer.prepareToPlay()
         }
 
         //For the sliders
         sweepTolerance = Float(user_row![self.dbInterface.sweep_tolerance])
-        beepCount = Int(user_row![self.dbInterface.beep_count])
         sweepRange = Float(user_row![self.dbInterface.sweep_width])
         sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 2)) + " inches"
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
@@ -225,7 +228,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @IBAction func controlButton(_ sender: Any) {
         if controlButton.title == "Start" {
-            if selectedBeepNoiseCode != nil || speakSweeps {
+            if selectedBeepNoisePath != nil || speakSweeps {
 
 
                 activityIndicator.center = self.view.center
@@ -419,7 +422,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 synth.speak(utterance)
             } else {
                 // beep mode
-                AudioServicesPlaySystemSound(SystemSoundID(Float(selectedBeepNoiseCode!)))
+                beepPlayer.play()
             }
         }
     }

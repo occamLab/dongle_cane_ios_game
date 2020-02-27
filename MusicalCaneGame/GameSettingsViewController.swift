@@ -28,6 +28,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet weak var selectMusicText: UILabel!
     var selectedMusicTrack: String?
     var selectedSongTitle: String?
+    var beepPlayer: AVAudioPlayer!
     var selectedSong: MPMediaItemCollection?
     let myMediaPlayer = MPMusicPlayerApplicationController.applicationQueuePlayer
     var mySong: [UInt64]?
@@ -35,11 +36,9 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     let countBeepPicker = UIPickerView()
     @IBOutlet weak var beepNoiseBox: UITextField!
     @IBOutlet weak var selectBeepNoiseText: UILabel!
-    let beepNoises = ["Begin", "Begin Record", "End Record", "Clypso", "Choo Choo", "Congestion", "General Beep", "Positive Beep", "Negative Beep",
-                      "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
+    let beepNoises = ["Begin", "Begin Record", "End Record", "Calypso", "Choo Choo", "Congestion", "General Beep",                  "Positive Beep", "Negative Beep", "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
     let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
     var selectedBeepNoise: String?
-    var selectedBeepNoiseCode: Int?
     ///Beep Count
     @IBOutlet weak var beepCountSlider: UISlider!
     @IBOutlet weak var beepCountLabel: UILabel!
@@ -88,9 +87,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
 
-            print("text field: \(textField?.text)")
-
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_beep_count: 20, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15)
             
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
@@ -157,8 +154,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     func changeOptions(b:Bool){
         musicTrackPicker.isEnabled = b
         beepNoiseBox.isEnabled = b
-        beepCountSlider.isEnabled = b
-        beepCountLabel.isEnabled = b
         caneLengthSlider.isEnabled = b
         caneLengthLabel.isEnabled = b
         sweepRangeSlider.isEnabled = b
@@ -169,7 +164,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
         caneLengthText.isEnabled = b
         sweepRangeText.isEnabled = b
-        beepCountText.isEnabled = b
         selectBeepNoiseText.isEnabled = b
         selectMusicText.isEnabled = b
     }
@@ -191,9 +185,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         musicTrackPicker.setTitle(selectedSongTitle, for: .normal)
 
         //For the sliders
-        beepCountValue = user_row![self.dbInterface.beep_count]
-        beepCountSlider.setValue(Float(beepCountValue!), animated: false)
-        beepCountLabel.text = String(Int(beepCountSlider.value))
         sweepRangeValue = Float(user_row![self.dbInterface.sweep_width])
         sweepRangeSlider.setValue(sweepRangeValue!, animated: false)
         sweepRangeLabel.text = String(Double(sweepRangeSlider.value).roundTo(places: 2)) + " inches"
@@ -227,7 +218,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
             //We save the values the user changed
             sender.setTitle("Edit", for: .normal)
             // TODO once we have the name picker working, put it in here
-            dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!), u_beep_count: Int(beepCountValue!),
+            dbInterface.updateRow(u_name: profileBox.text!, u_sweep_width: Double(sweepRangeValue!), u_cane_length: Double(caneLengthValue!),
                 u_music: selectedSongTitle!,
                 u_beep_noise: selectedBeepNoise!,
                 u_music_id: mySong != nil ? mySong!.map({String($0)}).joined(separator: ",") : "",   // serialize as an array
@@ -382,13 +373,12 @@ extension GameSettingsViewController {
     */
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == countBeepPicker {
-            selectedBeepNoiseCode = beepNoiseCodes[row]
-            // saving code
-            UserDefaults.standard.set(selectedBeepNoiseCode, forKey: "myBeepNoiseCode")
             selectedBeepNoise = beepNoises[row]
             // saving beep noise name
-            UserDefaults.standard.set(selectedBeepNoise, forKey: "myBeepNoise")
             beepNoiseBox.text = selectedBeepNoise
+            let selectedBeepNoisePath = SoundViewController.getBeepPath[selectedBeepNoise!]
+            beepPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: selectedBeepNoisePath!))
+            beepPlayer.play()
         }else if(pickerView == profilePicker){
             profileBox.text = pickerProfiles[row]
             UserDefaults.standard.set(profileBox.text, forKey: "currentProfile")

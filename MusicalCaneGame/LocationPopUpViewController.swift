@@ -9,6 +9,7 @@
 import UIKit
 import SQLite
 import FlexColorPicker
+import AVFoundation
 
 class LocationPopUpViewController: UIViewController, UIPopoverPresentationControllerDelegate, RecorderViewControllerDelegate, ColorPickerDelegate {
     
@@ -22,7 +23,22 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         print("confirmed color")
     }
     @IBOutlet weak var beaconColorButton: UIButton!
-    
+    var voiceNoteToPlay: AVAudioPlayer?
+    @IBOutlet weak var playVoiceNoteButton: UIButton!
+    @IBAction func playVoiceNoteButtonPressed(_ sender: Any) {
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!)
+        let voiceNoteFile: String = try! beaconInfo!.get(dbInterface.voiceNoteURL)
+        let documentsUrl = FileManager.default.urls(for: .documentDirectory, in:.userDomainMask).first!
+        let voiceNoteURL = documentsUrl.appendingPathComponent(voiceNoteFile)
+        let data = try! Data(contentsOf: voiceNoteURL)
+        voiceNoteToPlay = try! AVAudioPlayer(data: data, fileTypeHint: AVFileType.caf.rawValue)
+                               
+        voiceNoteToPlay!.prepareToPlay()
+        voiceNoteToPlay!.volume = 1.0
+        voiceNoteToPlay!.play()
+    }
+
     @IBAction func beaconColorButtonPressed(_ sender: Any) {
         let popoverContent = DefaultColorPickerViewController()
                popoverContent.delegate = self
@@ -51,6 +67,8 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         // TODO: fix unwrapping
         print("url", audioFileURL.absoluteString)
         dbInterface.updateBeaconVoiceNote(u_name: selectedProfile, b_minor: selectedMinor!, voiceNote_URL: audioFileURL.lastPathComponent)
+        setVoiceNotePlayButton()
+        actionPicker.reloadAllComponents()
     }
     
     let dbInterface = DBInterface.shared
@@ -63,8 +81,19 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     var selectedMinor: Int?
     var selectedColor: UIColor?
     
+    func setVoiceNotePlayButton() {
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!)
+        let voiceNoteFile: String = try! beaconInfo!.get(dbInterface.voiceNoteURL)
+        playVoiceNoteButton.isEnabled = !voiceNoteFile.isEmpty
+        playVoiceNoteButton.tintColor = playVoiceNoteButton.isEnabled ? nil : UIColor.gray
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setVoiceNotePlayButton()
+        playVoiceNoteButton.imageView?.bindFrameToSuperviewBounds()
         beaconColorButton.backgroundColor = selectedColor
         beaconColorButton.layer.borderWidth = 2
         beaconColorButton.layer.borderColor = UIColor.black.cgColor
@@ -167,18 +196,27 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 3
+        return playVoiceNoteButton.isEnabled ? 3 : 2
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         print("populating")
-        if row == 0 {
-            return "Use Location Text"
-        } else if row == 1 {
-            return "Use Voice Note"
+        if playVoiceNoteButton.isEnabled {
+            if row == 0 {
+                return "Use Location Text"
+            } else if row == 1 {
+                return "Use Voice Note"
+            } else {
+                return "Deactivate This Beacon"
+            }
         } else {
-            return "Deactivate This Beacon"
+            if row == 0 {
+                return "Use Location Text"
+            } else {
+                return "Deactivate This Beacon"
+            }
         }
+
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -189,5 +227,24 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
 extension DefaultColorPickerViewController {
     @objc func dismissPopover() {
         dismiss(animated: true)
+    }
+}
+
+extension UIView {
+
+    /// Adds constraints to this `UIView` instances `superview` object to make sure this always has the same size as the superview.
+    /// Please note that this has no effect if its `superview` is `nil` – add this `UIView` instance as a subview before calling this.
+    func bindFrameToSuperviewBounds() {
+        guard let superview = self.superview else {
+            print("Error! `superview` was nil – call `addSubview(view: UIView)` before calling `bindFrameToSuperviewBounds()` to fix this.")
+            return
+        }
+
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.topAnchor.constraint(equalTo: superview.topAnchor, constant: 0).isActive = true
+        self.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: 0).isActive = true
+        self.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: 0).isActive = true
+        self.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: 0).isActive = true
+
     }
 }

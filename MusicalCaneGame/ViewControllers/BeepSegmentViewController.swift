@@ -16,7 +16,6 @@ class BeepSegmentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        beepNameLabel.text = UserDefaults.standard.string(forKey: "myBeepNoise")
 
         // Do any additional setup after loading the view.
     }

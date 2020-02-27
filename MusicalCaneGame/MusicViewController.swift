@@ -164,7 +164,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var selectedSongStr: String = "Select Music"
     var selectedBeepStr: String = "Select Beep"
     var sweepRange: Float = 1.0
-    var beepCount: Int = 10
     var sweepTolerance: Float = 20
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:[Int64]?
@@ -202,7 +201,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
         //For the sliders
         sweepTolerance = Float(user_row![self.dbInterface.sweep_tolerance])
-        beepCount = Int(user_row![self.dbInterface.beep_count])
         sweepRange = Float(user_row![self.dbInterface.sweep_width])
         sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 2)) + " inches"
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
