@@ -894,7 +894,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                         <state key="normal" title="Forget this beacon"/>
                                         <connections>
-                                            <action selector="forgetButtonPressed:" destination="MxI-zc-oZ6" eventType="touchUpInside" id="Cyi-98-SgI"/>
+                                            <action selector="forgetButtonPressed:" destination="MxI-zc-oZ6" eventType="touchUpInside" id="x99-1p-MqH"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oc9-ew-SoM">
@@ -945,8 +945,10 @@
                         <outlet property="beaconColorButton" destination="nli-CE-TUz" id="WHT-Vs-UL0"/>
                         <outlet property="beaconLabel" destination="9Bb-ii-wcq" id="jhh-hH-MQw"/>
                         <outlet property="beaconTextField" destination="LbZ-Fk-eLB" id="kX4-Jm-8Pr"/>
+                        <outlet property="forgetBeaconButton" destination="IZp-SC-84d" id="bu7-ek-iqu"/>
                         <outlet property="newLocationTextField" destination="bBI-h1-Jtp" id="5IT-mI-VmP"/>
                         <outlet property="playVoiceNoteButton" destination="Oc9-ew-SoM" id="Mpf-gZ-eyc"/>
+                        <outlet property="recordVoiceNoteButton" destination="rym-QD-Cuo" id="VRX-PJ-3ZH"/>
                         <outlet property="titleLabel" destination="sea-Fc-Eee" id="Du7-ci-Gym"/>
                     </connections>
                 </viewController>

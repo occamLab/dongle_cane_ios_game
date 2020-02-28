@@ -25,18 +25,21 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     @IBOutlet weak var beaconColorButton: UIButton!
     var voiceNoteToPlay: AVAudioPlayer?
     @IBOutlet weak var playVoiceNoteButton: UIButton!
+    @IBOutlet weak var forgetBeaconButton: UIButton!
+    
     @IBAction func playVoiceNoteButtonPressed(_ sender: Any) {
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
-        let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!)
-        let voiceNoteFile: String = try! beaconInfo!.get(dbInterface.voiceNoteURL)
-        let documentsUrl = FileManager.default.urls(for: .documentDirectory, in:.userDomainMask).first!
-        let voiceNoteURL = documentsUrl.appendingPathComponent(voiceNoteFile)
-        let data = try! Data(contentsOf: voiceNoteURL)
-        voiceNoteToPlay = try! AVAudioPlayer(data: data, fileTypeHint: AVFileType.caf.rawValue)
-                               
-        voiceNoteToPlay!.prepareToPlay()
-        voiceNoteToPlay!.volume = 1.0
-        voiceNoteToPlay!.play()
+        
+        if let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!) {
+            let voiceNoteFile: String = try! beaconInfo.get(dbInterface.voiceNoteURL)
+            let documentsUrl = FileManager.default.urls(for: .documentDirectory, in:.userDomainMask).first!
+            let voiceNoteURL = documentsUrl.appendingPathComponent(voiceNoteFile)
+            let data = try! Data(contentsOf: voiceNoteURL)
+            voiceNoteToPlay = try! AVAudioPlayer(data: data, fileTypeHint: AVFileType.caf.rawValue)
+            voiceNoteToPlay!.prepareToPlay()
+            voiceNoteToPlay!.volume = 1.0
+            voiceNoteToPlay!.play()
+        }
     }
 
     @IBAction func beaconColorButtonPressed(_ sender: Any) {
@@ -67,7 +70,7 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         // TODO: fix unwrapping
         print("url", audioFileURL.absoluteString)
         dbInterface.updateBeaconVoiceNote(u_name: selectedProfile, b_minor: selectedMinor!, voiceNote_URL: audioFileURL.lastPathComponent)
-        setVoiceNotePlayButton()
+        setControlStates()
         actionPicker.reloadAllComponents()
     }
     
@@ -76,6 +79,7 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var beaconTextField: UITextField!
     @IBOutlet weak var newLocationTextField: UITextField!
+    @IBOutlet weak var recordVoiceNoteButton: UIButton!
     
     var selectedBeacon: String?
     var selectedMinor: Int?
@@ -83,16 +87,31 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     
     func setVoiceNotePlayButton() {
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
-        let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!)
-        let voiceNoteFile: String = try! beaconInfo!.get(dbInterface.voiceNoteURL)
+        var voiceNoteFile: String = ""
+        if dbInterface.getGlobalBeaconName(b_minor: selectedMinor!) != nil, let beaconInfo = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!) {
+            voiceNoteFile = try! beaconInfo.get(dbInterface.voiceNoteURL)
+        }
         playVoiceNoteButton.isEnabled = !voiceNoteFile.isEmpty
         playVoiceNoteButton.tintColor = playVoiceNoteButton.isEnabled ? nil : UIColor.gray
+    }
+    
+    func setControlStates() {
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        setVoiceNotePlayButton()
+        let beaconKnown = dbInterface.getGlobalBeaconName(b_minor: selectedMinor!) != nil
+        beaconColorButton.isEnabled = beaconKnown
+        newLocationTextField.isEnabled = beaconKnown
+        actionPicker.isUserInteractionEnabled = beaconKnown
+        forgetBeaconButton.isEnabled = beaconKnown
+        playVoiceNoteButton.isEnabled = beaconKnown
+        recordVoiceNoteButton.isEnabled = beaconKnown
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setVoiceNotePlayButton()
+        // enable / disable controls dpending on if the Beacon is known
+        setControlStates()
         playVoiceNoteButton.imageView?.bindFrameToSuperviewBounds()
         beaconColorButton.backgroundColor = selectedColor
         beaconColorButton.layer.borderWidth = 2
@@ -148,8 +167,17 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         
         newLocationTextField.inputAccessoryView = toolBar
         
+        let beaconNameToolBar = UIToolbar()
+        beaconNameToolBar.sizeToFit()
+        
+        let beaconNameDoneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(LocationPopUpViewController.dismissKeyboard))
+        
+        beaconNameToolBar.setItems([beaconNameDoneButton], animated: false)
+        beaconNameToolBar.isUserInteractionEnabled = true
+        
+        beaconTextField.inputAccessoryView = beaconNameToolBar
+        
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
-        // TODO: fix unwrapping
         if let row = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!) {
             newLocationTextField.text = try! row.get(dbInterface.locationText)
             actionPicker.selectRow(try! row.get(dbInterface.beaconStatus), inComponent: 0, animated: false)
@@ -160,7 +188,7 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     @objc func beaconNameEdited(_ sender: Any) {
         if let newName = beaconTextField.text, newName != "Unknown" {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setGlobalBeaconName"), object: ["forBeacon": selectedMinor!, "globalName": newName])
-            
+            setControlStates()
         }
     }
     
