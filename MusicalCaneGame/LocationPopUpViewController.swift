@@ -103,7 +103,6 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         newLocationTextField.isEnabled = beaconKnown
         actionPicker.isUserInteractionEnabled = beaconKnown
         forgetBeaconButton.isEnabled = beaconKnown
-        playVoiceNoteButton.isEnabled = beaconKnown
         recordVoiceNoteButton.isEnabled = beaconKnown
     }
     
