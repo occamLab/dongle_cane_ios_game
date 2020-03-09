@@ -16,6 +16,10 @@ Add sample doc for GameSetitngs
 */
 class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
+    @IBOutlet weak var wheelChairUserLabel: UILabel!
+    // TODO: delete this
+    @IBOutlet weak var wheelChairUserText: NSLayoutConstraint!
+    @IBOutlet weak var wheelChairUserToggle: UISwitch!
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var newProfileButton: UIButton!
     var selectedProfile: String = "Default User"
@@ -39,10 +43,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     let beepNoises = ["Begin", "Begin Record", "End Record", "Calypso", "Choo Choo", "Congestion", "General Beep",                  "Positive Beep", "Negative Beep", "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
     let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
     var selectedBeepNoise: String?
-    ///Beep Count
-    @IBOutlet weak var beepCountSlider: UISlider!
-    @IBOutlet weak var beepCountLabel: UILabel!
-    @IBOutlet weak var beepCountText: UILabel!
+
     var beepCountValue: Int?
     ///Cane Legnth
     @IBOutlet weak var caneLengthSlider: UISlider!
@@ -87,7 +88,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
 
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false)
             
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
@@ -113,16 +114,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
 
     /**
-        This function runs when the user changes the beep count slider. It will
-        change the text on the screen and global variables to reflect the new value.
-
-        - Parameter sender: The UI Slider itself
-    */
-    @IBAction func beepCountChanged(_ sender: UISlider) {
-        beepCountValue = Int(sender.value)
-        beepCountLabel.text = String(beepCountValue!)
-    }
-    /**
         This function runs when the user changes the sweep range slider. It will
         change the text on the screen and global variables to reflect the new value.
 
@@ -142,7 +133,26 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         caneLengthValue = Float(sender.value)
         caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " inches"
     }
+    
+    func setWheelchairSettings() {
+        if wheelChairUserToggle.isOn {
+            caneLengthText.text = "Wheel radius"
+            sweepRangeText.text = "Activation Distance"
+            skillLevelBox.isHidden = true
+            skillLevelLabel.isHidden = true
+        } else {
+            caneLengthText.text = "Cane length"
+            sweepRangeText.text = "Sweep Range"
+            skillLevelBox.isHidden = false
+            skillLevelLabel.isHidden = false
+        }
+    }
 
+    @IBAction func wheelChairUsersStatusChanged(_ sender: Any) {
+        setWheelchairSettings()
+    }
+
+    
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(sweepTolerancePickerData[row])
     }
@@ -160,6 +170,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         sweepRangeLabel.isEnabled = b
         skillLevelBox.isEnabled = b
         skillLevelLabel.isEnabled = b
+        wheelChairUserLabel.isEnabled = b
+        wheelChairUserToggle.isEnabled = b
         
 
         caneLengthText.isEnabled = b
@@ -200,6 +212,9 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         } else {
             skillLevelBox.text = "Level 1"
         }
+
+        wheelChairUserToggle.isOn = user_row![self.dbInterface.wheelchair_user] == true
+        setWheelchairSettings()
     }
 
     /**
@@ -222,7 +237,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
                 u_music: selectedSongTitle!,
                 u_beep_noise: selectedBeepNoise!,
                 u_music_id: mySong != nil ? mySong!.map({String($0)}).joined(separator: ",") : "",   // serialize as an array
-                u_sweep_tolerance: Double(sweepToleranceValue))
+                u_sweep_tolerance: Double(sweepToleranceValue),
+                u_wheelchair_user: wheelChairUserToggle.isOn)
             isEdit = true
         }
         changeOptions(b:!isEdit)

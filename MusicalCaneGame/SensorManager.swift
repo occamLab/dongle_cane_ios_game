@@ -11,6 +11,7 @@ import CoreBluetooth
 import MetaWear
 import MBProgressHUD
 import iOSDFULibrary
+import simd
 
 class SensorManager {
     private var startSweep = true
@@ -20,10 +21,15 @@ class SensorManager {
     private var streamingEvents: Set<NSObject> = [] // Can't use proper type due to compiler seg fault
     private var stepsPostSensorFusionDataAvailable : (()->())?
     var inSweepMode = false
+    var isWheelchairUser = false
     var caneLength: Float = 1.0
     var positionAtMaximum: [Float] = []
 
     var maxDistanceFromStartingThisSweep = Float(-1.0)
+    var maxLinearTravel = Float(-1.0)
+    var linearTravelThreshold = Float(-1.0)
+    var deltaAngle:Float = 0.0 // only applies in wheelchair mode
+    private var prevPosition:[Float] = []
 
     init() {
         
@@ -68,8 +74,8 @@ class SensorManager {
         
         let lengthOnZAxiz = sqrt((xPos * xPos) + (yPos * yPos))
         let length_normalized = lengthOnZAxiz / caneLength
-        
-        if length_normalized > 0.3 {
+                
+        if length_normalized > 0.3 || isWheelchairUser {        // the Shepard's pose doesn't matter if you are a wheelchair user
             // this should be in inches
             let position = [xPos, yPos]
 
@@ -81,28 +87,58 @@ class SensorManager {
                 } else {
                     startPosition = position
                 }
+                if prevPosition.isEmpty {
+                    prevPosition = startPosition
+                }
                 startSweep = false
             }
             
-            let distanceFromStarting = euclideanDistance(position[0] - startPosition[0], position[1] - startPosition[1])
-            
-            // change in distance from maximum
-            let deltaDistance = distanceFromStarting - maxDistanceFromStartingThisSweep
-            if distanceFromStarting > maxDistanceFromStartingThisSweep {
-                maxDistanceFromStartingThisSweep = distanceFromStarting
-                positionAtMaximum = position
-            }
-            let name = Notification.Name(rawValue: updateProgressNotificationKey)
-            NotificationCenter.default.post(name: name, object: maxDistanceFromStartingThisSweep)
-            
-            if deltaDistance < -2.0 { // 2 inches from apex count the sweep
-                // changed
-                let name = Notification.Name(rawValue: sweepNotificationKey)
+            if isWheelchairUser {
+                // get cross product
+                let distanceFromStarting = euclideanDistance(position[0] - prevPosition[0], position[1] - prevPosition[1])
+                let angleBetween = acos((caneLength*caneLength*2 - distanceFromStarting*distanceFromStarting)/(2*caneLength*caneLength))
+                let cp = cross(float3(position[0], position[1], 0), float3(prevPosition[0], prevPosition[1], 0))
+                deltaAngle += angleBetween*sign(cp[2])  // replace with sign of the z component of cross product
+                prevPosition = position
+                let linearTravel = abs(caneLength*deltaAngle)
+                if linearTravel > maxLinearTravel {
+                    positionAtMaximum = position
+                    maxLinearTravel = linearTravel
+                }
+                let name = Notification.Name(rawValue: updateProgressNotificationKey)
+                NotificationCenter.default.post(name: name, object: maxLinearTravel)
+                if maxLinearTravel > linearTravelThreshold {
+                    // changed
+                    let name = Notification.Name(rawValue: sweepNotificationKey)
+                    NotificationCenter.default.post(name: name, object: maxLinearTravel)
+                    // correct for any offset between the maximum of the sweep and the current position
+                    startPosition = positionAtMaximum
+                    prevPosition = startPosition
+                    maxLinearTravel = -1.0
+                    deltaAngle = 0.0
+                    return
+                }
+            } else {
+                let distanceFromStarting = euclideanDistance(position[0] - startPosition[0], position[1] - startPosition[1])
+                
+                // change in distance from maximum
+                let deltaDistance = distanceFromStarting - maxDistanceFromStartingThisSweep
+                if distanceFromStarting > maxDistanceFromStartingThisSweep {
+                    maxDistanceFromStartingThisSweep = distanceFromStarting
+                    positionAtMaximum = position
+                }
+                let name = Notification.Name(rawValue: updateProgressNotificationKey)
                 NotificationCenter.default.post(name: name, object: maxDistanceFromStartingThisSweep)
-                // correct for any offset between the maximum of the sweep and the current position
-                startPosition = positionAtMaximum
-                maxDistanceFromStartingThisSweep = -1.0
-                return
+                
+                if deltaDistance < -2.0 { // 2 inches from apex count the sweep
+                    // changed
+                    let name = Notification.Name(rawValue: sweepNotificationKey)
+                    NotificationCenter.default.post(name: name, object: maxDistanceFromStartingThisSweep)
+                    // correct for any offset between the maximum of the sweep and the current position
+                    startPosition = positionAtMaximum
+                    maxDistanceFromStartingThisSweep = -1.0
+                    return
+                }
             }
         } else if (length_normalized < 0.2) {
             // Stop music
@@ -186,7 +222,9 @@ class SensorManager {
 
     func sensorFusionStartStreamPressed() {
         updateSensorFusionSettings()
-        
+        maxLinearTravel = -1.0
+        deltaAngle = 0.0
+        maxDistanceFromStartingThisSweep = -1.0
         var task: BFTask<AnyObject>?
         streamingEvents.insert(device!.sensorFusion!.quaternion)
         task = device!.sensorFusion!.quaternion.startNotificationsAsync { (obj, error) in

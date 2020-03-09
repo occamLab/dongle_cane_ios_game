@@ -66,7 +66,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     let dbInterface = DBInterface.shared
     ///`DUPLICATED`
     let sensorManager = SensorManager()
-
+    var isWheelchairUser: Bool = false
+    @IBOutlet weak var sweepRangeText: UILabel!
+    
     ///`DUPLICATED`
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var playerName: UILabel!
@@ -206,6 +208,10 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
 
         sensorManager.caneLength = Float(user_row![self.dbInterface.cane_length])
+        isWheelchairUser = user_row![self.dbInterface.wheelchair_user]
+        sensorManager.isWheelchairUser = isWheelchairUser
+        sensorManager.linearTravelThreshold = sweepRange    // if we are using wheelchair mode, it's important to set this
+        sweepRangeText.text = isWheelchairUser ? "Activation Distance" : "Sweep Range"
     }
     
     @IBOutlet weak var sweepRangeLabel: UILabel!
@@ -217,6 +223,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
+        sensorManager.linearTravelThreshold = Float(x)
         sweepRangeLabel.text = String(x) + " inches"
         sweepRange = sender.value
         updateProgressView()
@@ -363,7 +370,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
     }
 
     //Loads the navigation menu `DUPLICATED`
@@ -390,7 +397,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
       Parameter notification: Passed in container that has the length of the sweep
     */
     @objc func processSweeps(notification: NSNotification) {
-
         if (!startButtonPressed!){ return}
         let sweepDistance = notification.object as! Float
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)

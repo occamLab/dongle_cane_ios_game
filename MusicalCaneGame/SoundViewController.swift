@@ -34,6 +34,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     let dbInterface = DBInterface.shared
     ///`DUPLICATED`
     let sensorManager = SensorManager()
+    var isWheelchairUser: Bool = false
 
     ///Helpful dictionary to find path from beep string
     static var getBeepPath = ["Begin": "/System/Library/Audio/UISounds/jbl_begin.caf",
@@ -67,7 +68,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     ///`DUPLICATED` Under the range
     @IBOutlet weak var progressBarUnderflow: UIProgressView!
     @IBOutlet weak var progressBarUnderflowSize: NSLayoutConstraint!
-
+    @IBOutlet weak var sweepRangeText: UILabel!
+    
     var isRecordingAudio = false
     
     
@@ -196,6 +198,10 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 2)) + " inches"
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
         sensorManager.caneLength = Float(user_row![self.dbInterface.cane_length])
+        isWheelchairUser = user_row![self.dbInterface.wheelchair_user]
+        sensorManager.isWheelchairUser = isWheelchairUser
+        sensorManager.linearTravelThreshold = sweepRange    // if we are using wheelchair mode, it's important to set this
+        sweepRangeText.text = isWheelchairUser ? "Activation Distance" : "Sweep Range"
     }
 
 
@@ -208,6 +214,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @IBAction func sweepRangeSlider(_ sender: UISlider) {
         let x = Double(sender.value).roundTo(places: 2)
+        sensorManager.linearTravelThreshold = Float(x)
         sweepRangeLabel.text = String(x) + " inches"
         sweepRange = sender.value
         updateProgressView()

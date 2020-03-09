@@ -37,6 +37,7 @@ class DBInterface {
     let beep_noise: Expression<String> = Expression<String>("beep_noise")
     let music_id: Expression<String> = Expression<String>("music_id")
     let sweep_tolerance: Expression<Double> = Expression<Double>("sweep_tolerance")
+    let wheelchair_user: Expression<Bool> = Expression<Bool>("wheelchair_user")
     let beacons_enabled: Expression<Bool> = Expression<Bool>("beacons_enabled")
 
     // column names for beacon Ids
@@ -77,12 +78,13 @@ class DBInterface {
                     t.column(self.music_id)
                     t.column(self.sweep_tolerance)
                     t.column(self.beacons_enabled)
+                    t.column(self.wheelchair_user)
             })
                 // if there are no rows, add a default user
                 let count = try self.db!.scalar(self.users.count)
                 print(count)
                 if (count == 0) {
-                    insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15)
+                    insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false)
                 }
                 try self.db!.run(self.beaconMappings.create(ifNotExists: true) { t in
                     t.column(self.name)
@@ -105,10 +107,10 @@ class DBInterface {
         
     }
     
-    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double) {
+    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool) {
         if (db != nil) {
             do {
-                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, beacons_enabled <- false))
+                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, beacons_enabled <- false, wheelchair_user <- u_wheelchair_user))
                 print("insertion success! \(rowId)")
                 
             } catch {
@@ -120,7 +122,7 @@ class DBInterface {
     func getRow(u_name: String) -> Row?{
         if (db != nil) {
             do {
-                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, music, beep_noise, music_id, sweep_tolerance, beacons_enabled)
+                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, music, beep_noise, music_id, sweep_tolerance, beacons_enabled, wheelchair_user)
                                                 .filter(name == u_name))
                 for row in rows {
                     return row
@@ -294,12 +296,12 @@ class DBInterface {
         }
     }
     
-    func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double) {
+    func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool) {
         // Update all values except the Beacon enabled flag
         do {
             try self.db!.run(self.users.filter(name == u_name)
                 .update(sweep_width <- u_sweep_width,
-                        cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance))
+                        cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, wheelchair_user <- u_wheelchair_user))
         } catch {
             print("error updating users table: \(error)")
         }
