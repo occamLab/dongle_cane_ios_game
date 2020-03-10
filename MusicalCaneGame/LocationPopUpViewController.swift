@@ -96,7 +96,6 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
     }
     
     func setControlStates() {
-        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         setVoiceNotePlayButton()
         let beaconKnown = dbInterface.getGlobalBeaconName(b_minor: selectedMinor!) != nil
         beaconColorButton.isEnabled = beaconKnown

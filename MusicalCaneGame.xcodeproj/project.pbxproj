@@ -17,10 +17,8 @@
 		820EF29F239ED24C004A4BCD /* StopRecording.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 820EF29D239ED24C004A4BCD /* StopRecording.aiff */; };
 		86591D90224D049E0050816B /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86591D8F224D049E0050816B /* SWRevealViewController.m */; };
 		951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05C92178BE5500CD2998 /* SoundViewController.swift */; };
-		951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05CD2178C1DF00CD2998 /* Configuration.swift */; };
 		95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */; };
 		9582BE572167CF0300F4209E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582BE562167CF0300F4209E /* MainViewController.swift */; };
-		959EFD7D216463E90058906E /* coffee.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 959EFD7C216463E90058906E /* coffee.jpg */; };
 		95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F12168232A00DDA9DB /* MusicViewController.swift */; };
 		95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */; };
 		95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F92168297600DDA9DB /* AudioViewController.swift */; };
@@ -30,12 +28,7 @@
 		95BBF203216F8A6800DDA9DB /* BeepSegmentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BBF201216F8A6800DDA9DB /* BeepSegmentViewController.xib */; };
 		9815A7B1211B3E3F00A2223F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9815A7B0211B3E3F00A2223F /* CoreLocation.framework */; };
 		98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */; };
-		981823A2211A3894006A28F7 /* Pink.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239C211A3894006A28F7 /* Pink.jpg */; };
 		981823A3211A3894006A28F7 /* White.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239D211A3894006A28F7 /* White.jpg */; };
-		981823A4211A3894006A28F7 /* Rose.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239E211A3894006A28F7 /* Rose.jpg */; };
-		981823A5211A3894006A28F7 /* Purple.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239F211A3894006A28F7 /* Purple.jpg */; };
-		981823A6211A3894006A28F7 /* Yellow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 981823A0211A3894006A28F7 /* Yellow.jpg */; };
-		981823A7211A3894006A28F7 /* Blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 981823A1211A3894006A28F7 /* Blue.jpg */; };
 		98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B32111F811006193E6 /* MobileCoreServices.framework */; };
 		98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */; };
 		98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D44AE4211A2D8300E11840 /* BeaconViewController.swift */; };
@@ -63,11 +56,9 @@
 		86591D8E224D049E0050816B /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = ViewControllers/SWRevealViewController.h; sourceTree = "<group>"; };
 		86591D8F224D049E0050816B /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = ViewControllers/SWRevealViewController.m; sourceTree = "<group>"; };
 		951C05C92178BE5500CD2998 /* SoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
-		951C05CD2178C1DF00CD2998 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconStackElementViewController.swift; sourceTree = "<group>"; };
 		9582BE522167CC1D00F4209E /* MusicalCaneGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MusicalCaneGame-Bridging-Header.h"; sourceTree = "<group>"; };
 		9582BE562167CF0300F4209E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		959EFD7C216463E90058906E /* coffee.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = coffee.jpg; path = ViewControllers/coffee.jpg; sourceTree = "<group>"; };
 		95BBF1F12168232A00DDA9DB /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
 		95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsViewController.swift; sourceTree = "<group>"; };
 		95BBF1F92168297600DDA9DB /* AudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
@@ -77,12 +68,7 @@
 		95BBF201216F8A6800DDA9DB /* BeepSegmentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BeepSegmentViewController.xib; sourceTree = "<group>"; };
 		9815A7B0211B3E3F00A2223F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconTableViewCell.swift; sourceTree = "<group>"; };
-		9818239C211A3894006A28F7 /* Pink.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Pink.jpg; sourceTree = "<group>"; };
 		9818239D211A3894006A28F7 /* White.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = White.jpg; sourceTree = "<group>"; };
-		9818239E211A3894006A28F7 /* Rose.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Rose.jpg; sourceTree = "<group>"; };
-		9818239F211A3894006A28F7 /* Purple.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Purple.jpg; sourceTree = "<group>"; };
-		981823A0211A3894006A28F7 /* Yellow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Yellow.jpg; sourceTree = "<group>"; };
-		981823A1211A3894006A28F7 /* Blue.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Blue.jpg; sourceTree = "<group>"; };
 		98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		98D44AE4211A2D8300E11840 /* BeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
 		98EBC690211C843500340583 /* LocationPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPopUpViewController.swift; sourceTree = "<group>"; };
@@ -184,13 +170,6 @@
 				820EF29A239ED24C004A4BCD /* Sound Effects */,
 				820EF291239EBA7D004A4BCD /* Voice Notes */,
 				95BBF1FB216F8A0200DDA9DB /* ViewControllers */,
-				981823A1211A3894006A28F7 /* Blue.jpg */,
-				9818239E211A3894006A28F7 /* Rose.jpg */,
-				9818239C211A3894006A28F7 /* Pink.jpg */,
-				9818239F211A3894006A28F7 /* Purple.jpg */,
-				951C05CD2178C1DF00CD2998 /* Configuration.swift */,
-				959EFD7C216463E90058906E /* coffee.jpg */,
-				981823A0211A3894006A28F7 /* Yellow.jpg */,
 				9818239D211A3894006A28F7 /* White.jpg */,
 				AD6C6EEF210267B700E9D840 /* AppDelegate.swift */,
 				95BBF1F12168232A00DDA9DB /* MusicViewController.swift */,
@@ -300,18 +279,12 @@
 			files = (
 				95BBF1FF216F8A4F00DDA9DB /* MusicSegmentViewController.xib in Resources */,
 				AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */,
-				981823A2211A3894006A28F7 /* Pink.jpg in Resources */,
 				820EF29F239ED24C004A4BCD /* StopRecording.aiff in Resources */,
-				981823A7211A3894006A28F7 /* Blue.jpg in Resources */,
-				981823A4211A3894006A28F7 /* Rose.jpg in Resources */,
 				981823A3211A3894006A28F7 /* White.jpg in Resources */,
 				AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */,
 				820EF29E239ED24C004A4BCD /* StartRecording.aiff in Resources */,
-				981823A6211A3894006A28F7 /* Yellow.jpg in Resources */,
 				95BBF203216F8A6800DDA9DB /* BeepSegmentViewController.xib in Resources */,
-				959EFD7D216463E90058906E /* coffee.jpg in Resources */,
 				AD6C6EF5210267B700E9D840 /* Main.storyboard in Resources */,
-				981823A5211A3894006A28F7 /* Purple.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +348,6 @@
 				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
 				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
 				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,
-				951C05CE2178C1DF00CD2998 /* Configuration.swift in Sources */,
 				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
 				951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */,
 				E5C038042268D0BD00373275 /* SensorManager.swift in Sources */,
@@ -532,7 +504,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 787TUDMR8Q;
 				INFOPLIST_FILE = MusicalCaneGame/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -556,7 +528,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 787TUDMR8Q;
 				INFOPLIST_FILE = MusicalCaneGame/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

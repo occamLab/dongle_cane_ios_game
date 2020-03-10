@@ -67,7 +67,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Music:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2a9-Gg-Mzh">
-                                <rect key="frame" x="20" y="142.5" width="122" height="30"/>
+                                <rect key="frame" x="20" y="159.5" width="122" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -79,7 +79,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wheelchair User:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvz-ud-gTd">
-                                <rect key="frame" x="20" y="104.5" width="132" height="21"/>
+                                <rect key="frame" x="20" y="121.5" width="132" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -102,7 +102,7 @@
                                     <action selector="chooseMusictrack:" destination="Mf7-nQ-0RB" eventType="touchUpInside" id="trT-7k-AUz"/>
                                 </connections>
                             </button>
-                            <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="40" minValue="20" maxValue="60" translatesAutoresizingMaskIntoConstraints="NO" id="eVo-Gd-MmC">
+                            <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="40" minValue="5" maxValue="60" translatesAutoresizingMaskIntoConstraints="NO" id="eVo-Gd-MmC">
                                 <rect key="frame" x="18" y="367.5" width="284" height="31"/>
                                 <connections>
                                     <action selector="caneLengthChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="SRY-Xx-c0S"/>
@@ -145,7 +145,7 @@
                                     <action selector="wheelChairUsersStatusChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="pGN-DT-vKO"/>
                                 </connections>
                             </switch>
-                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="infinite" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Select Skill Level" borderStyle="roundedRect" placeholder="beep" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gbk-hl-uyQ">
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="infinite" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Select Skill Level" borderStyle="roundedRect" placeholder="beep" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gbk-hl-uyQ">
                                 <rect key="frame" x="166" y="414" width="138" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -165,9 +165,9 @@
                             <constraint firstItem="XPT-by-hit" firstAttribute="trailing" secondItem="B3a-NK-mxw" secondAttribute="trailing" id="80w-W1-9L9"/>
                             <constraint firstItem="5Db-41-Ihh" firstAttribute="leading" secondItem="h24-fl-c4P" secondAttribute="leading" id="8O3-kR-JWy"/>
                             <constraint firstItem="Z7C-JH-RFr" firstAttribute="leading" secondItem="h24-fl-c4P" secondAttribute="leading" id="91l-AM-i17"/>
-                            <constraint firstItem="h24-fl-c4P" firstAttribute="height" relation="lessThanOrEqual" secondItem="Bxm-rT-fHh" secondAttribute="height" multiplier="0.5" priority="900" id="9LS-CY-dsS"/>
                             <constraint firstItem="5Db-41-Ihh" firstAttribute="width" relation="lessThanOrEqual" secondItem="Bxm-rT-fHh" secondAttribute="width" priority="900" id="9XC-VH-Zrv"/>
                             <constraint firstItem="I7c-ki-mOh" firstAttribute="centerY" secondItem="5Db-41-Ihh" secondAttribute="centerY" id="A3q-qF-x8b"/>
+                            <constraint firstItem="Gbk-hl-uyQ" firstAttribute="height" secondItem="msY-aU-FLe" secondAttribute="height" id="A9X-up-Wiz"/>
                             <constraint firstItem="2a9-Gg-Mzh" firstAttribute="leading" secondItem="h24-fl-c4P" secondAttribute="leading" id="ACE-lS-LO3"/>
                             <constraint firstItem="2a9-Gg-Mzh" firstAttribute="top" secondItem="Zvz-ud-gTd" secondAttribute="bottom" constant="17" id="FJ0-lf-g4w"/>
                             <constraint firstItem="bcH-Km-hSE" firstAttribute="width" relation="lessThanOrEqual" secondItem="Bxm-rT-fHh" secondAttribute="width" multiplier="0.5" priority="900" id="HP1-Nk-SrU"/>
@@ -182,7 +182,7 @@
                             <constraint firstItem="B3a-NK-mxw" firstAttribute="height" relation="lessThanOrEqual" secondItem="Bxm-rT-fHh" secondAttribute="height" multiplier="0.5" priority="900" id="Q99-gM-23n"/>
                             <constraint firstItem="5Db-41-Ihh" firstAttribute="top" secondItem="bcH-Km-hSE" secondAttribute="bottom" constant="17" id="Tgh-0L-rY4"/>
                             <constraint firstItem="B3a-NK-mxw" firstAttribute="width" secondItem="Bxm-rT-fHh" secondAttribute="width" multiplier="0.5" priority="900" id="UwC-5s-9EZ"/>
-                            <constraint firstItem="Zvz-ud-gTd" firstAttribute="top" secondItem="h24-fl-c4P" secondAttribute="bottom" constant="17" id="V37-Uy-EHv"/>
+                            <constraint firstItem="Zvz-ud-gTd" firstAttribute="top" secondItem="h24-fl-c4P" secondAttribute="bottom" constant="34" id="V37-Uy-EHv"/>
                             <constraint firstItem="I7c-ki-mOh" firstAttribute="height" secondItem="5Db-41-Ihh" secondAttribute="height" id="VhG-2C-Rfi"/>
                             <constraint firstItem="tmy-dX-9xS" firstAttribute="height" secondItem="2a9-Gg-Mzh" secondAttribute="height" id="WSE-TX-dZb"/>
                             <constraint firstItem="H1K-ZL-5Vo" firstAttribute="height" secondItem="5Db-41-Ihh" secondAttribute="height" id="ZFg-W7-0Uz"/>
@@ -197,7 +197,6 @@
                             <constraint firstItem="I7c-ki-mOh" firstAttribute="leading" secondItem="5Db-41-Ihh" secondAttribute="trailing" constant="8" id="kUN-GZ-e8T"/>
                             <constraint firstItem="msY-aU-FLe" firstAttribute="leading" secondItem="h24-fl-c4P" secondAttribute="leading" id="lb0-7R-Hj8"/>
                             <constraint firstItem="2a9-Gg-Mzh" firstAttribute="width" relation="lessThanOrEqual" secondItem="Bxm-rT-fHh" secondAttribute="width" multiplier="0.5" priority="900" id="mav-Wl-H6O"/>
-                            <constraint firstItem="B3a-NK-mxw" firstAttribute="height" relation="lessThanOrEqual" secondItem="h24-fl-c4P" secondAttribute="height" multiplier="0.5" priority="700" id="nVE-2b-xmE"/>
                             <constraint firstAttribute="trailing" secondItem="KUc-lO-uvc" secondAttribute="trailing" constant="20" id="op0-kr-3GD"/>
                             <constraint firstItem="cPk-Sp-7jg" firstAttribute="leading" secondItem="H1K-ZL-5Vo" secondAttribute="trailing" constant="8" id="p7n-xW-d2C"/>
                             <constraint firstItem="bcH-Km-hSE" firstAttribute="leading" secondItem="h24-fl-c4P" secondAttribute="leading" id="qeQ-9Z-UML"/>
@@ -205,7 +204,6 @@
                             <constraint firstItem="212-Pp-M3T" firstAttribute="centerY" secondItem="bcH-Km-hSE" secondAttribute="centerY" id="u9D-JP-XXv"/>
                             <constraint firstItem="B3a-NK-mxw" firstAttribute="centerY" secondItem="h24-fl-c4P" secondAttribute="centerY" id="ug7-nM-mdK"/>
                             <constraint firstItem="TVE-CH-Q1p" firstAttribute="top" secondItem="KUc-lO-uvc" secondAttribute="bottom" constant="20" id="yTa-j0-lhO"/>
-                            <constraint firstItem="h24-fl-c4P" firstAttribute="width" relation="lessThanOrEqual" secondItem="Bxm-rT-fHh" secondAttribute="width" multiplier="0.2" priority="999" id="yaT-kv-eXS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qh1-op-Aj0">
@@ -239,7 +237,6 @@
                         <outlet property="sweepRangeSlider" destination="Z7C-JH-RFr" id="NBJ-Yy-bO3"/>
                         <outlet property="sweepRangeText" destination="5Db-41-Ihh" id="3EO-33-tVA"/>
                         <outlet property="wheelChairUserLabel" destination="Zvz-ud-gTd" id="pMC-E6-5TT"/>
-                        <outlet property="wheelChairUserText" destination="PJ6-hB-lSV" id="TLl-Zf-mMw"/>
                         <outlet property="wheelChairUserToggle" destination="XPT-by-hit" id="A7f-q7-fdt"/>
                     </connections>
                 </viewController>

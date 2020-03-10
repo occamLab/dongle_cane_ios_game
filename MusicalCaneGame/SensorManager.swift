@@ -98,7 +98,7 @@ class SensorManager {
                 let distanceFromStarting = euclideanDistance(position[0] - prevPosition[0], position[1] - prevPosition[1])
                 let angleBetween = acos((caneLength*caneLength*2 - distanceFromStarting*distanceFromStarting)/(2*caneLength*caneLength))
                 let cp = cross(float3(position[0], position[1], 0), float3(prevPosition[0], prevPosition[1], 0))
-                deltaAngle += angleBetween*sign(cp[2])  // replace with sign of the z component of cross product
+                deltaAngle += angleBetween*sign(cp[2])
                 prevPosition = position
                 let linearTravel = abs(caneLength*deltaAngle)
                 if linearTravel > maxLinearTravel {

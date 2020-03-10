@@ -18,7 +18,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
     @IBOutlet weak var wheelChairUserLabel: UILabel!
     // TODO: delete this
-    @IBOutlet weak var wheelChairUserText: NSLayoutConstraint!
     @IBOutlet weak var wheelChairUserToggle: UISwitch!
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var newProfileButton: UIButton!
