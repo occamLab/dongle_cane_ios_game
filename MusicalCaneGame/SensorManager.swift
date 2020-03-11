@@ -28,7 +28,9 @@ class SensorManager {
     var maxDistanceFromStartingThisSweep = Float(-1.0)
     var maxLinearTravel = Float(-1.0)
     var linearTravelThreshold = Float(-1.0)
+    var accumulatorSign:Float = 1.0
     var deltaAngle:Float = 0.0 // only applies in wheelchair mode
+    var currentAxis:float3?
     private var prevPosition:[Float] = []
 
     init() {
@@ -67,6 +69,7 @@ class SensorManager {
         // to estimate tip of cane
         let xPos = m02 * caneLength
         let yPos = m12 * caneLength
+        let zPos = m22 * caneLength
         
         if xPos.isNaN || yPos.isNaN || (xPos == 0 && yPos == 0) {
             return
@@ -77,7 +80,7 @@ class SensorManager {
                 
         if length_normalized > 0.3 || isWheelchairUser {        // the Shepard's pose doesn't matter if you are a wheelchair user
             // this should be in inches
-            let position = [xPos, yPos]
+            let position = [xPos, yPos, zPos]
 
             // sets first position as a reference point
             if startSweep {
@@ -95,10 +98,26 @@ class SensorManager {
             
             if isWheelchairUser {
                 // get cross product
-                let distanceFromStarting = euclideanDistance(position[0] - prevPosition[0], position[1] - prevPosition[1])
-                let angleBetween = acos((caneLength*caneLength*2 - distanceFromStarting*distanceFromStarting)/(2*caneLength*caneLength))
-                let cp = cross(float3(position[0], position[1], 0), float3(prevPosition[0], prevPosition[1], 0))
-                deltaAngle += angleBetween*sign(cp[2])
+                var dp = simd_dot(float3(position), float3(prevPosition))/(simd_length(float3(position))*simd_length(float3(prevPosition)))
+                if dp < -1 {
+                    dp = -1
+                } else if dp > 1 {
+                    dp = 1
+                }
+                // get the unsigned (always positive) angle between
+                let angleBetween = acos(dp)
+                // get the axis perpendicular to the plane spanned by the two vectors
+                let cp = cross(float3(position), float3(prevPosition))
+                if let axis = currentAxis {
+                    if simd_dot(axis, cp) < 0 {         // the axis has switched
+                        currentAxis = cp
+                        accumulatorSign *= -1
+                    }
+                } else {
+                    // initialize the axis
+                    currentAxis = cp
+                }
+                deltaAngle += angleBetween*accumulatorSign
                 prevPosition = position
                 let linearTravel = abs(caneLength*deltaAngle)
                 if linearTravel > maxLinearTravel {
@@ -116,6 +135,7 @@ class SensorManager {
                     prevPosition = startPosition
                     maxLinearTravel = -1.0
                     deltaAngle = 0.0
+                    currentAxis = nil
                     return
                 }
             } else {
@@ -224,6 +244,7 @@ class SensorManager {
         updateSensorFusionSettings()
         maxLinearTravel = -1.0
         deltaAngle = 0.0
+        currentAxis = nil
         maxDistanceFromStartingThisSweep = -1.0
         var task: BFTask<AnyObject>?
         streamingEvents.insert(device!.sensorFusion!.quaternion)

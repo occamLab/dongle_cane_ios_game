@@ -1020,7 +1020,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="BoI-Jn-b9W">
-                                <rect key="frame" x="16" y="52" width="288" height="190"/>
+                                <rect key="frame" x="16" y="52" width="288" height="253"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0if-pa-hNV" userLabel="Name">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="29"/>
@@ -1064,7 +1064,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="waJ-Ay-ueK">
-                                        <rect key="frame" x="0.0" y="135" width="288" height="55"/>
+                                        <rect key="frame" x="0.0" y="135" width="288" height="118"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gbO-Cx-CQL">
                                                 <rect key="frame" x="0.0" y="0.0" width="288" height="17"/>
@@ -1087,6 +1087,29 @@
                                                 <rect key="frame" x="-2" y="25" width="292" height="31"/>
                                                 <connections>
                                                     <action selector="sweepRangeSlider:" destination="W6w-gD-LRY" eventType="valueChanged" id="fHw-l5-CgZ"/>
+                                                </connections>
+                                            </slider>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Zbj-tM-IGe">
+                                                <rect key="frame" x="0.0" y="63" width="288" height="17"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Music play period:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HiT-In-1gr">
+                                                        <rect key="frame" x="0.0" y="0.0" width="140" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2 seconds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8e1-xB-wsw">
+                                                        <rect key="frame" x="148" y="0.0" width="140" height="17"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="1" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="ESG-BM-Fh4">
+                                                <rect key="frame" x="-2" y="88" width="292" height="31"/>
+                                                <connections>
+                                                    <action selector="musicPlayPeriodSlider:" destination="W6w-gD-LRY" eventType="valueChanged" id="5c4-rP-Pxg"/>
                                                 </connections>
                                             </slider>
                                         </subviews>
@@ -1113,6 +1136,8 @@
                         <outlet property="controlButton" destination="1Ic-lj-ru2" id="O8P-dv-40W"/>
                         <outlet property="currentSongButton" destination="USs-vB-85m" id="ZUb-SM-hyx"/>
                         <outlet property="menuButton" destination="tAq-DT-M5k" id="PI7-8d-CCz"/>
+                        <outlet property="musicPlayPeriodSlider" destination="ESG-BM-Fh4" id="IPO-mF-PFc"/>
+                        <outlet property="playPeriodText" destination="8e1-xB-wsw" id="8qf-jt-vZc"/>
                         <outlet property="playerName" destination="0if-pa-hNV" id="yK4-2b-Oph"/>
                         <outlet property="progressBarOverflowSize" destination="483-k8-F14" id="RSi-oE-YSs"/>
                         <outlet property="progressBarOverflowUI" destination="YXN-q2-BcI" id="P9C-hR-2dc"/>

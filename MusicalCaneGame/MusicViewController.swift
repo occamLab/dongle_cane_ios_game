@@ -55,7 +55,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     let overflowSize = Float(0.2)
     let underflowSize = Float(0.6)
     let validZoneSize =  Float(0.2)
-    
+    var musicPlayPeriod:Double!
     @IBOutlet weak var currentSongButton: UIButton!
     @IBAction func currentSongButtonPressed(_ sender: Any) {
         UIApplication.shared.open(URL(string: "music://")!)
@@ -68,6 +68,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     let sensorManager = SensorManager()
     var isWheelchairUser: Bool = false
     @IBOutlet weak var sweepRangeText: UILabel!
+    @IBOutlet weak var playPeriodText: UILabel!
     
     ///`DUPLICATED`
     @IBOutlet weak var menuButton: UIBarButtonItem!
@@ -216,6 +217,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     @IBOutlet weak var sweepRangeLabel: UILabel!
     @IBOutlet weak var sweepRangeSliderUI: UISlider!
+    @IBOutlet weak var musicPlayPeriodSlider: UISlider!
     /**
       `DUPLICATED`
       Allow the user to update the sweep range on the fly
@@ -229,6 +231,11 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         updateProgressView()
     }
 
+    @IBAction func musicPlayPeriodSlider(_ sender: UISlider) {
+        musicPlayPeriod = Double(sender.value).roundTo(places: 2)
+        playPeriodText.text = String(Double(musicPlayPeriod).roundTo(places: 2)) + " seconds"
+    }
+    
     func readyToSweep() {
         activityIndicator.stopAnimating()
         controlButton.title = "Stop"
@@ -320,6 +327,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     override func viewDidLoad() {
         super.viewDidLoad()
+        musicPlayPeriod = Double(musicPlayPeriodSlider.value).roundTo(places: 2)
+        playPeriodText.text = String(Double(musicPlayPeriod).roundTo(places: 2)) + " seconds"
 
         sideMenu()
         //The new method should only use User defaults to know what the current profile is
@@ -408,7 +417,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
             // todo: why is this not enabled? create a new timer in case a sweep takes too long?
             stopMusicTimer?.invalidate()
-            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(2), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: false)
+            stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(musicPlayPeriod), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: false)
             // music has stopped but we want to restart it?
             if playing != shouldPlay {
                 mp.play()
