@@ -241,7 +241,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         controlButton.title = "Stop"
         UIApplication.shared.endIgnoringInteractionEvents()
         let synth = AVSpeechSynthesizer()
-        let utterance = AVSpeechUtterance(string: "Start Sweeping")
+        let utterance = AVSpeechUtterance(string: "Start " + (isWheelchairUser ? "Moving" : "Sweeping"))
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
         utterance.rate = 0.6
         synth.speak(utterance)
