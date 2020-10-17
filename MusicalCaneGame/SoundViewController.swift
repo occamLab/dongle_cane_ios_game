@@ -25,17 +25,10 @@ extension NSLayoutConstraint {
   `DUPLICATED` means this also appears on the Music View Controller
 */
 class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
-    let overflowSize = Float(0.2)
-    let underflowSize = Float(0.6)
-    let validZoneSize =  Float(0.2)
     let synth = AVSpeechSynthesizer()
 
     ///Declare db to load options `DUPLICATED`
     let dbInterface = DBInterface.shared
-    ///`DUPLICATED`
-    let sensorManager = SensorManager()
-    var isWheelchairUser: Bool = false
-
     ///Helpful dictionary to find path from beep string
     static var getBeepPath = ["Begin": "/System/Library/Audio/UISounds/jbl_begin.caf",
                             "Begin Record": "/System/Library/Audio/UISounds/begin_record.caf",
@@ -58,17 +51,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBOutlet weak var playerName: UILabel!
     @IBOutlet weak var controlButton: UIBarButtonItem!
     ///`DUPLICATED` Progress bar
-
-    @IBOutlet weak var stackViewBar: UIStackView!
-    @IBOutlet weak var progressBarUI: UIProgressView!
-    @IBOutlet weak var progressBarSize: NSLayoutConstraint!
-    ///`DUPLICATED` Over the range
-    @IBOutlet weak var progressBarOverflowUI: UIProgressView!
-    @IBOutlet weak var progressBarOverflowSize: NSLayoutConstraint!
-    ///`DUPLICATED` Under the range
-    @IBOutlet weak var progressBarUnderflow: UIProgressView!
-    @IBOutlet weak var progressBarUnderflowSize: NSLayoutConstraint!
-    @IBOutlet weak var sweepRangeText: UILabel!
     
     var isRecordingAudio = false
     
@@ -80,81 +62,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         }
     }
 
-    /**
-    `DUPLICATED`
-    Calculate how full each progress bar should be:
-    The progress bars are:
-    The one that shows how far under the range they are
-    The one that shows where in the range
-    The one that shows how far over the range they are
-
-    - Parameter notification: contains the current progress
-    */
-    @objc func updateProgress(notification: NSNotification){
-        let currSweepRange = notification.object as! Float
-        let sweepPercent = currSweepRange/sweepRange
-        if( sweepPercent <= (1-percentTolerance!)){
-            progressBarUnderflow.progress = sweepPercent/(1-percentTolerance!)
-            progressBarUI.progress = 0
-            progressBarOverflowUI.progress = 0
-        } else if(sweepPercent <= (1+percentTolerance!)){
-            progressBarUnderflow.progress = 1
-            progressBarUI.progress = (sweepPercent - (1-percentTolerance!))/(2*percentTolerance!)
-            progressBarOverflowUI.progress = 0
-        } else{
-            progressBarUnderflow.progress = 1.0
-            progressBarUI.progress = 1.0
-            let overflow_percent = (sweepPercent - 1 - percentTolerance!)/overflowSize
-
-            if overflow_percent < 1{
-                progressBarOverflowUI.progress = overflow_percent
-            } else {
-                progressBarOverflowUI.progress = 1
-            }
-        }
-    }
-    
-    /**
-       `DUPLICATED`
-       Calculate the size of each progress bar on the screen:
-       The progress bars are:
-       The one that shows how far under the range they are
-       The one that shows where in the range
-       The one that shows how far over the range they are
-       */
-       func updateProgressView(){
-           percentTolerance = sweepTolerance/sweepRange
-           let totalSize:Float = underflowSize + overflowSize + validZoneSize
-           let overflowSizeRel = overflowSize / totalSize
-
-           //----Update Values
-           var newConstraint = progressBarUnderflowSize.constraintWithMultiplier(CGFloat(underflowSize))
-           self.stackViewBar.removeConstraint(progressBarUnderflowSize)
-           progressBarUnderflowSize = newConstraint
-           self.stackViewBar.addConstraint(progressBarUnderflowSize)
-
-           newConstraint = progressBarOverflowSize.constraintWithMultiplier(CGFloat(overflowSizeRel))
-           self.stackViewBar.removeConstraint(progressBarOverflowSize)
-           progressBarOverflowSize = newConstraint
-           self.stackViewBar.addConstraint(progressBarOverflowSize)
-
-           newConstraint = progressBarSize.constraintWithMultiplier(CGFloat(validZoneSize))
-           self.stackViewBar.removeConstraint(progressBarSize)
-           progressBarSize = newConstraint
-           self.stackViewBar.addConstraint(progressBarSize)
-
-           self.stackViewBar.layoutIfNeeded()
-       }
-    //---------------------------
-    ///Defintions for beacons `DUPLICATED`
-    let locationManager = CLLocationManager()
-    let region = CLBeaconRegion(proximityUUID: NSUUID(uuidString: "8492E75F-4FD6-469D-B132-043FE94921D8")! as UUID, identifier: "Estimotes")
-    // 8492E75F-4FD6-469D-B132-043FE94921D8
-    // B9407F30-F5F8-466E-AFF9-25556B57FE6D
-
-    let beacons = ["Blue", "Purple", "Rose", "White"]
-
-    var viewsBeacons = [UIView]()
     var animator:UIDynamicAnimator!
     var gravity:UIGravityBehavior!
     var snap:UISnapBehavior!
@@ -165,25 +72,22 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     var offset:CGFloat = 100
     var knownBeaconMinorsStrings:[String] = []
     //----------------------------
-    ///Declare variables that are loaded from profile `DUPLICATED`
+    ///Declare variables that are loaded from profile
     var selectedProfile:String = "Default User"
     var selectedBeepStr: String = "Select Beep"
-    var sweepRange: Float = 1.0
-    var sweepTolerance: Float = 20 //seems like a good value for a skiled cane user
+    var isWheelchairUser: Bool = false
+
     //Other important variable(s) not explicitly loaded from db
-    var selectedSong:UInt64?
     var selectedBeepNoisePath: String?
     var beepPlayer: AVAudioPlayer!
 
-    var percentTolerance: Float?
     /**
-      `DUPLICATED`
       Load a user profile into global memory using the global `selectedProfile`
     */
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
         playerName.text = selectedProfile
-
+        isWheelchairUser = user_row![dbInterface.wheelchair_user]
         //Get beep noise
         selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
         if(selectedBeepStr != "Select Beep"){
@@ -191,36 +95,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             beepPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: selectedBeepNoisePath!))
             beepPlayer.prepareToPlay()
         }
-
-        //For the sliders
-        sweepTolerance = Float(user_row![self.dbInterface.sweep_tolerance])
-        sweepRange = Float(user_row![self.dbInterface.sweep_width])
-        sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 2)) + " inches"
-        sweepRangeSliderUI.setValue(sweepRange, animated: false)
-        sensorManager.caneLength = Float(user_row![self.dbInterface.cane_length])
-        isWheelchairUser = user_row![self.dbInterface.wheelchair_user]
-        sensorManager.isWheelchairUser = isWheelchairUser
-        sensorManager.linearTravelThreshold = sweepRange    // if we are using wheelchair mode, it's important to set this
-        sweepRangeText.text = isWheelchairUser ? "Activation Distance" : "Sweep Range"
     }
-
-
-    @IBOutlet weak var sweepRangeLabel: UILabel!
-    @IBOutlet weak var sweepRangeSliderUI: UISlider!
-    /**
-      `DUPLICATED`
-      Allow the user to update the sweep range on the fly
-      Will update the view of the progress bars
-    */
-    @IBAction func sweepRangeSlider(_ sender: UISlider) {
-        let x = Double(sender.value).roundTo(places: 2)
-        sensorManager.linearTravelThreshold = Float(x)
-        sweepRangeLabel.text = String(x) + " inches"
-        sweepRange = sender.value
-        updateProgressView()
-    }
-
-
 
     var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
 
@@ -236,8 +111,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBAction func controlButton(_ sender: Any) {
         if controlButton.title == "Start" {
             if selectedBeepNoisePath != nil || speakSweeps {
-
-
                 activityIndicator.center = self.view.center
                 activityIndicator.hidesWhenStopped = true
                 activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
@@ -250,29 +123,15 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
                 synth.speak(utterance)
-                sensorManager.finishConnection(true) { () in
-                    self.readyToSweep()
-                }
+                NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: true)
                 // temp true for sound mode
                 startButtonPressed = true
-
-
             } else{
                 createAlert(title: "Error", message: "You have not selected a beep noise.")
-
             }
         } else if controlButton.title == "Stop" {
             numSweeps = 0
-            sensorManager.disconnectAndCleanup() { () in
-                self.sensorManager.inSweepMode = false
-                self.startButtonPressed = false
-
-                let utterance = AVSpeechUtterance(string: "Disconnected")
-                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-                utterance.rate = 0.6
-                self.synth.speak(utterance)
-                self.controlButton.title = "Start"
-            }
+            NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: false)
         }
     }
 
@@ -282,9 +141,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
         self.present(alert, animated: true, completion: nil)
     }
-    //Definitions for sweeping
-    var centralManager: CBCentralManager!
-    var dongleSensorPeripheral: CBPeripheral!
 
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
     let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
@@ -323,15 +179,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
-        updateProgressView()
         numSweeps = 0
         createObservers()
-        //-------------------
-        //Inits for the beacon controllers
-        if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.authorizedWhenInUse) {
-            locationManager.requestWhenInUseAuthorization()
-        }
-        locationManager.startRangingBeacons(in: region)
 
         animator = UIDynamicAnimator(referenceView: self.view)
         gravity = UIGravityBehavior()
@@ -364,25 +213,34 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        sensorManager.inSweepMode = false
-        print("Scanning for the dongle")
-        sensorManager.scanForDevice()
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         // TODO: this screws stuff up on smaller phones, and possibly older OSes (since the popover is presented differently)
         // it can be called even when the Beacons are being configured
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        sensorManager.disconnectAndCleanup(postDisconnect: nil)
     }
-
+    
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.processSweeps (notification:)), name: sweep, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SoundViewController.processConnectionStatusChangeCompleted(notification:)), name: NSNotification.Name(rawValue: connectionStatusChangeCompleted), object: nil)
     }
+
+    
+    @objc func processConnectionStatusChangeCompleted(notification: NSNotification) {
+        let connected = notification.object as! Bool
+        if connected {
+            readyToSweep()
+        } else {
+            startButtonPressed = false
+
+            let utterance = AVSpeechUtterance(string: "Disconnected")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+            utterance.rate = 0.6
+            synth.speak(utterance)
+            controlButton.title = "Start"
+        }
+    }
+    
     //Loads the navigation menu `DUPLICATED`
     func sideMenu() {
 
@@ -412,9 +270,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     Parameter notification: Passed in container that has the length of the sweep
     */
     @objc func processSweeps(notification: NSNotification) {
-        let sweepDistance = notification.object as! Float
-        let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
-        print("sweepDistance", sweepDistance)
+        let is_valid_sweep = notification.object as! Bool
         if !isRecordingAudio, is_valid_sweep && startButtonPressed == true {
 
             numSweeps += 1

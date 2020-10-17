@@ -15,7 +15,6 @@ import CoreLocation
 let dongleSensorCBUUID = CBUUID(string: "2ea7")
 let sensorFusionCharacteristicCBUUID = CBUUID(string: "2ea78970-7d44-44bb-b097-26183f402407")
 let sweepNotificationKey = "cane.sweep.notification"
-let updateProgressNotificationKey = "cane.prog.notification"
 
 
 
@@ -52,9 +51,6 @@ extension UIViewController {
   `DUPLICATED` means this also appears on the Sound View Controller
 */
 class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
-    let overflowSize = Float(0.2)
-    let underflowSize = Float(0.6)
-    let validZoneSize =  Float(0.2)
     var musicPlayPeriod:Double!
     @IBOutlet weak var currentSongButton: UIButton!
     @IBAction func currentSongButtonPressed(_ sender: Any) {
@@ -65,89 +61,13 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     ///Declare db to load options `DUPLICATED`
     let dbInterface = DBInterface.shared
     ///`DUPLICATED`
-    let sensorManager = SensorManager()
+
     var isWheelchairUser: Bool = false
-    @IBOutlet weak var sweepRangeText: UILabel!
     @IBOutlet weak var playPeriodText: UILabel!
     
     ///`DUPLICATED`
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var playerName: UILabel!
-    ///`DUPLICATED` Progress bar
-    @IBOutlet weak var stackViewBar: UIStackView!
-    @IBOutlet weak var progressBarUI: UIProgressView!
-    @IBOutlet weak var progressBarSize: NSLayoutConstraint!
-    ///`DUPLICATED`//Over the range
-    @IBOutlet weak var progressBarOverflowUI: UIProgressView!
-    @IBOutlet weak var progressBarOverflowSize: NSLayoutConstraint!
-    ///`DUPLICATED`//Under the range
-    @IBOutlet weak var progressBarUnderflow: UIProgressView!
-    @IBOutlet weak var progressBarUnderflowSize: NSLayoutConstraint!
-
-    /**
-    `DUPLICATED`
-    Calculate how full each progress bar should be:
-    The progress bars are:
-    The one that shows how far under the range they are
-    The one that shows where in the range
-    The one that shows how far over the range they are
-
-    - Parameter notification: contains the current progress
-    */
-    @objc func updateProgress(notification: NSNotification){
-        let currSweepRange = notification.object as! Float
-        let sweepPercent = currSweepRange/sweepRange
-        if( sweepPercent <= (1-percentTolerance!)){
-            progressBarUnderflow.progress = sweepPercent/(1-percentTolerance!)
-            progressBarUI.progress = 0
-            progressBarOverflowUI.progress = 0
-        } else if(sweepPercent <= (1+percentTolerance!)){
-            progressBarUnderflow.progress = 1
-            progressBarUI.progress = (sweepPercent - (1-percentTolerance!))/(2*percentTolerance!)
-            progressBarOverflowUI.progress = 0
-        } else{
-            progressBarUnderflow.progress = 1.0
-            progressBarUI.progress = 1.0
-            let overflow_percent = (sweepPercent - 1 - percentTolerance!)/overflowSize
-
-            if overflow_percent < 1{
-                progressBarOverflowUI.progress = overflow_percent
-            } else {
-                progressBarOverflowUI.progress = 1
-            }
-        }
-    }
-    /**
-    `DUPLICATED`
-    Calculate the size of each progress bar on the screen:
-    The progress bars are:
-    The one that shows how far under the range they are
-    The one that shows where in the range
-    The one that shows how far over the range they are
-    */
-    func updateProgressView(){
-        percentTolerance = sweepTolerance/sweepRange
-        let totalSize:Float = underflowSize + overflowSize + validZoneSize
-        let overflowSizeRel = overflowSize / totalSize
-
-        //----Update Values
-        var newConstraint = progressBarUnderflowSize.constraintWithMultiplier(CGFloat(underflowSize))
-        self.stackViewBar.removeConstraint(progressBarUnderflowSize)
-        progressBarUnderflowSize = newConstraint
-        self.stackViewBar.addConstraint(progressBarUnderflowSize)
-
-        newConstraint = progressBarOverflowSize.constraintWithMultiplier(CGFloat(overflowSizeRel))
-        self.stackViewBar.removeConstraint(progressBarOverflowSize)
-        progressBarOverflowSize = newConstraint
-        self.stackViewBar.addConstraint(progressBarOverflowSize)
-
-        newConstraint = progressBarSize.constraintWithMultiplier(CGFloat(validZoneSize))
-        self.stackViewBar.removeConstraint(progressBarSize)
-        progressBarSize = newConstraint
-        self.stackViewBar.addConstraint(progressBarSize)
-
-        self.stackViewBar.layoutIfNeeded()
-    }
 
     ///For Beacons `DUPLICATED`
     let synth = AVSpeechSynthesizer()
@@ -165,12 +85,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     ///Declare variables that are loaded from profile `DUPLICATED`
     var selectedProfile:String = "Default User"
     var selectedSongStr: String = "Select Music"
-    var selectedBeepStr: String = "Select Beep"
-    var sweepRange: Float = 1.0
-    var sweepTolerance: Float = 20
     //Other important variable(s) not explicitly loaded from db
     var selectedSong:[Int64]?
-    var percentTolerance: Float?
     /**
       `DUPLICATED`
       Load a user profile into global memory using the global `selectedProfile`
@@ -178,8 +94,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     func loadProfile(){
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
         playerName.text = selectedProfile
-        //Change beep noise
-        selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
+        isWheelchairUser = user_row![dbInterface.wheelchair_user]
 
         //Change Music Title
         if user_row![self.dbInterface.music] != "Select Music" {
@@ -201,35 +116,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             currentSongButton.isEnabled = false
             currentSongButton.setTitle("Please select song on manage profiles screen", for: .normal)
         }
-
-        //For the sliders
-        sweepTolerance = Float(user_row![self.dbInterface.sweep_tolerance])
-        sweepRange = Float(user_row![self.dbInterface.sweep_width])
-        sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 2)) + " inches"
-        sweepRangeSliderUI.setValue(sweepRange, animated: false)
-
-        sensorManager.caneLength = Float(user_row![self.dbInterface.cane_length])
-        isWheelchairUser = user_row![self.dbInterface.wheelchair_user]
-        sensorManager.isWheelchairUser = isWheelchairUser
-        sensorManager.linearTravelThreshold = sweepRange    // if we are using wheelchair mode, it's important to set this
-        sweepRangeText.text = isWheelchairUser ? "Activation Distance" : "Sweep Range"
     }
     
-    @IBOutlet weak var sweepRangeLabel: UILabel!
-    @IBOutlet weak var sweepRangeSliderUI: UISlider!
     @IBOutlet weak var musicPlayPeriodSlider: UISlider!
-    /**
-      `DUPLICATED`
-      Allow the user to update the sweep range on the fly
-      Will update the view of the progress bars
-    */
-    @IBAction func sweepRangeSlider(_ sender: UISlider) {
-        let x = Double(sender.value).roundTo(places: 2)
-        sensorManager.linearTravelThreshold = Float(x)
-        sweepRangeLabel.text = String(x) + " inches"
-        sweepRange = sender.value
-        updateProgressView()
-    }
 
     @IBAction func musicPlayPeriodSlider(_ sender: UISlider) {
         musicPlayPeriod = Double(sender.value).roundTo(places: 2)
@@ -273,28 +162,13 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
                 synth.speak(utterance)
-                sensorManager.finishConnection(true) { () in
-                    self.readyToSweep()
-                }
+                NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: true)
                 startButtonPressed = true // music mode has started
             } else {
                 createAlert(title: "Error", message: "Please select song")
             }
         } else if controlButton.title == "Stop" {
-            sensorManager.disconnectAndCleanup()
-             { () in
-                self.sensorManager.inSweepMode = false
-                self.startButtonPressed = false
-                self.mp.stop()
-                // queue it up for next time
-                self.mp.prepareToPlay()
-                // TODO: change the playback to the default once it is done speaking?
-                let utterance = AVSpeechUtterance(string: "Disconnected")
-                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-                utterance.rate = 0.6
-                self.synth.speak(utterance)
-                self.controlButton.title = "Start"
-            }
+            NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: false)
         }
 
     }
@@ -306,9 +180,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     //Variable Declaration
-    var centralManager: CBCentralManager!
-    var dongleSensorPeripheral: CBPeripheral!
-
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
     let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
 
@@ -337,7 +208,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
-        updateProgressView()
         createObservers()
         animator = UIDynamicAnimator(referenceView: self.view)
         gravity = UIGravityBehavior()
@@ -363,33 +233,42 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     @objc func nowPlayingItemChanged(notification: NSNotification) {
         currentSongButton.setTitle(mp.nowPlayingItem?.title, for: .normal)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        sensorManager.inSweepMode = false
-        print("Scanning for the dongle")
-        sensorManager.scanForDevice()
-    }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        sensorManager.disconnectAndCleanup(postDisconnect: nil)
     }
 
     func createObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processSweeps (notification:)), name: sweep, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.updateProgress(notification:)), name: updateProgKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MusicViewController.processConnectionStatusChangeCompleted(notification:)), name: NSNotification.Name(rawValue: connectionStatusChangeCompleted), object: nil)
+    }
+    
+    @objc func processConnectionStatusChangeCompleted(notification: NSNotification) {
+        let connected = notification.object as! Bool
+        if connected {
+            readyToSweep()
+        } else {
+            startButtonPressed = false
+            mp.stop()
+            // queue it up for next time
+            mp.prepareToPlay()
+            // TODO: change the playback to the default once it is done speaking?
+            let utterance = AVSpeechUtterance(string: "Disconnected")
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+            utterance.rate = 0.6
+            synth.speak(utterance)
+            controlButton.title = "Start"
+        }
     }
 
     //Loads the navigation menu `DUPLICATED`
     func sideMenu() {
-
         if revealViewController() != nil {
             menuButton.target = revealViewController()
             menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
             revealViewController().rearViewRevealWidth = 250
-        view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
     }
 
@@ -407,14 +286,11 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @objc func processSweeps(notification: NSNotification) {
         if (!startButtonPressed!){ return}
-        let sweepDistance = notification.object as! Float
-        let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
+        let is_valid_sweep = notification.object as! Bool
         // if we've turned around and we want to play music
         if is_valid_sweep && !isRecordingAudio {
             // we should play music
             shouldPlay = 1
-            print("SweepRange: ", sweepRange)
-
             // todo: why is this not enabled? create a new timer in case a sweep takes too long?
             stopMusicTimer?.invalidate()
             stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(musicPlayPeriod), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: false)
@@ -425,7 +301,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             }
         } else{
         // stop music
-
             stopPlaying()
         }
     }

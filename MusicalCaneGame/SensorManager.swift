@@ -2,6 +2,8 @@
 //  SensorManager.swift
 //  MusicalCaneGame
 //
+//  TODO: there seems to be a bug with the sleep mode button that can result in the sensor going to sleep and trying to connect simultaneously
+//
 //  Created by Team Eric on 4/18/19.
 //  Copyright © 2019 occamlab. All rights reserved.
 //
@@ -13,34 +15,224 @@ import MBProgressHUD
 import iOSDFULibrary
 import simd
 
-class SensorManager {
+let updateProgressNotificationKey = "cane.prog.notification"
+let connectionStatusChangeRequested = "sensor.connection.changerequested"
+let connectionStatusChangeCompleted = "sensor.connection.changecompleted"
+
+
+class SensorManager: UIViewController {
     private var startSweep = true
     private var startPosition:[Float] = []
     private var device: MBLMetaWear?
     private var finishingConnection = false
     private var streamingEvents: Set<NSObject> = [] // Can't use proper type due to compiler seg fault
     private var stepsPostSensorFusionDataAvailable : (()->())?
+    let overflowSize = Float(0.2)
+    let underflowSize = Float(0.6)
+    let validZoneSize =  Float(0.2)
     var inSweepMode = false
     var isWheelchairUser = false
     var caneLength: Float = 1.0
     var positionAtMaximum: [Float] = []
-
+    var percentTolerance: Float?
+    var sweepRange: Float = 1.0
+    var sweepTolerance: Float = 20
     var maxDistanceFromStartingThisSweep = Float(-1.0)
     var maxLinearTravel = Float(-1.0)
     var linearTravelThreshold = Float(-1.0)
     var accumulatorSign:Float = 1.0
     var deltaAngle:Float = 0.0 // only applies in wheelchair mode
     var currentAxis:float3?
+    var batteryReadTimer:Timer?
     private var prevPosition:[Float] = []
-
-    init() {
-        
-    }
     
+    @IBOutlet weak var batteryText: UILabel!
+    @IBOutlet weak var putSensorToSleepButton: UIButton!
+    @IBOutlet weak var stackViewBar: UIStackView!
+    @IBOutlet weak var progressBarUnderflow: UIProgressView!
+    @IBOutlet weak var progressBarUI: UIProgressView!
+    @IBOutlet weak var progressBarOverflowUI: UIProgressView!
+    @IBOutlet weak var progressBarUnderflowSize: NSLayoutConstraint!
+    @IBOutlet weak var progressBarSize: NSLayoutConstraint!
+    @IBOutlet weak var progressBarOverflowSize: NSLayoutConstraint!
+    @IBOutlet weak var sweepRangeText: UILabel!
+    @IBOutlet weak var sweepRangeLabel: UILabel!
+    @IBOutlet weak var sweepRangeSliderUI: UISlider!
     func euclideanDistance(_ a: Float, _ b: Float) -> Float {
         return (a * a + b * b).squareRoot()
     }
 
+    @IBOutlet weak var batteryLevelIndicator: UIProgressView!
+    @IBAction func putSensorToSleep(_ sender: Any) {
+        let alert = UIAlertController(title: "Alert", message: "Putting the sensor to sleep will conserve the sensor's battery.  When you want to connect to the sensor again, you will have to press the button on the sensor.  Do you want to put the sensor to sleep?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+              switch action.style{
+              case .default:
+                self.stopAllStreamingEvents()
+                self.inSweepMode = false
+                self.device?.sleepModeOnReset()
+                self.device?.resetDevice()
+                // post a notification that the reset into sleep mode has finished
+                NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeCompleted), object: false)
+              default:
+                ()
+        }}))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            // do nothing if they cancel
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadProfile()
+        createObservers()
+        updateProgressView()
+        self.batteryLevelIndicator.isHidden = true
+        self.batteryText.isHidden = true
+        self.putSensorToSleepButton.isEnabled = false
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func createObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(SensorManager.changeConnectionStatus (notification:)), name: Notification.Name(rawValue: connectionStatusChangeRequested), object: nil)
+    }
+    
+    @objc func changeConnectionStatus(notification: NSNotification) {
+        let connect = notification.object as! Bool
+        if connect {
+            finishConnection(true) { () in
+                NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeCompleted), object: true)
+            }
+        } else {
+            disconnectAndCleanup()
+             { () in
+                self.inSweepMode = false
+                // post a notification that the disconnection has finished
+                NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeCompleted), object: false)
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        inSweepMode = false
+        print("Scanning for the dongle")
+        scanForDevice()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        disconnectAndCleanup(postDisconnect: nil)
+    }
+
+    @IBAction func sweepRange(_ sender: UISlider) {
+        let x = Double(sender.value).roundTo(places: 2)
+        linearTravelThreshold = Float(x)
+        sweepRangeLabel.text = String(x) + " inches"
+        sweepRange = sender.value
+        updateProgressView()
+    }
+
+    /**
+    Calculate how full each progress bar should be:
+    The progress bars are:
+    The one that shows how far under the range they are
+    The one that shows where in the range
+    The one that shows how far over the range they are
+
+    - Parameter notification: contains the current progress
+    */
+    func updateProgress(currSweepRange: Float){
+        let sweepPercent = currSweepRange/sweepRange
+        if( sweepPercent <= (1-percentTolerance!)){
+            progressBarUnderflow.progress = sweepPercent/(1-percentTolerance!)
+            progressBarUI.progress = 0
+            progressBarOverflowUI.progress = 0
+        } else if(sweepPercent <= (1+percentTolerance!)){
+            progressBarUnderflow.progress = 1
+            progressBarUI.progress = (sweepPercent - (1-percentTolerance!))/(2*percentTolerance!)
+            progressBarOverflowUI.progress = 0
+        } else{
+            progressBarUnderflow.progress = 1.0
+            progressBarUI.progress = 1.0
+            let overflow_percent = (sweepPercent - 1 - percentTolerance!)/overflowSize
+
+            if overflow_percent < 1{
+                progressBarOverflowUI.progress = overflow_percent
+            } else {
+                progressBarOverflowUI.progress = 1
+            }
+        }
+    }
+    
+    /**
+      This function is called when the user switched cane movement directions.
+      If the sweep is long enough it will start or continue the music, otherwise
+      it will stop the music
+      Parameter notification: Passed in container that has the length of the sweep
+    */
+    @objc func processSweeps(sweepDistance:Float) {
+        let name = Notification.Name(rawValue: sweepNotificationKey)
+        let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
+        NotificationCenter.default.post(name: name, object: is_valid_sweep)
+    }
+    
+    /**
+    Calculate the size of each progress bar on the screen:
+    The progress bars are:
+    The one that shows how far under the range they are
+    The one that shows where in the range
+    The one that shows how far over the range they are
+    */
+    func updateProgressView(){
+        percentTolerance = sweepTolerance/sweepRange
+        let totalSize:Float = underflowSize + overflowSize + validZoneSize
+        let overflowSizeRel = overflowSize / totalSize
+
+        //----Update Values
+        var newConstraint = progressBarUnderflowSize.constraintWithMultiplier(CGFloat(underflowSize))
+        self.stackViewBar.removeConstraint(progressBarUnderflowSize)
+        progressBarUnderflowSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarUnderflowSize)
+
+        newConstraint = progressBarOverflowSize.constraintWithMultiplier(CGFloat(overflowSizeRel))
+        self.stackViewBar.removeConstraint(progressBarOverflowSize)
+        progressBarOverflowSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarOverflowSize)
+
+        newConstraint = progressBarSize.constraintWithMultiplier(CGFloat(validZoneSize))
+        self.stackViewBar.removeConstraint(progressBarSize)
+        progressBarSize = newConstraint
+        self.stackViewBar.addConstraint(progressBarSize)
+
+        self.stackViewBar.layoutIfNeeded()
+    }
+    
+    func loadProfile(){
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        let dbInterface = DBInterface.shared
+        let user_row = dbInterface.getRow(u_name: selectedProfile)
+
+        //For the sliders
+        sweepRange = Float(user_row![dbInterface.sweep_width])
+        caneLength = Float(user_row![dbInterface.cane_length])
+        isWheelchairUser = user_row![dbInterface.wheelchair_user]
+        linearTravelThreshold = sweepRange    // if we are using wheelchair mode, it's important to set this
+        sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 2)) + " inches"
+        sweepRangeSliderUI.setValue(sweepRange, animated: false)
+        sweepRangeText.text = isWheelchairUser ? "Activation Distance" : "Sweep Range"
+        //For the sliders
+        sweepTolerance = Float(user_row![dbInterface.sweep_tolerance])
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     public func sensorFusionReadingNewDongle(w: Float, x: Float, y: Float, z: Float, caneLength: Float) {
         // Rotation Matrix
         // math from euclideanspace (https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm)
@@ -124,8 +316,7 @@ class SensorManager {
                     positionAtMaximum = position
                     maxLinearTravel = linearTravel
                 }
-                let name = Notification.Name(rawValue: updateProgressNotificationKey)
-                NotificationCenter.default.post(name: name, object: maxLinearTravel)
+                updateProgress(currSweepRange: maxLinearTravel)
                 if maxLinearTravel > linearTravelThreshold {
                     // changed
                     let name = Notification.Name(rawValue: sweepNotificationKey)
@@ -147,13 +338,11 @@ class SensorManager {
                     maxDistanceFromStartingThisSweep = distanceFromStarting
                     positionAtMaximum = position
                 }
-                let name = Notification.Name(rawValue: updateProgressNotificationKey)
-                NotificationCenter.default.post(name: name, object: maxDistanceFromStartingThisSweep)
-                
+                updateProgress(currSweepRange: maxDistanceFromStartingThisSweep)
+
                 if deltaDistance < -2.0 { // 2 inches from apex count the sweep
                     // changed
-                    let name = Notification.Name(rawValue: sweepNotificationKey)
-                    NotificationCenter.default.post(name: name, object: maxDistanceFromStartingThisSweep)
+                    processSweeps(sweepDistance: maxDistanceFromStartingThisSweep)
                     // correct for any offset between the maximum of the sweep and the current position
                     startPosition = positionAtMaximum
                     maxDistanceFromStartingThisSweep = -1.0
@@ -161,11 +350,11 @@ class SensorManager {
                 }
             }
         } else if (length_normalized < 0.2) {
-            // Stop music
+            // record a bad sweep due to shepherd's pose
             let name = Notification.Name(rawValue: sweepNotificationKey)
             maxDistanceFromStartingThisSweep = -1.0
             positionAtMaximum = []
-            NotificationCenter.default.post(name: name, object:  -10)
+            NotificationCenter.default.post(name: name, object:  false)
         }
     }
 
@@ -176,6 +365,10 @@ class SensorManager {
             }
         }
         streamingEvents.removeAll()
+        putSensorToSleepButton.isEnabled = false
+        batteryReadTimer?.invalidate()
+        batteryLevelIndicator.isHidden = true
+        batteryText.isHidden = true
     }
 
     func scanForDevice() {
@@ -222,12 +415,21 @@ class SensorManager {
                     print("DEVICE CONNECTED")
                     self.sensorFusionStartStreamPressed()
                 }
+                self.putSensorToSleepButton.isEnabled = true
+                // read the battery level if we are connected
+                self.batteryReadTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
+                    self.device?.readBatteryLifeAsync().success { battery in
+                        self.batteryLevelIndicator.progress = Float(battery)/100
+                        print("battery: \(battery)")
+                        self.batteryLevelIndicator.isHidden = false
+                        self.batteryText.isHidden = false
+                    }
+                }
                 self.finishingConnection = false
                 return nil
             }
         } else {
             device.disconnectAsync().continueOnDispatch { t in
-                //self.deviceDisconnected()
                 if t.error != nil {
                     print(t.error!.localizedDescription)
                 }
@@ -248,6 +450,8 @@ class SensorManager {
         maxDistanceFromStartingThisSweep = -1.0
         var task: BFTask<AnyObject>?
         streamingEvents.insert(device!.sensorFusion!.quaternion)
+        // TODO: would be nice if this was executed immediately and then every 60 seconds or so (just need to play with the timers a bit).
+
         task = device!.sensorFusion!.quaternion.startNotificationsAsync { (obj, error) in
             if let obj = obj {
                 if !self.inSweepMode {
