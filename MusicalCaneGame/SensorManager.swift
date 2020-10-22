@@ -213,6 +213,10 @@ class SensorManager: UIViewController {
     }
     
     func loadProfile(){
+        //The new method should only use User defaults to know what the current profile is
+        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
+            UserDefaults.standard.set("Default User", forKey: "currentProfile")
+        }
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         let dbInterface = DBInterface.shared
         let user_row = dbInterface.getRow(u_name: selectedProfile)
@@ -320,7 +324,7 @@ class SensorManager: UIViewController {
                 if maxLinearTravel > linearTravelThreshold {
                     // changed
                     let name = Notification.Name(rawValue: sweepNotificationKey)
-                    NotificationCenter.default.post(name: name, object: maxLinearTravel)
+                    NotificationCenter.default.post(name: name, object: true)
                     // correct for any offset between the maximum of the sweep and the current position
                     startPosition = positionAtMaximum
                     prevPosition = startPosition

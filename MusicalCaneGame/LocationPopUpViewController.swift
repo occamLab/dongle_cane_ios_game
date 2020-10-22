@@ -178,7 +178,12 @@ class LocationPopUpViewController: UIViewController, UIPopoverPresentationContro
         let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         if let row = dbInterface.getBeaconNames(u_name: selectedProfile, b_minor: selectedMinor!) {
             newLocationTextField.text = try! row.get(dbInterface.locationText)
-            actionPicker.selectRow(try! row.get(dbInterface.beaconStatus), inComponent: 0, animated: false)
+            let selectedBeaconStatus = try! row.get(dbInterface.beaconStatus)
+            var rowToSelect = selectedBeaconStatus
+            if !playVoiceNoteButton.isEnabled && selectedBeaconStatus == 2 {
+                rowToSelect = 1     // In this case there are only two rows, so pick the last one
+            }
+            actionPicker.selectRow(rowToSelect, inComponent: 0, animated: false)
         }
     
     }
@@ -226,7 +231,6 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        print("populating")
         if playVoiceNoteButton.isEnabled {
             if row == 0 {
                 return "Use Location Text"
@@ -246,7 +250,11 @@ extension LocationPopUpViewController: UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconStatus"), object: ["forBeacon": selectedMinor!, "status": row])
+        var statusValue = row
+        if !playVoiceNoteButton.isEnabled && row == 1 {
+            statusValue = 2         // ensure that "Deactivate this Beacon" is mapped to a consistent status value
+        }
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "setBeaconStatus"), object: ["forBeacon": selectedMinor!, "status": statusValue])
     }
 }
 
