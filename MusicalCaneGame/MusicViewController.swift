@@ -183,9 +183,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     let sweep = Notification.Name(rawValue: sweepNotificationKey)
     let updateProgKey = Notification.Name(rawValue: updateProgressNotificationKey)
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
     /**
     When the sview is loaded function will (in order)
     1.Call the super view
@@ -208,7 +205,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         }
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
-        createObservers()
         animator = UIDynamicAnimator(referenceView: self.view)
         gravity = UIGravityBehavior()
 
@@ -234,6 +230,10 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         currentSongButton.setTitle(mp.nowPlayingItem?.title, for: .normal)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        createObservers()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)

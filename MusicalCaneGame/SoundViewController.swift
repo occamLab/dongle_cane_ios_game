@@ -180,7 +180,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
         numSweeps = 0
-        createObservers()
 
         animator = UIDynamicAnimator(referenceView: self.view)
         gravity = UIGravityBehavior()
@@ -211,6 +210,11 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleChangeInAudioRecording(notification:)), name: NSNotification.Name(rawValue: "handleChangeInAudioRecording"), object: nil)
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        createObservers()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

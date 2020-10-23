@@ -86,15 +86,10 @@ class SensorManager: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadProfile()
-        createObservers()
         updateProgressView()
         self.batteryLevelIndicator.isHidden = true
         self.batteryText.isHidden = true
         self.putSensorToSleepButton.isEnabled = false
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     func createObservers() {
@@ -104,6 +99,8 @@ class SensorManager: UIViewController {
     @objc func changeConnectionStatus(notification: NSNotification) {
         let connect = notification.object as! Bool
         if connect {
+            // somehow this is staying true even when shutting down the sensor
+            inSweepMode = false
             finishConnection(true) { () in
                 NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeCompleted), object: true)
             }
@@ -119,6 +116,7 @@ class SensorManager: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        createObservers()
         inSweepMode = false
         print("Scanning for the dongle")
         scanForDevice()
@@ -127,6 +125,7 @@ class SensorManager: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         disconnectAndCleanup(postDisconnect: nil)
+        NotificationCenter.default.removeObserver(self)
     }
 
     @IBAction func sweepRange(_ sender: UISlider) {
@@ -394,7 +393,7 @@ class SensorManager: UIViewController {
     
     func finishConnection(_ on: Bool, stepsPostSensorFusionDataAvailable: @escaping ()->()) {
         guard let device = device else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // in half a second...
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // in a second...
                 self.finishConnection(on, stepsPostSensorFusionDataAvailable: stepsPostSensorFusionDataAvailable)
             }
             return
@@ -460,6 +459,7 @@ class SensorManager: UIViewController {
             if let obj = obj {
                 if !self.inSweepMode {
                     self.stepsPostSensorFusionDataAvailable?()
+                    self.stepsPostSensorFusionDataAvailable = nil
                     self.inSweepMode = true
                 }
                 self.sensorFusionReadingNewDongle(w: Float(obj.w), x: Float(obj.x), y: Float(obj.y), z: Float(obj.z), caneLength: self.caneLength)
