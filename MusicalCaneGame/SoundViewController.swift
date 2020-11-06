@@ -92,6 +92,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         selectedBeepStr = String(user_row![self.dbInterface.beep_noise])
         if(selectedBeepStr != "Select Beep"){
             selectedBeepNoisePath = SoundViewController.getBeepPath[selectedBeepStr]
+            try! AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             beepPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: selectedBeepNoisePath!))
             beepPlayer.prepareToPlay()
         }
