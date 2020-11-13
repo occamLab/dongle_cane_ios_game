@@ -20,10 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func pauseAudioPlayers() {
-        if window?.rootViewController is SoundViewController {
-            (window?.rootViewController as! SoundViewController).audioPlayer?.pause()
-        } else if window?.rootViewController is MusicViewController {
-            (window?.rootViewController as! MusicViewController).audioPlayer?.pause()
+        if window?.rootViewController is MusicViewController {
+            (window?.rootViewController as! MusicViewController).mp.pause()
         }
     }
 

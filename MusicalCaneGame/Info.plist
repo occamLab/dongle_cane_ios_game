@@ -17,15 +17,19 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Access to music library? </string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>The app needs to be able to use your Bluetooth adapter to scan for the cane</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>This device uses a bluetooth peripheral to track the motion of your mobility cane</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location needed to detect beacons</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The microphone is used for recording voice notes</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>

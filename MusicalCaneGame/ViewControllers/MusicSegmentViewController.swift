@@ -9,11 +9,6 @@
 import UIKit
 
 class MusicSegmentViewController: UIViewController {
-
-
-    
-    @IBOutlet weak var songTitleLabel: UILabel!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
