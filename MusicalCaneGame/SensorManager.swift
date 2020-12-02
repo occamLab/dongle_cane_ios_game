@@ -9,6 +9,8 @@
 import Foundation
 import CoreBluetooth
 
+// test
+
 class SensorManager {
     var startSweep = true
     var startDir:[Float] = []
