@@ -177,7 +177,7 @@ class SensorManager: UIViewController {
     @objc func processSweeps(sweepDistance:Float) {
         let name = Notification.Name(rawValue: sweepNotificationKey)
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
-        NotificationCenter.default.post(name: name, object: is_valid_sweep)
+        NotificationCenter.default.post(name: name, object: (is_valid_sweep, sweepDistance, sweepRange, sweepTolerance))
     }
     
     /**

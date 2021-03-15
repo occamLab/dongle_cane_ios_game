@@ -25,17 +25,16 @@ DEPENDENCIES:
   - StaticDataTableViewController
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - Bolts
     - FastCoding
+    - FlexColorPicker
     - iOSDFULibrary
     - MBProgressHUD
+    - PRTween
     - SQLite.swift
     - StaticDataTableViewController
     - ZIPFoundation
-  trunk:
-    - FlexColorPicker
-    - PRTween
 
 EXTERNAL SOURCES:
   MetaWearPrivate:
@@ -61,4 +60,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 623dd01a4dd10ac709fc71de8396031a70d76f6e
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.0

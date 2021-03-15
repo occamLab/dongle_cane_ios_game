@@ -80,6 +80,12 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     //Other important variable(s) not explicitly loaded from db
     var selectedBeepNoisePath: String?
     var beepPlayer: AVAudioPlayer!
+   // var goalSweeps= 0
+    //would ideally be predetermined by level button, but could be modified with user input as well
+    /**
+     let goalSweep = UIAlertController(title:"User Goal",message:"Enter your goal number of sweeps",preferredStyle: .alert)
+     alert.addTextField{(textField) in textField.text = "10"}
+     */
 
     /**
       Load a user profile into global memory using the global `selectedProfile`
@@ -275,25 +281,54 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     Parameter notification: Passed in container that has the length of the sweep
     */
     @objc func processSweeps(notification: NSNotification) {
-        let is_valid_sweep = notification.object as! Bool
-        if !isRecordingAudio, is_valid_sweep && startButtonPressed == true {
+        let (is_valid_sweep, sweepDistance, sweepRange, sweepTolerance ) = notification.object as! (Bool, Float, Float, Float)
+     
+        if !isRecordingAudio, startButtonPressed == true {
+            if is_valid_sweep {
 
-            numSweeps += 1
+                numSweeps += 1
 
-            if speakSweeps {
-                //We are saying the number rather than playing a noise
-                let string = String(numSweeps)
-                let utterance = AVSpeechUtterance(string: string)
-                utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-                utterance.rate = 0.8
-                synth.stopSpeaking(at: .immediate)
-                synth.speak(utterance)
-            } else {
-                // beep mode
-                beepPlayer.play()
+                if speakSweeps {
+                    //We are saying the number rather than playing a noise
+                    let string = String(numSweeps)
+                    let utterance = AVSpeechUtterance(string: string)
+                    utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+                    utterance.rate = 0.8
+                    synth.stopSpeaking(at: .immediate)
+                    synth.speak(utterance)
+                } else {
+                    // beep mode
+                    beepPlayer.play()
+                }
+            }
+            else{
+                if sweepDistance < sweepRange - sweepTolerance{
+                    speakToUser(audio: "Error: Your sweep was too narrow for the given sweep range")
+                }
+                else if sweepDistance > sweepRange + sweepTolerance{
+                    speakToUser(audio:  "Error: Your sweep was too wide for the given sweep range")
+                }
             }
         }
     }
+        
+    
+    func speakToUser(audio: String){
+        let speechToUser = AVSpeechUtterance(string: audio)
+        speechToUser.voice = AVSpeechSynthesisVoice(language: "en-US")
+        speechToUser.rate = 0.6
+        synth.speak(speechToUser)
+    }
+    //want to include here that if the user meets their "goal sweeps", a cool sound will play, for example
+    /**if level ==1 {
+        goalSweeps= 10
+     }
+        if numSweeps == 10 {
+     congrats= AVSpeechUtterance(string:"Congratulations!")
+     synth.speak(congrats)
+     }
+    **/
+    
 }
 
 extension Double {

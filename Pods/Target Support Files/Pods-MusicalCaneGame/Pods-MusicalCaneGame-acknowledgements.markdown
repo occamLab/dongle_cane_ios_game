@@ -85,7 +85,7 @@ SOFTWARE.
 
 ## MBProgressHUD
 
-Copyright © 2009-2020 Matej Bukovinski
+Copyright © 2009-2016 Matej Bukovinski
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -379,7 +379,7 @@ SOFTWARE.
 
 BSD 3-Clause License
 
-Copyright (c) 2019, Nordic Semiconductor
+Copyright (c) 2016, Nordic Semiconductor
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

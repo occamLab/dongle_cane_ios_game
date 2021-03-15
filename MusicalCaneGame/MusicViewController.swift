@@ -286,7 +286,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @objc func processSweeps(notification: NSNotification) {
         if (!startButtonPressed!){ return}
-        let is_valid_sweep = notification.object as! Bool
+        let (is_valid_sweep, sweepProp) = notification.object as! (Bool, Float)
+        //shouldPlay =1 ?
         // if we've turned around and we want to play music
         if is_valid_sweep && !isRecordingAudio {
             // we should play music
@@ -302,6 +303,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         } else{
         // stop music
             stopPlaying()
+            
+            //synth.speak(AVSpeechUtterance(string:"Error, your stroke was not in the sweep range")
+            //insert specific feedback here
         }
     }
 
