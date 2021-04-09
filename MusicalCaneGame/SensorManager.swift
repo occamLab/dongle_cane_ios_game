@@ -19,6 +19,11 @@ let updateProgressNotificationKey = "cane.prog.notification"
 let connectionStatusChangeRequested = "sensor.connection.changerequested"
 let connectionStatusChangeCompleted = "sensor.connection.changecompleted"
 
+enum DongleAlignmentWithCaneShaft {
+    case xAxis
+    case yAxis
+    case zAxis
+}
 
 class SensorManager: UIViewController {
     private var startSweep = true
@@ -241,25 +246,34 @@ class SensorManager: UIViewController {
         // math from euclideanspace (https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm)
         // for normalization
         let invs = 1 / (x*x + y*y + z*z + w*w)
-        let zAxisAlignedWithShaft = false
+        // TODO: make this an enumeration
+        let caneAlignment: DongleAlignmentWithCaneShaft = .xAxis
+
         // x and y projected on z axis from matrix
         let m02 : Float
         let m12 : Float
         let m22 : Float
 
-        // this code is appropriate when the z-axis is aligned with the cane shaft
-        if zAxisAlignedWithShaft {
+        switch caneAlignment {
+        case .zAxis:
             // x and y projected on z axis from matrix
             m02 = 2.0 * (x*z + y*w) * invs
             m12 = 2.0 * (y*z - x*w) * invs
-            m22 = 1 - 2.0 * (x*x - y*y) * invs
-        } else {
+            m22 = 1 - 2.0 * (x*x + y*y) * invs
+        case .yAxis:
             // keep name the same even though it is a bit weird
-            // x and y projected on x axis from matrix (this is really m01 and m11)
+            // x and y projected on y-axis from matrix (this is really m01 and m11)
             m02 = 2.0 * (x*y - z*w) * invs
             m12 = 1 - 2.0 * (x*x + z*z) * invs
             m22 = 2.0*(y*z + x*w) * invs
+        case .xAxis:
+            // keep name the same even though it is a bit weird
+            // x and y projected on x-axis from matrix (this is really m00 and m10)
+            m02 = 1 - 2.0 * (y*y + z*z) * invs
+            m12 = 2.0 * (x*y + z*w) * invs
+            m22 = 2.0*(x*z - y*w) * invs
         }
+        print("m02 \(m02) m12 \(m12) m22 \(m22)")
         // normalized vector values multiplied by cane length
         // to estimate tip of cane
         let xPos = m02 * caneLength
