@@ -19,10 +19,10 @@ let updateProgressNotificationKey = "cane.prog.notification"
 let connectionStatusChangeRequested = "sensor.connection.changerequested"
 let connectionStatusChangeCompleted = "sensor.connection.changecompleted"
 
-enum DongleAlignmentWithCaneShaft {
-    case xAxis
-    case yAxis
-    case zAxis
+enum DongleAlignmentWithCaneShaft: String {
+    case xAxis = "xAxis"
+    case yAxis = "yAxis"
+    case zAxis = "zAxis"
 }
 
 class SensorManager: UIViewController {
@@ -48,6 +48,8 @@ class SensorManager: UIViewController {
     var accumulatorSign:Float = 1.0
     var deltaAngle:Float = 0.0 // only applies in wheelchair mode
     var currentAxis:float3?
+    var caneAlignment: DongleAlignmentWithCaneShaft = .xAxis
+
     var batteryReadTimer:Timer?
     private var prevPosition:[Float] = []
     
@@ -62,6 +64,7 @@ class SensorManager: UIViewController {
     @IBOutlet weak var progressBarOverflowSize: NSLayoutConstraint!
     @IBOutlet weak var sweepRangeText: UILabel!
     @IBOutlet weak var sweepRangeLabel: UILabel!
+    @IBOutlet weak var attachmentPicker: UIPickerView!
     @IBOutlet weak var sweepRangeSliderUI: UISlider!
     func euclideanDistance(_ a: Float, _ b: Float) -> Float {
         return (a * a + b * b).squareRoot()
@@ -95,6 +98,21 @@ class SensorManager: UIViewController {
         self.batteryLevelIndicator.isHidden = true
         self.batteryText.isHidden = true
         self.putSensorToSleepButton.isEnabled = false
+        self.attachmentPicker.dataSource = self
+        self.attachmentPicker.delegate = self
+        let defaults = UserDefaults.standard
+        if let existingAlignment = defaults.value(forKey: "caneAlignment") as? String, let currAlignment = DongleAlignmentWithCaneShaft(rawValue: existingAlignment) {
+            caneAlignment = currAlignment
+            switch caneAlignment {
+            case .xAxis:
+                self.attachmentPicker.selectRow(0, inComponent: 0, animated: false)
+            case .yAxis:
+                self.attachmentPicker.selectRow(1, inComponent: 0, animated: false)
+            case .zAxis:
+                // we don't have any attachments that meet this description
+                break
+            }
+        } // if the value hasn't been set yet, then we default to the first element in the list (which is snap-on with x-axis attachment)
     }
     
     func createObservers() {
@@ -246,9 +264,6 @@ class SensorManager: UIViewController {
         // math from euclideanspace (https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm)
         // for normalization
         let invs = 1 / (x*x + y*y + z*z + w*w)
-        // TODO: make this an enumeration
-        let caneAlignment: DongleAlignmentWithCaneShaft = .xAxis
-
         // x and y projected on z axis from matrix
         let m02 : Float
         let m12 : Float
@@ -479,5 +494,30 @@ class SensorManager: UIViewController {
                 self.sensorFusionReadingNewDongle(w: Float(obj.w), x: Float(obj.x), y: Float(obj.y), z: Float(obj.z), caneLength: self.caneLength)
             }
         }
+    }
+}
+
+extension SensorManager: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 2
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        row == 0 ? "Snap-on attachment" : "Zip-tie attachment"
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if row == 0 {
+            caneAlignment = .xAxis
+        } else if row == 1 {
+            caneAlignment = .yAxis
+        }
+        UserDefaults.standard.set(caneAlignment.rawValue, forKey: "caneAlignment")
+    }
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 50.0
     }
 }

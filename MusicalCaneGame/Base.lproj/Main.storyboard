@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GBV-az-evH">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -502,7 +502,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="SM1-HC-hOO">
-                                <rect key="frame" x="16" y="59" width="288" height="275"/>
+                                <rect key="frame" x="16" y="59" width="288" height="425"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cls-ZU-SAr" userLabel="Counting, Beeps">
                                         <rect key="frame" x="50" y="0.0" width="188" height="32"/>
@@ -528,9 +528,9 @@
                                         </constraints>
                                     </view>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tmp-xl-zp7">
-                                        <rect key="frame" x="0.0" y="125" width="288" height="150"/>
+                                        <rect key="frame" x="0.0" y="125" width="288" height="300"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="150" id="MQh-cQ-b5p"/>
+                                            <constraint firstAttribute="height" constant="300" id="MQh-cQ-b5p"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="eQU-EK-cGl" kind="embed" id="eVe-1D-hcs"/>
@@ -960,7 +960,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="BoI-Jn-b9W">
-                                <rect key="frame" x="16" y="52" width="288" height="320"/>
+                                <rect key="frame" x="16" y="52" width="288" height="470"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0if-pa-hNV" userLabel="Name">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="29"/>
@@ -1005,9 +1005,9 @@
                                         </subviews>
                                     </stackView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gik-b6-vu3">
-                                        <rect key="frame" x="0.0" y="170" width="288" height="150"/>
+                                        <rect key="frame" x="0.0" y="170" width="288" height="300"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="150" id="UsU-kE-gDi"/>
+                                            <constraint firstAttribute="height" constant="300" id="UsU-kE-gDi"/>
                                         </constraints>
                                         <connections>
                                             <segue destination="eQU-EK-cGl" kind="embed" id="K5m-C2-C6q"/>
@@ -1059,28 +1059,28 @@
                         <viewControllerLayoutGuide type="bottom" id="Qej-ch-9r6"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="GpD-eb-eYB">
-                        <rect key="frame" x="0.0" y="0.0" width="288" height="150"/>
+                        <rect key="frame" x="0.0" y="0.0" width="288" height="300"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="m6O-M8-iXY">
-                                <rect key="frame" x="16" y="0.0" width="256" height="150"/>
+                                <rect key="frame" x="16" y="0.0" width="256" height="300"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zYm-cQ-eqb">
-                                        <rect key="frame" x="0.0" y="0.0" width="256" height="52.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="256" height="22"/>
                                         <subviews>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MPf-7y-vhG">
-                                                <rect key="frame" x="0.0" y="16.5" width="128" height="20"/>
+                                                <rect key="frame" x="0.0" y="1" width="128" height="20"/>
                                                 <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </progressView>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zM3-U7-LPd">
-                                                <rect key="frame" x="128" y="16.5" width="64" height="20"/>
+                                                <rect key="frame" x="128" y="1" width="64" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="fgI-mS-8KR"/>
                                                 </constraints>
                                                 <color key="progressTintColor" red="0.3371335157" green="0.81007124350000004" blue="0.35362574190000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </progressView>
                                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YXN-q2-BcI">
-                                                <rect key="frame" x="192" y="16.5" width="64" height="20"/>
+                                                <rect key="frame" x="192" y="1" width="64" height="20"/>
                                                 <color key="progressTintColor" red="0.79977637530000001" green="0.26107227300000002" blue="0.2975575815" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </progressView>
                                         </subviews>
@@ -1093,7 +1093,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gbO-Cx-CQL">
-                                        <rect key="frame" x="0.0" y="62.5" width="256" height="17"/>
+                                        <rect key="frame" x="0.0" y="32" width="256" height="17"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sweep Range:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GSY-m1-gyq">
                                                 <rect key="frame" x="0.0" y="0.0" width="124" height="17"/>
@@ -1110,13 +1110,13 @@
                                         </subviews>
                                     </stackView>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="40" minValue="5" maxValue="60" translatesAutoresizingMaskIntoConstraints="NO" id="QpT-ml-sOJ">
-                                        <rect key="frame" x="-2" y="89.5" width="260" height="31"/>
+                                        <rect key="frame" x="-2" y="59" width="260" height="31"/>
                                         <connections>
                                             <action selector="sweepRange:" destination="eQU-EK-cGl" eventType="valueChanged" id="GYh-HA-5pa"/>
                                         </connections>
                                     </slider>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="27a-4Q-fj1">
-                                        <rect key="frame" x="0.0" y="129.5" width="256" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="99" width="256" height="20.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Sensor Battery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q3G-Tf-Im8">
                                                 <rect key="frame" x="0.0" y="0.0" width="113" height="20.5"/>
@@ -1136,7 +1136,24 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sensor Attachment Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fcn-lZ-nRX">
+                                        <rect key="frame" x="0.0" y="129.5" width="256" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5UD-51-zeY">
+                                        <rect key="frame" x="0.0" y="160" width="256" height="140"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="140" id="udt-vd-9Z9"/>
+                                        </constraints>
+                                    </pickerView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="5UD-51-zeY" secondAttribute="bottom" id="8cy-4a-hmU"/>
+                                    <constraint firstItem="5UD-51-zeY" firstAttribute="leading" secondItem="m6O-M8-iXY" secondAttribute="leading" id="Fi9-z8-FMh"/>
+                                    <constraint firstAttribute="trailing" secondItem="5UD-51-zeY" secondAttribute="trailing" id="MF2-41-OcD"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1148,6 +1165,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="attachmentPicker" destination="5UD-51-zeY" id="w7v-AF-gQN"/>
                         <outlet property="batteryLevelIndicator" destination="opU-nM-FIH" id="8bH-GK-H6o"/>
                         <outlet property="batteryText" destination="q3G-Tf-Im8" id="yvt-lc-Dk0"/>
                         <outlet property="progressBarOverflowSize" destination="483-k8-F14" id="YW2-wa-Wca"/>
