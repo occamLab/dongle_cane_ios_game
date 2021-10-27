@@ -12,7 +12,6 @@ import Foundation
 import CoreBluetooth
 import MetaWear
 import MBProgressHUD
-import iOSDFULibrary
 import simd
 
 let updateProgressNotificationKey = "cane.prog.notification"
@@ -375,6 +374,7 @@ class SensorManager: UIViewController {
                 if deltaDistance < -2.0 { // 2 inches from apex count the sweep
                     // changed
                     processSweeps(sweepDistance: maxDistanceFromStartingThisSweep)
+                    print("finalDistance", maxDistanceFromStartingThisSweep)
                     // correct for any offset between the maximum of the sweep and the current position
                     startPosition = positionAtMaximum
                     maxDistanceFromStartingThisSweep = -1.0

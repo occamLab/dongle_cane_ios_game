@@ -11,7 +11,6 @@ target 'MusicalCaneGame' do
   pod 'MetaWearPrivate', :git => 'https://github.com/mbientlab/MetaWear-SDK-iOS-macOS-tvOS.git', :commit => '1254b54'
   pod 'MBProgressHUD'
   pod 'StaticDataTableViewController'
-  pod 'iOSDFULibrary'
   pod 'PRTween', '~> 0.1'
   pod 'FlexColorPicker'
 end
