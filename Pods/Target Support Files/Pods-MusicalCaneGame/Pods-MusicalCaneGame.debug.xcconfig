@@ -3,7 +3,8 @@ CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Bolts" "${PODS_CONFIGURATION_BUILD_DIR}/FastCoding" "${PODS_CONFIGURATION_BUILD_DIR}/FlexColorPicker" "${PODS_CONFIGURATION_BUILD_DIR}/MBProgressHUD" "${PODS_CONFIGURATION_BUILD_DIR}/MetaWearPrivate" "${PODS_CONFIGURATION_BUILD_DIR}/PRTween" "${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift" "${PODS_CONFIGURATION_BUILD_DIR}/StaticDataTableViewController"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Bolts/Bolts.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/FastCoding/FastCoding.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/FlexColorPicker/FlexColorPicker.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/MBProgressHUD/MBProgressHUD.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/MetaWearPrivate/MetaWear.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/PRTween/PRTween.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift/SQLite.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/StaticDataTableViewController/StaticDataTableViewController.framework/Headers"
-LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/lib/swift '@executable_path/Frameworks' '@loader_path/Frameworks'
+LIBRARY_SEARCH_PATHS = $(inherited) "${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}" /usr/lib/swift
 OTHER_LDFLAGS = $(inherited) -l"sqlite3" -framework "Bolts" -framework "CoreBluetooth" -framework "CoreData" -framework "CoreGraphics" -framework "FastCoding" -framework "FlexColorPicker" -framework "MBProgressHUD" -framework "MetaWear" -framework "PRTween" -framework "QuartzCore" -framework "SQLite" -framework "StaticDataTableViewController"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}

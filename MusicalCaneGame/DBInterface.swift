@@ -30,26 +30,26 @@ class DBInterface {
     let beaconMappings: Table = Table("BeaconMappings")
 
     /// column names
-    let name: Expression<String> = Expression<String>("name")
-    let sweep_width: Expression<Double> = Expression<Double>("sweep_width")
-    let cane_length: Expression<Double> = Expression<Double>("cane_length")
-    let music: Expression<String> = Expression<String>("music")
-    let beep_noise: Expression<String> = Expression<String>("beep_noise")
-    let music_id: Expression<String> = Expression<String>("music_id")
-    let sweep_tolerance: Expression<Double> = Expression<Double>("sweep_tolerance")
-    let wheelchair_user: Expression<Bool> = Expression<Bool>("wheelchair_user")
-    let beacons_enabled: Expression<Bool> = Expression<Bool>("beacons_enabled")
+    let name: SQLite.Expression<String> = Expression<String>("name")
+    let sweep_width: SQLite.Expression<Double> = Expression<Double>("sweep_width")
+    let cane_length: SQLite.Expression<Double> = Expression<Double>("cane_length")
+    let music: SQLite.Expression<String> = Expression<String>("music")
+    let beep_noise: SQLite.Expression<String> = Expression<String>("beep_noise")
+    let music_id: SQLite.Expression<String> = Expression<String>("music_id")
+    let sweep_tolerance: SQLite.Expression<Double> = Expression<Double>("sweep_tolerance")
+    let wheelchair_user: SQLite.Expression<Bool> = Expression<Bool>("wheelchair_user")
+    let beacons_enabled: SQLite.Expression<Bool> = Expression<Bool>("beacons_enabled")
 
     // column names for beacon Ids
-    let beaconMinor: Expression<Int> = Expression<Int>("beaconminor")
-    let beaconName: Expression<String> = Expression<String>("beaconname")
-    let beaconColorHexCode: Expression<String> = Expression<String>("beaconcolorhexcode")
+    let beaconMinor: SQLite.Expression<Int> = Expression<Int>("beaconminor")
+    let beaconName: SQLite.Expression<String> = Expression<String>("beaconname")
+    let beaconColorHexCode: SQLite.Expression<String> = Expression<String>("beaconcolorhexcode")
 
 
     /// column names for beacon mappings
-    let locationText: Expression<String> = Expression<String>("locationtext")
-    let voiceNoteURL: Expression<String> = Expression<String>("voicenoteurl")
-    let beaconStatus: Expression<Int> = Expression<Int>("beaconstatus")
+    let locationText: SQLite.Expression<String> = Expression<String>("locationtext")
+    let voiceNoteURL: SQLite.Expression<String> = Expression<String>("voicenoteurl")
+    let beaconStatus: SQLite.Expression<Int> = Expression<Int>("beaconstatus")
     
     private init() {
         
