@@ -10,15 +10,14 @@ import UIKit
 import SwiftUI
 
 class ProgressBarViewController: UIViewController {
-    
-    @IBOutlet weak var swiftUIContainer: UIView!
+
     let progressBarView = UIHostingController(rootView: ProgressBarView())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addChildViewController(progressBarView)
-        progressBarView.view.frame = swiftUIContainer.bounds
-        swiftUIContainer.addSubview(progressBarView.view)
+        progressBarView.view.frame = self.view.bounds
+        self.view.addSubview(progressBarView.view)
     }
 }
 

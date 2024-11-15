@@ -1045,20 +1045,7 @@
         <!--Progress Bar View Controller-->
         <scene sceneID="yfQ-9O-yRc">
             <objects>
-                <viewController id="eQU-EK-cGl" customClass="ProgressBarViewController" customModule="MusicalCaneGame" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="T3x-c3-QZu"/>
-                        <viewControllerLayoutGuide type="bottom" id="Qej-ch-9r6"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="GpD-eb-eYB">
-                        <rect key="frame" x="0.0" y="0.0" width="288" height="300"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <connections>
-                        <outlet property="swiftUIContainer" destination="GpD-eb-eYB" id="WfF-6v-Asz"/>
-                    </connections>
-                </viewController>
+                <viewController id="eQU-EK-cGl" customClass="ProgressBarViewController" customModule="MusicalCaneGame" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qW2-os-FPt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-4840" y="2435"/>
@@ -1108,13 +1095,6 @@
                     <view key="view" contentMode="scaleToFill" id="TrH-oR-rIZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yGZ-dY-bxS">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="a60-qP-G4R">
@@ -1122,7 +1102,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="menuButton" destination="9Oj-P4-AwI" id="shx-sT-Iht"/>
-                        <outlet property="swiftUIContainer" destination="yGZ-dY-bxS" id="Y3B-8q-T7O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Fz7-IP-Slu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

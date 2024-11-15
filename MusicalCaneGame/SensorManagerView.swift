@@ -3,7 +3,6 @@ import SwiftUI
 
 class SensorManagerViewController: UIViewController {
     
-    @IBOutlet weak var swiftUIContainer: UIView!
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     let sensorManagerView = UIHostingController(rootView: SensorManagerView())
@@ -12,8 +11,8 @@ class SensorManagerViewController: UIViewController {
         super.viewDidLoad()
         sideMenu()
         addChildViewController(sensorManagerView)
-        sensorManagerView.view.frame = swiftUIContainer.bounds
-        swiftUIContainer.addSubview(sensorManagerView.view)
+        sensorManagerView.view.frame = self.view.frame
+        self.view.addSubview(sensorManagerView.view)
     }
     
     func sideMenu() {
