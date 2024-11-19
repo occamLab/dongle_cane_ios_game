@@ -1,7 +1,39 @@
 import UIKit
 import SwiftUI
+import MetaWear
+import MetaWearCpp
+import simd
 
-class SensorManagerViewController: UIViewController {
+class SensorManagerViewController: UIViewController, ObservableObject {
+    static let shared = SensorManagerViewController()
+    var startSweep = true
+    var startPosition:[Float] = []
+    private var sensorDriver: SensorDriver = SensorDriver.shared
+    private var finishingConnection = false
+    private var streamingEvents: Set<NSObject> = [] // Can't use proper type due to compiler seg fault
+    private var stepsPostSensorFusionDataAvailable : (()->())?
+    let overflowSize = Float(0.2)
+    let underflowSize = Float(0.6)
+    let validZoneSize =  Float(0.2)
+    var inSweepMode = false
+    var isWheelchairUser = false
+    var caneLength: Float = 1.0
+    var positionAtMaximum: [Float] = []
+    var percentTolerance: Float?
+    @Published var sweepRange: Float = 1.0
+    @Published var sweepTolerance: Float = 20
+    var maxDistanceFromStartingThisSweep = Float(-1.0)
+    var maxLinearTravel = Float(-1.0)
+    var linearTravelThreshold = Float(-1.0)
+    var accumulatorSign:Float = 1.0
+    var deltaAngle:Float = 0.0 // only applies in wheelchair mode
+    var currentAxis:float3?
+    @Published var underflowProgress: Float = 0.0
+    @Published var validZoneProgress: Float = 0.0
+    @Published var overflowProgress: Float = 0.0
+
+    var batteryReadTimer:Timer?
+    var prevPosition:[Float] = []
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
@@ -13,6 +45,10 @@ class SensorManagerViewController: UIViewController {
         addChildViewController(sensorManagerView)
         sensorManagerView.view.frame = self.view.frame
         self.view.addSubview(sensorManagerView.view)
+    }
+    
+    func euclideanDistance(_ a: Float, _ b: Float) -> Float {
+        return (a * a + b * b).squareRoot()
     }
     
     func sideMenu() {

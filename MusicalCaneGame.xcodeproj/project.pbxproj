@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B12111EFF1006193E6 /* MediaPlayer.framework */; };
 		57C85F49830BFA7051E7EE1A /* Pods_MusicalCaneGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE99E1F1C532771B0712C418 /* Pods_MusicalCaneGame.framework */; };
+		644E57982CE78D4E004FA4BA /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E57972CE78D4E004FA4BA /* ProgressBarView.swift */; };
+		644E57A02CE78DAA004FA4BA /* SensorDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E579C2CE78DAA004FA4BA /* SensorDriver.swift */; };
+		644E57A22CE78DAA004FA4BA /* SensorManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644E579E2CE78DAA004FA4BA /* SensorManagerView.swift */; };
 		820EF296239EBA7D004A4BCD /* RecordButtonKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820EF292239EBA7D004A4BCD /* RecordButtonKit.swift */; };
 		820EF297239EBA7D004A4BCD /* AudioVisualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820EF293239EBA7D004A4BCD /* AudioVisualizerView.swift */; };
 		820EF298239EBA7D004A4BCD /* RecorderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820EF294239EBA7D004A4BCD /* RecorderViewController.swift */; };
@@ -46,6 +49,9 @@
 /* Begin PBXFileReference section */
 		4959A5B12111EFF1006193E6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		4959A5B32111F811006193E6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		644E57972CE78D4E004FA4BA /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		644E579C2CE78DAA004FA4BA /* SensorDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDriver.swift; sourceTree = "<group>"; };
+		644E579E2CE78DAA004FA4BA /* SensorManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManagerView.swift; sourceTree = "<group>"; };
 		820EF292239EBA7D004A4BCD /* RecordButtonKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButtonKit.swift; sourceTree = "<group>"; };
 		820EF293239EBA7D004A4BCD /* AudioVisualizerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioVisualizerView.swift; sourceTree = "<group>"; };
 		820EF294239EBA7D004A4BCD /* RecorderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecorderViewController.swift; sourceTree = "<group>"; };
@@ -174,7 +180,10 @@
 				AD6C6EEF210267B700E9D840 /* AppDelegate.swift */,
 				95BBF1F12168232A00DDA9DB /* MusicViewController.swift */,
 				951C05C92178BE5500CD2998 /* SoundViewController.swift */,
+				644E57972CE78D4E004FA4BA /* ProgressBarView.swift */,
 				E5C038032268D0BD00373275 /* SensorManager.swift */,
+				644E579C2CE78DAA004FA4BA /* SensorDriver.swift */,
+				644E579E2CE78DAA004FA4BA /* SensorManagerView.swift */,
 				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
 				95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */,
@@ -346,6 +355,7 @@
 				95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */,
 				820EF298239EBA7D004A4BCD /* RecorderViewController.swift in Sources */,
 				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
+				644E57982CE78D4E004FA4BA /* ProgressBarView.swift in Sources */,
 				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
 				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,
 				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
@@ -354,6 +364,8 @@
 				9582BE572167CF0300F4209E /* MainViewController.swift in Sources */,
 				820EF299239EBA7D004A4BCD /* RecordButton.swift in Sources */,
 				95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */,
+				644E57A02CE78DAA004FA4BA /* SensorDriver.swift in Sources */,
+				644E57A22CE78DAA004FA4BA /* SensorManagerView.swift in Sources */,
 				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
 				AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */,
 			);
@@ -505,14 +517,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
-				DEVELOPMENT_TEAM = 787TUDMR8Q;
+				DEVELOPMENT_TEAM = 5N86W4XR6J;
 				INFOPLIST_FILE = MusicalCaneGame/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.occamlab.MusicalCaneGame;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Daeyoung.MusicalCaneGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MusicalCaneGame/MusicalCaneGame-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -529,14 +541,14 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
-				DEVELOPMENT_TEAM = 787TUDMR8Q;
+				DEVELOPMENT_TEAM = 5N86W4XR6J;
 				INFOPLIST_FILE = MusicalCaneGame/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.occamlab.MusicalCaneGame;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Daeyoung.MusicalCaneGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "MusicalCaneGame/MusicalCaneGame-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
