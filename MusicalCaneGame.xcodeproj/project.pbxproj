@@ -29,8 +29,10 @@
 		9815A7B1211B3E3F00A2223F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9815A7B0211B3E3F00A2223F /* CoreLocation.framework */; };
 		98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */; };
 		981823A3211A3894006A28F7 /* White.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239D211A3894006A28F7 /* White.jpg */; };
+		98A02ACD2CEE3BFE00BEA33D /* SensorManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */; };
 		98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B32111F811006193E6 /* MobileCoreServices.framework */; };
 		98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */; };
+		98C4ADDC2CED794F00CE98FA /* SensorDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */; };
 		98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D44AE4211A2D8300E11840 /* BeaconViewController.swift */; };
 		98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EBC690211C843500340583 /* LocationPopUpViewController.swift */; };
 		AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C6EEF210267B700E9D840 /* AppDelegate.swift */; };
@@ -69,7 +71,9 @@
 		9815A7B0211B3E3F00A2223F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconTableViewCell.swift; sourceTree = "<group>"; };
 		9818239D211A3894006A28F7 /* White.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = White.jpg; sourceTree = "<group>"; };
+		98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManagerView.swift; sourceTree = "<group>"; };
 		98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
+		98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDriver.swift; sourceTree = "<group>"; };
 		98D44AE4211A2D8300E11840 /* BeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
 		98EBC690211C843500340583 /* LocationPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPopUpViewController.swift; sourceTree = "<group>"; };
 		9E2567276E4C1DEE283C0234 /* Pods-MusicalCaneGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicalCaneGame.debug.xcconfig"; path = "Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame.debug.xcconfig"; sourceTree = "<group>"; };
@@ -175,6 +179,8 @@
 				95BBF1F12168232A00DDA9DB /* MusicViewController.swift */,
 				951C05C92178BE5500CD2998 /* SoundViewController.swift */,
 				E5C038032268D0BD00373275 /* SensorManager.swift */,
+				98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */,
+				98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */,
 				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
 				95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */,
@@ -348,6 +354,8 @@
 				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
 				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
 				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,
+				98C4ADDC2CED794F00CE98FA /* SensorDriver.swift in Sources */,
+				98A02ACD2CEE3BFE00BEA33D /* SensorManagerView.swift in Sources */,
 				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
 				951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */,
 				E5C038042268D0BD00373275 /* SensorManager.swift in Sources */,

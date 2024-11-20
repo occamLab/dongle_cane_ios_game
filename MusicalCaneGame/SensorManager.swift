@@ -11,6 +11,7 @@
 import Foundation
 import CoreBluetooth
 import MetaWear
+import MetaWearCpp
 import MBProgressHUD
 import simd
 
@@ -25,12 +26,20 @@ enum DongleAlignmentWithCaneShaft: String {
 }
 
 class SensorManager: UIViewController {
+    var sensorDriver = SensorDriver.shared
+    
     private var startSweep = true
     private var startPosition:[Float] = []
-    private var device: MBLMetaWear?
     private var finishingConnection = false
     private var streamingEvents: Set<NSObject> = [] // Can't use proper type due to compiler seg fault
     private var stepsPostSensorFusionDataAvailable : (()->())?
+    var currentData: MblMwQuaternion? {
+        didSet {
+            DispatchQueue.main.async {
+                self.sensorFusionReadingNewDongle(w: self.currentData!.w, x: self.currentData!.x, y: self.currentData!.y, z: self.currentData!.z, caneLength: self.caneLength)
+            }
+        }
+    }
     let overflowSize = Float(0.2)
     let underflowSize = Float(0.6)
     let validZoneSize =  Float(0.2)
@@ -49,11 +58,8 @@ class SensorManager: UIViewController {
     var currentAxis:float3?
     var caneAlignment: DongleAlignmentWithCaneShaft = .xAxis
 
-    var batteryReadTimer:Timer?
     private var prevPosition:[Float] = []
-    
-    @IBOutlet weak var batteryText: UILabel!
-    @IBOutlet weak var putSensorToSleepButton: UIButton!
+
     @IBOutlet weak var stackViewBar: UIStackView!
     @IBOutlet weak var progressBarUnderflow: UIProgressView!
     @IBOutlet weak var progressBarUI: UIProgressView!
@@ -63,54 +69,18 @@ class SensorManager: UIViewController {
     @IBOutlet weak var progressBarOverflowSize: NSLayoutConstraint!
     @IBOutlet weak var sweepRangeText: UILabel!
     @IBOutlet weak var sweepRangeLabel: UILabel!
-    @IBOutlet weak var attachmentPicker: UIPickerView!
     @IBOutlet weak var sweepRangeSliderUI: UISlider!
     func euclideanDistance(_ a: Float, _ b: Float) -> Float {
         return (a * a + b * b).squareRoot()
-    }
-
-    @IBOutlet weak var batteryLevelIndicator: UIProgressView!
-    @IBAction func putSensorToSleep(_ sender: Any) {
-        let alert = UIAlertController(title: "Alert", message: "Putting the sensor to sleep will conserve the sensor's battery.  When you want to connect to the sensor again, you will have to press the button on the sensor.  Do you want to put the sensor to sleep?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-              switch action.style{
-              case .default:
-                self.stopAllStreamingEvents()
-                self.inSweepMode = false
-                self.device?.sleepModeOnReset()
-                self.device?.resetDevice()
-                // post a notification that the reset into sleep mode has finished
-                NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeCompleted), object: false)
-              default:
-                ()
-        }}))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-            // do nothing if they cancel
-        }))
-        self.present(alert, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadProfile()
         updateProgressView()
-        self.batteryLevelIndicator.isHidden = true
-        self.batteryText.isHidden = true
-        self.putSensorToSleepButton.isEnabled = false
-        self.attachmentPicker.dataSource = self
-        self.attachmentPicker.delegate = self
         let defaults = UserDefaults.standard
         if let existingAlignment = defaults.value(forKey: "caneAlignment") as? String, let currAlignment = DongleAlignmentWithCaneShaft(rawValue: existingAlignment) {
             caneAlignment = currAlignment
-            switch caneAlignment {
-            case .xAxis:
-                self.attachmentPicker.selectRow(0, inComponent: 0, animated: false)
-            case .yAxis:
-                self.attachmentPicker.selectRow(1, inComponent: 0, animated: false)
-            case .zAxis:
-                // we don't have any attachments that meet this description
-                break
-            }
         } // if the value hasn't been set yet, then we default to the first element in the list (which is snap-on with x-axis attachment)
     }
     
@@ -127,10 +97,11 @@ class SensorManager: UIViewController {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeCompleted), object: true)
             }
         } else {
-            disconnectAndCleanup()
-             { () in
-                self.inSweepMode = false
-                // post a notification that the disconnection has finished
+            stopAllStreamingEvents()
+            self.inSweepMode = false
+            // post a notification that the disconnection has finished
+            //TODO: make this much less jank (stop button notification doesn't register unless there's a delay)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeCompleted), object: false)
             }
         }
@@ -141,12 +112,11 @@ class SensorManager: UIViewController {
         createObservers()
         inSweepMode = false
         print("Scanning for the dongle")
-        scanForDevice()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        disconnectAndCleanup(postDisconnect: nil)
+        stopAllStreamingEvents()
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -256,6 +226,62 @@ class SensorManager: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+
+    private func stopAllStreamingEvents() {
+        guard let device = sensorDriver.connectedDevice else { return }
+        mbl_mw_sensor_fusion_stop(device.board)
+        mbl_mw_sensor_fusion_clear_enabled_mask(device.board)
+        let signal = mbl_mw_sensor_fusion_get_data_signal(device.board, MBL_MW_SENSOR_FUSION_DATA_QUATERNION)!
+        mbl_mw_datasignal_unsubscribe(signal)
+    }
+    
+    func finishConnection(_ on: Bool, stepsPostSensorFusionDataAvailable: @escaping ()->()) {
+        if self.finishingConnection {
+            // we somehow executed this twice
+            return
+        }
+        self.stepsPostSensorFusionDataAvailable = stepsPostSensorFusionDataAvailable
+        finishingConnection = true
+        if on {
+            if sensorDriver.connectedDevice == nil {
+                print("NO DEVICE CONNECTED")
+                //TODO: need to make this actually not claim the device is connected and instead notify the user there is no device connected & not allow it to start
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeCompleted), object: true)
+                }
+            } else {
+                print("DEVICE CONNECTED")
+                self.sensorFusionStartStreamPressed()
+            }
+            self.finishingConnection = false
+        }
+    }
+    
+    func sensorFusionStartStreamPressed() {
+        maxLinearTravel = -1.0
+        deltaAngle = 0.0
+        currentAxis = nil
+        maxDistanceFromStartingThisSweep = -1.0
+        if !self.inSweepMode {
+            self.stepsPostSensorFusionDataAvailable?()
+            self.stepsPostSensorFusionDataAvailable = nil
+            self.inSweepMode = true
+        }
+        
+        guard let device = sensorDriver.connectedDevice else { return }
+        let signal = mbl_mw_sensor_fusion_get_data_signal(device.board, MBL_MW_SENSOR_FUSION_DATA_QUATERNION)!
+        mbl_mw_datasignal_subscribe(signal, bridge(obj: self)) { (context, obj) in
+            let _self: SensorManager = bridge(ptr: context!)
+            let quaternion: MblMwQuaternion = obj!.pointee.valueAs()
+            print(obj!.pointee.epoch, quaternion.w, quaternion.x, quaternion.y, quaternion.z)
+            _self.currentData = quaternion
+        }
+        mbl_mw_sensor_fusion_clear_enabled_mask(device.board)
+        mbl_mw_sensor_fusion_set_mode(device.board, MBL_MW_SENSOR_FUSION_MODE_IMU_PLUS)
+        mbl_mw_sensor_fusion_enable_data(device.board, MBL_MW_SENSOR_FUSION_DATA_QUATERNION)
+        mbl_mw_sensor_fusion_write_config(device.board)
+        mbl_mw_sensor_fusion_start(device.board)
     }
     
     public func sensorFusionReadingNewDongle(w: Float, x: Float, y: Float, z: Float, caneLength: Float) {
@@ -387,112 +413,6 @@ class SensorManager: UIViewController {
             maxDistanceFromStartingThisSweep = -1.0
             positionAtMaximum = []
             NotificationCenter.default.post(name: name, object:  false)
-        }
-    }
-
-    private func stopAllStreamingEvents() {
-        for obj in streamingEvents {
-            if let event = obj as? MBLEvent<AnyObject> {
-                event.stopNotificationsAsync()
-            }
-        }
-        streamingEvents.removeAll()
-        putSensorToSleepButton.isEnabled = false
-        batteryReadTimer?.invalidate()
-        batteryLevelIndicator.isHidden = true
-        batteryText.isHidden = true
-    }
-
-    func scanForDevice() {
-        finishingConnection = false
-        device = nil
-        MBLMetaWearManager.shared().startScan(forMetaWearsAllowDuplicates: true, handler: { array in
-            if !self.finishingConnection {
-                self.device = array[0]
-            }
-        })
-    }
-
-    func disconnectAndCleanup(postDisconnect: (() -> Void)?) {
-        stopAllStreamingEvents()
-        device?.disconnectAsync().continueOnDispatch {_ in
-            postDisconnect?()
-        }
-    }
-    
-    func finishConnection(_ on: Bool, stepsPostSensorFusionDataAvailable: @escaping ()->()) {
-        guard let device = device else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // in a second...
-                self.finishConnection(on, stepsPostSensorFusionDataAvailable: stepsPostSensorFusionDataAvailable)
-            }
-            return
-        }
-        
-        if self.finishingConnection {
-            // we somehow executed this twice
-            return
-        }
-        self.stepsPostSensorFusionDataAvailable = stepsPostSensorFusionDataAvailable
-        MBLMetaWearManager.shared().stopScan()
-        finishingConnection = true
-        if on {
-            device.connect(withTimeoutAsync: 15).continueOnDispatch { t in
-                print("CONNECTED!!!!")
-                if (t.error?._domain == kMBLErrorDomain) && (t.error?._code == kMBLErrorOutdatedFirmware) {
-                    return nil
-                }
-                if t.error != nil {
-                    print("ERROR CONNECTING")
-                } else {
-                    print("DEVICE CONNECTED")
-                    self.sensorFusionStartStreamPressed()
-                }
-                self.putSensorToSleepButton.isEnabled = true
-                // read the battery level if we are connected
-                self.batteryReadTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { timer in
-                    self.device?.readBatteryLifeAsync().success { battery in
-                        self.batteryLevelIndicator.progress = Float(battery)/100
-                        print("battery: \(battery)")
-                        self.batteryLevelIndicator.isHidden = false
-                        self.batteryText.isHidden = false
-                    }
-                }
-                self.finishingConnection = false
-                return nil
-            }
-        } else {
-            device.disconnectAsync().continueOnDispatch { t in
-                if t.error != nil {
-                    print(t.error!.localizedDescription)
-                }
-                return nil
-            }
-        }
-    }
-    
-    func updateSensorFusionSettings() {
-        device?.sensorFusion?.mode = MBLSensorFusionMode(rawValue:2)! // this is probably IMU+ (verify this) https://mbientlab.com/iosdocs/2/sensor_fusion.html
-    }
-
-    func sensorFusionStartStreamPressed() {
-        updateSensorFusionSettings()
-        maxLinearTravel = -1.0
-        deltaAngle = 0.0
-        currentAxis = nil
-        maxDistanceFromStartingThisSweep = -1.0
-        var task: BFTask<AnyObject>?
-        streamingEvents.insert(device!.sensorFusion!.quaternion)
-        // TODO: would be nice if this was executed immediately and then every 60 seconds or so (just need to play with the timers a bit).
-
-        task = device!.sensorFusion!.quaternion.startNotificationsAsync { (obj, error) in
-            if let obj = obj {
-                if !self.inSweepMode {
-                    self.stepsPostSensorFusionDataAvailable?()
-                    self.stepsPostSensorFusionDataAvailable = nil
-                    self.inSweepMode = true
-                }
-                self.sensorFusionReadingNewDongle(w: Float(obj.w), x: Float(obj.x), y: Float(obj.y), z: Float(obj.z), caneLength: self.caneLength)
-            }
         }
     }
 }

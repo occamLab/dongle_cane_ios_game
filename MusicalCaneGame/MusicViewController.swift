@@ -152,7 +152,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             if selectedSong != nil {
                 activityIndicator.center = self.view.center
                 activityIndicator.hidesWhenStopped = true
-                activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+                activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.medium
                 view.addSubview(activityIndicator)
 
                 activityIndicator.startAnimating()
