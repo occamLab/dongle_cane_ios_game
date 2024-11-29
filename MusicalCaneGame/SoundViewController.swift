@@ -25,6 +25,9 @@ extension NSLayoutConstraint {
   `DUPLICATED` means this also appears on the Music View Controller
 */
 class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
+    ///`DUPLICATED`
+    var sensorDriver = SensorDriver.shared
+
     let synth = AVSpeechSynthesizer()
 
     ///Declare db to load options `DUPLICATED`
@@ -111,7 +114,10 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @IBAction func controlButton(_ sender: Any) {
         if controlButton.title == "Start" {
-            if selectedBeepNoisePath != nil || speakSweeps {
+            if sensorDriver.connectedDevice == nil {
+                createAlert(title: "Error", message: "Please connect a sensor on the Manage Sensors page")
+            }
+            else if selectedBeepNoisePath != nil || speakSweeps {
                 activityIndicator.center = self.view.center
                 activityIndicator.hidesWhenStopped = true
                 activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray

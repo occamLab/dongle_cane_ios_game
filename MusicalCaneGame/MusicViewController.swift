@@ -51,6 +51,9 @@ extension UIViewController {
   `DUPLICATED` means this also appears on the Sound View Controller
 */
 class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
+    ///`DUPLICATED`
+    var sensorDriver = SensorDriver.shared
+    
     var musicPlayPeriod:Double!
     @IBOutlet weak var currentSongButton: UIButton!
     @IBAction func currentSongButtonPressed(_ sender: Any) {
@@ -149,7 +152,10 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBAction func controlButton(_ sender: Any) {
 
         if controlButton.title == "Start" {
-            if selectedSong != nil {
+            if sensorDriver.connectedDevice == nil {
+                createAlert(title: "Error", message: "Please connect a sensor on the Manage Sensors page")
+            }
+            else if selectedSong != nil {
                 activityIndicator.center = self.view.center
                 activityIndicator.hidesWhenStopped = true
                 activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.medium
