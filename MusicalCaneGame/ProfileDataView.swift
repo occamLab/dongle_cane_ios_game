@@ -38,6 +38,7 @@ class ProfileDataViewController: UIViewController {
 }
 
 struct ProfileDataView: View {
+    @State private var showingAlert: Bool = false
     @State private var selectedIndex: Int = 0
     @State private var selectedDate: Date = Date()
     @State private var startDate: Date = Date()
@@ -65,13 +66,37 @@ struct ProfileDataView: View {
                             displayedComponents: [.date]
                         )
                     }
+                    //TODO: Graph goes here
                 } else {
                     DatePicker(
                         "Date",
                         selection: $selectedDate,
                         displayedComponents: [.date]
                     )
+                    //TODO: Graph goes here
+                    Button("Delete Session") {
+                        showingAlert = true
+                    }
+                    .padding()
+                    .background(Color(.red))
+                    .foregroundStyle(.white)
+                    .clipShape(Capsule())
+                    .alert(isPresented: $showingAlert) {
+                        Alert(
+                            title: Text("Are you sure you want to delete this session?"),
+                            message: Text("This will permanently this session's data from this profile."),
+                            primaryButton: .destructive(Text("Delete")) {
+                                print("Deleting...")
+                                //TODO: Delete session logic goes here
+                            },
+                            secondaryButton: .cancel()
+                        )
+                    }
                 }
+                Button("Export Graph") {
+                    //TODO: Export graph as png or pdf or something here
+                }
+                .padding()
             }
             .navigationTitle("Progress Tracking Data")
         }
