@@ -34,6 +34,7 @@ class SensorManagerViewController: UIViewController, ObservableObject {
 struct SensorManagerView: View {
     @ObservedObject var sensorDriver = SensorDriver.shared
     @State private var isEditingName = false // Track name editing mode
+    @State private var showingSleepAlert = false
     
     var body: some View {
         NavigationView {
@@ -101,14 +102,39 @@ struct SensorManagerView: View {
                         // Show battery level if a device is connected
                         if let batteryLevel = sensorDriver.batteryLevel {
                             VStack {
-                                Text("Battery Level: \(batteryLevel)%")
-                                    .font(.headline)
-                                    .padding(.top)
-                                ProgressView(value: Float(batteryLevel) / 100.0)
-                                    .progressViewStyle(LinearProgressViewStyle(tint: .green))
-                                    .frame(width: 200)
+                                HStack {
+                                    // Battery Level Indicator
+                                    VStack {
+                                        Text("Battery Level: \(batteryLevel)%")
+                                            .font(.headline)
+                                            .padding(.top)
+                                        ProgressView(value: Float(batteryLevel) / 100.0)
+                                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
+                                            .frame(width: 200)
+                                    }
+                                    .padding()
+
+                                    // Sleep Button
+                                    Button(action: {
+                                        showingSleepAlert = true
+                                    }) {
+                                        Image(systemName: "moon.fill")
+                                            .foregroundColor(.blue)
+                                            .padding()
+                                    }
+                                    .alert(isPresented: $showingSleepAlert) {
+                                        Alert(
+                                            title: Text("Put Sensor to Sleep"),
+                                            message: Text("Putting the sensor to sleep will conserve the sensor's battery. When you want to connect to the sensor again, you will have to press the button on the sensor. Do you want to put the sensor to sleep?"),
+                                            primaryButton: .destructive(Text("Sleep")) {
+                                                sensorDriver.putToSleep()
+                                                sensorDriver.startScanning()
+                                            },
+                                            secondaryButton: .cancel()
+                                        )
+                                    }
+                                }
                             }
-                            .padding()
                         }
                     }
                     
@@ -119,6 +145,17 @@ struct SensorManagerView: View {
                 }
             }
             .navigationTitle("Bluetooth Devices")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        sensorDriver.startScanning()
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                            .foregroundColor(.blue)
+                    }
+                    .help("Refresh Device List")
+                }
+            }
             .onAppear {
                 sensorDriver.startScanning()
             }

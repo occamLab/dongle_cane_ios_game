@@ -148,6 +148,17 @@ class SensorDriver: ObservableObject {
         
         print("Device name changed to \(name)")
     }
+    
+    func putToSleep() {
+        guard let device = connectedDevice else { return }
+        // Set it to sleep after the next reset
+        mbl_mw_debug_enable_power_save(device.board)
+        // Preform the soft reset
+        mbl_mw_debug_reset(device.board)
+        self.connectedDevice = nil
+        self.batteryLevel = nil
+        print("Device is now in sleep mode.")
+    }
 }
 
 func batteryStateCallback(context: UnsafeMutableRawPointer?, data: UnsafePointer<MblMwData>?) {
