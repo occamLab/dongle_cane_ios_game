@@ -28,7 +28,9 @@ class SensorDriver: ObservableObject {
     
     func startScanning() {
         scannedDevices.removeAll() // Clear previous scan results
-        
+        if let connectedDevice = connectedDevice {
+            scannedDevices.append(connectedDevice)
+        }
         // Only start scanning if Bluetooth is on
         if isBluetoothOn {
             isBluetoothOn = true
