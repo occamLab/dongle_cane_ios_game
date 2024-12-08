@@ -30,6 +30,13 @@
 		98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */; };
 		981823A3211A3894006A28F7 /* White.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239D211A3894006A28F7 /* White.jpg */; };
 		98A02ACD2CEE3BFE00BEA33D /* SensorManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */; };
+		9822A1C82CDA9AD800CFFD13 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9822A1C72CDA9AD800CFFD13 /* GoogleService-Info.plist */; };
+		9822A1CB2CDAA4C900CFFD13 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9822A1CA2CDAA4C900CFFD13 /* FirebaseAnalytics */; };
+		9822A1CD2CDAA7AB00CFFD13 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9822A1CC2CDAA7A500CFFD13 /* FirebaseManager.swift */; };
+		9822A1CF2CDAA8C000CFFD13 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 9822A1CE2CDAA8C000CFFD13 /* FirebaseFirestore */; };
+		9822A1D12CE3CD6700CFFD13 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9822A1D02CE3CD6000CFFD13 /* AuthManager.swift */; };
+		9822A1D32CE3CDE900CFFD13 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9822A1D22CE3CDE900CFFD13 /* FirebaseAuth */; };
+		9822A1D52CE3CE1C00CFFD13 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9822A1D42CE3CE1C00CFFD13 /* FirebaseAuth */; };
 		98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B32111F811006193E6 /* MobileCoreServices.framework */; };
 		98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */; };
 		98C4ADDC2CED794F00CE98FA /* SensorDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */; };
@@ -72,6 +79,10 @@
 		98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconTableViewCell.swift; sourceTree = "<group>"; };
 		9818239D211A3894006A28F7 /* White.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = White.jpg; sourceTree = "<group>"; };
 		98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManagerView.swift; sourceTree = "<group>"; };
+		9822A1C72CDA9AD800CFFD13 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9822A1CC2CDAA7A500CFFD13 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		9822A1D02CE3CD6000CFFD13 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		9822A1D62CE3E8DE00CFFD13 /* MusicalCaneGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusicalCaneGame.entitlements; sourceTree = "<group>"; };
 		98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDriver.swift; sourceTree = "<group>"; };
 		98D44AE4211A2D8300E11840 /* BeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
@@ -97,9 +108,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9815A7B1211B3E3F00A2223F /* CoreLocation.framework in Frameworks */,
+				9822A1D32CE3CDE900CFFD13 /* FirebaseAuth in Frameworks */,
 				98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */,
+				9822A1CB2CDAA4C900CFFD13 /* FirebaseAnalytics in Frameworks */,
 				98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */,
 				4959A5B52111F945006193E6 /* MediaPlayer.framework in Frameworks */,
+				9822A1CF2CDAA8C000CFFD13 /* FirebaseFirestore in Frameworks */,
+				9822A1D52CE3CE1C00CFFD13 /* FirebaseAuth in Frameworks */,
 				AD6C6F05210267CB00E9D840 /* AVFoundation.framework in Frameworks */,
 				AD6C6F03210267C600E9D840 /* CoreBluetooth.framework in Frameworks */,
 				57C85F49830BFA7051E7EE1A /* Pods_MusicalCaneGame.framework in Frameworks */,
@@ -171,6 +186,9 @@
 		AD6C6EEE210267B700E9D840 /* MusicalCaneGame */ = {
 			isa = PBXGroup;
 			children = (
+				9822A1D62CE3E8DE00CFFD13 /* MusicalCaneGame.entitlements */,
+				9822A1D02CE3CD6000CFFD13 /* AuthManager.swift */,
+				9822A1CC2CDAA7A500CFFD13 /* FirebaseManager.swift */,
 				820EF29A239ED24C004A4BCD /* Sound Effects */,
 				820EF291239EBA7D004A4BCD /* Voice Notes */,
 				95BBF1FB216F8A0200DDA9DB /* ViewControllers */,
@@ -196,6 +214,7 @@
 				86591D8F224D049E0050816B /* SWRevealViewController.m */,
 				9582BE522167CC1D00F4209E /* MusicalCaneGame-Bridging-Header.h */,
 				E5220F4D2256634E004AE171 /* DBInterface.swift */,
+				9822A1C72CDA9AD800CFFD13 /* GoogleService-Info.plist */,
 			);
 			path = MusicalCaneGame;
 			sourceTree = "<group>";
@@ -269,6 +288,9 @@
 				Base,
 			);
 			mainGroup = AD6C6EE3210267B700E9D840;
+			packageReferences = (
+				9822A1C92CDAA4C900CFFD13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = AD6C6EED210267B700E9D840 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -285,6 +307,7 @@
 			files = (
 				95BBF1FF216F8A4F00DDA9DB /* MusicSegmentViewController.xib in Resources */,
 				AD6C6EFA210267B800E9D840 /* LaunchScreen.storyboard in Resources */,
+				9822A1C82CDA9AD800CFFD13 /* GoogleService-Info.plist in Resources */,
 				820EF29F239ED24C004A4BCD /* StopRecording.aiff in Resources */,
 				981823A3211A3894006A28F7 /* White.jpg in Resources */,
 				AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */,
@@ -344,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				820EF297239EBA7D004A4BCD /* AudioVisualizerView.swift in Sources */,
+				9822A1D12CE3CD6700CFFD13 /* AuthManager.swift in Sources */,
 				98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */,
 				86591D90224D049E0050816B /* SWRevealViewController.m in Sources */,
 				E5220F4E2256634E004AE171 /* DBInterface.swift in Sources */,
@@ -357,6 +381,7 @@
 				98C4ADDC2CED794F00CE98FA /* SensorDriver.swift in Sources */,
 				98A02ACD2CEE3BFE00BEA33D /* SensorManagerView.swift in Sources */,
 				95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */,
+				9822A1CD2CDAA7AB00CFFD13 /* FirebaseManager.swift in Sources */,
 				951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */,
 				E5C038042268D0BD00373275 /* SensorManager.swift in Sources */,
 				9582BE572167CF0300F4209E /* MainViewController.swift in Sources */,
@@ -511,6 +536,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MusicalCaneGame/MusicalCaneGame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = 787TUDMR8Q;
@@ -535,6 +561,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MusicalCaneGame/MusicalCaneGame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = 787TUDMR8Q;
@@ -574,6 +601,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9822A1C92CDAA4C900CFFD13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9822A1CA2CDAA4C900CFFD13 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9822A1C92CDAA4C900CFFD13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		9822A1CE2CDAA8C000CFFD13 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9822A1C92CDAA4C900CFFD13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		9822A1D22CE3CDE900CFFD13 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9822A1C92CDAA4C900CFFD13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		9822A1D42CE3CE1C00CFFD13 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9822A1C92CDAA4C900CFFD13 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AD6C6EE4210267B700E9D840 /* Project object */;
 }

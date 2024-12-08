@@ -7,15 +7,21 @@
 //
 
 import UIKit
+import SwiftUI
 
 class MainViewController: UIViewController {
 
+    @IBOutlet weak var signInWithAppleContainer: UIView!
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         sideMenu()
         // Do any additional setup after loading the view.
+        let signInView = UIHostingController(rootView: SignInWithApple().onTapGesture(perform: AuthManager.shared.startSignInWithAppleFlow))
+        addChildViewController(signInView)
+        signInView.view.frame = signInWithAppleContainer.bounds
+        signInWithAppleContainer.addSubview(signInView.view)
     }
 
     override func didReceiveMemoryWarning() {

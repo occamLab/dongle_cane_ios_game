@@ -1,11 +1,11 @@
 PODS:
-  - Bolts/Tasks (1.8.4)
-  - FastCoding (3.2.2)
+  - Bolts-Swift (1.5.0)
   - FlexColorPicker (1.4.4)
   - MBProgressHUD (1.2.0)
-  - MetaWearPrivate (2.10.0):
-    - Bolts/Tasks (~> 1.8.4)
-    - FastCoding (~> 3.2.2)
+  - MetaWear (4.1.3):
+    - MetaWear/Core (= 4.1.3)
+  - MetaWear/Core (4.1.3):
+    - Bolts-Swift (~> 1)
   - PRTween (0.1.0)
   - SQLite.swift (0.11.6):
     - SQLite.swift/standard (= 0.11.6)
@@ -15,41 +15,30 @@ PODS:
 DEPENDENCIES:
   - FlexColorPicker
   - MBProgressHUD
-  - MetaWearPrivate (from `https://github.com/mbientlab/MetaWear-SDK-iOS-macOS-tvOS.git`, commit `1254b54`)
+  - MetaWear
   - PRTween (~> 0.1)
   - SQLite.swift (~> 0.11.5)
   - StaticDataTableViewController
 
 SPEC REPOS:
   trunk:
-    - Bolts
-    - FastCoding
+    - Bolts-Swift
     - FlexColorPicker
     - MBProgressHUD
+    - MetaWear
     - PRTween
     - SQLite.swift
     - StaticDataTableViewController
 
-EXTERNAL SOURCES:
-  MetaWearPrivate:
-    :commit: 1254b54
-    :git: https://github.com/mbientlab/MetaWear-SDK-iOS-macOS-tvOS.git
-
-CHECKOUT OPTIONS:
-  MetaWearPrivate:
-    :commit: 1254b54
-    :git: https://github.com/mbientlab/MetaWear-SDK-iOS-macOS-tvOS.git
-
 SPEC CHECKSUMS:
-  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  FastCoding: f7b1b75a2ccb0dd6ef9c928e46339e20252d98d3
+  Bolts-Swift: afbbaf8c8186e7f769be4afa656949c14087ba44
   FlexColorPicker: ce72e0a9e0870815a0beba419ac3e09913401624
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  MetaWearPrivate: f9cb466d358f6a4a5639f3cce393ddaf37c4def5
+  MetaWear: 172042a920e6853083f1fd94fb4f509016188586
   PRTween: 6c58c7e32ebcf31e33e6a6e6bc727ebef3b668ef
   SQLite.swift: 46d890be8601964454bd3392527f863d1b802d45
   StaticDataTableViewController: 0c5c4a47861446dd3cfd52530ae801ec7662ce26
 
-PODFILE CHECKSUM: 010e7e706eb37c9ef154fb2e9dd3e9eecd5cba8f
+PODFILE CHECKSUM: 16aec52e84a0b81c82c2e4b53a90b7147cf33fb1
 
 COCOAPODS: 1.15.2
