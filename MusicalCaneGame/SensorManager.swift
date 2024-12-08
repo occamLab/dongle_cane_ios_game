@@ -27,6 +27,7 @@ enum DongleAlignmentWithCaneShaft: String {
 
 class SensorManager: UIViewController {
     var sensorDriver = SensorDriver.shared
+    var sweepDataManager = SweepDataManager.shared
     
     private var startSweep = true
     private var startPosition:[Float] = []
@@ -167,6 +168,7 @@ class SensorManager: UIViewController {
       Parameter notification: Passed in container that has the length of the sweep
     */
     @objc func processSweeps(sweepDistance:Float) {
+        sweepDataManager.addDataPoint(newSweepRange: sweepDistance)
         let name = Notification.Name(rawValue: sweepNotificationKey)
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
         NotificationCenter.default.post(name: name, object: is_valid_sweep)
@@ -326,7 +328,7 @@ class SensorManager: UIViewController {
         
         let lengthOnZAxiz = sqrt((xPos * xPos) + (yPos * yPos))
         let length_normalized = lengthOnZAxiz / caneLength
-                
+
         if length_normalized > 0.3 || isWheelchairUser {        // the Shepard's pose doesn't matter if you are a wheelchair user
             // this should be in inches
             let position = [xPos, yPos, zPos]

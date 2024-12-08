@@ -70,7 +70,7 @@ class DBInterface {
         }
         do {
             if (db != nil) {
-                 dropTable()
+                dropTable()
                 // create the table if it doesn't exist
                 try self.db!.run(self.users.create(ifNotExists: true) { t in
                     t.column(self.name, primaryKey: true)
@@ -126,13 +126,13 @@ class DBInterface {
                 let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, beacons_enabled <- false, wheelchair_user <- u_wheelchair_user))
                 print("insertion success! \(rowId)")
                 
+                // Also upload the new entry to firebase
+                fbManager.addUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user)
+                
             } catch {
                 print("insertion failed: \(error)")
             }
         }
-        
-        // Also upload the new entry to firebase
-        fbManager.addUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user)
     }
     
     func getRow(u_name: String) -> Row?{
