@@ -29,7 +29,6 @@
 		9815A7B1211B3E3F00A2223F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9815A7B0211B3E3F00A2223F /* CoreLocation.framework */; };
 		98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */; };
 		981823A3211A3894006A28F7 /* White.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239D211A3894006A28F7 /* White.jpg */; };
-		98A02ACD2CEE3BFE00BEA33D /* SensorManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */; };
 		9822A1C82CDA9AD800CFFD13 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9822A1C72CDA9AD800CFFD13 /* GoogleService-Info.plist */; };
 		9822A1CB2CDAA4C900CFFD13 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9822A1CA2CDAA4C900CFFD13 /* FirebaseAnalytics */; };
 		9822A1CD2CDAA7AB00CFFD13 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9822A1CC2CDAA7A500CFFD13 /* FirebaseManager.swift */; };
@@ -37,6 +36,8 @@
 		9822A1D12CE3CD6700CFFD13 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9822A1D02CE3CD6000CFFD13 /* AuthManager.swift */; };
 		9822A1D32CE3CDE900CFFD13 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9822A1D22CE3CDE900CFFD13 /* FirebaseAuth */; };
 		9822A1D52CE3CE1C00CFFD13 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9822A1D42CE3CE1C00CFFD13 /* FirebaseAuth */; };
+		988C9CA52D0539E50063C601 /* SweepDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988C9CA42D0539DD0063C601 /* SweepDataManager.swift */; };
+		98A02ACD2CEE3BFE00BEA33D /* SensorManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */; };
 		98B8DB922112359A00BEB719 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4959A5B32111F811006193E6 /* MobileCoreServices.framework */; };
 		98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */; };
 		98C4ADDC2CED794F00CE98FA /* SensorDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */; };
@@ -78,11 +79,12 @@
 		9815A7B0211B3E3F00A2223F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconTableViewCell.swift; sourceTree = "<group>"; };
 		9818239D211A3894006A28F7 /* White.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = White.jpg; sourceTree = "<group>"; };
-		98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManagerView.swift; sourceTree = "<group>"; };
 		9822A1C72CDA9AD800CFFD13 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9822A1CC2CDAA7A500CFFD13 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		9822A1D02CE3CD6000CFFD13 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		9822A1D62CE3E8DE00CFFD13 /* MusicalCaneGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MusicalCaneGame.entitlements; sourceTree = "<group>"; };
+		988C9CA42D0539DD0063C601 /* SweepDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweepDataManager.swift; sourceTree = "<group>"; };
+		98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorManagerView.swift; sourceTree = "<group>"; };
 		98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDriver.swift; sourceTree = "<group>"; };
 		98D44AE4211A2D8300E11840 /* BeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 		AD6C6EEE210267B700E9D840 /* MusicalCaneGame */ = {
 			isa = PBXGroup;
 			children = (
+				988C9CA42D0539DD0063C601 /* SweepDataManager.swift */,
 				9822A1D62CE3E8DE00CFFD13 /* MusicalCaneGame.entitlements */,
 				9822A1D02CE3CD6000CFFD13 /* AuthManager.swift */,
 				9822A1CC2CDAA7A500CFFD13 /* FirebaseManager.swift */,
@@ -376,6 +379,7 @@
 				95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */,
 				820EF298239EBA7D004A4BCD /* RecorderViewController.swift in Sources */,
 				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
+				988C9CA52D0539E50063C601 /* SweepDataManager.swift in Sources */,
 				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
 				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,
 				98C4ADDC2CED794F00CE98FA /* SensorDriver.swift in Sources */,
