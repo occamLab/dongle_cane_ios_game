@@ -164,7 +164,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 activityIndicator.startAnimating()
                 UIApplication.shared.beginIgnoringInteractionEvents()
 
-                let utterance = AVSpeechUtterance(string: "Connecting")
+                let utterance = AVSpeechUtterance(string: "Starting")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
                 synth.speak(utterance)
@@ -260,7 +260,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             // queue it up for next time
             mp.prepareToPlay()
             // TODO: change the playback to the default once it is done speaking?
-            let utterance = AVSpeechUtterance(string: "Disconnected")
+            let utterance = AVSpeechUtterance(string: "Finished")
             utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
             utterance.rate = 0.6
             synth.speak(utterance)

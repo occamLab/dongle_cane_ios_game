@@ -126,7 +126,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 activityIndicator.startAnimating()
                 UIApplication.shared.beginIgnoringInteractionEvents()
 
-                let utterance = AVSpeechUtterance(string: "Connecting")
+                let utterance = AVSpeechUtterance(string: "Starting")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
                 utterance.rate = 0.6
                 synth.speak(utterance)
@@ -247,7 +247,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         } else {
             startButtonPressed = false
 
-            let utterance = AVSpeechUtterance(string: "Disconnected")
+            let utterance = AVSpeechUtterance(string: "Finished")
             utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
             utterance.rate = 0.6
             synth.speak(utterance)
