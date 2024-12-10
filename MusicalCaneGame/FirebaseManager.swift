@@ -63,7 +63,7 @@ class FirebaseManager: ObservableObject {
         db.collection("users").whereField("instructorUID", isEqualTo: authManager.currentUID!).getDocuments { (querySnapshot, error) in
                     if let error = error {
                         print("Error getting documents: \(error)")
-                        completion([[:]])
+                        completion([])
                     } else {
                         print("no error")
                         for document in querySnapshot!.documents {
@@ -75,5 +75,39 @@ class FirebaseManager: ObservableObject {
                         completion(document_data)
                     }
                 }
+        completion([])
+    }
+    
+    func uploadSweepSessionData(sessionStartTime: Timestamp, sessionEndTime: Timestamp, sweepData: Array<Float>) {
+
+        // Get the start and end of the current day.
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: Date())
+        db.collection("sweepDataTable").whereField("instructorUID", isEqualTo: authManager.currentUID!).whereField("sessionEndTime", isGreaterThanOrEqualTo: startOfDay).getDocuments { [self]
+            (querySnapshot, error) in
+            if let error = error {
+                print("error getting documents \(error)")
+            } else {
+                var currHighestSessionNumber: Int = 0
+                
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    if let sessionNumber = data["sessionNumber"] as? Int {
+                        if sessionNumber > currHighestSessionNumber {
+                            currHighestSessionNumber = sessionNumber
+                        }   
+                    }
+                }
+                
+                db.collection("sweepDataTable").addDocument(data: [
+                    "instructorUID": authManager.currentUID!,
+                    "studentName": UserDefaults.standard.string(forKey: "currentProfile")!,
+                    "sessionStartTime": sessionStartTime,
+                    "sessionEndTime": sessionEndTime,
+                    "sweepData": sweepData,
+                    "sessionNumber": currHighestSessionNumber + 1
+                ])
+            }
+        }
     }
 }
