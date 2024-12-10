@@ -10,6 +10,7 @@ import UIKit
 import SwiftUI
 import Charts
 import Foundation
+import FirebaseFirestore
 
 /// Represents a single session's sweep data, target, and tolerance
 struct SessionData: Identifiable {
@@ -17,6 +18,9 @@ struct SessionData: Identifiable {
     let sweepDistances: [Float] // Recorded sweep distances for the session
     let targetDistance: Float // Target distance for sweeps
     let tolerance: Float // Tolerance percentage (e.g., 0.05 for 5%)
+    // Timestamps from Firebase
+    let startTimestamp: Timestamp
+    let endTimestamp: Timestamp
 
     /// Lower bound for valid sweep distances
     var lowerBound: Float {
@@ -63,10 +67,11 @@ struct ProfileDataView: View {
     @State private var endDate: Date = Date()
     @ObservedObject var sensorDriver = SensorDriver.shared
     
+    // FIX: Add timestamps to the points properly
     let sessionData = [
-        SessionData(sweepDistances: [10, 20, 30, 40, 25, 35], targetDistance: 30, tolerance: 0.1),
-        SessionData(sweepDistances: [30, 30, 35, 45, 50], targetDistance: 30, tolerance: 0.1),
-        SessionData(sweepDistances: [15, 25, 20, 30, 35, 40], targetDistance: 30, tolerance: 0.1),
+        SessionData(sweepDistances: [10, 20, 30, 40, 25, 35], targetDistance: 30, tolerance: 0.1, startTimestamp: Timestamp.init(), endTimestamp: Timestamp.init()),
+        SessionData(sweepDistances: [30, 30, 35, 45, 50], targetDistance: 30, tolerance: 0.1, startTimestamp: Timestamp.init(), endTimestamp: <#T##Timestamp#>.init()),
+        SessionData(sweepDistances: [15, 25, 20, 30, 35, 40], targetDistance: 30, tolerance: 0.1, startTimestamp: Timestamp.init(), endTimestamp: <#T##Timestamp#>.init()),
     ]
     
     var body: some View {
