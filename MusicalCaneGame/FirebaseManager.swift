@@ -110,4 +110,8 @@ class FirebaseManager: ObservableObject {
             }
         }
     }
+    
+    func getSessionsForDateRange(startTime: Timestamp, endTime: Timestamp) {
+        db.collection("sweepDataTable").whereField("instructorUID", isEqualTo: authManager.currentUID).whereField("sessionStartTime", isGreaterThanOrEqualTo: startTime).whereField("sessionEndTime", isLessThanOrEqualTo: endTime)
+    }
 }
