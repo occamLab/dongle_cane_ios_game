@@ -133,12 +133,15 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: true)
                 // temp true for sound mode
                 startButtonPressed = true
+                
+                SweepDataManager.shared.startDataCollection()
             } else{
                 createAlert(title: "Error", message: "You have not selected a beep noise.")
             }
         } else if controlButton.title == "Stop" {
             numSweeps = 0
             NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: false)
+            SweepDataManager.shared.stopAndUploadData()
         }
     }
 

@@ -699,6 +699,11 @@
                                 <rect key="frame" x="0.0" y="76" width="111" height="145"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SVN-4Q-MxS">
+                                <rect key="frame" x="67" y="315" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -707,6 +712,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="menuButton" destination="w8F-d2-rKg" id="FzO-jS-kS6"/>
+                        <outlet property="signInWithAppleContainer" destination="SVN-4Q-MxS" id="ejy-5y-LeI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ih6-jf-urd" userLabel="First Responder" sceneMemberID="firstResponder"/>

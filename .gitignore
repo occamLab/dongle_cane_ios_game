@@ -1,6 +1,8 @@
 .DS_Store
 _DS_Store
 
+MusicalCaneGame/GoogleService-Info.plist
+
 # Created by https://www.gitignore.io/api/swift,xcode
 # Edit at https://www.gitignore.io/?templates=swift,xcode
 

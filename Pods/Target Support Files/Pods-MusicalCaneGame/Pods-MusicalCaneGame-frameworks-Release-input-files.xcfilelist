@@ -1,0 +1,8 @@
+${PODS_ROOT}/Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Bolts-Swift/BoltsSwift.framework
+${BUILT_PRODUCTS_DIR}/FlexColorPicker/FlexColorPicker.framework
+${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/MetaWear/MetaWear.framework
+${BUILT_PRODUCTS_DIR}/PRTween/PRTween.framework
+${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework
+${BUILT_PRODUCTS_DIR}/StaticDataTableViewController/StaticDataTableViewController.framework
