@@ -70,6 +70,7 @@ class DBInterface {
         }
         do {
             if (db != nil) {
+                // TODO: add migration step for existing local profiles to firebase DB
                 dropTable()
                 // create the table if it doesn't exist
                 try self.db!.run(self.users.create(ifNotExists: true) { t in
@@ -92,6 +93,8 @@ class DBInterface {
                         print("document data: \(documentData)")
                         if documentData.isEmpty {
                             insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false)
+                            // This might not be necessary once the migration successfully takes place
+                            UserDefaults.standard.set("Default User", forKey: "currentProfile")
                         } else {
                             for doc in documentData {
                                 insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] != nil))
