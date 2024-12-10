@@ -114,14 +114,15 @@ struct ProfileDataView: View {
                     Text("Sweep Distances")
                         .font(.headline)
                         .padding(.top)
-
-                    if sensorDriver.sweepDistances.isEmpty {
+                    // TODO: Fetch the session data from DB
+                    if sessionData.isEmpty {
                         Text("No sweeps recorded yet.")
                             .foregroundColor(.gray)
                             .padding()
                     } else {
+                        // TODO: Fetch the session data from DB
                         ScatterPlotView(
-                            dataPoints: sensorDriver.sweepDistances,
+                            dataPoints: sessionData[0].sweepDistances,
                             targetDistance: 30,
                             percentTolerance: 0.05
                         )
