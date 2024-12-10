@@ -18,8 +18,6 @@ class SensorDriver: ObservableObject {
     @Published var isConnecting = false
     @Published var batteryLevel: Int? // Store battery level as a percentage
     @Published var newDeviceName: String = ""
-    // TODO: Remove the sweepDistances attribute when DB is ready
-    var sweepDistances: [Float] = [10, 20, 30, 10, 20, 30, 40, 10, 15, 20, 25]
     private let metaWearManager = MetaWearScanner.shared
     var batteryTimer: OpaquePointer?
     
