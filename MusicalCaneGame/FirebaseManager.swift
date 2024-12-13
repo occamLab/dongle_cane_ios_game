@@ -15,6 +15,7 @@ class FirebaseManager: ObservableObject {
     private let db: Firestore
     
     private var authManager: AuthManager = AuthManager.shared
+    private var dbInterface: DBInterface = DBInterface.shared
     
     private init() {
         db = Firestore.firestore()
@@ -65,11 +66,7 @@ class FirebaseManager: ObservableObject {
                         print("Error getting documents: \(error)")
                         completion([])
                     } else {
-                        print("no error")
                         for document in querySnapshot!.documents {
-                            print("appending")
-                            print(document.data())
-                            print(document)
                             document_data.append(document.data())
                         }
                         completion(document_data)
@@ -99,19 +96,35 @@ class FirebaseManager: ObservableObject {
                     }
                 }
                 
+                let user_row = self.dbInterface.getRow(u_name: UserDefaults.standard.string(forKey: "currentProfile")!)
                 db.collection("sweepDataTable").addDocument(data: [
                     "instructorUID": authManager.currentUID!,
                     "studentName": UserDefaults.standard.string(forKey: "currentProfile")!,
                     "sessionStartTime": sessionStartTime,
                     "sessionEndTime": sessionEndTime,
                     "sweepData": sweepData,
-                    "sessionNumber": currHighestSessionNumber + 1
+                    "sessionNumber": currHighestSessionNumber + 1,
+                    "sweepTolerance": user_row![self.dbInterface.sweep_tolerance],
+                    "sweepTargetDistance": user_row![self.dbInterface.sweep_width]
                 ])
             }
         }
     }
     
     func getSessionsForDateRange(startTime: Timestamp, endTime: Timestamp) {
-        db.collection("sweepDataTable").whereField("instructorUID", isEqualTo: authManager.currentUID).whereField("sessionStartTime", isGreaterThanOrEqualTo: startTime).whereField("sessionEndTime", isLessThanOrEqualTo: endTime)
+        db.collection("sweepDataTable").whereField("instructorUID", isEqualTo: authManager.currentUID!).whereField("sessionStartTime", isGreaterThanOrEqualTo: startTime).whereField("sessionEndTime", isLessThanOrEqualTo: endTime).whereField("studentName", isEqualTo: UserDefaults.standard.string(forKey: "currentProfile")!).getDocuments {
+            (querySnapshot, error) in
+            if let error = error {
+                print("error getting documents \(error)")
+            } else {
+                var sessions: Array<SessionData> = []
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    sessions.append(SessionData(sweepDistances: data["sweepData"] as! [Float], targetDistance: data["sweepTargetDistance"] as! Float, tolerance: data["sweepTolerance"] as! Float))
+                }
+                
+                completion(sessions)
+            }
+        }
     }
 }
