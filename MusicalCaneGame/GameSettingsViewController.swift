@@ -83,11 +83,13 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     */
     @IBAction func newProfilePressed(_ sender: UIButton) {
         let alert = UIAlertController(title:"New Profile",message:"Enter a Profile Name",preferredStyle: .alert)
-        alert.addTextField{(textField) in textField.text = "Johnny"}
+        alert.addTextField{
+            (textField) in textField.text = "Edit student name here"
+        }
 
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
 
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 20.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 30.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false)
             
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()

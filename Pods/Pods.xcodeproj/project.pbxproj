@@ -244,7 +244,7 @@
 		12B347F97086190A06909E4EC2E6D349 /* SQLite.swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SQLite.swift.release.xcconfig; sourceTree = "<group>"; };
 		12FCF269555838BE1EB2EF3B8B421F09 /* CGPointExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CGPointExtension.swift; path = FlexColorPicker/Classes/Utilities/CGPointExtension.swift; sourceTree = "<group>"; };
 		1315F41C173F3794DF812FFB6E4BABB1 /* humidity_bme280.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = humidity_bme280.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/sensor/cpp/humidity_bme280.cpp"; sourceTree = "<group>"; };
-		1579A0986D70C32D7BED1A855C31EF4B /* BoltsSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BoltsSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1579A0986D70C32D7BED1A855C31EF4B /* Bolts-Swift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Bolts-Swift"; path = BoltsSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		16C81353C57A838AFF0848801B54CC23 /* SQLite-Bridging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "SQLite-Bridging.h"; path = "Sources/SQLiteObjc/include/SQLite-Bridging.h"; sourceTree = "<group>"; };
 		1761180BE85C04EE61182D0C9ECE6D82 /* serialpassthrough.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = serialpassthrough.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/sensor/cpp/serialpassthrough.cpp"; sourceTree = "<group>"; };
 		17A9577AA604425FBE9BE62410A72561 /* Errors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = Sources/SQLite/Core/Errors.swift; sourceTree = "<group>"; };
@@ -316,18 +316,18 @@
 		6C18FBB6DA4349BD98E91AC4F8B2CC45 /* MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
 		6CC590A92CBE7E54F981E383DAB2F33D /* PRTween-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "PRTween-Info.plist"; sourceTree = "<group>"; };
 		6DCABDA1D6ACE795F49425A95926630A /* PRTween.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PRTween.debug.xcconfig; sourceTree = "<group>"; };
-		6E87F128D99E2CC3AFB7243CE45DE0C4 /* PRTween.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PRTween.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F06C6D2A37B9901E2E3277EAA264539 /* StaticDataTableViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StaticDataTableViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E87F128D99E2CC3AFB7243CE45DE0C4 /* PRTween */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PRTween; path = PRTween.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F06C6D2A37B9901E2E3277EAA264539 /* StaticDataTableViewController */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = StaticDataTableViewController; path = StaticDataTableViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72F91017E90ACD4FCE83A3485695C412 /* colordetector_tcs34725.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = colordetector_tcs34725.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/sensor/cpp/colordetector_tcs34725.cpp"; sourceTree = "<group>"; };
 		73ACA690A071AA3BE5E5B9F95806F095 /* MBProgressHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = MBProgressHUD.modulemap; sourceTree = "<group>"; };
-		741F9D3943FF7542B04631B29216270F /* FlexColorPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FlexColorPicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		741F9D3943FF7542B04631B29216270F /* FlexColorPicker */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = FlexColorPicker; path = FlexColorPicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		748E831377F55E2DEFF12C9EAD1EDA36 /* ColorPaletteControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorPaletteControl.swift; path = FlexColorPicker/Classes/Controls/ColorPaletteControl.swift; sourceTree = "<group>"; };
 		756D781D44346D6C9C684FFC30C24D2B /* Task+WhenAny.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Task+WhenAny.swift"; path = "Sources/BoltsSwift/Task+WhenAny.swift"; sourceTree = "<group>"; };
 		767F239AADD5DE5511FC5DB522D50055 /* CustomColorPickerViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CustomColorPickerViewController.swift; path = FlexColorPicker/Classes/CustomColorPickerViewController.swift; sourceTree = "<group>"; };
 		7AAC68B97AFA7C06A7C3CB3024300B34 /* Pods-MusicalCaneGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MusicalCaneGame.release.xcconfig"; sourceTree = "<group>"; };
 		7B381E4993D646F1889B08E2056F6B10 /* RadialHSBPaletteDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RadialHSBPaletteDelegate.swift; path = FlexColorPicker/Classes/ControlDelegates/RadialHSBPaletteDelegate.swift; sourceTree = "<group>"; };
 		7B4B70F59939EEA547A42705D781E63C /* CGRectExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CGRectExtension.swift; path = FlexColorPicker/Classes/Utilities/CGRectExtension.swift; sourceTree = "<group>"; };
-		7DF415FCE4EC0E6B83191E69BD55A61F /* MetaWear.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MetaWear.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DF415FCE4EC0E6B83191E69BD55A61F /* MetaWear */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MetaWear; path = MetaWear.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E51668FB3B651E6FE54DCD75388792D /* MetaWearData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MetaWearData.swift; path = MetaWear/Core/MetaWearData.swift; sourceTree = "<group>"; };
 		7E837DDBD7E6B0A0B51BCC223AB74E2F /* LogDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LogDelegate.swift; path = MetaWear/Core/LogDelegate.swift; sourceTree = "<group>"; };
 		7F27C589134A2FEE1DBD415460594611 /* MBProgressHUD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MBProgressHUD.debug.xcconfig; sourceTree = "<group>"; };
@@ -344,7 +344,7 @@
 		88EF07E07BC8B02D7922894DD2D4FD83 /* haptic.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = haptic.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/peripheral/cpp/haptic.cpp"; sourceTree = "<group>"; };
 		89590357DAA3D6FE1273B2AA18B10370 /* miniz.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = miniz.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/dfu/cpp/miniz.cpp"; sourceTree = "<group>"; };
 		8AFC83344D6B8191AE1C143E1E02E283 /* ColorControl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorControl.swift; path = FlexColorPicker/Classes/Controls/ColorControl.swift; sourceTree = "<group>"; };
-		8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MBProgressHUD; path = MBProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CD32BC358ADAD2D2224880C6512FE29 /* logging.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = logging.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/core/cpp/logging.cpp"; sourceTree = "<group>"; };
 		8CE762A6D7D985FF99D6392847EC42E8 /* ColorControlContentView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorControlContentView.swift; path = FlexColorPicker/Classes/Views/ColorControlContentView.swift; sourceTree = "<group>"; };
 		8E2005539348BC2EC04A37B194E1D027 /* gpio.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = gpio.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/sensor/cpp/gpio.cpp"; sourceTree = "<group>"; };
@@ -361,7 +361,7 @@
 		9AB3434E3EC03D58E5256B36E21F667E /* metawearboard.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = metawearboard.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/impl/cpp/metawearboard.cpp"; sourceTree = "<group>"; };
 		9B1BDA10EB511E35ECD6ED7664C4CEEE /* SQLite.swift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SQLite.swift.modulemap; sourceTree = "<group>"; };
 		9BB8A576C5797EB68CB23964A394D94C /* magnetometer_bmm150.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = magnetometer_bmm150.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/sensor/cpp/magnetometer_bmm150.cpp"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E5CB155C33429C2CEA4B8DBAE6B5C05 /* FlexColorPicker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FlexColorPicker.h; path = FlexColorPicker/Classes/FlexColorPicker.h; sourceTree = "<group>"; };
 		9F959FABCF6DA4F1D78ED752EDBFA470 /* PRTween.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = PRTween.modulemap; sourceTree = "<group>"; };
 		A0883C90F4487E6DD44FF9DAE921E35B /* SQLite.swift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SQLite.swift-dummy.m"; sourceTree = "<group>"; };
@@ -379,7 +379,7 @@
 		B4DE3FB54847A63C86EC53E8DC8530D9 /* MetaWear.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MetaWear.debug.xcconfig; sourceTree = "<group>"; };
 		B5675162CF07A333A600854AC822CAF5 /* Pods-MusicalCaneGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MusicalCaneGame.debug.xcconfig"; sourceTree = "<group>"; };
 		B626047F766959C564A58087ACA58F97 /* fts3_tokenizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = fts3_tokenizer.h; path = Sources/SQLiteObjc/fts3_tokenizer.h; sourceTree = "<group>"; };
-		B6B2138B534DA2D64E869EF442A8C7D1 /* Pods_MusicalCaneGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MusicalCaneGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6B2138B534DA2D64E869EF442A8C7D1 /* Pods-MusicalCaneGame */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-MusicalCaneGame"; path = Pods_MusicalCaneGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7C0CCB48AA3B057268428EC76303DFC /* accelerometer.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = accelerometer.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/sensor/cpp/accelerometer.cpp"; sourceTree = "<group>"; };
 		B93A2C54055E5EF58D751DBE7B5E910B /* Executor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Executor.swift; path = Sources/BoltsSwift/Executor.swift; sourceTree = "<group>"; };
 		BA09431180E518370E3EE772A93D5E51 /* StaticDataTableViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = StaticDataTableViewController.h; sourceTree = "<group>"; };
@@ -422,7 +422,7 @@
 		F0346D8A0FC45B4B2E9A5BF43D1F1424 /* dataprocessor.cpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = dataprocessor.cpp; path = "MetaWear/MetaWear-SDK-Cpp/src/metawear/processor/cpp/dataprocessor.cpp"; sourceTree = "<group>"; };
 		F3476230912E363CE7F5285D6527EAE3 /* ColorPickerThumbView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorPickerThumbView.swift; path = FlexColorPicker/Classes/Views/ColorPickerThumbView.swift; sourceTree = "<group>"; };
 		F4D71AB128E0FE7EDC1B242118F6E638 /* MetaWear.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = MetaWear.modulemap; sourceTree = "<group>"; };
-		F5FA45A44C42CC2CA3A324A3E914CE19 /* SQLite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5FA45A44C42CC2CA3A324A3E914CE19 /* SQLite.swift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SQLite.swift; path = SQLite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCD0E60673601418F91147C07E861F97 /* SQLite.swift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SQLite.swift-prefix.pch"; sourceTree = "<group>"; };
 		FDDBDDC69CDAD4981A3821042DABE063 /* SQLite.swift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SQLite.swift-umbrella.h"; sourceTree = "<group>"; };
 		FE3C58FBE30DA1BAAA46853AB653154E /* ColorSliderDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorSliderDelegate.swift; path = FlexColorPicker/Classes/ControlDelegates/ColorSliderDelegate.swift; sourceTree = "<group>"; };
@@ -573,6 +573,7 @@
 				18A738C86125947939188474A1E4339E /* PRTweenTimingFunctions.m */,
 				ED5DB584A69C48061635FA57282B79CC /* Support Files */,
 			);
+			name = PRTween;
 			path = PRTween;
 			sourceTree = "<group>";
 		};
@@ -613,6 +614,7 @@
 				23DD4B70DE016F8CD94A44AD063A8F60 /* StaticDataTableViewController.m */,
 				5115FD2F8335AE62D17FAB06889DAA63 /* Support Files */,
 			);
+			name = StaticDataTableViewController;
 			path = StaticDataTableViewController;
 			sourceTree = "<group>";
 		};
@@ -644,6 +646,7 @@
 				8ED97638BEF69DFDE5546F33EDDAFA5C /* TaskCompletionSource.swift */,
 				3CF0B2CF8BB80A261FF812291799A953 /* Support Files */,
 			);
+			name = "Bolts-Swift";
 			path = "Bolts-Swift";
 			sourceTree = "<group>";
 		};
@@ -654,6 +657,7 @@
 				93819BB5AB4610BFDF6F0FC2282E4DDE /* MBProgressHUD.m */,
 				CEA44ABE91A20A7B3BA5538376312D47 /* Support Files */,
 			);
+			name = MBProgressHUD;
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
@@ -678,6 +682,7 @@
 				0AD81B99962F214A7481D05DB5171CCA /* Core */,
 				66DA35F910D4CC6DBED44AF5CFFA662A /* Support Files */,
 			);
+			name = MetaWear;
 			path = MetaWear;
 			sourceTree = "<group>";
 		};
@@ -710,14 +715,14 @@
 		79D8BC9D6E476A06F5C3ABBE5EFB4F34 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1579A0986D70C32D7BED1A855C31EF4B /* BoltsSwift.framework */,
-				741F9D3943FF7542B04631B29216270F /* FlexColorPicker.framework */,
-				8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD.framework */,
-				7DF415FCE4EC0E6B83191E69BD55A61F /* MetaWear.framework */,
-				B6B2138B534DA2D64E869EF442A8C7D1 /* Pods_MusicalCaneGame.framework */,
-				6E87F128D99E2CC3AFB7243CE45DE0C4 /* PRTween.framework */,
-				F5FA45A44C42CC2CA3A324A3E914CE19 /* SQLite.framework */,
-				6F06C6D2A37B9901E2E3277EAA264539 /* StaticDataTableViewController.framework */,
+				1579A0986D70C32D7BED1A855C31EF4B /* Bolts-Swift */,
+				741F9D3943FF7542B04631B29216270F /* FlexColorPicker */,
+				8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD */,
+				7DF415FCE4EC0E6B83191E69BD55A61F /* MetaWear */,
+				B6B2138B534DA2D64E869EF442A8C7D1 /* Pods-MusicalCaneGame */,
+				6E87F128D99E2CC3AFB7243CE45DE0C4 /* PRTween */,
+				F5FA45A44C42CC2CA3A324A3E914CE19 /* SQLite.swift */,
+				6F06C6D2A37B9901E2E3277EAA264539 /* StaticDataTableViewController */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -802,6 +807,7 @@
 				1E9D2F75D9E329E80A4A9A2F989DDAC9 /* UIViewWithCommonInit.swift */,
 				2FF3C83271148BE1709009415BD76594 /* Support Files */,
 			);
+			name = FlexColorPicker;
 			path = FlexColorPicker;
 			sourceTree = "<group>";
 		};
@@ -868,6 +874,7 @@
 				90AC6DA14E2624900250B89E602AB85F /* standard */,
 				2667DEE9C0D81EFC156132A533BCCBE8 /* Support Files */,
 			);
+			name = SQLite.swift;
 			path = SQLite.swift;
 			sourceTree = "<group>";
 		};
@@ -994,7 +1001,7 @@
 			);
 			name = "Pods-MusicalCaneGame";
 			productName = Pods_MusicalCaneGame;
-			productReference = B6B2138B534DA2D64E869EF442A8C7D1 /* Pods_MusicalCaneGame.framework */;
+			productReference = B6B2138B534DA2D64E869EF442A8C7D1 /* Pods-MusicalCaneGame */;
 			productType = "com.apple.product-type.framework";
 		};
 		3E8BB3BAFA6478784A9A7DD76C8A1F3C /* MetaWear */ = {
@@ -1013,7 +1020,7 @@
 			);
 			name = MetaWear;
 			productName = MetaWear;
-			productReference = 7DF415FCE4EC0E6B83191E69BD55A61F /* MetaWear.framework */;
+			productReference = 7DF415FCE4EC0E6B83191E69BD55A61F /* MetaWear */;
 			productType = "com.apple.product-type.framework";
 		};
 		3F2C1776D90B62B156DB52C41A5C419C /* SQLite.swift */ = {
@@ -1031,7 +1038,7 @@
 			);
 			name = SQLite.swift;
 			productName = SQLite;
-			productReference = F5FA45A44C42CC2CA3A324A3E914CE19 /* SQLite.framework */;
+			productReference = F5FA45A44C42CC2CA3A324A3E914CE19 /* SQLite.swift */;
 			productType = "com.apple.product-type.framework";
 		};
 		7121634C8DA4533EB626AEE3C697BFAB /* StaticDataTableViewController */ = {
@@ -1049,7 +1056,7 @@
 			);
 			name = StaticDataTableViewController;
 			productName = StaticDataTableViewController;
-			productReference = 6F06C6D2A37B9901E2E3277EAA264539 /* StaticDataTableViewController.framework */;
+			productReference = 6F06C6D2A37B9901E2E3277EAA264539 /* StaticDataTableViewController */;
 			productType = "com.apple.product-type.framework";
 		};
 		75CA230D0637BEBCCBE6371A0E6B5B6B /* PRTween */ = {
@@ -1067,7 +1074,7 @@
 			);
 			name = PRTween;
 			productName = PRTween;
-			productReference = 6E87F128D99E2CC3AFB7243CE45DE0C4 /* PRTween.framework */;
+			productReference = 6E87F128D99E2CC3AFB7243CE45DE0C4 /* PRTween */;
 			productType = "com.apple.product-type.framework";
 		};
 		82B0A41D3031FF27D78E17B0A9A46FB0 /* MBProgressHUD */ = {
@@ -1085,7 +1092,7 @@
 			);
 			name = MBProgressHUD;
 			productName = MBProgressHUD;
-			productReference = 8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD.framework */;
+			productReference = 8B8FAB0D627B17EDE1366984278705D9 /* MBProgressHUD */;
 			productType = "com.apple.product-type.framework";
 		};
 		9A9A6DFBF33C0809BD9B32C8C8B776E8 /* FlexColorPicker */ = {
@@ -1103,7 +1110,7 @@
 			);
 			name = FlexColorPicker;
 			productName = FlexColorPicker;
-			productReference = 741F9D3943FF7542B04631B29216270F /* FlexColorPicker.framework */;
+			productReference = 741F9D3943FF7542B04631B29216270F /* FlexColorPicker */;
 			productType = "com.apple.product-type.framework";
 		};
 		BA1CEDB360B77644C934EAD86B37FCB5 /* Bolts-Swift */ = {
@@ -1121,7 +1128,7 @@
 			);
 			name = "Bolts-Swift";
 			productName = BoltsSwift;
-			productReference = 1579A0986D70C32D7BED1A855C31EF4B /* BoltsSwift.framework */;
+			productReference = 1579A0986D70C32D7BED1A855C31EF4B /* Bolts-Swift */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -1475,7 +1482,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MetaWear/MetaWear-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MetaWear/MetaWear-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1509,7 +1516,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/StaticDataTableViewController/StaticDataTableViewController-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/StaticDataTableViewController/StaticDataTableViewController-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1543,7 +1550,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/FlexColorPicker/FlexColorPicker-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/FlexColorPicker/FlexColorPicker-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1578,7 +1585,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Bolts-Swift/Bolts-Swift-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Bolts-Swift/Bolts-Swift-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1612,7 +1619,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/StaticDataTableViewController/StaticDataTableViewController-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/StaticDataTableViewController/StaticDataTableViewController-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1647,7 +1654,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MBProgressHUD/MBProgressHUD-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1682,7 +1689,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/SQLite.swift/SQLite.swift-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/SQLite.swift/SQLite.swift-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1715,7 +1722,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MBProgressHUD/MBProgressHUD-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1749,7 +1756,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/FlexColorPicker/FlexColorPicker-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/FlexColorPicker/FlexColorPicker-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1783,7 +1790,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/PRTween/PRTween-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/PRTween/PRTween-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1818,7 +1825,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/Bolts-Swift/Bolts-Swift-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Bolts-Swift/Bolts-Swift-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1853,7 +1860,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/PRTween/PRTween-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/PRTween/PRTween-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1954,7 +1961,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2054,7 +2061,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/MetaWear/MetaWear-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/MetaWear/MetaWear-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2089,7 +2096,7 @@
 				GCC_PREFIX_HEADER = "Target Support Files/SQLite.swift/SQLite.swift-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/SQLite.swift/SQLite.swift-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2124,7 +2131,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
