@@ -33,6 +33,7 @@ class SensorManagerViewController: UIViewController, ObservableObject {
 
 struct SensorManagerView: View {
     @ObservedObject var sensorDriver = SensorDriver.shared
+    @ObservedObject var witMotionDriver = WITMotion.shared
     @State private var isEditingName = false // Track name editing mode
     @State private var showingSleepAlert = false
     
@@ -137,7 +138,103 @@ struct SensorManagerView: View {
                             }
                         }
                     }
-                    
+                    List(witMotionDriver.scannedDevices, id: \.identifier) { device in
+                        HStack {
+                            if witMotionDriver.connectedDevice?.identifier == device.identifier {
+                                // Editable name field for the connected device
+                                if isEditingName {
+                                    TextField("Enter new device name", text: $witMotionDriver.newDeviceName)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .font(.headline)
+                                } else {
+                                    Text(witMotionDriver.newDeviceName)
+                                        .font(.headline)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
+
+                                Spacer()
+
+                                // Edit/Confirm button
+                                Button(action: {
+                                    if isEditingName {
+                                        // Save name change
+                                        witMotionDriver.changeDeviceName()
+                                    }
+                                    // Toggle edit mode
+                                    isEditingName.toggle()
+                                }) {
+                                    Image(systemName: isEditingName ? "checkmark" : "pencil")
+                                        .foregroundColor(.blue)
+                                }
+                                .padding(.trailing, 8)
+                                Spacer()
+                                
+                            } else {
+                                // Non-editable text for unconnected devices
+                                Text(device.name ?? "")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+
+                            Spacer()
+
+                            // Show "Disconnect" button for connected device, otherwise "Connect"
+                            if witMotionDriver.connectedDevice == device {
+                                Button("Disconnect") {
+                                    witMotionDriver.disconnect()
+                                    witMotionDriver.startScanning()
+                                }
+                                .buttonStyle(.bordered)
+                                .foregroundColor(.red)
+                            } else {
+                                Button("Connect") {
+                                    witMotionDriver.connect(to: device)
+                                }
+                                .buttonStyle(.bordered)
+                                .disabled(witMotionDriver.connectedDevice != nil) // Disable if another device is connected
+                            }
+                        }
+                    }
+//                    if sensorDriver.connectedDevice != nil {
+//                        // Show battery level if a device is connected
+//                        if let batteryLevel = sensorDriver.batteryLevel {
+//                            VStack {
+//                                HStack {
+//                                    // Battery Level Indicator
+//                                    VStack {
+//                                        Text("Battery Level: \(batteryLevel)%")
+//                                            .font(.headline)
+//                                            .padding(.top)
+//                                        ProgressView(value: Float(batteryLevel) / 100.0)
+//                                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
+//                                            .frame(width: 200)
+//                                    }
+//                                    .padding()
+//
+//                                    // Sleep Button
+//                                    Button(action: {
+//                                        showingSleepAlert = true
+//                                    }) {
+//                                        Image(systemName: "moon.fill")
+//                                            .foregroundColor(.blue)
+//                                            .padding()
+//                                    }
+//                                    .alert(isPresented: $showingSleepAlert) {
+//                                        Alert(
+//                                            title: Text("Put Sensor to Sleep"),
+//                                            message: Text("Putting the sensor to sleep will conserve the sensor's battery. When you want to connect to the sensor again, you will have to press the button on the sensor. Do you want to put the sensor to sleep?"),
+//                                            primaryButton: .destructive(Text("Sleep")) {
+//                                                sensorDriver.putToSleep()
+//                                                sensorDriver.startScanning()
+//                                            },
+//                                            secondaryButton: .cancel()
+//                                        )
+//                                    }
+//                                }
+//                            }
+//                        }
+ //                   }
                 } else {
                     Text("Bluetooth is off. Please enable Bluetooth to scan for devices.")
                         .multilineTextAlignment(.center)

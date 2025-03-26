@@ -53,6 +53,7 @@ extension UIViewController {
 class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     ///`DUPLICATED`
     var sensorDriver = SensorDriver.shared
+    var witMotion = WITMotion.shared
     
     var musicPlayPeriod:Double!
     @IBOutlet weak var currentSongButton: UIButton!
@@ -152,7 +153,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBAction func controlButton(_ sender: Any) {
 
         if controlButton.title == "Start" {
-            if sensorDriver.connectedDevice == nil {
+            if sensorDriver.connectedDevice == nil && witMotion.connectedDevice == nil {
                 createAlert(title: "Error", message: "Please connect a sensor on the Manage Sensors page")
             }
             else if selectedSong != nil {

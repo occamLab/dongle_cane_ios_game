@@ -14,6 +14,7 @@ import MetaWear
 import MetaWearCpp
 import MBProgressHUD
 import simd
+import Combine
 
 let updateProgressNotificationKey = "cane.prog.notification"
 let connectionStatusChangeRequested = "sensor.connection.changerequested"
@@ -28,6 +29,7 @@ enum DongleAlignmentWithCaneShaft: String {
 class SensorManager: UIViewController {
     var sensorDriver = SensorDriver.shared
     var sweepDataManager = SweepDataManager.shared
+    let witMotion = WITMotion.shared
     
     private var startSweep = true
     private var startPosition:[Float] = []
@@ -58,6 +60,7 @@ class SensorManager: UIViewController {
     var deltaAngle:Float = 0.0 // only applies in wheelchair mode
     var currentAxis:float3?
     var caneAlignment: DongleAlignmentWithCaneShaft = .xAxis
+    private var cancellable: AnyCancellable?
 
     private var prevPosition:[Float] = []
 
@@ -246,7 +249,7 @@ class SensorManager: UIViewController {
         self.stepsPostSensorFusionDataAvailable = stepsPostSensorFusionDataAvailable
         finishingConnection = true
         if on {
-            if sensorDriver.connectedDevice == nil {
+            if sensorDriver.connectedDevice == nil && witMotion.connectedDevice == nil {
                 print("NO DEVICE CONNECTED")
                 //TODO: need to make this actually not claim the device is connected and instead notify the user there is no device connected & not allow it to start
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -269,6 +272,14 @@ class SensorManager: UIViewController {
             self.stepsPostSensorFusionDataAvailable?()
             self.stepsPostSensorFusionDataAvailable = nil
             self.inSweepMode = true
+        }
+        
+        // Subscribe to changes
+        cancellable = witMotion.$currentData.sink { newValue in
+            if let newValue = newValue {
+                self.sensorFusionReadingNewDongle(w: newValue.real, x: newValue.imag.x, y: newValue.imag.y, z: newValue.imag.z, caneLength: self.caneLength)
+                print("angle \(newValue.angle)")
+            }
         }
         
         guard let device = sensorDriver.connectedDevice else { return }

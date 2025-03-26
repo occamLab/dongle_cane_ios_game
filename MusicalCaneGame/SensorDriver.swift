@@ -7,6 +7,9 @@
 //
 
 import MetaWear
+import CoreBluetooth
+import RealityKit
+
 import MetaWearCpp
 import simd
 
@@ -186,3 +189,351 @@ func eventEndCallback(context: UnsafeMutableRawPointer?, timer: OpaquePointer?, 
     }
 }
 
+
+class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+    static let shared = WITMotion()
+    var scanner: CBCentralManager?
+    @Published var scannedDevices: [CBPeripheral] = []
+    @Published var connectedDevice: CBPeripheral?
+    var commandCharacteristic: CBCharacteristic?
+    var sensorUpdateCharacteristic: CBCharacteristic?
+    @Published var currentData: simd_quatf?
+    @Published var newDeviceName: String = ""
+    let resolver = BWT901BLE5_0ProtocolResolver()
+
+    private override init() {
+        super.init()
+        scanForCompatibleDevices()
+    }
+    
+    func scanForCompatibleDevices() {
+        scanner = CBCentralManager(delegate: self, queue: nil)
+    }
+    
+    // Called when Bluetooth status changes
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == .poweredOn {
+            startScanning()
+        } else {
+            print("Bluetooth is not available")
+        }
+    }
+
+    // Start scanning for BLE devices
+    func startScanning() {
+        print("Scanning for BLE devices...")
+        scanner?.scanForPeripherals(withServices: [CBUUID(string: "0000FFE5-0000-1000-8000-00805F9A34FB")], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
+    }
+
+    // Called when a device is discovered
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        print("Discovered: \(peripheral.name ?? "Unknown Device")")
+        
+        // Store the peripheral if not already in the list
+        if !scannedDevices.contains(peripheral) {
+            scannedDevices.append(peripheral)
+        }
+    }
+    
+    func changeDeviceName() {
+        // TODO
+        print("No support for this so far... \(newDeviceName)")
+    }
+    
+    func connect(to device: CBPeripheral) {
+        device.delegate = self
+        scanner?.connect(device, options: nil)
+    }
+    
+    func disconnect() {
+        if let peripheral = connectedDevice {
+            scanner?.cancelPeripheralConnection(peripheral)
+        }
+    }
+    
+    // Called when connection is successful
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        print("Connected to \(peripheral.name ?? "Unknown")")
+        connectedDevice = peripheral
+        newDeviceName = peripheral.name ?? ""
+        // Discover services
+        peripheral.discoverServices(nil)
+    }
+    
+    // Called if connection fails
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        print("Failed to connect: \(error?.localizedDescription ?? "Unknown error")")
+    }
+    
+    // Called when services are discovered
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if let error = error {
+            print("Error discovering services: \(error.localizedDescription)")
+            return
+        }
+        
+        for service in peripheral.services ?? [] {
+            print("Service found: \(service.uuid)")
+            // Discover characteristics for each service
+            peripheral.delegate = self
+            peripheral.discoverCharacteristics(nil, for: service)
+        }
+    }
+    
+    private func dataFromHexString(_ hexString: String) -> Data? {
+        var data = Data()
+        var hex = hexString
+
+        // Ensure the string has an even number of characters
+        if hex.count % 2 != 0 {
+            return nil
+        }
+
+        while !hex.isEmpty {
+            let subIndex = hex.index(hex.startIndex, offsetBy: 2)
+            let byteString = String(hex[..<subIndex])
+            hex = String(hex[subIndex...])
+
+            if let byte = UInt8(byteString, radix: 16) {
+                data.append(byte)
+            } else {
+                return nil // Invalid hex string
+            }
+        }
+        return data
+    }
+    
+    private func writeHexStringToCharacteristic(hexString: String, characteristic: CBCharacteristic, peripheral: CBPeripheral) {
+        guard let data = dataFromHexString(hexString) else {
+            print("Invalid hex string")
+            return
+        }
+
+        let writeType: CBCharacteristicWriteType = characteristic.properties.contains(.writeWithoutResponse) ? .withoutResponse : .withResponse
+
+        peripheral.writeValue(data, for: characteristic, type: writeType)
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        if let error = error {
+            print("Error discovering characteristics: \(error.localizedDescription)")
+            return
+        }
+
+        for characteristic in service.characteristics ?? [] {
+            print("Characteristic found: \(characteristic.uuid)")
+
+            // change output
+            if characteristic.properties.contains(.write) {
+                commandCharacteristic = characteristic
+                writeHexStringToCharacteristic(hexString: "FFAA030800", characteristic: characteristic, peripheral: peripheral)
+            }
+
+            // Subscribe if it's notifiable
+            if characteristic.properties.contains(.notify) {
+                sensorUpdateCharacteristic = characteristic
+                peripheral.setNotifyValue(true, for: characteristic)
+            }
+        }
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        if let error = error {
+            print("Error updating value for characteristic \(characteristic.uuid): \(error.localizedDescription)")
+            return
+        }
+
+        if let value = characteristic.value {
+            let byteArray: [UInt8] = [UInt8](value)
+            //resolver.passiveReceiveData(data: byteArray)
+            let parsedValues = dataToSignedShorts(value)
+            if parsedValues.count >= 20 {
+                /// See: https://wit-motion.gitbook.io/witmotion-sdk/wit-standard-protocol/wit-standard-communication-protocol
+                print(value.hexEncodedString())
+                let qx = Float(parsedValues[16])/32768.0
+                let qy = Float(parsedValues[17])/32768.0
+                let qz = Float(parsedValues[18])/32768.0
+                let qw = Float(parsedValues[19])/32768.0
+                //currentData = simd_quatf(ix: qx, iy: qy, iz: qz, r: qw)
+                let angleX = Float(parsedValues[7])/32768.0*Float.pi
+                let angleY = Float(parsedValues[8])/32768.0*Float.pi
+                let angleZ = Float(parsedValues[9])/32768.0*Float.pi
+                currentData = Transform(pitch: angleX, yaw: angleY, roll: angleZ).rotation
+                print("alt", angleX, angleY, angleZ)
+
+            }
+        }
+    }
+    
+    private func dataToSignedShorts(_ data: Data) -> [Int16] {
+        guard data.count % 2 == 0 else {
+            fatalError("Data length must be a multiple of 2")
+        }
+
+        return data.withUnsafeBytes { rawBuffer in
+            let bufferPointer = rawBuffer.bindMemory(to: Int16.self)
+            return bufferPointer.map { Int16(littleEndian: $0) }
+        }
+    }
+
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        connectedDevice = nil
+        commandCharacteristic = nil
+        sensorUpdateCharacteristic = nil
+        if let error = error {
+            print("Error disconnecting: \(error.localizedDescription)")
+        } else {
+            print("Successfully disconnected from \(peripheral.name ?? "Unknown")")
+        }
+    }
+}
+
+
+class BWT901BLE5_0ProtocolResolver {
+    
+    var angleX: Float?
+    var angleY: Float?
+    var angleZ: Float?
+    
+    // 要解析的数据
+    var activeByteDataBuffer:[UInt8] = [UInt8]()
+    
+    // 临时Byte
+    var activeByteTemp:[UInt8] = [UInt8]()
+    
+    /**
+     * 查找传感器返回的值
+     *
+     * @author huangyajun
+     * @date 2022/5/23 14:17
+     */
+    func findReturnData(_ returnData:[UInt8]) -> [UInt8]? {
+        var temp:[UInt8]
+        if let index55 = returnData.firstIndex(of: 0x55){
+            if index55 + 1 < returnData.count, returnData[index55 + 1] == 0x71{
+                temp = Array(returnData[index55...])
+                return Array(temp.prefix(20))
+            }
+        }
+        return nil;
+    }
+    
+    
+    // 解算实时数据
+    func passiveReceiveData(data: [UInt8]) {
+        
+        if (data.count < 1) {
+            return;
+        }
+        
+        
+        activeByteDataBuffer.append(contentsOf: data)
+        
+        // 移除非法数据
+        while (activeByteDataBuffer.count > 0
+               && activeByteDataBuffer[0] != 0x55
+               && (activeByteDataBuffer[1] != 0x61 || activeByteDataBuffer[1] != 0x71)) {
+            activeByteDataBuffer.remove(at: 0)
+        }
+        
+        while (activeByteDataBuffer.count >= 20) {
+            activeByteTemp = activeByteDataBuffer[0..<20].reversed()
+            activeByteDataBuffer = activeByteDataBuffer[20..<activeByteDataBuffer.count].reversed()
+            
+            // 必须是55 61的数据包
+            if (activeByteTemp[0] == 0x55 && activeByteTemp[1] == 0x61) {
+                var fData:[Int16] = [Int16](repeating: 0, count: 9)
+                var i:Int = 0
+                while (i < 9) {
+                    
+                    let h:Int16 = Int16(activeByteTemp[i * 2 + 3])
+                    let l:Int16 = Int16(activeByteTemp[i * 2 + 2])
+                    fData[i] = Int16(h << 8 | l & 0xff)
+                    let Identify:String = String(format: "%2X",activeByteTemp[1])
+                    switch i {
+                    case 6:
+                        angleX = Float(fData[i])/32768*180
+                    case 7:
+                        angleY = Float(fData[i])/32768*180
+                    case 8:
+                        angleZ = Float(fData[i])/32768*180
+                    default:
+                        break
+                    }
+                    i = i+1
+                }
+            }
+            else if(activeByteTemp[0] == 0x55 && activeByteTemp[1] == 0x71){
+                let readReg:Int = Int(activeByteTemp[3]) << 8 | Int(activeByteTemp[2])
+                var Pack:[Int16] = [Int16](repeating: 0, count: 4)
+                var i = 0
+                while (i < 4) {
+                    Pack[i] = Int16(activeByteTemp[5 + (i*2)]) << 8 | Int16(activeByteTemp[4 + (i*2)])
+                    var reg:String = String(format: "%02X",readReg + i).uppercased()
+                    reg = StringUtils.padLeft(reg, 2, "0")
+                    i = i+1
+                }
+            }
+        }
+        print(angleX, angleY, angleZ)
+    }
+}
+
+
+class StringUtils {
+    
+    // 判断是空串
+    static func IsNullOrEmpty(_ str:String?) -> Bool{
+        return str == nil || str == ""
+    }
+    
+    // 判断不是空串
+    static func IsNotNullOrEmpty(_ str:String?) -> Bool{
+        return str != nil && str != ""
+    }
+    
+    // 左边补齐
+    static func padLeft(_ str:String,_ len:Int,_ char:String) -> String {
+        
+        if(str.count >= len){
+            return str
+        }
+
+        
+        let count = str.count
+        var i = 0
+        var append = ""
+        
+        while(i < len - count){
+            append.append(contentsOf: char)
+            i = i + 1
+        }
+        
+        return append + str
+    }
+    
+    // 右边补齐
+    static func padRight(_ str:String,_ len:Int,_ char:String) -> String {
+        
+        if(str.count >= len){
+            return str
+        }
+
+        var i = 0
+        var append = ""
+        while(i<len - str.count){
+            append.append(contentsOf: char)
+            i = i + 1
+        }
+        
+        return  str + append
+    }
+    
+    // 获得子字符串
+    static func subString(_ str:String,_ start:Int,_ len:Int) -> String {
+        let index = str.index(str.startIndex, offsetBy: start)
+        let endIndex = str.index(str.startIndex, offsetBy: start + len)
+        return String(str[index..<endIndex])
+    }
+}
