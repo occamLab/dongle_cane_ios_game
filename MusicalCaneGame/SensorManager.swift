@@ -277,6 +277,7 @@ class SensorManager: UIViewController {
         // Subscribe to changes
         cancellable = witMotion.$currentData.sink { newValue in
             if let newValue = newValue {
+                self.caneAlignment = .yAxis          // TODO: fix hardcoding (this is here for testing)
                 self.sensorFusionReadingNewDongle(w: newValue.real, x: newValue.imag.x, y: newValue.imag.y, z: newValue.imag.z, caneLength: self.caneLength)
                 print("angle \(newValue.angle)")
             }

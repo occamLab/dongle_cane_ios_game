@@ -329,7 +329,7 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
                 commandCharacteristic = characteristic
                 // use 50hz output
                 writeHexStringToCharacteristic(hexString: "FFAA030800", characteristic: characteristic, peripheral: peripheral)
-                // use 6-axis orientation mode
+                // use 6-axis orientation mode (use FFAA240000 for 9-axis) (use FFAA240100 for 6-axis)
                 writeHexStringToCharacteristic(hexString: "FFAA240100", characteristic: characteristic, peripheral: peripheral)
                 batteryTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
                     print("checking battery level")
@@ -367,8 +367,9 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
                 let angleX = Float(parsedValues[7])/32768.0*Float.pi
                 let angleY = Float(parsedValues[8])/32768.0*Float.pi
                 let angleZ = Float(parsedValues[9])/32768.0*Float.pi
-                // need to double check this
-                currentData = Transform(pitch: angleX, yaw: angleY, roll: angleZ).rotation
+                // according to WITMotion Python code, the order of the axis consists of fixed rotations around X, Y, and Z (in that order)
+                // qua = quaternion_from_euler(angle_radian[0], angle_radian[1], angle_radian[2])
+                self.currentData = simd_quatf(angle: angleZ, axis: simd_float3(0, 0, 1)) * simd_quatf(angle: angleY, axis: simd_float3(0, 1, 0)) * simd_quatf(angle: angleX, axis: simd_float3(1, 0, 0))
             }
         case 0x71:
             switch byteArray[2] {
