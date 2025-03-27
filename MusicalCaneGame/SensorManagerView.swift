@@ -36,6 +36,8 @@ struct SensorManagerView: View {
     @ObservedObject var witMotionDriver = WITMotion.shared
     @State private var isEditingName = false // Track name editing mode
     @State private var showingSleepAlert = false
+    @State private var showingSleepAlertWitMotion = false
+
     
     var body: some View {
         NavigationView {
@@ -96,6 +98,47 @@ struct SensorManagerView: View {
                                 }
                                 .buttonStyle(.bordered)
                                 .disabled(sensorDriver.connectedDevice != nil) // Disable if another device is connected
+                            }
+                        }
+                    }
+                    // TODO: unify this code
+                    if witMotionDriver.connectedDevice != nil {
+                        // Show battery level if a device is connected
+                        if let batteryLevel = witMotionDriver.batteryLevel {
+                            VStack {
+                                HStack {
+                                    // Battery Level Indicator
+                                    VStack {
+                                        Text("Battery Level: \(batteryLevel)%")
+                                            .font(.headline)
+                                            .padding(.top)
+                                        ProgressView(value: Float(batteryLevel) / 100.0)
+                                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
+                                            .frame(width: 200)
+                                    }
+                                    .padding()
+
+                                    // Sleep Button
+                                    Button(action: {
+                                        showingSleepAlertWitMotion = true
+                                    }) {
+                                        Image(systemName: "moon.fill")
+                                            .foregroundColor(.blue)
+                                            .padding()
+                                    }
+                                    // TODO: this seems to break when done more than once
+                                    .alert(isPresented: $showingSleepAlertWitMotion) {
+                                        Alert(
+                                            title: Text("Put Sensor to Sleep"),
+                                            message: Text("Putting the sensor to sleep will conserve the sensor's battery. When you want to connect to the sensor again, you will have to press the button on the sensor. Do you want to put the sensor to sleep?"),
+                                            primaryButton: .destructive(Text("Sleep")) {
+                                                witMotionDriver.putToSleep()
+                                                witMotionDriver.startScanning()
+                                            },
+                                            secondaryButton: .cancel()
+                                        )
+                                    }
+                                }
                             }
                         }
                     }

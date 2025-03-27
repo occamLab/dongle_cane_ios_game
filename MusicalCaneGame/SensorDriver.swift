@@ -199,7 +199,9 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
     var sensorUpdateCharacteristic: CBCharacteristic?
     @Published var currentData: simd_quatf?
     @Published var newDeviceName: String = ""
+    @Published var batteryLevel: Int? // Store battery level as a percentage
     let resolver = BWT901BLE5_0ProtocolResolver()
+    var batteryTimer: Timer?
 
     private override init() {
         super.init()
@@ -237,7 +239,7 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
     
     func changeDeviceName() {
         // TODO
-        print("No support for this so far... \(newDeviceName)")
+        print("No support for this so far, but is definitely possible... \(newDeviceName)")
     }
     
     func connect(to device: CBPeripheral) {
@@ -323,10 +325,16 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
         for characteristic in service.characteristics ?? [] {
             print("Characteristic found: \(characteristic.uuid)")
 
-            // change output
             if characteristic.properties.contains(.write) {
                 commandCharacteristic = characteristic
+                // use 50hz output
                 writeHexStringToCharacteristic(hexString: "FFAA030800", characteristic: characteristic, peripheral: peripheral)
+                // use 6-axis orientation mode
+                writeHexStringToCharacteristic(hexString: "FFAA240100", characteristic: characteristic, peripheral: peripheral)
+                batteryTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
+                    print("checking battery level")
+                    self.writeHexStringToCharacteristic(hexString: "FFAA276400", characteristic: characteristic, peripheral: peripheral)
+                }
             }
 
             // Subscribe if it's notifiable
@@ -343,25 +351,64 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
             return
         }
 
-        if let value = characteristic.value {
-            let byteArray: [UInt8] = [UInt8](value)
-            //resolver.passiveReceiveData(data: byteArray)
-            let parsedValues = dataToSignedShorts(value)
-            if parsedValues.count >= 20 {
+        guard let value = characteristic.value else {
+            return
+        }
+        // we need a byte array to see which type of packet we are dealing with
+        let byteArray = [UInt8](value)
+        let parsedValues = dataToSignedShorts(value)
+        guard byteArray.count >= 2 else {
+            return
+        }
+        switch byteArray[1] {
+        case 0x61:
+            if parsedValues.count >= 10 {
                 /// See: https://wit-motion.gitbook.io/witmotion-sdk/wit-standard-protocol/wit-standard-communication-protocol
-                print(value.hexEncodedString())
-                let qx = Float(parsedValues[16])/32768.0
-                let qy = Float(parsedValues[17])/32768.0
-                let qz = Float(parsedValues[18])/32768.0
-                let qw = Float(parsedValues[19])/32768.0
-                //currentData = simd_quatf(ix: qx, iy: qy, iz: qz, r: qw)
                 let angleX = Float(parsedValues[7])/32768.0*Float.pi
                 let angleY = Float(parsedValues[8])/32768.0*Float.pi
                 let angleZ = Float(parsedValues[9])/32768.0*Float.pi
+                // need to double check this
                 currentData = Transform(pitch: angleX, yaw: angleY, roll: angleZ).rotation
-                print("alt", angleX, angleY, angleZ)
-
             }
+        case 0x71:
+            switch byteArray[2] {
+            case 0x64:
+                if parsedValues.count >= 3 {
+                    let rawBattery = parsedValues[2]
+                    // see: https://wit-motion.gitbook.io/witmotion-sdk/ble-5.0-protocol/bluetooth-5.0-communication-protocol#read-power
+                    if rawBattery > 396 {
+                        batteryLevel = 100
+                    } else if rawBattery >= 393 {
+                        batteryLevel = 90
+                    } else if rawBattery >= 387 {
+                        batteryLevel = 75
+                    } else if rawBattery >= 382 {
+                        batteryLevel = 60
+                    } else if rawBattery >= 379 {
+                        batteryLevel = 50
+                    } else if rawBattery >= 377 {
+                        batteryLevel = 40
+                    } else if rawBattery >= 373 {
+                        batteryLevel = 30
+                    } else if rawBattery >= 370 {
+                        batteryLevel = 20
+                    } else if rawBattery >= 368 {
+                        batteryLevel = 15
+                    } else if rawBattery >= 350 {
+                        batteryLevel = 10
+                    } else if rawBattery >= 340 {
+                        batteryLevel = 5
+                    } else {
+                        batteryLevel = 0
+                    }
+                }
+                break
+            default:
+                break
+            }
+        default:
+            print(value.hexEncodedString())
+            break
         }
     }
     
@@ -376,11 +423,19 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
         }
     }
 
+    func putToSleep() {
+        if let device = connectedDevice, let characteristic = commandCharacteristic {
+            print("putting board to sleep")
+            writeHexStringToCharacteristic(hexString: "FFAA220100", characteristic: characteristic, peripheral: device)
+        }
+    }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         connectedDevice = nil
         commandCharacteristic = nil
         sensorUpdateCharacteristic = nil
+        batteryTimer?.invalidate()
+        batteryTimer = nil
         if let error = error {
             print("Error disconnecting: \(error.localizedDescription)")
         } else {
