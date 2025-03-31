@@ -234,6 +234,8 @@ class SensorManager: UIViewController {
     }
 
     private func stopAllStreamingEvents() {
+        cancellable?.cancel()
+        cancellable = nil
         guard let device = sensorDriver.connectedDevice else { return }
         mbl_mw_sensor_fusion_stop(device.board)
         mbl_mw_sensor_fusion_clear_enabled_mask(device.board)
