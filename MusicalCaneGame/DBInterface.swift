@@ -92,12 +92,15 @@ class DBInterface {
                     fbManager.queryUsersForInstructor { [self]documentData in
                         print("document data: \(documentData)")
                         if documentData.isEmpty {
-                            insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false)
+                            insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, addToFirebase: true)
                             // This might not be necessary once the migration successfully takes place
                             UserDefaults.standard.set("Default User", forKey: "currentProfile")
                         } else {
                             for doc in documentData {
-                                insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] != nil))
+                                insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] != nil), addToFirebase:false)
+                                
+                                let newCount = try! self.db!.scalar(self.users.count)
+                                print("newCount \(newCount)")
                             }
                         }
                     }
@@ -123,15 +126,15 @@ class DBInterface {
         
     }
     
-    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool) {
+    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool, addToFirebase: Bool) {
         if (db != nil) {
             do {
                 let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, beacons_enabled <- false, wheelchair_user <- u_wheelchair_user))
                 print("insertion success! \(rowId)")
-                
-                // Also upload the new entry to firebase
-                fbManager.addUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user)
-                
+                if addToFirebase {
+                    // Also upload the new entry to firebase
+                    fbManager.addUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user)
+                }
             } catch {
                 print("insertion failed: \(error)")
             }
@@ -317,11 +320,12 @@ class DBInterface {
     
     func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool) {
         // Update all values except the Beacon enabled flag
-        // TODO: also update the document on firebase
         do {
             try self.db!.run(self.users.filter(name == u_name)
                 .update(sweep_width <- u_sweep_width,
                         cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, wheelchair_user <- u_wheelchair_user))
+            // Also update the new entry to firebase
+            fbManager.updateUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user)
         } catch {
             print("error updating users table: \(error)")
         }
