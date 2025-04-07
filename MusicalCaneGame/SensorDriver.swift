@@ -335,12 +335,15 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
 
             if characteristic.properties.contains(.write) {
                 commandCharacteristic = characteristic
-                // use 50hz output
+                // unlock config
                 writeHexStringToCharacteristic(hexString: "FFAA6988B5", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
+                // use 50hz output
                 writeHexStringToCharacteristic(hexString: "FFAA030800", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
+                // use 10hz output
+                // writeHexStringToCharacteristic(hexString: "FFAA030600", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
                 // use 6-axis orientation mode (use FFAA240000 for 9-axis) (use FFAA240100 for 6-axis)
                 writeHexStringToCharacteristic(hexString: "FFAA240100", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
-                writeHexStringToCharacteristic(hexString: "FFAA00SAVE00", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
+                writeHexStringToCharacteristic(hexString: "FFAA000000", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
 
                 batteryTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
                     print("checking battery level")

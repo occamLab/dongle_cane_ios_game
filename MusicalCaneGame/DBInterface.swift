@@ -97,7 +97,7 @@ class DBInterface {
                             UserDefaults.standard.set("Default User", forKey: "currentProfile")
                         } else {
                             for doc in documentData {
-                                insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] != nil), addToFirebase:false)
+                                insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] as? Bool) == true, addToFirebase:false)
                                 
                                 let newCount = try! self.db!.scalar(self.users.count)
                                 print("newCount \(newCount)")
