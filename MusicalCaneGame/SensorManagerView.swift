@@ -37,7 +37,9 @@ struct SensorManagerView: View {
     @State private var isEditingName = false // Track name editing mode
     @State private var showingSleepAlert = false
     @State private var showingSleepAlertWitMotion = false
-
+    @State private var showingInvalidNameAlert = false
+    @State private var showingNameChangeConfirmationAlert = false
+    @State private var alertText = ""
     
     var body: some View {
         NavigationView {
@@ -200,15 +202,34 @@ struct SensorManagerView: View {
 
                                 // Edit/Confirm button
                                 Button(action: {
-                                    if isEditingName {
-                                        // Save name change
-                                        witMotionDriver.changeDeviceName()
+                                    guard witMotionDriver.newDeviceName.starts(with: "WT") else {
+                                        showingInvalidNameAlert = true
+                                        alertText = "The name must start with WT"
+                                        return
                                     }
-                                    // Toggle edit mode
-                                    isEditingName.toggle()
+                                    guard witMotionDriver.newDeviceName.count <= 16 else {
+                                        showingInvalidNameAlert = true
+                                        alertText = "The name is limited to 16 characters"
+                                        return
+                                    }
+                                    if isEditingName {
+                                        showingNameChangeConfirmationAlert = true
+                                        // the name will actually change after the confirmation
+                                    } else {
+                                        // Toggle edit mode
+                                        isEditingName.toggle()
+                                    }
                                 }) {
                                     Image(systemName: isEditingName ? "checkmark" : "pencil")
                                         .foregroundColor(.blue)
+                                }
+                                .alert(alertText, isPresented: $showingInvalidNameAlert) {
+                                }
+                                .alert("The sensor will turn off now.  Press the button on the sensor to turn it on again.  The name change may not be visible until you restart the app.", isPresented: $showingNameChangeConfirmationAlert) {
+                                    Button("OK", role: .cancel) {
+                                        witMotionDriver.changeDeviceName()
+                                        isEditingName.toggle()
+                                    }
                                 }
                                 .padding(.trailing, 8)
                                 Spacer()
@@ -239,45 +260,45 @@ struct SensorManagerView: View {
                             }
                         }
                     }
-//                    if sensorDriver.connectedDevice != nil {
-//                        // Show battery level if a device is connected
-//                        if let batteryLevel = sensorDriver.batteryLevel {
-//                            VStack {
-//                                HStack {
-//                                    // Battery Level Indicator
-//                                    VStack {
-//                                        Text("Battery Level: \(batteryLevel)%")
-//                                            .font(.headline)
-//                                            .padding(.top)
-//                                        ProgressView(value: Float(batteryLevel) / 100.0)
-//                                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
-//                                            .frame(width: 200)
-//                                    }
-//                                    .padding()
-//
-//                                    // Sleep Button
-//                                    Button(action: {
-//                                        showingSleepAlert = true
-//                                    }) {
-//                                        Image(systemName: "moon.fill")
-//                                            .foregroundColor(.blue)
-//                                            .padding()
-//                                    }
-//                                    .alert(isPresented: $showingSleepAlert) {
-//                                        Alert(
-//                                            title: Text("Put Sensor to Sleep"),
-//                                            message: Text("Putting the sensor to sleep will conserve the sensor's battery. When you want to connect to the sensor again, you will have to press the button on the sensor. Do you want to put the sensor to sleep?"),
-//                                            primaryButton: .destructive(Text("Sleep")) {
-//                                                sensorDriver.putToSleep()
-//                                                sensorDriver.startScanning()
-//                                            },
-//                                            secondaryButton: .cancel()
-//                                        )
-//                                    }
-//                                }
-//                            }
-//                        }
- //                   }
+                    if sensorDriver.connectedDevice != nil {
+                        // Show battery level if a device is connected
+                        if let batteryLevel = sensorDriver.batteryLevel {
+                            VStack {
+                                HStack {
+                                    // Battery Level Indicator
+                                    VStack {
+                                        Text("Battery Level: \(batteryLevel)%")
+                                            .font(.headline)
+                                            .padding(.top)
+                                        ProgressView(value: Float(batteryLevel) / 100.0)
+                                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
+                                            .frame(width: 200)
+                                    }
+                                    .padding()
+
+                                    // Sleep Button
+                                    Button(action: {
+                                        showingSleepAlert = true
+                                    }) {
+                                        Image(systemName: "moon.fill")
+                                            .foregroundColor(.blue)
+                                            .padding()
+                                    }
+                                    .alert(isPresented: $showingSleepAlert) {
+                                        Alert(
+                                            title: Text("Put Sensor to Sleep"),
+                                            message: Text("Putting the sensor to sleep will conserve the sensor's battery. When you want to connect to the sensor again, you will have to press the button on the sensor. Do you want to put the sensor to sleep?"),
+                                            primaryButton: .destructive(Text("Sleep")) {
+                                                sensorDriver.putToSleep()
+                                                sensorDriver.startScanning()
+                                            },
+                                            secondaryButton: .cancel()
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 } else {
                     Text("Bluetooth is off. Please enable Bluetooth to scan for devices.")
                         .multilineTextAlignment(.center)
@@ -289,6 +310,7 @@ struct SensorManagerView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         sensorDriver.startScanning()
+                        witMotionDriver.startScanning()
                     }) {
                         Image(systemName: "arrow.clockwise")
                             .foregroundColor(.blue)

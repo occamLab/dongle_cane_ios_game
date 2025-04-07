@@ -200,7 +200,6 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
     @Published var currentData: simd_quatf?
     @Published var newDeviceName: String = ""
     @Published var batteryLevel: Int? // Store battery level as a percentage
-    let resolver = BWT901BLE5_0ProtocolResolver()
     var batteryTimer: Timer?
 
     private override init() {
@@ -238,8 +237,17 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
     }
     
     func changeDeviceName() {
-        // TODO
-        print("No support for this so far, but is definitely possible... \(newDeviceName)")
+        guard let peripheral = connectedDevice else {
+            return
+        }
+        guard let writeCharacteristic = commandCharacteristic else {
+            return
+        }
+        // See: https://drive.google.com/file/d/1B9DnN8VF9V6bu5-Kj6VurdZEEwGH5m0k/view?usp=drive_link
+        // "WT" is the necessary prefix, the device name should have already been validated to start with "WT" and be less than or equal to 16 characters in length
+        let packet = "WT" + newDeviceName  + "\r\n"
+        let data = Data(packet.utf8)
+        peripheral.writeValue(data, for: writeCharacteristic, type: .withResponse)
     }
     
     func connect(to device: CBPeripheral) {
@@ -305,13 +313,13 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
         return data
     }
     
-    private func writeHexStringToCharacteristic(hexString: String, characteristic: CBCharacteristic, peripheral: CBPeripheral) {
+    private func writeHexStringToCharacteristic(hexString: String, characteristic: CBCharacteristic, peripheral: CBPeripheral, requestResponse: Bool = false) {
         guard let data = dataFromHexString(hexString) else {
             print("Invalid hex string")
             return
         }
 
-        let writeType: CBCharacteristicWriteType = characteristic.properties.contains(.writeWithoutResponse) ? .withoutResponse : .withResponse
+        let writeType: CBCharacteristicWriteType = characteristic.properties.contains(.writeWithoutResponse) && !requestResponse ? .withoutResponse : .withResponse
 
         peripheral.writeValue(data, for: characteristic, type: writeType)
     }
@@ -328,10 +336,13 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
             if characteristic.properties.contains(.write) {
                 commandCharacteristic = characteristic
                 // use 50hz output
-                writeHexStringToCharacteristic(hexString: "FFAA030800", characteristic: characteristic, peripheral: peripheral)
+                writeHexStringToCharacteristic(hexString: "FFAA6988B5", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
+                writeHexStringToCharacteristic(hexString: "FFAA030800", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
                 // use 6-axis orientation mode (use FFAA240000 for 9-axis) (use FFAA240100 for 6-axis)
-                writeHexStringToCharacteristic(hexString: "FFAA240100", characteristic: characteristic, peripheral: peripheral)
-                batteryTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
+                writeHexStringToCharacteristic(hexString: "FFAA240100", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
+                writeHexStringToCharacteristic(hexString: "FFAA00SAVE00", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
+
+                batteryTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
                     print("checking battery level")
                     self.writeHexStringToCharacteristic(hexString: "FFAA276400", characteristic: characteristic, peripheral: peripheral)
                 }
@@ -442,154 +453,5 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
         } else {
             print("Successfully disconnected from \(peripheral.name ?? "Unknown")")
         }
-    }
-}
-
-
-class BWT901BLE5_0ProtocolResolver {
-    
-    var angleX: Float?
-    var angleY: Float?
-    var angleZ: Float?
-    
-    // 要解析的数据
-    var activeByteDataBuffer:[UInt8] = [UInt8]()
-    
-    // 临时Byte
-    var activeByteTemp:[UInt8] = [UInt8]()
-    
-    /**
-     * 查找传感器返回的值
-     *
-     * @author huangyajun
-     * @date 2022/5/23 14:17
-     */
-    func findReturnData(_ returnData:[UInt8]) -> [UInt8]? {
-        var temp:[UInt8]
-        if let index55 = returnData.firstIndex(of: 0x55){
-            if index55 + 1 < returnData.count, returnData[index55 + 1] == 0x71{
-                temp = Array(returnData[index55...])
-                return Array(temp.prefix(20))
-            }
-        }
-        return nil;
-    }
-    
-    
-    // 解算实时数据
-    func passiveReceiveData(data: [UInt8]) {
-        
-        if (data.count < 1) {
-            return;
-        }
-        
-        
-        activeByteDataBuffer.append(contentsOf: data)
-        
-        // 移除非法数据
-        while (activeByteDataBuffer.count > 0
-               && activeByteDataBuffer[0] != 0x55
-               && (activeByteDataBuffer[1] != 0x61 || activeByteDataBuffer[1] != 0x71)) {
-            activeByteDataBuffer.remove(at: 0)
-        }
-        
-        while (activeByteDataBuffer.count >= 20) {
-            activeByteTemp = activeByteDataBuffer[0..<20].reversed()
-            activeByteDataBuffer = activeByteDataBuffer[20..<activeByteDataBuffer.count].reversed()
-            
-            // 必须是55 61的数据包
-            if (activeByteTemp[0] == 0x55 && activeByteTemp[1] == 0x61) {
-                var fData:[Int16] = [Int16](repeating: 0, count: 9)
-                var i:Int = 0
-                while (i < 9) {
-                    
-                    let h:Int16 = Int16(activeByteTemp[i * 2 + 3])
-                    let l:Int16 = Int16(activeByteTemp[i * 2 + 2])
-                    fData[i] = Int16(h << 8 | l & 0xff)
-                    let Identify:String = String(format: "%2X",activeByteTemp[1])
-                    switch i {
-                    case 6:
-                        angleX = Float(fData[i])/32768*180
-                    case 7:
-                        angleY = Float(fData[i])/32768*180
-                    case 8:
-                        angleZ = Float(fData[i])/32768*180
-                    default:
-                        break
-                    }
-                    i = i+1
-                }
-            }
-            else if(activeByteTemp[0] == 0x55 && activeByteTemp[1] == 0x71){
-                let readReg:Int = Int(activeByteTemp[3]) << 8 | Int(activeByteTemp[2])
-                var Pack:[Int16] = [Int16](repeating: 0, count: 4)
-                var i = 0
-                while (i < 4) {
-                    Pack[i] = Int16(activeByteTemp[5 + (i*2)]) << 8 | Int16(activeByteTemp[4 + (i*2)])
-                    var reg:String = String(format: "%02X",readReg + i).uppercased()
-                    reg = StringUtils.padLeft(reg, 2, "0")
-                    i = i+1
-                }
-            }
-        }
-        print(angleX, angleY, angleZ)
-    }
-}
-
-
-class StringUtils {
-    
-    // 判断是空串
-    static func IsNullOrEmpty(_ str:String?) -> Bool{
-        return str == nil || str == ""
-    }
-    
-    // 判断不是空串
-    static func IsNotNullOrEmpty(_ str:String?) -> Bool{
-        return str != nil && str != ""
-    }
-    
-    // 左边补齐
-    static func padLeft(_ str:String,_ len:Int,_ char:String) -> String {
-        
-        if(str.count >= len){
-            return str
-        }
-
-        
-        let count = str.count
-        var i = 0
-        var append = ""
-        
-        while(i < len - count){
-            append.append(contentsOf: char)
-            i = i + 1
-        }
-        
-        return append + str
-    }
-    
-    // 右边补齐
-    static func padRight(_ str:String,_ len:Int,_ char:String) -> String {
-        
-        if(str.count >= len){
-            return str
-        }
-
-        var i = 0
-        var append = ""
-        while(i<len - str.count){
-            append.append(contentsOf: char)
-            i = i + 1
-        }
-        
-        return  str + append
-    }
-    
-    // 获得子字符串
-    static func subString(_ str:String,_ start:Int,_ len:Int) -> String {
-        let index = str.index(str.startIndex, offsetBy: start)
-        let endIndex = str.index(str.startIndex, offsetBy: start + len)
-        return String(str[index..<endIndex])
     }
 }
