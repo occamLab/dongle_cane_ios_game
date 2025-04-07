@@ -14,6 +14,10 @@ class FirebaseManager: ObservableObject {
     
     private let db: Firestore
     
+    var currentUID: String? {
+        return authManager.currentUID
+    }
+    
     private var authManager: AuthManager = AuthManager.shared
     
     private init() {

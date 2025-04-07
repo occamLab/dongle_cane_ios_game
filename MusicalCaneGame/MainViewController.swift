@@ -18,10 +18,12 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         sideMenu()
         // Do any additional setup after loading the view.
-        let signInView = UIHostingController(rootView: SignInWithApple().onTapGesture(perform: AuthManager.shared.startSignInWithAppleFlow))
-        addChildViewController(signInView)
-        signInView.view.frame = signInWithAppleContainer.bounds
-        signInWithAppleContainer.addSubview(signInView.view)
+        if FirebaseManager.shared.currentUID == nil {
+            let signInView = UIHostingController(rootView: SignInWithApple().onTapGesture(perform: AuthManager.shared.startSignInWithAppleFlow))
+            addChildViewController(signInView)
+            signInView.view.frame = signInWithAppleContainer.bounds
+            signInWithAppleContainer.addSubview(signInView.view)
+        }
     }
 
     override func didReceiveMemoryWarning() {
