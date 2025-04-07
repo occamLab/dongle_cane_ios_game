@@ -12,6 +12,8 @@ class FirebaseManager: ObservableObject {
     /// The singleton instance of this class
     public static var shared = FirebaseManager()
     
+    private var nameToDocumentID: [String: String] = [:]
+    
     private let db: Firestore
     
     var currentUID: String? {
@@ -49,6 +51,8 @@ class FirebaseManager: ObservableObject {
     }
     
     func addUser(name: String, sweep_width: Double, cane_length: Double, music: String, beep_noise: String, music_id: String, sweep_tolerance: Double, wheelchair_user: Bool) {
+        print("Firebase add user \(name)")
+
         _ = db.collection("users").addDocument(data: [
             "name": name,
             "sweepWidth": sweep_width,
@@ -62,24 +66,43 @@ class FirebaseManager: ObservableObject {
         ])
     }
     
+    func updateUser(name: String, sweep_width: Double, cane_length: Double, music: String, beep_noise: String, music_id: String, sweep_tolerance: Double, wheelchair_user: Bool) {
+        guard let documentID = nameToDocumentID[name] else {
+            return
+        }
+        print("Firebase updating user")
+        _ = db.collection("users").document(documentID).setData([
+            "name": name,
+            "sweepWidth": sweep_width,
+            "caneLength": cane_length,
+            "music": music,
+            "beepNoise": beep_noise,
+            "musicId": music_id,
+            "sweepTolerance": sweep_tolerance,
+            "wheelchairUser": wheelchair_user,
+            "instructorUID": authManager.currentUID!
+        ])
+    }
+    
+    
     func queryUsersForInstructor(completion: @escaping ([[String: Any]]) -> Void) {
         var document_data: Array<[String: Any]> = Array()
         db.collection("users").whereField("instructorUID", isEqualTo: authManager.currentUID!).getDocuments { (querySnapshot, error) in
-                    if let error = error {
-                        print("Error getting documents: \(error)")
-                        completion([])
-                    } else {
-                        print("no error")
-                        for document in querySnapshot!.documents {
-                            print("appending")
-                            print(document.data())
-                            print(document)
-                            document_data.append(document.data())
-                        }
-                        completion(document_data)
-                    }
+            if let error = error {
+                print("Error getting documents: \(error)")
+                completion([])
+            } else {
+                print("Firebase no error \(querySnapshot!.documents.count)")
+                for document in querySnapshot!.documents {
+                    print("appending")
+                    print(document.data())
+                    print(document)
+                    self.nameToDocumentID[(document.data()["name"] as? String) ?? ""] = document.documentID
+                    document_data.append(document.data())
                 }
-        completion([])
+                completion(document_data)
+            }
+        }
     }
     
     func uploadSweepSessionData(sessionStartTime: Timestamp, sessionEndTime: Timestamp, sweepData: Array<Float>) {

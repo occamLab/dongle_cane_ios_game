@@ -89,8 +89,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
 
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 30.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false)
-            
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 30.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, addToFirebase: true)
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             self.profileBox.text = textField!.text!
