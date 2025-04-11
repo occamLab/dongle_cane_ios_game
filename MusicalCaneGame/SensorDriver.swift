@@ -30,19 +30,21 @@ class SensorDriver: ObservableObject {
     }
     
     func startScanning() {
-        scannedDevices.removeAll() // Clear previous scan results
-        if let connectedDevice = connectedDevice {
-            scannedDevices.append(connectedDevice)
-        }
-        // Only start scanning if Bluetooth is on
-        if isBluetoothOn {
-            isBluetoothOn = true
-            metaWearManager.startScan(allowDuplicates: true) { [weak self] device in
-                guard let self = self else { return }
-                
-                DispatchQueue.main.async {
-                    if !self.scannedDevices.contains(where: { $0.peripheral.identifier == device.peripheral.identifier }) {
-                        self.scannedDevices.append(device)
+        DispatchQueue.main.async {
+            self.scannedDevices.removeAll() // Clear previous scan results
+            if let connectedDevice = self.connectedDevice {
+                self.scannedDevices.append(connectedDevice)
+            }
+            // Only start scanning if Bluetooth is on
+            if self.isBluetoothOn {
+                self.isBluetoothOn = true
+                self.metaWearManager.startScan(allowDuplicates: true) { [weak self] device in
+                    guard let self = self else { return }
+                    
+                    DispatchQueue.main.async {
+                        if !self.scannedDevices.contains(where: { $0.peripheral.identifier == device.peripheral.identifier }) {
+                            self.scannedDevices.append(device)
+                        }
                     }
                 }
             }
@@ -158,8 +160,10 @@ class SensorDriver: ObservableObject {
         mbl_mw_debug_enable_power_save(device.board)
         // Preform the soft reset
         mbl_mw_debug_reset(device.board)
-        self.connectedDevice = nil
-        self.batteryLevel = nil
+        DispatchQueue.main.async {
+            self.connectedDevice = nil
+            self.batteryLevel = nil
+        }
         print("Device is now in sleep mode.")
     }
 }
@@ -189,15 +193,20 @@ func eventEndCallback(context: UnsafeMutableRawPointer?, timer: OpaquePointer?, 
     }
 }
 
+class WITMotionSensorValues: ObservableObject {
+    static let shared = WITMotionSensorValues()
+    @Published var currentData: simd_quatf?
+}
+
 
 class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     static let shared = WITMotion()
     var scanner: CBCentralManager?
     @Published var scannedDevices: [CBPeripheral] = []
     @Published var connectedDevice: CBPeripheral?
+    @Published var isConnecting = false
     var commandCharacteristic: CBCharacteristic?
     var sensorUpdateCharacteristic: CBCharacteristic?
-    @Published var currentData: simd_quatf?
     @Published var newDeviceName: String = ""
     @Published var batteryLevel: Int? // Store battery level as a percentage
     var batteryTimer: Timer?
@@ -216,14 +225,23 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
         if central.state == .poweredOn {
             startScanning()
         } else {
-            print("Bluetooth is not available")
+            DispatchQueue.main.async {
+                self.isConnecting = false
+            }
         }
     }
 
     // Start scanning for BLE devices
     func startScanning() {
         print("Scanning for BLE devices...")
-        scanner?.scanForPeripherals(withServices: [CBUUID(string: "0000FFE5-0000-1000-8000-00805F9A34FB")], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
+        DispatchQueue.main.async {
+            self.scannedDevices.removeAll()
+            self.scanner?.scanForPeripherals(withServices: [CBUUID(string: "0000FFE5-0000-1000-8000-00805F9A34FB")], options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
+        }
+    }
+    
+    func stopScanning() {
+        scanner?.stopScan()
     }
 
     // Called when a device is discovered
@@ -253,6 +271,9 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
     func connect(to device: CBPeripheral) {
         device.delegate = self
         scanner?.connect(device, options: nil)
+        DispatchQueue.main.async {
+            self.isConnecting = true
+        }
     }
     
     func disconnect() {
@@ -263,6 +284,9 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
     
     // Called when connection is successful
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        DispatchQueue.main.async {
+            self.isConnecting = false
+        }
         print("Connected to \(peripheral.name ?? "Unknown")")
         connectedDevice = peripheral
         newDeviceName = peripheral.name ?? ""
@@ -337,7 +361,7 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
                 commandCharacteristic = characteristic
                 // unlock config
                 writeHexStringToCharacteristic(hexString: "FFAA6988B5", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
-                // use 50hz output
+                // use 50hz output (might need to adjust bandwidth also)
                 writeHexStringToCharacteristic(hexString: "FFAA030800", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
                 // use 10hz output
                 // writeHexStringToCharacteristic(hexString: "FFAA030600", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
@@ -345,7 +369,7 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
                 writeHexStringToCharacteristic(hexString: "FFAA240100", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
                 writeHexStringToCharacteristic(hexString: "FFAA000000", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
 
-                batteryTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
+                batteryTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
                     print("checking battery level")
                     self.writeHexStringToCharacteristic(hexString: "FFAA276400", characteristic: characteristic, peripheral: peripheral)
                 }
@@ -383,7 +407,7 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
                 let angleZ = Float(parsedValues[9])/32768.0*Float.pi
                 // according to WITMotion Python code, the order of the axis consists of fixed rotations around X, Y, and Z (in that order)
                 // qua = quaternion_from_euler(angle_radian[0], angle_radian[1], angle_radian[2])
-                self.currentData = simd_quatf(angle: angleZ, axis: simd_float3(0, 0, 1)) * simd_quatf(angle: angleY, axis: simd_float3(0, 1, 0)) * simd_quatf(angle: angleX, axis: simd_float3(1, 0, 0))
+                WITMotionSensorValues.shared.currentData = simd_quatf(angle: angleZ, axis: simd_float3(0, 0, 1)) * simd_quatf(angle: angleY, axis: simd_float3(0, 1, 0)) * simd_quatf(angle: angleX, axis: simd_float3(1, 0, 0))
             }
         case 0x71:
             switch byteArray[2] {

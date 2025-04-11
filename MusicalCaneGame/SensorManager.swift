@@ -30,7 +30,8 @@ class SensorManager: UIViewController {
     var sensorDriver = SensorDriver.shared
     var sweepDataManager = SweepDataManager.shared
     let witMotion = WITMotion.shared
-    
+    let witMotionSensorValues = WITMotionSensorValues.shared
+
     private var startSweep = true
     private var startPosition:[Float] = []
     private var finishingConnection = false
@@ -277,7 +278,7 @@ class SensorManager: UIViewController {
         }
         
         // Subscribe to changes
-        cancellable = witMotion.$currentData.sink { newValue in
+        cancellable = witMotionSensorValues.$currentData.sink { newValue in
             if let newValue = newValue {
                 self.caneAlignment = .yAxis          // TODO: fix hardcoding (this is here for testing)
                 self.sensorFusionReadingNewDongle(w: newValue.real, x: newValue.imag.x, y: newValue.imag.y, z: newValue.imag.z, caneLength: self.caneLength)
