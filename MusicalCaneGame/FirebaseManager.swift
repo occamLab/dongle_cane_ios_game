@@ -105,7 +105,36 @@ class FirebaseManager: ObservableObject {
         }
     }
     
-    func uploadSweepSessionData(sessionStartTime: Timestamp, sessionEndTime: Timestamp, sweepData: Array<Float>) {
+    func fetchSessions(user: String,
+                       instructor: String,
+                       startDate: Date,
+                       endDate: Date,
+                       completion: @escaping (([([Float], Float, Float)])->())) {
+        db.collection("sweepDataTable")
+            .whereField("instructorUID", isEqualTo: instructor)
+            .whereField("studentName", isEqualTo: user)
+            .whereField("sessionEndTime", isGreaterThanOrEqualTo: startDate)
+            .whereField("sessionEndTime", isLessThanOrEqualTo: endDate).getDocuments { [self]
+            (querySnapshot, error) in
+                var allSessions: [([Float], Float, Float)] = []
+                if let querySnapshot = querySnapshot {
+                    print("found sessions \(querySnapshot.documents.count)")
+                    for document in querySnapshot.documents {
+                        guard let sweeps = document.data()["sweepData"] as? [Float],
+                              let tolerance = document.data()["sweepRange"] as? Float,
+                              let range = document.data()["sweepTolerance"] as? Float else {
+                            continue
+                        }
+                        allSessions.append((sweeps, tolerance, range))
+                    }
+                }
+                completion(allSessions)
+            print("fetched")
+        }
+    }
+    
+    func uploadSweepSessionData(sessionStartTime: Timestamp, sessionEndTime: Timestamp, sweepData: Array<Float>, sweepRange: Float, sweepTolerance: Float) {
+        // Note: the session number might be bad to include as it will cost more and more resources to compute as the number of sessions increases.
 
         // Get the start and end of the current day.
         let calendar = Calendar.current
@@ -122,7 +151,7 @@ class FirebaseManager: ObservableObject {
                     if let sessionNumber = data["sessionNumber"] as? Int {
                         if sessionNumber > currHighestSessionNumber {
                             currHighestSessionNumber = sessionNumber
-                        }   
+                        }
                     }
                 }
                 
@@ -132,6 +161,8 @@ class FirebaseManager: ObservableObject {
                     "sessionStartTime": sessionStartTime,
                     "sessionEndTime": sessionEndTime,
                     "sweepData": sweepData,
+                    "sweepRange": sweepRange,
+                    "sweepTolerance": sweepTolerance,
                     "sessionNumber": currHighestSessionNumber + 1
                 ])
             }

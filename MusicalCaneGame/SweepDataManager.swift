@@ -24,7 +24,12 @@ class SweepDataManager {
     
     func stopAndUploadData() {
         let sessionEndTime = Timestamp.init()
-        fbManager.uploadSweepSessionData(sessionStartTime: sessionStartTime!, sessionEndTime: sessionEndTime, sweepData: sweepData)
+        let dbInterface = DBInterface.shared
+        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        let user_row = dbInterface.getRow(u_name: selectedProfile)
+        let sweepRange = Float(user_row![dbInterface.sweep_width])
+        let sweepTolerance = Float(user_row![dbInterface.sweep_tolerance])
+        fbManager.uploadSweepSessionData(sessionStartTime: sessionStartTime!, sessionEndTime: sessionEndTime, sweepData: sweepData, sweepRange: sweepRange, sweepTolerance: sweepTolerance)
         
         self.sweepData = []
         self.collectingSweepData = false

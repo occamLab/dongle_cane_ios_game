@@ -171,10 +171,12 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
                 synth.speak(utterance)
                 NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: true)
                 startButtonPressed = true // music mode has started
+                SweepDataManager.shared.startDataCollection()
             } else {
                 createAlert(title: "Error", message: "Please select song")
             }
         } else if controlButton.title == "Stop" {
+            SweepDataManager.shared.stopAndUploadData()
             NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: false)
         }
 
