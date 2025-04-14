@@ -363,6 +363,9 @@ class WITMotion: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriphe
                 writeHexStringToCharacteristic(hexString: "FFAA6988B5", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
                 // use 50hz output (might need to adjust bandwidth also)
                 writeHexStringToCharacteristic(hexString: "FFAA030800", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
+                // set installation direction
+                writeHexStringToCharacteristic(hexString: "FFAA230000", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
+
                 // use 10hz output
                 // writeHexStringToCharacteristic(hexString: "FFAA030600", characteristic: characteristic, peripheral: peripheral, requestResponse: true)
                 // use 6-axis orientation mode (use FFAA240000 for 9-axis) (use FFAA240100 for 6-axis)
