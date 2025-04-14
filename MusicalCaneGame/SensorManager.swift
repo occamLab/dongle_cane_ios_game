@@ -280,7 +280,7 @@ class SensorManager: UIViewController {
         // Subscribe to changes
         cancellable = witMotionSensorValues.$currentData.sink { newValue in
             if let newValue = newValue {
-                self.caneAlignment = .yAxis          // TODO: fix hardcoding (this is here for testing)
+                self.caneAlignment = .zAxis          // TODO: fix hardcoding (this is here for testing)
                 self.sensorFusionReadingNewDongle(w: newValue.real, x: newValue.imag.x, y: newValue.imag.y, z: newValue.imag.z, caneLength: self.caneLength)
                 print("angle \(newValue.angle)")
             }
@@ -343,7 +343,6 @@ class SensorManager: UIViewController {
         
         let lengthOnZAxiz = sqrt((xPos * xPos) + (yPos * yPos))
         let length_normalized = lengthOnZAxiz / caneLength
-
         if length_normalized > 0.3 || isWheelchairUser {        // the Shepard's pose doesn't matter if you are a wheelchair user
             // this should be in inches
             let position = [xPos, yPos, zPos]
