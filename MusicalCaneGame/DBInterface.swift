@@ -43,6 +43,7 @@ class DBInterface {
     let music_id: SQLite.Expression<String> = Expression<String>("music_id")
     let sweep_tolerance: SQLite.Expression<Double> = Expression<Double>("sweep_tolerance")
     let wheelchair_user: SQLite.Expression<Bool> = Expression<Bool>("wheelchair_user")
+    let stop_immediately: SQLite.Expression<Bool> = Expression<Bool>("stop_immediately")
     let beacons_enabled: SQLite.Expression<Bool> = Expression<Bool>("beacons_enabled")
 
     // column names for beacon Ids
@@ -69,11 +70,11 @@ class DBInterface {
             return
         }
         do {
-            if (db != nil) {
+            if let db = db {
                 // TODO: add migration step for existing local profiles to firebase DB
                 dropTable()
                 // create the table if it doesn't exist
-                try self.db!.run(self.users.create(ifNotExists: true) { t in
+                try db.run(self.users.create(ifNotExists: true) { t in
                     t.column(self.name, primaryKey: true)
                     t.column(self.sweep_width)
                     t.column(self.cane_length)
@@ -83,21 +84,22 @@ class DBInterface {
                     t.column(self.sweep_tolerance)
                     t.column(self.beacons_enabled)
                     t.column(self.wheelchair_user)
+                    t.column(self.stop_immediately)
                 })
                 // if there are no rows, add a default user
-                let count = try self.db!.scalar(self.users.count)
+                let count = try db.scalar(self.users.count)
                 if (count == 0) {
                     print("count 0")
                     // If there are no users in the local db, check firebase to see if there are any records
                     fbManager.queryUsersForInstructor { [self]documentData in
                         print("document data: \(documentData)")
                         if documentData.isEmpty {
-                            insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, addToFirebase: true)
+                            insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, u_stop_immediately: false, addToFirebase: true)
                             // This might not be necessary once the migration successfully takes place
                             UserDefaults.standard.set("Default User", forKey: "currentProfile")
                         } else {
                             for doc in documentData {
-                                insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] as? Bool) == true, addToFirebase:false)
+                                insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] as? Bool) == true, u_stop_immediately: (doc["stopImmediately"] as? Bool) == true, addToFirebase:false)
                                 
                                 let newCount = try! self.db!.scalar(self.users.count)
                                 print("newCount \(newCount)")
@@ -126,14 +128,14 @@ class DBInterface {
         
     }
     
-    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool, addToFirebase: Bool) {
+    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool, u_stop_immediately: Bool, addToFirebase: Bool) {
         if (db != nil) {
             do {
-                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, beacons_enabled <- false, wheelchair_user <- u_wheelchair_user))
+                let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, beacons_enabled <- false, wheelchair_user <- u_wheelchair_user, stop_immediately <- u_stop_immediately))
                 print("insertion success! \(rowId)")
                 if addToFirebase {
                     // Also upload the new entry to firebase
-                    fbManager.addUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user)
+                    fbManager.addUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user, stop_immediately: u_stop_immediately)
                 }
             } catch {
                 print("insertion failed: \(error)")
@@ -144,7 +146,7 @@ class DBInterface {
     func getRow(u_name: String) -> Row?{
         if (db != nil) {
             do {
-                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, music, beep_noise, music_id, sweep_tolerance, beacons_enabled, wheelchair_user)
+                let rows = try self.db!.prepare(self.users.select(name, sweep_width, cane_length, music, beep_noise, music_id, sweep_tolerance, beacons_enabled, wheelchair_user, stop_immediately)
                                                 .filter(name == u_name))
                 for row in rows {
                     return row
@@ -318,14 +320,14 @@ class DBInterface {
         }
     }
     
-    func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool) {
+    func updateRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool, u_stop_immediately: Bool) {
         // Update all values except the Beacon enabled flag
         do {
             try self.db!.run(self.users.filter(name == u_name)
                 .update(sweep_width <- u_sweep_width,
-                        cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, wheelchair_user <- u_wheelchair_user))
+                        cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, wheelchair_user <- u_wheelchair_user, stop_immediately <- u_stop_immediately))
             // Also update the new entry to firebase
-            fbManager.updateUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user)
+            fbManager.updateUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user, stop_immediately: u_stop_immediately)
         } catch {
             print("error updating users table: \(error)")
         }

@@ -18,7 +18,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
     @IBOutlet weak var wheelChairUserLabel: UILabel!
     // TODO: delete this
-    @IBOutlet weak var wheelChairUserToggle: UISwitch!
+    @IBOutlet weak var stopImmediately: UISwitch!
+    var stopImmediatelyValue = false
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var newProfileButton: UIButton!
     var selectedProfile: String = "Default User"
@@ -89,7 +90,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
 
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 30.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, addToFirebase: true)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 30.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, u_stop_immediately: false, addToFirebase: true)
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             self.profileBox.text = textField!.text!
@@ -134,25 +135,24 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " inches"
     }
     
-    func setWheelchairSettings() {
-        if wheelChairUserToggle.isOn {
-            caneLengthText.text = "Wheel radius"
-            sweepRangeText.text = "Activation Distance"
-            skillLevelBox.isHidden = true
-            skillLevelLabel.isHidden = true
-        } else {
-            caneLengthText.text = "Cane length"
-            sweepRangeText.text = "Sweep Range"
-            skillLevelBox.isHidden = false
-            skillLevelLabel.isHidden = false
-        }
+//    func setWheelchairSettings() {
+//        if wheelChairUserToggle.isOn {
+//            caneLengthText.text = "Wheel radius"
+//            sweepRangeText.text = "Activation Distance"
+//            skillLevelBox.isHidden = true
+//            skillLevelLabel.isHidden = true
+//        } else {
+//            caneLengthText.text = "Cane length"
+//            sweepRangeText.text = "Sweep Range"
+//            skillLevelBox.isHidden = false
+//            skillLevelLabel.isHidden = false
+//        }
+//    }
+
+    @IBAction func stopImmediatelyStatusChanged(_ sender: UISwitch) {
+        stopImmediatelyValue = sender.isOn
     }
 
-    @IBAction func wheelChairUsersStatusChanged(_ sender: Any) {
-        setWheelchairSettings()
-    }
-
-    
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(sweepTolerancePickerData[row])
     }
@@ -171,7 +171,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         skillLevelBox.isEnabled = b
         skillLevelLabel.isEnabled = b
         wheelChairUserLabel.isEnabled = b
-        wheelChairUserToggle.isEnabled = b
+        stopImmediately.isEnabled = b
         
 
         caneLengthText.isEnabled = b
@@ -212,9 +212,9 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         } else {
             skillLevelBox.text = "Level 1"
         }
-
-        wheelChairUserToggle.isOn = user_row![self.dbInterface.wheelchair_user] == true
-        setWheelchairSettings()
+        stopImmediately.isOn = user_row![self.dbInterface.stop_immediately] == true
+        // wheelChairUserToggle.isOn = user_row![self.dbInterface.wheelchair_user] == true
+       // setWheelchairSettings()
     }
 
     /**
@@ -238,7 +238,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
                 u_beep_noise: selectedBeepNoise!,
                 u_music_id: mySong != nil ? mySong!.map({String($0)}).joined(separator: ",") : "",   // serialize as an array
                 u_sweep_tolerance: Double(sweepToleranceValue),
-                u_wheelchair_user: wheelChairUserToggle.isOn)
+                u_wheelchair_user: false,
+                u_stop_immediately: stopImmediatelyValue)
             isEdit = true
         }
         changeOptions(b:!isEdit)

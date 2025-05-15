@@ -158,8 +158,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wheelchair User:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvz-ud-gTd">
-                                <rect key="frame" x="20" y="141.5" width="130.5" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stop music immediately on bad sweep" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvz-ud-gTd">
+                                <rect key="frame" x="20" y="141.5" width="292" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -222,7 +222,7 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XPT-by-hit">
                                 <rect key="frame" x="257" y="100" width="49" height="31"/>
                                 <connections>
-                                    <action selector="wheelChairUsersStatusChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="pGN-DT-vKO"/>
+                                    <action selector="stopImmediatelyStatusChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="NMR-HB-Kpz"/>
                                 </connections>
                             </switch>
                             <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="infinite" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Select Skill Level" borderStyle="roundedRect" placeholder="beep" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Gbk-hl-uyQ">
@@ -313,11 +313,11 @@
                         <outlet property="selectMusicText" destination="2a9-Gg-Mzh" id="1H0-RY-AX1"/>
                         <outlet property="skillLevelBox" destination="Gbk-hl-uyQ" id="VG4-uU-yKh"/>
                         <outlet property="skillLevelLabel" destination="msY-aU-FLe" id="Ds9-Xt-fIn"/>
+                        <outlet property="stopImmediately" destination="XPT-by-hit" id="pX3-y7-Nlu"/>
                         <outlet property="sweepRangeLabel" destination="I7c-ki-mOh" id="tf7-ao-FBV"/>
                         <outlet property="sweepRangeSlider" destination="Z7C-JH-RFr" id="NBJ-Yy-bO3"/>
                         <outlet property="sweepRangeText" destination="5Db-41-Ihh" id="3EO-33-tVA"/>
                         <outlet property="wheelChairUserLabel" destination="Zvz-ud-gTd" id="pMC-E6-5TT"/>
-                        <outlet property="wheelChairUserToggle" destination="XPT-by-hit" id="A7f-q7-fdt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vlO-Ea-EIe" userLabel="First Responder" sceneMemberID="firstResponder"/>

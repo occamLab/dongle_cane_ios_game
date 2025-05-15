@@ -66,6 +66,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     let dbInterface = DBInterface.shared
     ///`DUPLICATED`
 
+    var stopImmediately: Bool = false
     var isWheelchairUser: Bool = false
     @IBOutlet weak var playPeriodText: UILabel!
     
@@ -99,7 +100,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         let user_row = self.dbInterface.getRow(u_name: selectedProfile)
         playerName.text = selectedProfile
         isWheelchairUser = user_row![dbInterface.wheelchair_user]
-
+        stopImmediately = user_row![dbInterface.stop_immediately]
         //Change Music Title
         if user_row![self.dbInterface.music] != "Select Music" {
             var myPlaylist = [MPMediaItem]()
@@ -280,7 +281,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
     }
-
+    var lastGoodSweepTime = Date()
     var sweepTime:Float = 2.0
 
     var playing = -1
@@ -304,12 +305,12 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             stopMusicTimer?.invalidate()
             stopMusicTimer = Timer.scheduledTimer(timeInterval: TimeInterval(musicPlayPeriod), target: self, selector: #selector(stopPlaying), userInfo: nil, repeats: false)
             // music has stopped but we want to restart it?
+            lastGoodSweepTime = Date()
             if playing != shouldPlay {
                 mp.play()
                 playing = 1
             }
-        } else{
-        // stop music
+        } else if -lastGoodSweepTime.timeIntervalSinceNow > musicPlayPeriod || stopImmediately {
             stopPlaying()
         }
     }

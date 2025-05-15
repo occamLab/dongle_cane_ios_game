@@ -50,7 +50,7 @@ class FirebaseManager: ObservableObject {
         }
     }
     
-    func addUser(name: String, sweep_width: Double, cane_length: Double, music: String, beep_noise: String, music_id: String, sweep_tolerance: Double, wheelchair_user: Bool) {
+    func addUser(name: String, sweep_width: Double, cane_length: Double, music: String, beep_noise: String, music_id: String, sweep_tolerance: Double, wheelchair_user: Bool, stop_immediately: Bool) {
         print("Firebase add user \(name)")
 
         _ = db.collection("users").addDocument(data: [
@@ -62,11 +62,12 @@ class FirebaseManager: ObservableObject {
             "musicId": music_id,
             "sweepTolerance": sweep_tolerance,
             "wheelchairUser": wheelchair_user,
+            "stopImmediately": stop_immediately,
             "instructorUID": authManager.currentUID!
         ])
     }
     
-    func updateUser(name: String, sweep_width: Double, cane_length: Double, music: String, beep_noise: String, music_id: String, sweep_tolerance: Double, wheelchair_user: Bool) {
+    func updateUser(name: String, sweep_width: Double, cane_length: Double, music: String, beep_noise: String, music_id: String, sweep_tolerance: Double, wheelchair_user: Bool, stop_immediately: Bool) {
         guard let documentID = nameToDocumentID[name] else {
             return
         }
@@ -80,6 +81,7 @@ class FirebaseManager: ObservableObject {
             "musicId": music_id,
             "sweepTolerance": sweep_tolerance,
             "wheelchairUser": wheelchair_user,
+            "stopImmediately": stop_immediately,
             "instructorUID": authManager.currentUID!
         ])
     }
