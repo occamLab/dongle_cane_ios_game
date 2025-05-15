@@ -29,7 +29,9 @@ class SweepDataManager {
         let user_row = dbInterface.getRow(u_name: selectedProfile)
         let sweepRange = Float(user_row![dbInterface.sweep_width])
         let sweepTolerance = Float(user_row![dbInterface.sweep_tolerance])
-        fbManager.uploadSweepSessionData(sessionStartTime: sessionStartTime!, sessionEndTime: sessionEndTime, sweepData: sweepData, sweepRange: sweepRange, sweepTolerance: sweepTolerance)
+        if let sessionStartTime = sessionStartTime  {
+            fbManager.uploadSweepSessionData(sessionStartTime: sessionStartTime, sessionEndTime: sessionEndTime, sweepData: sweepData, sweepRange: sweepRange, sweepTolerance: sweepTolerance)
+        }
         
         self.sweepData = []
         self.collectingSweepData = false
