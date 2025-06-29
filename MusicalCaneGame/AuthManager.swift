@@ -13,9 +13,14 @@ import CryptoKit
 import AuthenticationServices
 import SwiftUI
 
+protocol AuthManagerDelegate {
+    func didSuccessfullySignIn()
+}
+
 class AuthManager: NSObject, ObservableObject, ASAuthorizationControllerDelegate {
     public static var shared = AuthManager()
     private var currentNonce: String?
+    var delegate: AuthManagerDelegate?
     
     @Published var currentUID: String?
     @Published var currentEmail: String?
@@ -29,6 +34,14 @@ class AuthManager: NSObject, ObservableObject, ASAuthorizationControllerDelegate
         createAuthListener()
     }
     
+    func signOut() {
+        do {
+            try firebaseAuth.signOut()
+        } catch {
+            print("unable to signout")
+        }
+    }
+    
     private func createAuthListener() {
         firebaseAuth.addStateDidChangeListener() { (auth, user) in
             self.currentUID = user?.uid
@@ -38,8 +51,9 @@ class AuthManager: NSObject, ObservableObject, ASAuthorizationControllerDelegate
             
             // Ensure that a document exists for the current user within
             // firebase
-            if self.currentUID != nil {
-                FirebaseManager.shared.checkOrAppendInstructorUID(instructorUID: self.currentUID!)
+            if let currentUID = self.currentUID {
+                FirebaseManager.shared.checkOrAppendInstructorUID(instructorUID: currentUID)
+                self.delegate?.didSuccessfullySignIn()
             }
         }
     }

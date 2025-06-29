@@ -131,12 +131,6 @@ struct ProfileDataView: View {
         _dataLoader = StateObject(wrappedValue: ProfileDataModel(instructorID: AuthManager.shared.currentUID!, studentName: studentName))
     }
     
-//    let sessionData = [
-//        SessionData(sweepDistances: [10, 20, 30, 40, 25, 35], targetDistance: 30, tolerance: 0.1),
-//        SessionData(sweepDistances: [30, 30, 35, 45, 50], targetDistance: 30, tolerance: 0.1),
-//        SessionData(sweepDistances: [15, 25, 20, 30, 35, 40], targetDistance: 30, tolerance: 0.1),
-//    ]
-    
     var body: some View {
         NavigationStack {
             VStack {
