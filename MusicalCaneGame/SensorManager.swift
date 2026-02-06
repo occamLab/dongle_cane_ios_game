@@ -210,12 +210,8 @@ class SensorManager: UIViewController {
     }
     
     func loadProfile(){
-        //The new method should only use User defaults to know what the current profile is
-        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
-            UserDefaults.standard.set("Default User", forKey: "currentProfile")
-        }
-        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         let dbInterface = DBInterface.shared
+        let selectedProfile = dbInterface.currentProfile
         let user_row = dbInterface.getRow(u_name: selectedProfile)
 
         //For the sliders
@@ -432,30 +428,5 @@ class SensorManager: UIViewController {
             positionAtMaximum = []
             NotificationCenter.default.post(name: name, object:  false)
         }
-    }
-}
-
-extension SensorManager: UIPickerViewDataSource, UIPickerViewDelegate {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 2
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        row == 0 ? "Snap-on attachment" : "Zip-tie attachment"
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if row == 0 {
-            caneAlignment = .xAxis
-        } else if row == 1 {
-            caneAlignment = .yAxis
-        }
-        UserDefaults.standard.set(caneAlignment.rawValue, forKey: "caneAlignment")
-    }
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 50.0
     }
 }

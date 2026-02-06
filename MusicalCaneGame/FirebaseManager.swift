@@ -159,7 +159,7 @@ class FirebaseManager: ObservableObject {
                 
                 db.collection("sweepDataTable").addDocument(data: [
                     "instructorUID": authManager.currentUID!,
-                    "studentName": UserDefaults.standard.string(forKey: "currentProfile")!,
+                    "studentName": DBInterface.shared.currentProfile,
                     "sessionStartTime": sessionStartTime,
                     "sessionEndTime": sessionEndTime,
                     "sweepData": sweepData,

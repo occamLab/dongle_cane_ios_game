@@ -275,11 +275,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         createBeepNoisePicker(countNoisePicker: countBeepPicker)
         createToolbar()
         changeOptions(b:!isEdit)
-        //Load db info
-        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
-            UserDefaults.standard.set("Default User", forKey: "currentProfile")
-        }
-        selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        selectedProfile = DBInterface.shared.currentProfile
         loadOptions()
     }
 

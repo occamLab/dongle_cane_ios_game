@@ -185,10 +185,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
         super.viewDidLoad()
         sideMenu()
         //Load the options from the database
-        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
-            UserDefaults.standard.set("Default User", forKey: "currentProfile")
-        }
-        selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
         loadProfile()
         numSweeps = 0
 

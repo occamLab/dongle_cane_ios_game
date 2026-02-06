@@ -37,13 +37,13 @@ class ProfileDataViewController: UIViewController {
     let profileDataView: UIHostingController<ProfileDataView>
     
     init() {
-        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        let selectedProfile = DBInterface.shared.currentProfile
         profileDataView = UIHostingController(rootView: ProfileDataView(studentName: selectedProfile))
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder decoder: NSCoder) {
-        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        let selectedProfile = DBInterface.shared.currentProfile
         profileDataView = UIHostingController(rootView: ProfileDataView(studentName: selectedProfile))
         super.init(coder: decoder)
     }

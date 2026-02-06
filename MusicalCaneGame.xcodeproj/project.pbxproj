@@ -42,8 +42,6 @@
 		98B8DBBB211340CA00BEB719 /* MediaToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */; };
 		98C4ADDC2CED794F00CE98FA /* SensorDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */; };
 		98CAD5ED2CFF8AAC00E6BB8B /* ProfileDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CAD5EC2CFF8AAC00E6BB8B /* ProfileDataView.swift */; };
-		98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D44AE4211A2D8300E11840 /* BeaconViewController.swift */; };
-		98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98EBC690211C843500340583 /* LocationPopUpViewController.swift */; };
 		AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6C6EEF210267B700E9D840 /* AppDelegate.swift */; };
 		AD6C6EF5210267B700E9D840 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF3210267B700E9D840 /* Main.storyboard */; };
 		AD6C6EF7210267B800E9D840 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD6C6EF6210267B800E9D840 /* Assets.xcassets */; };
@@ -89,8 +87,6 @@
 		98B8DBBA211340CA00BEB719 /* MediaToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaToolbox.framework; path = System/Library/Frameworks/MediaToolbox.framework; sourceTree = SDKROOT; };
 		98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDriver.swift; sourceTree = "<group>"; };
 		98CAD5EC2CFF8AAC00E6BB8B /* ProfileDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataView.swift; sourceTree = "<group>"; };
-		98D44AE4211A2D8300E11840 /* BeaconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconViewController.swift; sourceTree = "<group>"; };
-		98EBC690211C843500340583 /* LocationPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPopUpViewController.swift; sourceTree = "<group>"; };
 		9E2567276E4C1DEE283C0234 /* Pods-MusicalCaneGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicalCaneGame.debug.xcconfig"; path = "Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame.debug.xcconfig"; sourceTree = "<group>"; };
 		AD6C6EEC210267B700E9D840 /* MusicalCaneGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicalCaneGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6C6EEF210267B700E9D840 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -205,11 +201,9 @@
 				98CAD5EC2CFF8AAC00E6BB8B /* ProfileDataView.swift */,
 				98C4ADDB2CED794F00CE98FA /* SensorDriver.swift */,
 				98A02ACC2CEE3BFD00BEA33D /* SensorManagerView.swift */,
-				98EBC690211C843500340583 /* LocationPopUpViewController.swift */,
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
 				95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */,
 				95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */,
-				98D44AE4211A2D8300E11840 /* BeaconViewController.swift */,
 				95BBF1F92168297600DDA9DB /* AudioViewController.swift */,
 				9582BE562167CF0300F4209E /* MainViewController.swift */,
 				98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */,
@@ -356,9 +350,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MusicalCaneGame/Pods-MusicalCaneGame-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -374,14 +372,12 @@
 			files = (
 				820EF297239EBA7D004A4BCD /* AudioVisualizerView.swift in Sources */,
 				9822A1D12CE3CD6700CFFD13 /* AuthManager.swift in Sources */,
-				98D44AE5211A2D8300E11840 /* BeaconViewController.swift in Sources */,
 				86591D90224D049E0050816B /* SWRevealViewController.m in Sources */,
 				E5220F4E2256634E004AE171 /* DBInterface.swift in Sources */,
 				95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */,
 				820EF296239EBA7D004A4BCD /* RecordButtonKit.swift in Sources */,
 				95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */,
 				820EF298239EBA7D004A4BCD /* RecorderViewController.swift in Sources */,
-				98EBC691211C843500340583 /* LocationPopUpViewController.swift in Sources */,
 				988C9CA52D0539E50063C601 /* SweepDataManager.swift in Sources */,
 				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
 				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,

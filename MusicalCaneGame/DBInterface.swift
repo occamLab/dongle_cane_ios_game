@@ -57,6 +57,14 @@ class DBInterface {
     let voiceNoteURL: SQLite.Expression<String> = Expression<String>("voicenoteurl")
     let beaconStatus: SQLite.Expression<Int> = Expression<Int>("beaconstatus")
     
+    var currentProfile: String {
+        let defaultUserName = "Default User"
+        if UserDefaults.standard.string(forKey: "currentProfile") == nil {
+            UserDefaults.standard.set(defaultUserName, forKey: "currentProfile")
+        }
+        return UserDefaults.standard.string(forKey: "currentProfile") ?? defaultUserName
+    }
+    
     private init() {
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true
@@ -95,8 +103,6 @@ class DBInterface {
                         print("document data: \(documentData)")
                         if documentData.isEmpty {
                             insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, u_stop_immediately: false, addToFirebase: true)
-                            // This might not be necessary once the migration successfully takes place
-                            UserDefaults.standard.set("Default User", forKey: "currentProfile")
                         } else {
                             for doc in documentData {
                                 insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] as? Bool) == true, u_stop_immediately: (doc["stopImmediately"] as? Bool) == true, addToFirebase:false)

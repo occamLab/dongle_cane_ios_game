@@ -25,7 +25,7 @@ class SweepDataManager {
     func stopAndUploadData() {
         let sessionEndTime = Timestamp.init()
         let dbInterface = DBInterface.shared
-        let selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        let selectedProfile = DBInterface.shared.currentProfile
         let user_row = dbInterface.getRow(u_name: selectedProfile)
         let sweepRange = Float(user_row![dbInterface.sweep_width])
         let sweepTolerance = Float(user_row![dbInterface.sweep_tolerance])

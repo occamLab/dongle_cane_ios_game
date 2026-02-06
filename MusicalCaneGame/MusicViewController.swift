@@ -209,11 +209,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         playPeriodText.text = String(Double(musicPlayPeriod).roundTo(places: 2)) + " seconds"
 
         sideMenu()
-        //The new method should only use User defaults to know what the current profile is
-        if (UserDefaults.standard.string(forKey: "currentProfile") == nil){
-            UserDefaults.standard.set("Default User", forKey: "currentProfile")
-        }
-        selectedProfile = UserDefaults.standard.string(forKey: "currentProfile")!
+        selectedProfile = DBInterface.shared.currentProfile
         loadProfile()
         animator = UIDynamicAnimator(referenceView: self.view)
         gravity = UIGravityBehavior()
