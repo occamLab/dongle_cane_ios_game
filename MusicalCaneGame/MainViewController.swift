@@ -8,15 +8,16 @@
 
 import UIKit
 import SwiftUI
+import FirebaseCore
 
-class MainViewController: UIViewController, AuthManagerDelegate {
+class MainViewController: UITableViewController, AuthManagerDelegate {
     @IBOutlet weak var signInWithAppleContainer: UIView!
+    let dbInterface = DBInterface.shared
     @IBOutlet weak var menuButton: UIBarButtonItem!
     var signInViewModal: SignInViewController?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        sideMenu()
         // Do any additional setup after loading the view.
         if FirebaseManager.shared.currentUID == nil {
             AuthManager.shared.delegate = self
@@ -26,19 +27,6 @@ class MainViewController: UIViewController, AuthManagerDelegate {
         } else {
             // uncomment to test sign-in flow
             //   AuthManager.shared.signOut()
-        }
-    }
-    
-    func sideMenu() {
-        
-        if revealViewController() != nil {
-            
-            menuButton.target = revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 250
-            
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-            
         }
     }
     

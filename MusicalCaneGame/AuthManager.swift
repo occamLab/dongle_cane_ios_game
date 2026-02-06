@@ -25,9 +25,11 @@ class AuthManager: NSObject, ObservableObject, ASAuthorizationControllerDelegate
     @Published var currentUID: String?
     @Published var currentEmail: String?
     
-    private let firebaseAuth = Auth.auth()
+    private let firebaseAuth: Auth!
     
     private override init() {
+        FirebaseApp.configure()
+        firebaseAuth = Auth.auth()
         currentUID = firebaseAuth.currentUser?.uid
         currentEmail = firebaseAuth.currentUser?.email
         super.init()
