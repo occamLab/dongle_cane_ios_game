@@ -128,6 +128,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     @IBAction func musicPlayPeriodSlider(_ sender: UISlider) {
         musicPlayPeriod = Double(sender.value).roundTo(places: 2)
         playPeriodText.text = String(Double(musicPlayPeriod).roundTo(places: 2)) + " seconds"
+        sender.accessibilityValue = playPeriodText.text
     }
     
     func readyToSweep() {
@@ -207,6 +208,8 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         super.viewDidLoad()
         musicPlayPeriod = Double(musicPlayPeriodSlider.value).roundTo(places: 2)
         playPeriodText.text = String(Double(musicPlayPeriod).roundTo(places: 2)) + " seconds"
+        musicPlayPeriodSlider.accessibilityValue = playPeriodText.text
+        musicPlayPeriodSlider.accessibilityLabel = "music play period"
 
         sideMenu()
         selectedProfile = DBInterface.shared.currentProfile

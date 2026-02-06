@@ -199,10 +199,10 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         //For the sliders
         sweepRangeValue = Float(user_row![self.dbInterface.sweep_width])
         sweepRangeSlider.setValue(sweepRangeValue!, animated: false)
-        sweepRangeLabel.text = String(Double(sweepRangeSlider.value).roundTo(places: 2)) + " inches"
+        sweepRangeLabel.text = String(Double(sweepRangeSlider.value).roundTo(places: 1)) + " inches"
         caneLengthValue = Float(user_row![self.dbInterface.cane_length])
         caneLengthSlider.setValue(caneLengthValue!, animated: false)
-        caneLengthLabel.text = String(Double(caneLengthSlider.value).roundTo(places: 2)) + " inches"
+        caneLengthLabel.text = String(Double(caneLengthSlider.value).roundTo(places: 1)) + " inches"
         
         // User skill level
         sweepToleranceValue = Int(user_row![self.dbInterface.sweep_tolerance])
@@ -266,7 +266,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         pickerProfiles = self.dbInterface.getAllUserNames()
         print(pickerProfiles)
         createProfilePicker()
-        
+        sweepRangeSlider.accessibilityLabel = "sweep range"
+        caneLengthSlider.accessibilityLabel = "cane length"
         self.sweepTolerancePicker.delegate = self
         self.sweepTolerancePicker.dataSource = self
         self.skillLevelBox.inputView = sweepTolerancePicker
@@ -392,7 +393,7 @@ extension GameSettingsViewController {
             let selectedBeepNoisePath = SoundViewController.getBeepPath[selectedBeepNoise!]
             beepPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: selectedBeepNoisePath!))
             beepPlayer.play()
-        }else if(pickerView == profilePicker){
+        } else if(pickerView == profilePicker){
             profileBox.text = pickerProfiles[row]
             UserDefaults.standard.set(profileBox.text, forKey: "currentProfile")
             selectedProfile = pickerProfiles[row]

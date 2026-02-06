@@ -83,6 +83,12 @@ class SensorManager: UIViewController {
         super.viewDidLoad()
         loadProfile()
         updateProgressView()
+        // disable this as it is hard to make dynamic
+        progressBarUI.isAccessibilityElement = false
+        progressBarOverflowUI.isAccessibilityElement = false
+        progressBarUnderflow.isAccessibilityElement = false
+        sweepRangeSliderUI.accessibilityLabel = "sweep range"
+
         let defaults = UserDefaults.standard
         if let existingAlignment = defaults.value(forKey: "caneAlignment") as? String, let currAlignment = DongleAlignmentWithCaneShaft(rawValue: existingAlignment) {
             caneAlignment = currAlignment
@@ -126,7 +132,7 @@ class SensorManager: UIViewController {
     }
 
     @IBAction func sweepRange(_ sender: UISlider) {
-        let x = Double(sender.value).roundTo(places: 2)
+        let x = Double(sender.value).roundTo(places: 1)
         linearTravelThreshold = Float(x)
         sweepRangeLabel.text = String(x) + " inches"
         sweepRange = sender.value
@@ -219,7 +225,7 @@ class SensorManager: UIViewController {
         caneLength = Float(user_row![dbInterface.cane_length])
         isWheelchairUser = user_row![dbInterface.wheelchair_user]
         linearTravelThreshold = sweepRange    // if we are using wheelchair mode, it's important to set this
-        sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 2)) + " inches"
+        sweepRangeLabel.text = String(Double(sweepRange).roundTo(places: 1)) + " inches"
         sweepRangeSliderUI.setValue(sweepRange, animated: false)
         sweepRangeText.text = isWheelchairUser ? "Activation Distance" : "Sweep Range"
         //For the sliders
