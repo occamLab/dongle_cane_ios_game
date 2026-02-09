@@ -22,13 +22,11 @@
 		9582BE572167CF0300F4209E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582BE562167CF0300F4209E /* MainViewController.swift */; };
 		95BBF1F22168232A00DDA9DB /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F12168232A00DDA9DB /* MusicViewController.swift */; };
 		95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */; };
-		95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1F92168297600DDA9DB /* AudioViewController.swift */; };
 		95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF1FC216F8A4F00DDA9DB /* MusicSegmentViewController.swift */; };
 		95BBF1FF216F8A4F00DDA9DB /* MusicSegmentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BBF1FD216F8A4F00DDA9DB /* MusicSegmentViewController.xib */; };
 		95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BBF200216F8A6800DDA9DB /* BeepSegmentViewController.swift */; };
 		95BBF203216F8A6800DDA9DB /* BeepSegmentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BBF201216F8A6800DDA9DB /* BeepSegmentViewController.xib */; };
 		9815A7B1211B3E3F00A2223F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9815A7B0211B3E3F00A2223F /* CoreLocation.framework */; };
-		98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */; };
 		981823A3211A3894006A28F7 /* White.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9818239D211A3894006A28F7 /* White.jpg */; };
 		9822A1C82CDA9AD800CFFD13 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9822A1C72CDA9AD800CFFD13 /* GoogleService-Info.plist */; };
 		9822A1CB2CDAA4C900CFFD13 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9822A1CA2CDAA4C900CFFD13 /* FirebaseAnalytics */; };
@@ -72,13 +70,11 @@
 		9582BE562167CF0300F4209E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		95BBF1F12168232A00DDA9DB /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
 		95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettingsViewController.swift; sourceTree = "<group>"; };
-		95BBF1F92168297600DDA9DB /* AudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
 		95BBF1FC216F8A4F00DDA9DB /* MusicSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicSegmentViewController.swift; sourceTree = "<group>"; };
 		95BBF1FD216F8A4F00DDA9DB /* MusicSegmentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MusicSegmentViewController.xib; sourceTree = "<group>"; };
 		95BBF200216F8A6800DDA9DB /* BeepSegmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeepSegmentViewController.swift; sourceTree = "<group>"; };
 		95BBF201216F8A6800DDA9DB /* BeepSegmentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BeepSegmentViewController.xib; sourceTree = "<group>"; };
 		9815A7B0211B3E3F00A2223F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconTableViewCell.swift; sourceTree = "<group>"; };
 		9818239D211A3894006A28F7 /* White.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = White.jpg; sourceTree = "<group>"; };
 		9822A1C72CDA9AD800CFFD13 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9822A1CC2CDAA7A500CFFD13 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
@@ -207,9 +203,7 @@
 				AD6C6EF3210267B700E9D840 /* Main.storyboard */,
 				95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */,
 				95BBF1F52168294C00DDA9DB /* GameSettingsViewController.swift */,
-				95BBF1F92168297600DDA9DB /* AudioViewController.swift */,
 				9582BE562167CF0300F4209E /* MainViewController.swift */,
-				98182388211A30EF006A28F7 /* BeaconTableViewCell.swift */,
 				AD6C6EF6210267B800E9D840 /* Assets.xcassets */,
 				AD6C6EF8210267B800E9D840 /* LaunchScreen.storyboard */,
 				AD6C6EFB210267B800E9D840 /* Info.plist */,
@@ -383,7 +377,6 @@
 				95BBF1F62168294C00DDA9DB /* GameSettingsViewController.swift in Sources */,
 				820EF298239EBA7D004A4BCD /* RecorderViewController.swift in Sources */,
 				988C9CA52D0539E50063C601 /* SweepDataManager.swift in Sources */,
-				95BBF1FA2168297600DDA9DB /* AudioViewController.swift in Sources */,
 				95BBF202216F8A6800DDA9DB /* BeepSegmentViewController.swift in Sources */,
 				98C4ADDC2CED794F00CE98FA /* SensorDriver.swift in Sources */,
 				98A02ACD2CEE3BFE00BEA33D /* SensorManagerView.swift in Sources */,
@@ -395,7 +388,6 @@
 				820EF299239EBA7D004A4BCD /* RecordButton.swift in Sources */,
 				98CAD5ED2CFF8AAC00E6BB8B /* ProfileDataView.swift in Sources */,
 				95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */,
-				98182389211A30EF006A28F7 /* BeaconTableViewCell.swift in Sources */,
 				AD6C6EF0210267B700E9D840 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

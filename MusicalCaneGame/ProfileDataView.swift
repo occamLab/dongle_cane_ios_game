@@ -31,8 +31,6 @@ struct SessionData: Identifiable {
 
 
 class ProfileDataViewController: UIViewController {
-  
-    @IBOutlet weak var menuButton: UIBarButtonItem!
     
     let profileDataView: UIHostingController<ProfileDataView>
     
@@ -50,20 +48,9 @@ class ProfileDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sideMenu()
         addChildViewController(profileDataView)
         profileDataView.view.frame = self.view.bounds
         self.view.addSubview(profileDataView.view)
-    }
-    
-    func sideMenu() {
-        if revealViewController() != nil {
-            menuButton.target = revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 250
-
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
     }
 }
 

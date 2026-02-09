@@ -69,9 +69,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     var stopImmediately: Bool = false
     var isWheelchairUser: Bool = false
     @IBOutlet weak var playPeriodText: UILabel!
-    
     ///`DUPLICATED`
-    @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var playerName: UILabel!
 
     ///For Beacons `DUPLICATED`
@@ -133,19 +131,22 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func readyToSweep() {
         activityIndicator.stopAnimating()
-        controlButton.title = "Stop"
+        controlButton.setTitle("Stop", for: .normal)
+        controlButton.accessibilityLabel = "Stop"
         UIApplication.shared.endIgnoringInteractionEvents()
         let synth = AVSpeechSynthesizer()
         let utterance = AVSpeechUtterance(string: "Start " + (isWheelchairUser ? "Moving" : "Sweeping"))
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        utterance.rate = 0.6
+        utterance.rate = 0.5
         synth.speak(utterance)
     }
     
+    @IBOutlet weak var controlButton: UIButton!
     var activityIndicator:UIActivityIndicatorView = UIActivityIndicatorView()
     //To start the session
-    @IBOutlet weak var controlButton: UIBarButtonItem!
+    
     var startButtonPressed:Bool? = false
+    
     /**
       This is a function that gets activated whenever the start/stop button is pressed
       It will give feedback when it is looking for a connection and when it found one
@@ -153,8 +154,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
       It should stop the audio and disconnect when stopped
     */
     @IBAction func controlButton(_ sender: Any) {
-
-        if controlButton.title == "Start" {
+        if controlButton.titleLabel?.text == "Start" {
             if sensorDriver.connectedDevice == nil && witMotion.connectedDevice == nil {
                 createAlert(title: "Error", message: "Please connect a sensor on the Manage Sensors page")
             }
@@ -177,11 +177,10 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             } else {
                 createAlert(title: "Error", message: "Please select song")
             }
-        } else if controlButton.title == "Stop" {
+        } else if controlButton.titleLabel?.text == "Stop" {
             SweepDataManager.shared.stopAndUploadData()
             NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: false)
         }
-
     }
 
     func createAlert (title:String, message:String) {
@@ -211,7 +210,6 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
         musicPlayPeriodSlider.accessibilityValue = playPeriodText.text
         musicPlayPeriodSlider.accessibilityLabel = "music play period"
 
-        sideMenu()
         selectedProfile = DBInterface.shared.currentProfile
         loadProfile()
         animator = UIDynamicAnimator(referenceView: self.view)
@@ -267,19 +265,11 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
             utterance.rate = 0.6
             synth.speak(utterance)
-            controlButton.title = "Start"
+            controlButton.setTitle("Start", for: .normal)
+            controlButton.accessibilityLabel = "Start"
         }
     }
 
-    //Loads the navigation menu `DUPLICATED`
-    func sideMenu() {
-        if revealViewController() != nil {
-            menuButton.target = revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 250
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
-    }
     var lastGoodSweepTime = Date()
     var sweepTime:Float = 2.0
 

@@ -51,13 +51,11 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                             "Tweet": "/System/Library/Audio/UISounds/tweet_sent.caf"]
     
     ///`DUPLICATED`
-    @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var playerName: UILabel!
-    @IBOutlet weak var controlButton: UIBarButtonItem!
     ///`DUPLICATED` Progress bar
-    
     var isRecordingAudio = false
     
+    @IBOutlet weak var controlButton: UIButton!
     
     @objc func handleChangeInAudioRecording(notification: NSNotification) {
         if let audioRecordingNewStatus = notification.object as? Bool {
@@ -106,15 +104,15 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
     var startButtonPressed:Bool?
     var speakSweeps:Bool = true
-
+    
     /**
       This is a function that gets activated whenever the start/stop button is pressed
       It will give feedback when it is looking for a connection and when it found one
       It should connect and init the audio player when started
       It should eset number beeps, stop the audio and disconnect when stopped
     */
-    @IBAction func controlButton(_ sender: Any) {
-        if controlButton.title == "Start" {
+    @IBAction func controlButtonPressed(_ sender: Any) {
+        if controlButton.titleLabel?.text == "Start" {
             if sensorDriver.connectedDevice == nil && witMotionDriver.connectedDevice == nil {
                 createAlert(title: "Error", message: "Please connect a sensor on the Manage Sensors page")
             }
@@ -139,7 +137,7 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
             } else{
                 createAlert(title: "Error", message: "You have not selected a beep noise.")
             }
-        } else if controlButton.title == "Stop" {
+        } else if controlButton.titleLabel?.text == "Stop" {
             numSweeps = 0
             NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: false)
             SweepDataManager.shared.stopAndUploadData()
@@ -183,7 +181,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     override func viewDidLoad() {
         super.viewDidLoad()
-        sideMenu()
         //Load the options from the database
         loadProfile()
         numSweeps = 0
@@ -246,29 +243,18 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
 
             let utterance = AVSpeechUtterance(string: "Finished")
             utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-            utterance.rate = 0.6
+            utterance.rate = 0.5
             synth.speak(utterance)
-            controlButton.title = "Start"
+            controlButton.setTitle("Start", for: .normal)
+            controlButton.accessibilityLabel = "Start"
         }
     }
     
-    //Loads the navigation menu `DUPLICATED`
-    func sideMenu() {
-
-        if revealViewController() != nil {
-
-            menuButton.target = revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 250
-
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-
-        }
-    }
     
     func readyToSweep() {
         activityIndicator.stopAnimating()
-        controlButton.title = "Stop"
+        controlButton.setTitle("Stop", for: .normal)
+        controlButton.accessibilityLabel = "Stop"
         UIApplication.shared.endIgnoringInteractionEvents()
         let utterance = AVSpeechUtterance(string: "Start " + (isWheelchairUser ? "Moving" : "Sweeping"))
         utterance.voice = AVSpeechSynthesisVoice(language: "en-US")

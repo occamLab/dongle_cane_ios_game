@@ -13,7 +13,6 @@ import FirebaseCore
 class MainViewController: UITableViewController, AuthManagerDelegate {
     @IBOutlet weak var signInWithAppleContainer: UIView!
     let dbInterface = DBInterface.shared
-    @IBOutlet weak var menuButton: UIBarButtonItem!
     var signInViewModal: SignInViewController?
     
     override func viewDidAppear(_ animated: Bool) {

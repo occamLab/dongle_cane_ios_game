@@ -20,7 +20,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     // TODO: delete this
     @IBOutlet weak var stopImmediately: UISwitch!
     var stopImmediatelyValue = false
-    @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var newProfileButton: UIButton!
     var selectedProfile: String = "Default User"
     ///Profile Picker View
@@ -259,7 +258,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     */
     override func viewDidLoad() {
         super.viewDidLoad()
-        sideMenu()
         //Declare Sweep Range
 
         //Populate Picker
@@ -313,20 +311,6 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-
-
-    func sideMenu() {
-
-        if revealViewController() != nil {
-
-            menuButton.target = revealViewController()
-            menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
-            revealViewController().rearViewRevealWidth = 250
-
-            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-
-        }
     }
 }
 
