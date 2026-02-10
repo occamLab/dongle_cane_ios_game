@@ -38,7 +38,6 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
                             "Begin Record": "/System/Library/Audio/UISounds/begin_record.caf",
                             "End Record": "/System/Library/Audio/UISounds/end_record.caf",
                             "Calypso": "/System/Library/Audio/UISounds/New/Calypso.caf",
-                            "Choo Choo": "/System/Library/Audio/UISounds/New/Choo_Choo.caf",
                             "Congestion": "/System/Library/Audio/UISounds/ct-congestion.caf",
                             "General Beep": "/System/Library/Audio/UISounds/SIMToolkitGeneralBeep.caf",
                             "Positive Beep": "/System/Library/Audio/UISounds/SIMToolkitPositiveACK.caf",

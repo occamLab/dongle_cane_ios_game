@@ -39,8 +39,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     let countBeepPicker = UIPickerView()
     @IBOutlet weak var beepNoiseBox: UITextField!
     @IBOutlet weak var selectBeepNoiseText: UILabel!
-    let beepNoises = ["Begin", "Begin Record", "End Record", "Calypso", "Choo Choo", "Congestion", "General Beep",                  "Positive Beep", "Negative Beep", "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
-    let beepNoiseCodes = [1110, 1113, 1114, 1022, 1023, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
+    let beepNoises = ["Begin", "Begin Record", "End Record", "Calypso", "Congestion", "General Beep",                  "Positive Beep", "Negative Beep", "Keytone", "Received", "Tink", "Tock", "Tiptoes", "Tweet"]
+    let beepNoiseCodes = [1110, 1113, 1114, 1022, 1071, 1052, 1054, 1053, 1075, 1013, 1103, 1104, 1034, 1016]
     var selectedBeepNoise: String?
 
     var beepCountValue: Int?
@@ -84,7 +84,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBAction func newProfilePressed(_ sender: UIButton) {
         let alert = UIAlertController(title:"New Profile",message:"Enter a Profile Name",preferredStyle: .alert)
         alert.addTextField{
-            (textField) in textField.text = "Edit student name here"
+            (textField) in textField.text = ""
+            textField.toolTip = "Profile Name"
         }
 
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
