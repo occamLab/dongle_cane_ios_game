@@ -267,8 +267,8 @@ class SoundViewController: UIViewController, UICollisionBehaviorDelegate {
     Parameter notification: Passed in container that has the length of the sweep
     */
     @objc func processSweeps(notification: NSNotification) {
-        let is_valid_sweep = notification.object as! Bool
-        if !isRecordingAudio, is_valid_sweep && startButtonPressed == true {
+        let sweepType = notification.object as? SweepNotification
+        if !isRecordingAudio, sweepType == .valid && startButtonPressed == true {
 
             numSweeps += 1
 
