@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="d08-Ky-NZ6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="lCX-Wc-kyD">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
@@ -17,10 +17,11 @@
                         <viewControllerLayoutGuide type="bottom" id="kFA-dS-mXA"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wui-03-nxX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="U52-7o-3F3"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xV6-Qv-WFg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -35,10 +36,11 @@
                         <viewControllerLayoutGuide type="bottom" id="ffy-ab-CDy"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="GRZ-YK-OB2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="pO6-Wi-lqx"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eKE-Af-hNP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -53,7 +55,7 @@
                         <viewControllerLayoutGuide type="bottom" id="TVE-CH-Q1p"/>
                     </layoutGuides>
                     <view key="view" contentMode="top" id="Bxm-rT-fHh">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Cane Length" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H1K-ZL-5Vo">
@@ -93,19 +95,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Music:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2a9-Gg-Mzh">
-                                <rect key="frame" x="20" y="115.5" width="122" height="30"/>
+                                <rect key="frame" x="20" y="179.5" width="122" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h24-fl-c4P">
-                                <rect key="frame" x="20" y="23" width="53.5" height="20.5"/>
+                                <rect key="frame" x="20" y="87" width="53.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stop music immediately on bad sweep" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zvz-ud-gTd">
-                                <rect key="frame" x="20" y="77.5" width="292" height="21"/>
+                                <rect key="frame" x="20" y="141.5" width="292" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -141,7 +143,7 @@
                                 </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUc-lO-uvc">
-                                <rect key="frame" x="16" y="488" width="284" height="40"/>
+                                <rect key="frame" x="16" y="508" width="284" height="40"/>
                                 <color key="backgroundColor" red="0.024212270975112915" green="0.37943944334983826" blue="0.78763556480407715" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="ahG-Tc-90B"/>
@@ -232,6 +234,7 @@
                             <constraint firstItem="TVE-CH-Q1p" firstAttribute="top" secondItem="KUc-lO-uvc" secondAttribute="bottom" constant="20" id="yTa-j0-lhO"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="DsW-NM-jVg"/>
                     <connections>
                         <outlet property="beepNoiseBox" destination="212-Pp-M3T" id="rjg-8R-SAa"/>
                         <outlet property="caneLengthLabel" destination="cPk-Sp-7jg" id="VPa-UB-5LK"/>
@@ -465,10 +468,11 @@
                             <outlet property="delegate" destination="d08-Ky-NZ6" id="KVZ-GH-yCe"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="QQO-MC-gMt"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uqC-IR-o9x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7072.5" y="729.92957746478874"/>
+            <point key="canvasLocation" x="-6075" y="729.92957746478874"/>
         </scene>
         <!--Sound View Controller-->
         <scene sceneID="gY9-7C-ssT">
@@ -479,11 +483,11 @@
                         <viewControllerLayoutGuide type="bottom" id="H8c-Ix-Al4"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fts-vf-hiA">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="SM1-HC-hOO">
-                                <rect key="frame" x="16" y="15" width="288" height="324.5"/>
+                                <rect key="frame" x="16" y="79" width="288" height="324.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1VO-4Q-tKc">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="34.5"/>
@@ -560,6 +564,7 @@
                             <constraint firstItem="SM1-HC-hOO" firstAttribute="trailing" secondItem="fts-vf-hiA" secondAttribute="trailingMargin" id="zMQ-nI-XDg"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="6Ka-Rw-CRQ"/>
                     <connections>
                         <outlet property="controlButton" destination="Eba-nE-PJR" id="sIx-ez-Lyx"/>
                         <outlet property="playerName" destination="OYT-pB-ym1" id="JBE-nw-4Y1"/>
@@ -568,7 +573,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bAK-sj-KQz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4901.25" y="728.87323943661977"/>
+            <point key="canvasLocation" x="-3903.75" y="728.87323943661977"/>
         </scene>
         <!--Music View Controller-->
         <scene sceneID="uih-qN-kdv">
@@ -579,11 +584,11 @@
                         <viewControllerLayoutGuide type="bottom" id="H3U-BH-bsc"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="2NS-5d-NNk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="BoI-Jn-b9W">
-                                <rect key="frame" x="16" y="8" width="288" height="408.5"/>
+                                <rect key="frame" x="16" y="72" width="288" height="408.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g5x-Nj-k3B">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="34.5"/>
@@ -680,6 +685,7 @@
                             <constraint firstItem="BoI-Jn-b9W" firstAttribute="top" secondItem="8iv-Up-FP4" secondAttribute="bottom" constant="8" symbolic="YES" id="HCX-bx-JEQ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="U4u-jw-NVl"/>
                     <connections>
                         <outlet property="controlButton" destination="RJD-Yb-XRF" id="5UN-ql-jGw"/>
                         <outlet property="currentSongButton" destination="USs-vB-85m" id="ZUb-SM-hyx"/>
@@ -824,7 +830,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qdz-47-e18" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5372" y="247"/>
+            <point key="canvasLocation" x="-4376.25" y="246.12676056338029"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Z2y-iy-3Zu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lCX-Wc-kyD" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eIz-bD-H51">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="d08-Ky-NZ6" kind="relationship" relationship="rootViewController" id="iOf-Ll-Kks"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V3E-xQ-VIJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7072.5" y="729.92957746478874"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -181,7 +181,7 @@ class SensorManager: UIViewController {
         sweepDataManager.addDataPoint(newSweepRange: sweepDistance)
         let name = Notification.Name(rawValue: sweepNotificationKey)
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
-        NotificationCenter.default.post(name: name, object: is_valid_sweep)
+        NotificationCenter.default.post(name: name, object: is_valid_sweep ? SweepNotification.valid : SweepNotification.invalid)
     }
     
     /**
@@ -397,7 +397,7 @@ class SensorManager: UIViewController {
                 if maxLinearTravel > linearTravelThreshold {
                     // changed
                     let name = Notification.Name(rawValue: sweepNotificationKey)
-                    NotificationCenter.default.post(name: name, object: true)
+                    NotificationCenter.default.post(name: name, object: SweepNotification.valid)
                     // correct for any offset between the maximum of the sweep and the current position
                     startPosition = positionAtMaximum
                     prevPosition = startPosition
@@ -432,7 +432,13 @@ class SensorManager: UIViewController {
             let name = Notification.Name(rawValue: sweepNotificationKey)
             maxDistanceFromStartingThisSweep = -1.0
             positionAtMaximum = []
-            NotificationCenter.default.post(name: name, object:  false)
+            NotificationCenter.default.post(name: name, object:  SweepNotification.shepherd)
         }
     }
+}
+
+enum SweepNotification {
+    case valid
+    case shepherd
+    case invalid
 }

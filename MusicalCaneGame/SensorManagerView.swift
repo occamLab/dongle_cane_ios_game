@@ -104,9 +104,7 @@ struct SensorManagerView: View {
                                         Text("Battery Level: \(batteryLevel)%")
                                             .font(.headline)
                                             .padding(.top)
-                                        ProgressView(value: Float(batteryLevel) / 100.0)
-                                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
-                                            .frame(width: 200)
+
                                     }
                                     .padding()
 
@@ -128,6 +126,10 @@ struct SensorManagerView: View {
                                         Text(witMotionDriver.newDeviceName)
                                             .font(.headline)
                                             .frame(maxWidth: .infinity, alignment: .leading)
+                                    }
+                                    if let batteryLevel = witMotionDriver.batteryLevel {
+                                            ProgressView(value: Float(batteryLevel) / 100.0)
+                                                .progressViewStyle(LinearProgressViewStyle(tint: .green))
                                     }
                                     // Edit/Confirm button
                                     Button(action: {
@@ -184,25 +186,6 @@ struct SensorManagerView: View {
                             }
                             .contentShape(Rectangle()) // Makes the whole HStack tappable
                             .buttonStyle(PlainButtonStyle()) // Avoids interference from default button styling
-                        }
-                    }
-                    if witMotionDriver.connectedDevice != nil {
-                        // Show battery level if a device is connected
-                        if let batteryLevel = witMotionDriver.batteryLevel {
-                            VStack {
-                                HStack {
-                                    // Battery Level Indicator
-                                    VStack {
-                                        Text("Battery Level: \(batteryLevel)%")
-                                            .font(.headline)
-                                            .padding(.top)
-                                        ProgressView(value: Float(batteryLevel) / 100.0)
-                                            .progressViewStyle(LinearProgressViewStyle(tint: .green))
-                                            .frame(width: 200)
-                                    }
-                                    .padding()
-                                }
-                            }
                         }
                     }
                 } else {

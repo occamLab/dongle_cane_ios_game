@@ -285,9 +285,12 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     */
     @objc func processSweeps(notification: NSNotification) {
         if (!startButtonPressed!){ return}
-        let is_valid_sweep = notification.object as! Bool
+        let sweepType = (notification.object as? SweepNotification ?? .valid)
         // if we've turned around and we want to play music
-        if is_valid_sweep && !isRecordingAudio {
+        if sweepType == .shepherd {
+            // always stop on shepherd's pose (regardless of other settings)
+            stopPlaying()
+        } else if sweepType == .valid && !isRecordingAudio {
             // we should play music
             shouldPlay = 1
             // todo: why is this not enabled? create a new timer in case a sweep takes too long?
