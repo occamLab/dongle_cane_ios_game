@@ -70,7 +70,11 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
     ///Database of user information
     var dbInterface = DBInterface.shared
 
-
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    
+    @IBOutlet weak var contentView: UIView!
+    
     /**
         This function runs when the user selects the `Create Profile` option.
         It will
