@@ -12,7 +12,7 @@ import FirebaseCore
 
 class MainViewController: UITableViewController, AuthManagerDelegate {
     @IBOutlet weak var signInWithAppleContainer: UIView!
-    let dbInterface = DBInterface.shared
+    var dbInterface: DBInterface?
     var signInViewModal: SignInViewController?
     
     override func viewDidAppear(_ animated: Bool) {
@@ -25,12 +25,15 @@ class MainViewController: UITableViewController, AuthManagerDelegate {
             present(signInViewModal!, animated: true, completion: nil)
         } else {
             // uncomment to test sign-in flow
-            //   AuthManager.shared.signOut()
+            // AuthManager.shared.signOut()
+            dbInterface = DBInterface.shared
         }
     }
     
     func didSuccessfullySignIn() {
         signInViewModal?.dismissModal()
+        // get the DB Interface ready
+        dbInterface = DBInterface.shared
     }
 }
 
