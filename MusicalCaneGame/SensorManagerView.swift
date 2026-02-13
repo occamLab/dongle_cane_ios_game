@@ -27,6 +27,11 @@ struct SensorManagerView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Text("Bluetooth Devices")
+                    .font(.largeTitle)
+                    .bold()
+                    .accessibilityAddTraits(.isHeader)
+                    .lineLimit(nil)
                 if sensorDriver.isBluetoothOn {
                     if !sensorDriver.scannedDevices.isEmpty {
                         List(sensorDriver.scannedDevices, id: \.peripheral.identifier) { device in
@@ -193,6 +198,7 @@ struct SensorManagerView: View {
                         .multilineTextAlignment(.center)
                         .padding()
                 }
+                Spacer()
             }
             .alert(isPresented: $showingSleepAlert) {
                 Alert(
@@ -221,7 +227,6 @@ struct SensorManagerView: View {
                     witMotionDriver.startScanning()
                 }
             }
-            .navigationTitle("Bluetooth Devices")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {

@@ -62,13 +62,13 @@
                                 <rect key="frame" x="16" y="64" width="288" height="504"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1rL-XQ-BOE" userLabel="contentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="661" height="349.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="349.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vQI-W8-t8W">
-                                                <rect key="frame" x="0.0" y="0.0" width="661" height="349.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="288" height="349.5"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Khf-bs-5Ef">
-                                                        <rect key="frame" x="0.0" y="0.0" width="113.5" height="20.5"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Khf-bs-5Ef">
+                                                        <rect key="frame" x="0.0" y="0.0" width="117" height="20.5"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile:" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h24-fl-c4P">
                                                                 <rect key="frame" x="0.0" y="0.0" width="53.5" height="20.5"/>
@@ -77,14 +77,14 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <textField opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="infinite" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Select User" borderStyle="roundedRect" placeholder="beep" textAlignment="natural" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B3a-NK-mxw">
-                                                                <rect key="frame" x="63.5" y="0.0" width="50" height="20.5"/>
+                                                                <rect key="frame" x="63.5" y="0.0" width="53.5" height="20.5"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUc-lO-uvc">
-                                                        <rect key="frame" x="0.0" y="30.5" width="595" height="33"/>
+                                                        <rect key="frame" x="0.0" y="30.5" width="259" height="33"/>
                                                         <color key="backgroundColor" red="0.024212270975112915" green="0.37943944334983826" blue="0.78763556480407715" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <state key="normal" title="Edit">
@@ -136,7 +136,7 @@
                                                         </subviews>
                                                     </stackView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="40" minValue="5" maxValue="60" translatesAutoresizingMaskIntoConstraints="NO" id="eVo-Gd-MmC" customClass="SteppedAccessibleSlider" customModule="MusicalCaneGame" customModuleProvider="target">
-                                                        <rect key="frame" x="-2" y="145" width="665" height="31"/>
+                                                        <rect key="frame" x="-2" y="145" width="292" height="31"/>
                                                         <connections>
                                                             <action selector="caneLengthChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="SRY-Xx-c0S"/>
                                                         </connections>
@@ -181,13 +181,13 @@
                                                         </subviews>
                                                     </stackView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="40" minValue="5" maxValue="60" translatesAutoresizingMaskIntoConstraints="NO" id="Z7C-JH-RFr" customClass="SteppedAccessibleSlider" customModule="MusicalCaneGame" customModuleProvider="target">
-                                                        <rect key="frame" x="-2" y="246" width="665" height="31"/>
+                                                        <rect key="frame" x="-2" y="246" width="292" height="31"/>
                                                         <connections>
                                                             <action selector="sweepRangeChanged:" destination="Mf7-nQ-0RB" eventType="valueChanged" id="N2e-7y-nzA"/>
                                                         </connections>
                                                     </slider>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="saI-Ds-j0b">
-                                                        <rect key="frame" x="0.0" y="286" width="179.5" height="33"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="saI-Ds-j0b">
+                                                        <rect key="frame" x="0.0" y="286" width="253" height="33"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected Music:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2a9-Gg-Mzh">
                                                                 <rect key="frame" x="0.0" y="0.0" width="121.5" height="33"/>
@@ -196,7 +196,7 @@
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tmy-dX-9xS">
-                                                                <rect key="frame" x="131.5" y="0.0" width="48" height="33"/>
+                                                                <rect key="frame" x="131.5" y="0.0" width="121.5" height="33"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                                 <state key="normal" title="Select"/>
                                                                 <connections>
@@ -223,6 +223,8 @@
                                                     </stackView>
                                                 </subviews>
                                                 <constraints>
+                                                    <constraint firstItem="eVo-Gd-MmC" firstAttribute="width" secondItem="vQI-W8-t8W" secondAttribute="width" id="8B7-wT-E20"/>
+                                                    <constraint firstItem="Z7C-JH-RFr" firstAttribute="width" secondItem="vQI-W8-t8W" secondAttribute="width" id="fwm-Rh-1tK"/>
                                                     <constraint firstItem="KUc-lO-uvc" firstAttribute="width" secondItem="vQI-W8-t8W" secondAttribute="width" multiplier="0.9" id="gIP-eL-aza"/>
                                                 </constraints>
                                             </stackView>
@@ -230,6 +232,8 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="vQI-W8-t8W" secondAttribute="trailing" id="8Sk-hx-vhl"/>
+                                            <constraint firstItem="vQI-W8-t8W" firstAttribute="width" secondItem="1rL-XQ-BOE" secondAttribute="width" id="8sf-ZX-1rW"/>
+                                            <constraint firstItem="eVo-Gd-MmC" firstAttribute="leading" secondItem="1rL-XQ-BOE" secondAttribute="leading" id="J9R-yj-h5T"/>
                                             <constraint firstAttribute="bottom" secondItem="vQI-W8-t8W" secondAttribute="bottom" id="QW6-hq-H9c"/>
                                             <constraint firstItem="vQI-W8-t8W" firstAttribute="leading" secondItem="1rL-XQ-BOE" secondAttribute="leading" id="X3K-gA-PKd"/>
                                             <constraint firstItem="vQI-W8-t8W" firstAttribute="top" secondItem="1rL-XQ-BOE" secondAttribute="top" id="obC-r1-orO"/>
@@ -238,6 +242,7 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="1rL-XQ-BOE" firstAttribute="top" secondItem="u7x-Qe-QqC" secondAttribute="top" id="CWW-6v-fFz"/>
+                                    <constraint firstItem="1rL-XQ-BOE" firstAttribute="width" secondItem="7RU-YW-Ogq" secondAttribute="width" id="b0j-yD-pRL"/>
                                     <constraint firstItem="1rL-XQ-BOE" firstAttribute="trailing" secondItem="u7x-Qe-QqC" secondAttribute="trailing" id="etb-K9-Rk1"/>
                                     <constraint firstItem="1rL-XQ-BOE" firstAttribute="leading" secondItem="u7x-Qe-QqC" secondAttribute="leading" id="uyC-0s-g6N"/>
                                     <constraint firstItem="1rL-XQ-BOE" firstAttribute="bottom" secondItem="u7x-Qe-QqC" secondAttribute="bottom" id="wkq-Ae-cRI"/>
