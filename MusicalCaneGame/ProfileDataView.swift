@@ -76,22 +76,19 @@ struct NumberPickerView: View {
 }
 
 class ProfileDataModel: ObservableObject {
-    let instructorID: String
     let studentName: String
     @Published var sessionData: [SessionData] = []
     @Published var numSessions: Int = 0
     
-    init(instructorID: String, studentName: String) {
-        self.instructorID = instructorID
+    init(studentName: String) {
         self.studentName = studentName
     }
     
     func fetchSessions(startDate: Date, endDate: Date) {
         sessionData = []
-        FirebaseManager.shared.fetchSessions(user: studentName, instructor: instructorID, startDate: startDate, endDate: endDate) { sessions in
+        DBInterface.shared.fetchSessions(user: studentName, startDate: startDate, endDate: endDate) { sessions in
             var convertedSessions: [SessionData] = []
             for session in sessions {
-                // TODO: need to store the sweep range
                 convertedSessions.append(
                     SessionData(sweepDistances: session.0, targetDistance: session.1, tolerance: session.2)
                 )
@@ -115,7 +112,7 @@ struct ProfileDataView: View {
 
     
     init(studentName: String) {
-        _dataLoader = StateObject(wrappedValue: ProfileDataModel(instructorID: AuthManager.shared.currentUID!, studentName: studentName))
+        _dataLoader = StateObject(wrappedValue: ProfileDataModel(studentName: studentName))
     }
     
     var body: some View {

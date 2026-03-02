@@ -30,9 +30,9 @@ class DBInterface {
     
     /// user beacon mappings table
     let beaconMappings: Table = Table("BeaconMappings")
-
-    /// firebase manager
-    var fbManager: FirebaseManager = FirebaseManager.shared
+    
+    // Sweep sessions for all users
+    let sweepDataTable: Table = Table("sweepData")
     
     /// column names
     let name: SQLite.Expression<String> = Expression<String>("name")
@@ -57,6 +57,14 @@ class DBInterface {
     let voiceNoteURL: SQLite.Expression<String> = Expression<String>("voicenoteurl")
     let beaconStatus: SQLite.Expression<Int> = Expression<Int>("beaconstatus")
     
+    /// column names for sweep sessions
+    let student_name: SQLite.Expression<String> = Expression<String>("studentname")
+    let session_start_time: SQLite.Expression<Date> = Expression<Date>("sessionstarttime")
+    let session_end_time: SQLite.Expression<Date> = Expression<Date>("sessionendtime")
+    let sweep_data_file: SQLite.Expression<String> = Expression<String>("sweepdatafile")
+    let sweep_range: SQLite.Expression<Double> = Expression<Double>("sweeprange")
+    let sweep_tolerance_session: SQLite.Expression<Double> = Expression<Double>("sweeptolerance")
+
     var currentProfile: String {
         let defaultUserName = "Default User"
         if UserDefaults.standard.string(forKey: "currentProfile") == nil {
@@ -79,8 +87,6 @@ class DBInterface {
         }
         do {
             if let db = db {
-                // TODO: add migration step for existing local profiles to firebase DB
-                dropTable()
                 // create the table if it doesn't exist
                 try db.run(self.users.create(ifNotExists: true) { t in
                     t.column(self.name, primaryKey: true)
@@ -96,23 +102,25 @@ class DBInterface {
                 })
                 // if there are no rows, add a default user
                 let count = try db.scalar(self.users.count)
+                // AUTHCHANGE: make sure this works
                 if (count == 0) {
-                    print("count 0")
-                    // If there are no users in the local db, check firebase to see if there are any records
-                    fbManager.queryUsersForInstructor { [self]documentData in
-                        print("document data: \(documentData)")
-                        if documentData.isEmpty {
-                            insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, u_stop_immediately: false, addToFirebase: true)
-                        } else {
-                            for doc in documentData {
-                                insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] as? Bool) == true, u_stop_immediately: (doc["stopImmediately"] as? Bool) == true, addToFirebase:false)
-                                
-                                let newCount = try! self.db!.scalar(self.users.count)
-                                print("newCount \(newCount)")
-                            }
-                        }
-                    }
+                    insertRow(u_name: "Default User", u_sweep_width: 20, u_cane_length: 40, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, u_stop_immediately: false)
                 }
+//                    print("count 0")
+//                    // If there are no users in the local db, check firebase to see if there are any records
+//                    fbManager.queryUsersForInstructor { [self]documentData in
+//                        print("document data: \(documentData)")
+//                        if documentData.isEmpty {
+//                        } else {
+//                            for doc in documentData {
+//                                insertRow(u_name: doc["name"] as! String, u_sweep_width: doc["sweepWidth"] as! Double, u_cane_length: doc["caneLength"] as! Double, u_music: doc["music"] as! String, u_beep_noise: doc["beepNoise"] as! String, u_music_id: doc["musicId"] as! String, u_sweep_tolerance: doc["sweepTolerance"] as! Double, u_wheelchair_user: (doc["wheelchairUser"] as? Bool) == true, u_stop_immediately: (doc["stopImmediately"] as? Bool) == true, addToFirebase:false)
+//                                
+//                                let newCount = try! self.db!.scalar(self.users.count)
+//                                print("newCount \(newCount)")
+//                            }
+//                        }
+//                    }
+//                }
                 try self.db!.run(self.beaconMappings.create(ifNotExists: true) { t in
                     t.column(self.name)
                     t.column(self.beaconMinor)
@@ -125,6 +133,15 @@ class DBInterface {
                     t.column(self.beaconName)
                     t.column(self.beaconColorHexCode)
                 })
+                try self.db!.run(self.sweepDataTable.create(ifNotExists: true) { t in
+                    /// column names for sweep sessions
+                    t.column(student_name)
+                    t.column(session_start_time)
+                    t.column(session_end_time)
+                    t.column(sweep_data_file)
+                    t.column(sweep_range)
+                    t.column(sweep_tolerance_session)
+                })
             } else {
                 print("error loading database")
             }
@@ -134,15 +151,10 @@ class DBInterface {
         
     }
     
-    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool, u_stop_immediately: Bool, addToFirebase: Bool) {
+    func insertRow(u_name: String, u_sweep_width: Double, u_cane_length: Double, u_music: String, u_beep_noise: String, u_music_id: String, u_sweep_tolerance: Double, u_wheelchair_user: Bool, u_stop_immediately: Bool) {
         if (db != nil) {
             do {
                 let rowId = try self.db!.run(self.users.insert(name <- u_name, sweep_width <- u_sweep_width, cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, beacons_enabled <- false, wheelchair_user <- u_wheelchair_user, stop_immediately <- u_stop_immediately))
-                print("insertion success! \(rowId)")
-                if addToFirebase {
-                    // Also upload the new entry to firebase
-                    fbManager.addUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user, stop_immediately: u_stop_immediately)
-                }
             } catch {
                 print("insertion failed: \(error)")
             }
@@ -180,6 +192,52 @@ class DBInterface {
             print("DB NIL")
         }
         return nil
+    }
+    
+    func uploadSweepSessionData(sessionStartTime: Date, sessionEndTime: Date, sweepData: Array<Float>, sweepRange: Float, sweepTolerance: Float) {
+        do {
+            // store sweep data as a file
+            let sweepDataFileName = UUID().uuidString
+            print("adding sweep data to db")
+            try FloatArrayCache.save(sweepData, as: sweepDataFileName)
+            print("adding sweep data to db")
+
+            let _ = try self.db!.run(self.sweepDataTable.insert(
+                student_name <- currentProfile,
+                session_start_time <- sessionStartTime,
+                session_end_time <- sessionEndTime,
+                sweep_data_file <- sweepDataFileName,
+                sweep_range <- Double(sweepRange),
+                sweep_tolerance_session <- Double(sweepTolerance)))
+        } catch {
+            print("error is \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchSessions(user: String,
+                       startDate: Date,
+                       endDate: Date,
+                       completion: @escaping (([([Float], Float, Float)])->())) {
+        let query = sweepDataTable
+            .filter(student_name == user)
+            .filter(session_end_time >= startDate && session_end_time <= endDate)
+            .order(session_start_time.asc)
+
+        do {
+            let rows = try db!.prepare(query)
+            var allSessions: [([Float], Float, Float)] = []
+            for row in rows {
+                print("row")
+                let sweepData = try FloatArrayCache.load(from: row[sweep_data_file])
+                allSessions.append((sweepData,
+                                    Float(row[sweep_range]),
+                                    Float(row[sweep_tolerance_session])))
+            }
+            print("that's all")
+            return completion(allSessions)
+        } catch {
+            print("error \(error.localizedDescription)")
+        }
     }
     
     func getBeaconMinors() -> [Int]{
@@ -333,7 +391,8 @@ class DBInterface {
                 .update(sweep_width <- u_sweep_width,
                         cane_length <- u_cane_length, music <- u_music, beep_noise <- u_beep_noise, music_id <- u_music_id, sweep_tolerance <- u_sweep_tolerance, wheelchair_user <- u_wheelchair_user, stop_immediately <- u_stop_immediately))
             // Also update the new entry to firebase
-            fbManager.updateUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user, stop_immediately: u_stop_immediately)
+            // AUTHCHANGE
+//            fbManager.updateUser(name: u_name, sweep_width: u_sweep_width, cane_length: u_cane_length, music: u_music, beep_noise: u_beep_noise, music_id: u_music_id, sweep_tolerance: u_sweep_tolerance, wheelchair_user: u_wheelchair_user, stop_immediately: u_stop_immediately)
         } catch {
             print("error updating users table: \(error)")
         }

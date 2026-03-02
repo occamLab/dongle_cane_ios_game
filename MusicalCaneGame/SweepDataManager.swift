@@ -6,31 +6,28 @@
 //  Copyright © 2024 occamlab. All rights reserved.
 //
 
-import FirebaseFirestore
-
 class SweepDataManager {
     /// The singleton instance of this class
     public static var shared = SweepDataManager()
     
     private var collectingSweepData = false
     private var sweepData: Array<Float> = []
-    private var sessionStartTime: Timestamp? = nil
-    private var fbManager = FirebaseManager.shared
+    private var sessionStartTime: Date? = nil
     
     func startDataCollection() {
         self.collectingSweepData = true
-        sessionStartTime = Timestamp.init()
+        sessionStartTime = Date()
     }
     
     func stopAndUploadData() {
-        let sessionEndTime = Timestamp.init()
+        let sessionEndTime = Date()
         let dbInterface = DBInterface.shared
         let selectedProfile = DBInterface.shared.currentProfile
         let user_row = dbInterface.getRow(u_name: selectedProfile)
         let sweepRange = Float(user_row![dbInterface.sweep_width])
         let sweepTolerance = Float(user_row![dbInterface.sweep_tolerance])
         if let sessionStartTime = sessionStartTime  {
-            fbManager.uploadSweepSessionData(sessionStartTime: sessionStartTime, sessionEndTime: sessionEndTime, sweepData: sweepData, sweepRange: sweepRange, sweepTolerance: sweepTolerance)
+            dbInterface.uploadSweepSessionData(sessionStartTime: sessionStartTime, sessionEndTime: sessionEndTime, sweepData: sweepData, sweepRange: sweepRange, sweepTolerance: sweepTolerance)
         }
         
         self.sweepData = []
