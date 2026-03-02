@@ -131,8 +131,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
     
     func readyToSweep() {
         activityIndicator.stopAnimating()
-        controlButton.setTitle("Stop", for: .normal)
-        controlButton.accessibilityLabel = "Stop"
+        setControlButtonLabel(isStop: true)
         UIApplication.shared.endIgnoringInteractionEvents()
         let synth = AVSpeechSynthesizer()
         let utterance = AVSpeechUtterance(string: "Start " + (isWheelchairUser ? "Moving" : "Sweeping"))
@@ -169,7 +168,7 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
 
                 let utterance = AVSpeechUtterance(string: "Starting")
                 utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-                utterance.rate = 0.6
+                utterance.rate = 0.5
                 synth.speak(utterance)
                 NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: true)
                 startButtonPressed = true // music mode has started
@@ -181,6 +180,16 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             SweepDataManager.shared.stopAndUploadData()
             NotificationCenter.default.post(name: Notification.Name(rawValue: connectionStatusChangeRequested), object: false)
         }
+    }
+    
+    private func setControlButtonLabel(isStop: Bool) {
+        var config = controlButton.configuration
+
+        var attrs = AttributeContainer()
+        attrs.font = UIFont.preferredFont(forTextStyle: .title1)
+        config?.attributedTitle = AttributedString(isStop ? "Stop" : "Start", attributes: attrs)
+        controlButton.configuration = config
+        controlButton.accessibilityLabel = isStop ? "Stop" : "Start"
     }
 
     func createAlert (title:String, message:String) {
@@ -263,10 +272,9 @@ class MusicViewController: UIViewController, UICollisionBehaviorDelegate {
             // TODO: change the playback to the default once it is done speaking?
             let utterance = AVSpeechUtterance(string: "Finished")
             utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-            utterance.rate = 0.6
+            utterance.rate = 0.5
             synth.speak(utterance)
-            controlButton.setTitle("Start", for: .normal)
-            controlButton.accessibilityLabel = "Start"
+            setControlButtonLabel(isStop: false)
         }
     }
 

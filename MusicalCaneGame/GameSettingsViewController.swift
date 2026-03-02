@@ -15,11 +15,15 @@ import MediaPlayer
 Add sample doc for GameSetitngs
 */
 class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
+    @IBOutlet weak var giveHapticToggle: UISwitch!
+    
     @IBOutlet weak var wheelChairUserLabel: UILabel!
     // TODO: delete this
+    @IBOutlet weak var giveHapticLabel: UILabel!
     @IBOutlet weak var stopImmediately: UISwitch!
     var stopImmediatelyValue = false
+    var giveHapticValue = false
+
     @IBOutlet weak var newProfileButton: UIButton!
     var selectedProfile: String = "Default User"
     ///Profile Picker View
@@ -94,7 +98,7 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
         alert.addAction(UIAlertAction(title: "OK",style: .default, handler: {[weak alert] (_) in let textField = alert?.textFields![0]
 
-            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 30.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, u_stop_immediately: false)
+            self.dbInterface.insertRow(u_name: textField!.text!, u_sweep_width: 30.0, u_cane_length: 40.0, u_music: "Select Music", u_beep_noise: "Begin Record", u_music_id: "", u_sweep_tolerance: 15, u_wheelchair_user: false, u_stop_immediately: false, u_give_haptic: false)
 
             self.pickerProfiles = self.dbInterface.getAllUserNames()
             self.profileBox.text = textField!.text!
@@ -138,25 +142,15 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         caneLengthValue = Float(sender.value)
         caneLengthLabel.text = String(format:"%.1f",caneLengthValue!) + " inches"
     }
-    
-//    func setWheelchairSettings() {
-//        if wheelChairUserToggle.isOn {
-//            caneLengthText.text = "Wheel radius"
-//            sweepRangeText.text = "Activation Distance"
-//            skillLevelBox.isHidden = true
-//            skillLevelLabel.isHidden = true
-//        } else {
-//            caneLengthText.text = "Cane length"
-//            sweepRangeText.text = "Sweep Range"
-//            skillLevelBox.isHidden = false
-//            skillLevelLabel.isHidden = false
-//        }
-//    }
 
     @IBAction func stopImmediatelyStatusChanged(_ sender: UISwitch) {
         stopImmediatelyValue = sender.isOn
     }
 
+    @IBAction func giveHapticsStatusChanged(_ sender: UISwitch) {
+        giveHapticValue = sender.isOn
+    }
+    
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print(sweepTolerancePickerData[row])
     }
@@ -175,7 +169,9 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
         skillLevelBox.isEnabled = b
         skillLevelLabel.isEnabled = b
         wheelChairUserLabel.isEnabled = b
+        giveHapticLabel.isEnabled = b
         stopImmediately.isEnabled = b
+        giveHapticToggle.isEnabled = b
         
 
         caneLengthText.isEnabled = b
@@ -217,8 +213,9 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
             skillLevelBox.text = "Level 1"
         }
         stopImmediately.isOn = user_row![self.dbInterface.stop_immediately] == true
-        // wheelChairUserToggle.isOn = user_row![self.dbInterface.wheelchair_user] == true
-       // setWheelchairSettings()
+        stopImmediatelyValue = stopImmediately.isOn
+        giveHapticToggle.isOn = user_row![self.dbInterface.give_haptic] == true
+        giveHapticValue = giveHapticToggle.isOn
     }
 
     /**
@@ -243,7 +240,8 @@ class GameSettingsViewController: UIViewController, UIPickerViewDelegate, UIPick
                 u_music_id: mySong != nil ? mySong!.map({String($0)}).joined(separator: ",") : "",   // serialize as an array
                 u_sweep_tolerance: Double(sweepToleranceValue),
                 u_wheelchair_user: false,
-                u_stop_immediately: stopImmediatelyValue)
+                u_stop_immediately: stopImmediatelyValue,
+                u_give_haptic: giveHapticValue)
             isEdit = true
         }
         changeOptions(b:!isEdit)

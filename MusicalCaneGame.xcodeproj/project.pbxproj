@@ -17,6 +17,7 @@
 		820EF29F239ED24C004A4BCD /* StopRecording.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 820EF29D239ED24C004A4BCD /* StopRecording.aiff */; };
 		824B54162F36717E0079316C /* SteppedAccessibleSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824B54152F36717E0079316C /* SteppedAccessibleSlider.swift */; };
 		82A459A32F55D57F001EED3D /* FloatArrayCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A459A22F55D57F001EED3D /* FloatArrayCache.swift */; };
+		82A459A52F55E564001EED3D /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A459A42F55E564001EED3D /* HapticsManager.swift */; };
 		86591D90224D049E0050816B /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86591D8F224D049E0050816B /* SWRevealViewController.m */; };
 		951C05CA2178BE5500CD2998 /* SoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C05C92178BE5500CD2998 /* SoundViewController.swift */; };
 		95586027219B4BFA0079810E /* BeaconStackElementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95586026219B4BFA0079810E /* BeaconStackElementViewController.swift */; };
@@ -58,6 +59,7 @@
 		820EF29D239ED24C004A4BCD /* StopRecording.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = StopRecording.aiff; sourceTree = "<group>"; };
 		824B54152F36717E0079316C /* SteppedAccessibleSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppedAccessibleSlider.swift; sourceTree = "<group>"; };
 		82A459A22F55D57F001EED3D /* FloatArrayCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatArrayCache.swift; sourceTree = "<group>"; };
+		82A459A42F55E564001EED3D /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		86591D8E224D049E0050816B /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SWRevealViewController.h; path = ViewControllers/SWRevealViewController.h; sourceTree = "<group>"; };
 		86591D8F224D049E0050816B /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SWRevealViewController.m; path = ViewControllers/SWRevealViewController.m; sourceTree = "<group>"; };
 		951C05C92178BE5500CD2998 /* SoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundViewController.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		AD6C6EEE210267B700E9D840 /* MusicalCaneGame */ = {
 			isa = PBXGroup;
 			children = (
+				82A459A42F55E564001EED3D /* HapticsManager.swift */,
 				82A459A22F55D57F001EED3D /* FloatArrayCache.swift */,
 				824B54152F36717E0079316C /* SteppedAccessibleSlider.swift */,
 				988C9CA42D0539DD0063C601 /* SweepDataManager.swift */,
@@ -359,6 +362,7 @@
 				86591D90224D049E0050816B /* SWRevealViewController.m in Sources */,
 				82A459A32F55D57F001EED3D /* FloatArrayCache.swift in Sources */,
 				E5220F4E2256634E004AE171 /* DBInterface.swift in Sources */,
+				82A459A52F55E564001EED3D /* HapticsManager.swift in Sources */,
 				95BBF1FE216F8A4F00DDA9DB /* MusicSegmentViewController.swift in Sources */,
 				820EF296239EBA7D004A4BCD /* RecordButtonKit.swift in Sources */,
 				824B54162F36717E0079316C /* SteppedAccessibleSlider.swift in Sources */,

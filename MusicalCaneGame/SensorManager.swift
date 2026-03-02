@@ -54,6 +54,7 @@ class SensorManager: UIViewController {
     var percentTolerance: Float?
     var sweepRange: Float = 1.0
     var sweepTolerance: Float = 20
+    var giveHapticFeedback: Bool = false
     var maxDistanceFromStartingThisSweep = Float(-1.0)
     var maxLinearTravel = Float(-1.0)
     var linearTravelThreshold = Float(-1.0)
@@ -182,6 +183,20 @@ class SensorManager: UIViewController {
         let name = Notification.Name(rawValue: sweepNotificationKey)
         let is_valid_sweep = (sweepDistance > sweepRange - sweepTolerance) && (sweepDistance < sweepRange + sweepTolerance)
         NotificationCenter.default.post(name: name, object: is_valid_sweep ? SweepNotification.valid : SweepNotification.invalid)
+        if giveHapticFeedback {
+            if sweepDistance > sweepRange - sweepTolerance {
+                if sweepDistance < sweepRange + sweepTolerance {
+                    // in range
+                    HapticsManager.shared.doublePulse()
+                } else {
+                    // overflow
+                    HapticsManager.shared.triplePulse()
+                }
+            } else {
+                // underflow
+                HapticsManager.shared.shortPulse()
+            }
+        }
     }
     
     /**
@@ -230,6 +245,7 @@ class SensorManager: UIViewController {
         sweepRangeText.text = isWheelchairUser ? "Activation Distance" : "Sweep Range"
         //For the sliders
         sweepTolerance = Float(user_row![dbInterface.sweep_tolerance])
+        giveHapticFeedback = user_row![dbInterface.give_haptic]
     }
     
     override func viewDidAppear(_ animated: Bool) {
