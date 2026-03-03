@@ -74,6 +74,19 @@ class DBInterface {
         return UserDefaults.standard.string(forKey: "currentProfile") ?? defaultUserName
     }
     
+    func migrateIfNeeded(db: Connection) throws {
+        let version = try db.scalar("PRAGMA user_version") as! Int64
+
+        if version < 2 {
+            try db.run("""
+                ALTER TABLE Users
+                ADD COLUMN give_haptic INTEGER NOT NULL DEFAULT 0;
+            """)
+
+            try db.run("PRAGMA user_version = 2")
+        }
+    }
+    
     private init() {
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true
@@ -82,10 +95,12 @@ class DBInterface {
         
         do {
             self.db = try Connection("\(path)/cane_game_db_v2.sqlite3")
+            try migrateIfNeeded(db: db!)
         } catch {
             print(error)
             return
         }
+        
         do {
             if let db = db {
                 // create the table if it doesn't exist
