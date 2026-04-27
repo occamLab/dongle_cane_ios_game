@@ -91,16 +91,17 @@ class DBInterface {
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true
             ).first!
-        
-        
         do {
             self.db = try Connection("\(path)/cane_game_db_v2.sqlite3")
-            try migrateIfNeeded(db: db!)
         } catch {
             print(error)
+            // we can't continue
             return
         }
-        
+
+        // this will silently fail if the table doesn't exist yet.  That's okay.  We will create the table below
+        try? migrateIfNeeded(db: db!)
+       
         do {
             if let db = db {
                 // create the table if it doesn't exist

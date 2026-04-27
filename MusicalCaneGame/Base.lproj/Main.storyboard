@@ -375,6 +375,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" systemColor="systemRedColor"/>
                                             <constraints>
                                                 <constraint firstItem="mEZ-tc-gNg" firstAttribute="leading" secondItem="Qyq-Uk-XWL" secondAttribute="leadingMargin" id="F8x-78-JMp"/>
                                                 <constraint firstItem="mEZ-tc-gNg" firstAttribute="bottom" secondItem="Qyq-Uk-XWL" secondAttribute="bottomMargin" id="I74-iM-xGE"/>
@@ -465,6 +466,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" systemColor="systemRedColor"/>
                                             <constraints>
                                                 <constraint firstItem="YnT-tK-PGU" firstAttribute="top" secondItem="xO5-eU-hGM" secondAttribute="topMargin" constant="1" id="1tW-Ue-VSt"/>
                                                 <constraint firstItem="YnT-tK-PGU" firstAttribute="leading" secondItem="xO5-eU-hGM" secondAttribute="leadingMargin" id="Dgb-6d-35q"/>
@@ -965,6 +967,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
